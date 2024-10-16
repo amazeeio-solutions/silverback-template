@@ -33,7 +33,10 @@ export function BlockTeaserList(props: BlockTeaserListFragment) {
           {props.staticContent?.map((teaserItem) => {
             staticIds.push(getUUIDFromId(teaserItem?.content?.id || ''));
             return teaserItem?.content ? (
-              <li key={teaserItem?.content?.id} className="grid grid-rows-subgrid">
+              <li
+                key={teaserItem?.content?.id}
+                className="grid grid-rows-subgrid"
+              >
                 <CardItem
                   readMoreText={props.buttonText}
                   {...teaserItem?.content}
