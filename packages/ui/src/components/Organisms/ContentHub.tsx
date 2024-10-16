@@ -50,10 +50,10 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
         ) : null}
         {data?.contentHub.total ? (
           <>
-            <ul className="my-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            <ul className="my-8 grid gap-4 lg:gap-8 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr grid-rows-subgrid">
               {data?.contentHub.items.filter(isTruthy).map((item) => {
                 return (
-                  <li key={item.path}>
+                  <li key={item.path} className="grid grid-rows-subgrid">
                     <CardItem {...item} />
                   </li>
                 );
