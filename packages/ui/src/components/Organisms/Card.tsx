@@ -53,9 +53,9 @@ export const CardItem = ({
           </svg>
         </Link>
       </div>
-      <div className="rounded-t-lg row-start-1">
+      <div className="row-start-1">
         {teaserImage ? (
-          <Image {...teaserImage} className="w-full" />
+          <Image {...teaserImage} className="w-full rounded-t-lg" />
         ) : (
           <div className="aspect-[4/3] bg-indigo-200" />
         )}
