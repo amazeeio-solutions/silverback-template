@@ -16,7 +16,7 @@ export const CardItem = ({
   return (
     <article
       aria-labelledby={formattedID}
-      className="focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 relative max-w-sm bg-white rounded-lg hover:shadow grid grid-rows-[auto_1fr] gap-4 p-4"
+      className="focus-within:outline focus-within:outline-2 focus-within:outline-indigo-600 relative max-w-sm bg-white rounded-lg hover:shadow grid grid-rows-[auto_1fr]"
     >
       <div className="p-5 grid grid-rows-[auto_1fr_auto] gap-4">
         <h5
