@@ -55,7 +55,10 @@ export const CardItem = ({
       </div>
       <div className="row-start-1">
         {teaserImage ? (
-          <Image {...teaserImage} className="w-full aspect-[16/9] rounded-t-lg" />
+          <Image
+            {...teaserImage}
+            className="w-full aspect-[16/9] rounded-t-lg"
+          />
         ) : (
           <div className="aspect-[16/9] rounded-t-lg bg-indigo-200" />
         )}
