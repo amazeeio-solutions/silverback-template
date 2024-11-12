@@ -3,6 +3,7 @@ _core:
 module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
+  admin_user_language: 0
   block: 0
   block_content: 0
   breakpoint: 0
