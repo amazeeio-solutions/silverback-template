@@ -2,12 +2,10 @@ import { InnerBlocks, InspectorControls } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
 import { PanelBody, SelectControl } from 'wordpress__components';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{
   formId?: string;
 }>(`custom/form`, {
-  title: __('Form'),
+  title: Drupal.t('Form', {}, {context: 'gutenberg'}),
   icon: 'media-document',
   category: 'layout',
   attributes: {
@@ -25,7 +23,7 @@ registerBlockType<{
           <SelectControl
             value={props.attributes.formId}
             options={[
-              { label: __('- Select a form -'), value: '' },
+              { label: Drupal.t('- Select a form -', {}, {context: 'gutenberg'}), value: '' },
               ...drupalSettings.customGutenbergBlocks.forms.map((form) => ({
                 label: form.label,
                 value: form.id,
@@ -40,7 +38,7 @@ registerBlockType<{
         </PanelBody>
       </InspectorControls>
       <div className={'container-wrapper !border-stone-500'}>
-        <div className={'container-label'}>{__('Form')}</div>
+        <div className={'container-label'}>{Drupal.t('Form', {}, {context: 'gutenberg'})}</div>
         {props.attributes.formId ? (
           <iframe
             src={
@@ -51,7 +49,7 @@ registerBlockType<{
             style={{ width: '100%', height: 300, pointerEvents: 'none' }}
           />
         ) : (
-          <p>{__('Please select a form in the sidebar')}</p>
+          <p>{Drupal.t('Please select a form in the sidebar', {}, {context: 'gutenberg'})}</p>
         )}
       </div>
     </>

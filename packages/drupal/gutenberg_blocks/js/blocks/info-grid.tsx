@@ -2,11 +2,10 @@ import { InnerBlocks } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
 import { useSelect } from 'wordpress__data';
 
-const { t: __ } = Drupal;
 const MAX_BLOCKS: number = 3;
 
 registerBlockType<{}>('custom/info-grid', {
-  title: __('Info Grid'),
+  title: Drupal.t('Info Grid', {}, {context: 'gutenberg'}),
   icon: 'editor-insertmore',
   category: 'layout',
   attributes: {},
@@ -18,7 +17,7 @@ registerBlockType<{}>('custom/info-grid', {
 
     return (
       <div className={'container-wrapper !border-stone-500'}>
-        <div className={'container-label'}>{__('Info Grid')}</div>
+        <div className={'container-label'}>{Drupal.t('Info Grid', {}, {context: 'gutenberg'})}</div>
         <InnerBlocks
           templateLock={false}
           renderAppender={() => {

@@ -7,7 +7,6 @@ import {
 import { registerBlockType } from 'wordpress__blocks';
 import { PanelBody, SelectControl, ToggleControl } from 'wordpress__components';
 
-const { t: __ } = Drupal;
 const { setPlainTextAttribute } = silverbackGutenbergUtils;
 
 const ArrowRightIcon = () => (
@@ -85,7 +84,7 @@ registerBlockType<{
             value={props.attributes.text}
             allowedFormats={[]}
             disableLineBreaks={true}
-            placeholder={__('Link text')}
+            placeholder={Drupal.t('Link text', {}, {context: 'gutenberg'})}
             keepPlaceholderOnFocus={true}
             style={{
               cursor: 'text',
@@ -98,7 +97,7 @@ registerBlockType<{
             props.attributes.icon === 'ARROW' && <ArrowRightIcon />}
         </a>
         <InspectorControls>
-          <PanelBody title={__('CTA Link')}>
+          <PanelBody title={Drupal.t('CTA Link', {}, {context: 'gutenberg'})}>
             <LinkControl
               value={{
                 url: props.attributes.url,
@@ -141,11 +140,11 @@ registerBlockType<{
               }}
             />
             <ToggleControl
-              label={__('Open in new tab')}
+              label={Drupal.t('Open in new tab', {}, {context: 'gutenberg'})}
               help={
                 props.attributes.openInNewTab
-                  ? __('Opens in a new tab.')
-                  : __('Opens in the same tab.')
+                  ? Drupal.t('Opens in a new tab.', {}, {context: 'gutenberg'})
+                  : Drupal.t('Opens in the same tab.', {}, {context: 'gutenberg'})
               }
               checked={props.attributes.openInNewTab}
               onChange={(openInNewTab) => {
@@ -155,11 +154,11 @@ registerBlockType<{
               }}
             />
             <SelectControl
-              label={__('Icon')}
+              label={Drupal.t('Icon', {}, {context: 'gutenberg'})}
               value={props.attributes.icon}
               options={[
-                { label: __('- None -'), value: 'NONE' },
-                { label: __('Arrow'), value: 'ARROW' },
+                { label: Drupal.t('- None -', {}, {context: 'gutenberg'}), value: 'NONE' },
+                { label: Drupal.t('Arrow', {}, {context: 'gutenberg'}), value: 'ARROW' },
               ]}
               onChange={(icon) => {
                 props.setAttributes({
@@ -170,11 +169,11 @@ registerBlockType<{
             {typeof props.attributes.icon !== 'undefined' &&
               props.attributes.icon !== 'NONE' && (
                 <SelectControl
-                  label={__('Icon position')}
+                  label={Drupal.t('Icon position', {}, {context: 'gutenberg'})}
                   value={props.attributes.iconPosition}
                   options={[
-                    { label: __('After button text'), value: 'AFTER' },
-                    { label: __('Before button text'), value: 'BEFORE' },
+                    { label: Drupal.t('After button text', {}, {context: 'gutenberg'}), value: 'AFTER' },
+                    { label: Drupal.t('Before button text', {}, {context: 'gutenberg'}), value: 'BEFORE' },
                   ]}
                   onChange={(iconPosition) => {
                     props.setAttributes({

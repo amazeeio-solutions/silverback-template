@@ -1,8 +1,6 @@
 import { InnerBlocks } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
 
-const { t: __ } = Drupal;
-
 const style = {
   minHeight: '40px',
   margin: '0 -40px',
@@ -10,7 +8,7 @@ const style = {
 };
 
 registerBlockType<{}>(`custom/content`, {
-  title: __('Content'),
+  title: Drupal.t('Content', {}, {context: 'gutenberg'}),
   category: 'layout',
   icon: 'media-document',
   attributes: {},

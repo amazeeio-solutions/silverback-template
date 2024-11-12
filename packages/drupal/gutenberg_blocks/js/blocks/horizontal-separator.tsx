@@ -1,9 +1,7 @@
 import { registerBlockType } from 'wordpress__blocks';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{}>(`custom/horizontal-separator`, {
-  title: __('Horizontal separator'),
+  title: Drupal.t('Horizontal separator', {}, {context: 'gutenberg'}),
   icon: 'minus',
   category: 'text',
   attributes: {},
