@@ -6,10 +6,14 @@ all:
   - language_url
 configurable:
   - language_interface
+  - language_content
 negotiation:
   language_content:
     enabled:
+      language-graphql-operation: -999
+      language-url: -8
       language-interface: 9
+      language-selected: 12
     method_weights:
       language-graphql-operation: -999
       language-content-entity: -9
