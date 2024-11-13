@@ -21,13 +21,13 @@ if ($stringStorage instanceof StringStorageInterface) {
   /** @var \Drupal\locale\StringInterface $strings */
   $strings = $stringStorage->getStrings([
     'source' => 'Company Name',
-    'context' => 'gatsby',
+    'context' => 'website',
   ]);
   $lid = 0;
   if (empty($strings)) {
     $lid = $stringStorage->createString([
       'source' => 'Company name',
-      'context' => 'gatsby',
+      'context' => 'website',
     ])->save()->lid;
   }
   else {
