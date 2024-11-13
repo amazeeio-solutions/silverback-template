@@ -18,7 +18,7 @@ registerBlockType<{
   ctaUrl?: string;
   ctaText: string;
 }>('custom/image-teaser', {
-  title: Drupal.t('Image Teaser', {}, {context: 'gutenberg'}),
+  title: Drupal.t('Image Teaser', {}, { context: 'gutenberg' }),
   parent: ['custom/image-teasers'],
   icon: 'cover-image',
   category: 'layout',
@@ -42,9 +42,9 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={Drupal.t('CTA Link', {}, {context: 'gutenberg'})}>
+          <PanelBody title={Drupal.t('CTA Link', {}, { context: 'gutenberg' })}>
             <LinkControl
-              placeholder={Drupal.t('Link', {}, {context: 'gutenberg'})}
+              placeholder={Drupal.t('Link', {}, { context: 'gutenberg' })}
               value={{
                 url: props.attributes.ctaUrl,
               }}
@@ -85,7 +85,7 @@ registerBlockType<{
                 value={props.attributes.title}
                 allowedFormats={[]}
                 disableLineBreaks={true}
-                placeholder={Drupal.t('Title', {}, {context: 'gutenberg'})}
+                placeholder={Drupal.t('Title', {}, { context: 'gutenberg' })}
                 keepPlaceholderOnFocus={true}
                 onChange={(title) => {
                   setPlainTextAttribute(props, 'title', title);
@@ -100,7 +100,7 @@ registerBlockType<{
                 value={props.attributes.ctaText}
                 allowedFormats={[]}
                 disableLineBreaks={true}
-                placeholder={Drupal.t('CTA text', {}, {context: 'gutenberg'})}
+                placeholder={Drupal.t('CTA text', {}, { context: 'gutenberg' })}
                 keepPlaceholderOnFocus={true}
                 style={{
                   cursor: 'text',

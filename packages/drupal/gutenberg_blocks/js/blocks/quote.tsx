@@ -13,7 +13,7 @@ registerBlockType<{
   role: string;
   mediaEntityIds?: [string];
 }>(`custom/quote`, {
-  title: Drupal.t('Quote', {}, {context: 'gutenberg'}),
+  title: Drupal.t('Quote', {}, { context: 'gutenberg' }),
   icon: 'format-quote',
   category: 'text',
   attributes: {
@@ -57,7 +57,7 @@ registerBlockType<{
             value={props.attributes.quote}
             allowedFormats={['core/bold']}
             disableLineBreaks={false}
-            placeholder={Drupal.t('Quote', {}, {context: 'gutenberg'})}
+            placeholder={Drupal.t('Quote', {}, { context: 'gutenberg' })}
             keepPlaceholderOnFocus={false}
             onChange={(quote) => {
               props.setAttributes({
@@ -87,7 +87,7 @@ registerBlockType<{
               value={props.attributes.author}
               allowedFormats={[]}
               disableLineBreaks={false}
-              placeholder={Drupal.t('Author', {}, {context: 'gutenberg'})}
+              placeholder={Drupal.t('Author', {}, { context: 'gutenberg' })}
               keepPlaceholderOnFocus={false}
               onChange={(author) => {
                 setPlainTextAttribute(props, 'author', author);
@@ -100,7 +100,7 @@ registerBlockType<{
               value={props.attributes.role}
               allowedFormats={[]}
               disableLineBreaks={false}
-              placeholder={Drupal.t('Role', {}, {context: 'gutenberg'})}
+              placeholder={Drupal.t('Role', {}, { context: 'gutenberg' })}
               keepPlaceholderOnFocus={false}
               onChange={(role) => {
                 setPlainTextAttribute(props, 'role', role);

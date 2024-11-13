@@ -8,7 +8,7 @@ const style = {
 };
 
 registerBlockType<{}>(`custom/content`, {
-  title: Drupal.t('Content', {}, {context: 'gutenberg'}),
+  title: Drupal.t('Content', {}, { context: 'gutenberg' }),
   category: 'layout',
   icon: 'media-document',
   attributes: {},

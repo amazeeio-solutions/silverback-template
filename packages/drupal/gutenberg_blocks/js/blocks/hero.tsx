@@ -22,7 +22,7 @@ registerBlockType<{
   showLinkControl: boolean;
   formId?: string;
 }>('custom/hero', {
-  title: Drupal.t('Hero', {}, {context: 'gutenberg'}),
+  title: Drupal.t('Hero', {}, { context: 'gutenberg' }),
   icon: 'cover-image',
   category: 'layout',
   attributes: {
@@ -66,10 +66,10 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={Drupal.t('CTA Link', {}, {context: 'gutenberg'})}>
+          <PanelBody title={Drupal.t('CTA Link', {}, { context: 'gutenberg' })}>
             {!!props.attributes.showLinkControl && (
               <LinkControl
-                placeholder={Drupal.t('Link', {}, {context: 'gutenberg'})}
+                placeholder={Drupal.t('Link', {}, { context: 'gutenberg' })}
                 value={{
                   url: props.attributes.ctaUrl,
                   openInNewTab: props.attributes.ctaOpenInNewTab,
@@ -99,15 +99,22 @@ registerBlockType<{
                   );
                 }}
               >
-                {Drupal.t('Remove', {}, {context: 'gutenberg'})}
+                {Drupal.t('Remove', {}, { context: 'gutenberg' })}
               </button>
             )}
           </PanelBody>
-          <PanelBody title={Drupal.t('Form', {}, {context: 'gutenberg'})}>
+          <PanelBody title={Drupal.t('Form', {}, { context: 'gutenberg' })}>
             <SelectControl
               value={props.attributes.formId}
               options={[
-                { label: Drupal.t('- Select a form -', {}, {context: 'gutenberg'}), value: '' },
+                {
+                  label: Drupal.t(
+                    '- Select a form -',
+                    {},
+                    { context: 'gutenberg' },
+                  ),
+                  value: '',
+                },
                 ...drupalSettings.customGutenbergBlocks.forms.map((form) => ({
                   label: form.label,
                   value: form.id,
@@ -150,7 +157,11 @@ registerBlockType<{
                   value={props.attributes.headline}
                   allowedFormats={[]}
                   disableLineBreaks={true}
-                  placeholder={Drupal.t('Headline', {}, {context: 'gutenberg'})}
+                  placeholder={Drupal.t(
+                    'Headline',
+                    {},
+                    { context: 'gutenberg' },
+                  )}
                   keepPlaceholderOnFocus={true}
                   onChange={(headline) => {
                     setPlainTextAttribute(props, 'headline', headline);
@@ -165,7 +176,11 @@ registerBlockType<{
                 value={props.attributes.lead}
                 allowedFormats={[]}
                 disableLineBreaks={true}
-                placeholder={Drupal.t('Lead text', {}, {context: 'gutenberg'})}
+                placeholder={Drupal.t(
+                  'Lead text',
+                  {},
+                  { context: 'gutenberg' },
+                )}
                 keepPlaceholderOnFocus={true}
                 onChange={(lead) => {
                   setPlainTextAttribute(props, 'lead', lead);
@@ -183,7 +198,11 @@ registerBlockType<{
                     value={props.attributes.ctaText}
                     allowedFormats={[]}
                     disableLineBreaks={true}
-                    placeholder={Drupal.t('CTA text', {}, {context: 'gutenberg'})}
+                    placeholder={Drupal.t(
+                      'CTA text',
+                      {},
+                      { context: 'gutenberg' },
+                    )}
                     keepPlaceholderOnFocus={true}
                     style={{
                       cursor: 'text',
