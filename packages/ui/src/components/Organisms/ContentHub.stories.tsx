@@ -13,7 +13,6 @@ import qs from 'query-string';
 import React from 'react';
 
 import { image } from '../../helpers/image';
-import { createKeyForTerm } from '../Molecules/SearchForm';
 import SearchFormStories from '../Molecules/SearchForm.stories';
 import { ContentHub, ContentHubQueryArgs } from './ContentHub';
 
@@ -86,9 +85,13 @@ export const WithResults: ContentHubStory = {
                       height: 300,
                     }),
                   },
-            terms: [
-              createKeyForTerm(SearchFormStories.args.termOptions![i % 4]),
-            ],
+            terms:
+              i % 7 === 0
+                ? [
+                    SearchFormStories.args.termOptions![0],
+                    SearchFormStories.args.termOptions![1],
+                  ]
+                : [SearchFormStories.args.termOptions![i % 4]],
           }) satisfies CardItemFragment,
       );
       const args = qs.parse(vars.args || '') as ContentHubQueryArgs;
@@ -100,7 +103,7 @@ export const WithResults: ContentHubStory = {
       // filter by terms
       filtered = filtered.filter(
         (item) =>
-          !args.terms || item.terms.includes(createKeyForTerm(args.terms)),
+          !args.terms || item.terms.some((term) => term.termId === args.terms),
       );
 
       const offset = args.page
@@ -119,7 +122,7 @@ export const WithResults: ContentHubStory = {
 export const Filtered: ContentHubStory = {
   ...WithResults,
   parameters: {
-    location: new URL('local:/content-hub?keyword=Article&terms=block'),
+    location: new URL('local:/content-hub?keyword=Article&terms=2'),
   },
 };
 

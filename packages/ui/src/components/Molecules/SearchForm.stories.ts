@@ -2,7 +2,12 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { SearchForm as Component } from './SearchForm';
 
-const termOptions = ['Block', '- List', 'Demo', 'Page'];
+const termOptions = [
+  { termId: '1', label: 'Block', depth: 0 },
+  { termId: '2', label: '- List', depth: 0 },
+  { termId: '3', label: 'Demo', depth: 0 },
+  { termId: '4', label: 'Page', depth: 0 },
+];
 
 export default {
   component: Component,

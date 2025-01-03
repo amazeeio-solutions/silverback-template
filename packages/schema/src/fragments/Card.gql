@@ -10,5 +10,9 @@ fragment CardItem on CardItem {
     alt
     source(width: 400, height: 300)
   }
-  terms
+  terms {
+    label
+    termId
+    depth
+  }
 }

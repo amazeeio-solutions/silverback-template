@@ -6,7 +6,11 @@ import React from 'react';
 import { isTruthy } from '../../utils/isTruthy';
 import { useOperation } from '../../utils/operation';
 import { Pagination, useCurrentPage } from '../Molecules/Pagination';
-import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
+import {
+  ContentHubTermOptions,
+  SearchForm,
+  useSearchParameters,
+} from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
 import { CardItem } from './Card';
 
@@ -22,7 +26,7 @@ export function ContentHub({
   termOptions,
 }: {
   pageSize: number;
-  termOptions?: string[];
+  termOptions?: ContentHubTermOptions[];
 }) {
   const intl = useIntl();
   const page = useCurrentPage();

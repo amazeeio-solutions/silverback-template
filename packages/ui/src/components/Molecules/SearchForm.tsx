@@ -17,12 +17,13 @@ export function useSearchParameters() {
   );
 }
 
-/** Create a key for a term. */
-export function createKeyForTerm(term: string) {
-  return term.toLowerCase().replace(/[^a-z0-9]/g, '_');
-}
+export type ContentHubTermOptions = {
+  termId: string | undefined;
+  label: string | undefined;
+  depth: number | undefined;
+};
 
-export function SearchForm(props: { termOptions?: string[] }) {
+export function SearchForm(props: { termOptions?: ContentHubTermOptions[] }) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
   const { register, handleSubmit } = useForm<FormValues>({
@@ -60,8 +61,8 @@ export function SearchForm(props: { termOptions?: string[] }) {
                   })}
                 </option>
                 {props.termOptions.map((term) => (
-                  <option key={term} value={createKeyForTerm(term)}>
-                    {term}
+                  <option key={term.termId} value={term.termId}>
+                    {term.label}
                   </option>
                 ))}
               </select>
