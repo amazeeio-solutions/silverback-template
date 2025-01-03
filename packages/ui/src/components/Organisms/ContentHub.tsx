@@ -43,6 +43,9 @@ export function ContentHub({
       { arrayFormat: 'bracket' },
     ),
   });
+  if (error) {
+    console.error(error);
+  }
   return (
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -50,7 +53,12 @@ export function ContentHub({
         {error ? (
           <div className="flex items-center justify-center">
             <div className="my-8 rounded-full bg-red-100 px-3 py-1 text-center text-xs font-medium leading-none text-red-500">
-              {error}
+              {typeof error === 'string' || error instanceof String
+                ? error
+                : intl.formatMessage({
+                    defaultMessage: 'Something has gone wrong',
+                    id: 'wREPik',
+                  })}
             </div>
           </div>
         ) : null}
