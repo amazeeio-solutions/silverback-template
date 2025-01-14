@@ -113,6 +113,9 @@
       },
       "drupal/coffee": {
         "On the fly ajax search POC": "./patches/contrib/coffee/on_the_fly_ajax_search_poc.patch"
+      },
+      "amazeelabs/graphql_directives": {
+        "Fixing issue with extracting term label": "./patches/contrib/graphql_directives/extract_term_label.patch"
       }
     },
     "patchLevel": {

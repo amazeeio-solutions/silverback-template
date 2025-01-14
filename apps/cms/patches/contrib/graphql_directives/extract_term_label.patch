@@ -1,0 +1,14 @@
+diff --git a/src/Plugin/GraphQL/DataProducer/DrupalView.php b/src/Plugin/GraphQL/DataProducer/DrupalView.php
+index 43ca191ec..5554e126d 100644
+--- a/src/Plugin/GraphQL/DataProducer/DrupalView.php
++++ b/src/Plugin/GraphQL/DataProducer/DrupalView.php
+@@ -99,6 +99,9 @@ public function resolve(string $id, ?string $args, FieldContext $context): array
+         foreach (Element::children($form) as $key) {
+           if (isset($form[$key]['#options'])) {
+             foreach ($form[$key]['#options'] as $value => $label) {
++              if (is_object($label) && isset($label->option)) {
++                $label = $label->option;
++              }
+               $filters[$key][] = [
+                 'value' => (string)$value,
+                 'label' => (string)$label,
