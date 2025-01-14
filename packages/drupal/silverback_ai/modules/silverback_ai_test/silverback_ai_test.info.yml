@@ -1,0 +1,9 @@
+name: 'Silverback AI test'
+type: module
+description: 'A testing suite for the Silverback AI modules'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - silverback_ai:silverback_ai
+  - silverback_image_ai:silverback_image_ai
+  - silverback_ai_import:silverback_ai_import
