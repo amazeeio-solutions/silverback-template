@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\RequestException;
 /**
  * Contains general AI services, such as a general request method and more.
  */
-final class AiService {
+class AiService {
 
   private const DEFAULT_AI_MODEL = 'gpt-4o-mini';
 
