@@ -214,11 +214,13 @@ final class PageDropForm extends FormBase {
       case ContentImportAiService::URL:
         $file = $url_value;
         break;
+      case ContentImportAiService::NONE:
+        break;
       default:
         $file = $form_state->getValue('file');
     }
 
-    if ($type != ContentImportAiService::URL) {
+    if (in_array($type, [ContentImportAiService::DOCX, ContentImportAiService::PDF])) {
       $file = $service->createFileEntityFromDropzoneData($file);
     }
 

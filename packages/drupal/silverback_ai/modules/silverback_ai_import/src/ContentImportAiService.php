@@ -29,6 +29,7 @@ final class ContentImportAiService {
   public const DOCX = 'docx';
   public const URL = 'url';
   public const PDF = 'pdf';
+  public const NONE = 'none';
 
   /**
    * Constructs a ContentImportAiService object.
