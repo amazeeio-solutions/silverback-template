@@ -152,16 +152,28 @@ class ContentImportBatch {
       // @todo Improve that to respect also templates
       $implode = implode(PHP_EOL, $results['content']);
       $content = <<<EOD
+
       <!-- wp:custom/content -->
-
       $implode
-
       <!-- /wp:custom/content -->
+
       EOD;
 
       // @todo Add post import process here
       try {
-        $node->body->value = $content;
+
+        // @todo
+        $config = \Drupal::service('config.factory')->get('gutenberg.settings');
+        $node_type = $node->type->getString();
+        $gutenberg_template = $config->get($node_type . '_template') ? json_decode($config->get($node_type . '_template')) : NULL;
+        $init = '';
+        // @todo We can do better than this
+        foreach ($gutenberg_template as $item) {
+          $init .= "<!-- wp:{$item[0]} /-->\n";
+        }
+
+        $cleaned = str_replace('<!-- wp:custom/content /-->', $content, $init);
+        $node->body->value = $cleaned;
         $node->save();
       } catch (\Exception $e) {
         // @todo
