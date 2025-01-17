@@ -1,16 +1,12 @@
 import { useIntl } from '@amazeelabs/react-intl';
-import { ContentHubQuery, Locale } from '@custom/schema';
+import { ContentHubQuery, ContentHubTermsQuery, Locale } from '@custom/schema';
 import qs from 'query-string';
 import React from 'react';
 
 import { isTruthy } from '../../utils/isTruthy';
 import { useOperation } from '../../utils/operation';
 import { Pagination, useCurrentPage } from '../Molecules/Pagination';
-import {
-  ContentHubTermOptions,
-  SearchForm,
-  useSearchParameters,
-} from '../Molecules/SearchForm';
+import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
 import { CardItem } from './Card';
 
@@ -21,16 +17,11 @@ export type ContentHubQueryArgs = {
   pageSize: string | undefined;
 };
 
-export function ContentHub({
-  pageSize = 10,
-  termOptions,
-}: {
-  pageSize: number;
-  termOptions?: ContentHubTermOptions[];
-}) {
+export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
   const intl = useIntl();
   const page = useCurrentPage();
   const search = useSearchParameters();
+  console.log('search', search);
   const { data, isLoading, error } = useOperation(ContentHubQuery, {
     locale: intl.locale as Locale,
     args: qs.stringify(
@@ -43,13 +34,22 @@ export function ContentHub({
       { arrayFormat: 'bracket' },
     ),
   });
+
+  const termsResult = useOperation(ContentHubTermsQuery, {});
+
+  console.log('termsResult', termsResult);
+
   if (error) {
     console.error(error);
   }
   return (
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <SearchForm termOptions={termOptions ?? []} />
+        <SearchForm
+          termOptions={termsResult?.data?.contentHubTerms.items?.filter(
+            isTruthy,
+          )}
+        />
         {error ? (
           <div className="flex items-center justify-center">
             <div className="my-8 rounded-full bg-red-100 px-3 py-1 text-center text-xs font-medium leading-none text-red-500">

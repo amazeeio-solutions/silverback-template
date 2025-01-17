@@ -1,5 +1,5 @@
 import { useIntl } from '@amazeelabs/react-intl';
-import { useLocation } from '@custom/schema';
+import { TermContentHub, useLocation } from '@custom/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,13 +17,7 @@ export function useSearchParameters() {
   );
 }
 
-export type ContentHubTermOptions = {
-  termId: string | undefined;
-  label: string | undefined;
-  depth: number | undefined;
-};
-
-export function SearchForm(props: { termOptions?: ContentHubTermOptions[] }) {
+export function SearchForm(props: { termOptions?: TermContentHub[] }) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
   const { register, handleSubmit } = useForm<FormValues>({

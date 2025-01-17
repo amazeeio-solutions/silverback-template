@@ -1,6 +1,7 @@
 import {
   CardItemFragment,
   ContentHubQuery,
+  ContentHubTermsQuery,
   OperationExecutorsProvider,
   OperationResult,
   OperationVariables,
@@ -28,45 +29,62 @@ export default {
   render: (args) => {
     return (
       <OperationExecutorsProvider
-        executors={[{ executor: args.exec, id: ContentHubQuery }]}
+        executors={[
+          { executor: args.execQuery, id: ContentHubQuery },
+          { executor: args.execTerms, id: ContentHubTermsQuery },
+        ]}
       >
-        <ContentHub
-          pageSize={pageSize}
-          termOptions={SearchFormStories.args.termOptions}
-        />
+        <ContentHub pageSize={pageSize} />
       </OperationExecutorsProvider>
     );
   },
-} satisfies Meta<{ exec: ContentHubExecutor }>;
+} satisfies Meta<{
+  execQuery: ContentHubExecutor;
+  execTerms: ContentHubTermsQuery;
+}>;
 
-type ContentHubStory = StoryObj<{ exec: ContentHubExecutor }>;
+type ContentHubStory = StoryObj<{
+  execQuery: ContentHubExecutor;
+  execTerms: ContentHubTermsQuery;
+}>;
+
+const termOptions = {
+  contentHubTerms: {
+    total: SearchFormStories.args.termOptions.length,
+    items: SearchFormStories.args.termOptions,
+  },
+};
 
 export const Empty = {
   args: {
-    exec: async () => ({
+    execQuery: async () => ({
       contentHub: { total: 0, items: [] },
     }),
+    execTerms: termOptions,
   },
 } satisfies ContentHubStory;
 
 export const Loading = {
   args: {
-    exec: () => new Promise<OperationResult<typeof ContentHubQuery>>(() => {}),
+    execQuery: () =>
+      new Promise<OperationResult<typeof ContentHubQuery>>(() => {}),
+    execTerms: termOptions,
   },
 } satisfies ContentHubStory;
 
 export const Error = {
   args: {
-    exec: () =>
+    execQuery: () =>
       new Promise<OperationResult<typeof ContentHubQuery>>(() => {
         throw 'Error loading content hub.';
       }),
+    execTerms: termOptions,
   },
 } satisfies ContentHubStory;
 
 export const WithResults: ContentHubStory = {
   args: {
-    exec: async (_, vars) => {
+    execQuery: async (_, vars) => {
       const items = [...Array(82).keys()].map(
         (i) =>
           ({
@@ -94,6 +112,7 @@ export const WithResults: ContentHubStory = {
                 : [SearchFormStories.args.termOptions![i % 4]],
           }) satisfies CardItemFragment,
       );
+
       const args = qs.parse(vars.args || '') as ContentHubQueryArgs;
 
       // filter by title
@@ -116,6 +135,7 @@ export const WithResults: ContentHubStory = {
         },
       };
     },
+    execTerms: termOptions,
   },
 };
 

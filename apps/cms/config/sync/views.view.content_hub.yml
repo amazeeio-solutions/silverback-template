@@ -307,7 +307,7 @@ display:
             identifier: terms
             required: false
             remember: false
-            multiple: true
+            multiple: false
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
