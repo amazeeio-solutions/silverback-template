@@ -16,9 +16,9 @@ export const CardItem = ({
   return (
     <article
       aria-labelledby={formattedID}
-      className="focus-within:outline focus-within:outline-2 focus-within:outline-indigo-600 relative max-w-sm bg-white rounded-lg hover:shadow grid grid-rows-[auto_1fr]"
+      className="relative grid max-w-sm grid-rows-[auto_1fr] rounded-lg bg-white focus-within:outline focus-within:outline-2 focus-within:outline-indigo-600 hover:shadow"
     >
-      <div className="p-5 grid grid-rows-[auto_1fr_auto] gap-4">
+      <div className="grid grid-rows-[auto_1fr_auto] gap-4 p-5">
         <h5
           id={formattedID}
           className="mb-2 text-2xl font-bold tracking-tight text-gray-900"
@@ -28,7 +28,7 @@ export const CardItem = ({
         {hero?.headline ? <div>{hero?.headline}</div> : null}
         <Link
           href={path}
-          className="row-start-3 justify-self-start inline-flex items-center px-3 py-2 text-sm font-medium text-center text-blue-700 border border-blue-700 rounded-lg hover:bg-blue-800 hover:text-white focus:outline-offset-4 after:content-[''] after:absolute after:inset-0"
+          className="row-start-3 inline-flex items-center justify-self-start rounded-lg border border-blue-700 px-3 py-2 text-center text-sm font-medium text-blue-700 after:absolute after:inset-0 after:content-[''] hover:bg-blue-800 hover:text-white focus:outline-offset-4"
         >
           <span className="sr-only size-0 overflow-hidden">{title}</span>
           {readMoreText ||
@@ -57,7 +57,7 @@ export const CardItem = ({
         {teaserImage ? (
           <Image
             {...teaserImage}
-            className="w-full aspect-[16/9] rounded-t-lg"
+            className="aspect-[16/9] w-full rounded-t-lg"
           />
         ) : (
           <div className="aspect-[16/9] rounded-t-lg bg-indigo-200" />
