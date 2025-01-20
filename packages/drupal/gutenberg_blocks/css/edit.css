@@ -313,6 +313,10 @@ details[open] > summary svg {
   grid-column-start: 2;
 }
 
+.entity-meta .media-library-selection .media-library-item--grid {
+  width: 100%;
+}
+
 /* Reset a few link input suggestion styles to their gutenberg editor values. */
 .block-editor-inner-blocks .block-editor-link-control__search-input-wrapper {
   border: 1px solid #cccccc;
@@ -329,8 +333,4 @@ details[open] > summary svg {
   .block-editor-link-control__search-input-wrapper
   button.block-editor-link-control__search-item:hover {
   background-color: #ddd;
-}
-
-.entity-meta .media-library-selection .media-library-item--grid {
-  width: 100%;
 }

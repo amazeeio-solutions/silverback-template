@@ -11,12 +11,23 @@ test('Page', async () => {
       title
       teaserImage {
         __typename
+        id
       }
       hero {
         __typename
+        image {
+          id
+        }
       }
       content {
         __typename
+        ... on BlockMedia {
+          media {
+            ... on MediaImage {
+              id
+            }
+          }
+        }
       }
       metaTags {
         tag
@@ -59,10 +70,16 @@ test('Page', async () => {
             },
             {
               "__typename": "BlockMedia",
+              "media": {
+                "id": "72187a1f-3e48-4b45-a9b7-189c6fd7ee26",
+              },
             },
           ],
           "hero": {
             "__typename": "Hero",
+            "image": {
+              "id": "3a0fe860-a6d6-428a-9474-365bd57509aa",
+            },
           },
           "locale": "en",
           "metaTags": [
@@ -110,6 +127,7 @@ test('Page', async () => {
           "path": "/en/page-complete",
           "teaserImage": {
             "__typename": "MediaImage",
+            "id": "3a0fe860-a6d6-428a-9474-365bd57509aa",
           },
           "title": "Page: complete",
         },
@@ -123,6 +141,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "en",
               "metaTags": [
@@ -179,6 +198,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "de",
               "metaTags": [
@@ -239,6 +259,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "en",
               "metaTags": [
@@ -335,6 +356,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "de",
               "metaTags": [
