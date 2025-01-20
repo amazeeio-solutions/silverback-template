@@ -213,6 +213,23 @@ function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     }
   }
 
+  // Move the SEO group inside the sidebar.
+  if (!empty($form['#fieldgroups']['group_seo']) && $form['#fieldgroups']['group_seo']->parent_name === 'metabox_fields') {
+    // First, make sure to move back the seo fields into the seo group, because
+    // the gutenberg module moved them into the metabox_fields group.
+    foreach ($form['#fieldgroups']['group_seo']->children as $seo_field_name) {
+      if (!empty($form[$seo_field_name])) {
+        $form[$seo_field_name]['#group'] = 'group_seo';
+      }
+    }
+    // Move now the SEO group into the sidebar and position it right bellow the
+    // meta group.
+    $form['#fieldgroups']['group_seo']->parent_name = 'advanced';
+    if (!empty($form['meta']['#weight'])) {
+      $form['#fieldgroups']['group_seo']->weight = $form['meta']['#weight'] + 1;
+    }
+  }
+
   // If the "More settings" fieldset is empty, remove it completely.
   $metaboxHasFields = FALSE;
   foreach (Element::children($form) as $key) {
@@ -385,5 +402,26 @@ function _custom_add_session_iframe_to_page(array &$variables): void {
         'style' => 'width: 0; height: 0; border: none;',
       ],
     ];
+  }
+}
+
+/**
+ * Implements hook_tokens_alter() for nodes.
+ *
+ * @param array $replacements
+ * @param array $context
+ * @param \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata
+ *
+ * @return void
+ */
+function custom_tokens_alter(array &$replacements, array $context, \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata) {
+  if ($context['type'] == 'node' && !empty($context['data']['node'])) {
+    /* @var Drupal\node\NodeInterface $node */
+    $node = $context['data']['node'];
+    // In case there is no value for the seo title field, then we actually want
+    // to fall back to the label (title) of the node itself.
+    if (isset($context['tokens']['field_seo_title']) && empty($replacements[$context['tokens']['field_seo_title']])) {
+      $replacements[$context['tokens']['field_seo_title']] = $node->label();
+    }
   }
 }

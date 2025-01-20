@@ -6,6 +6,9 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.page.body
     - field.field.node.page.field_metatags
+    - field.field.node.page.field_seo_description
+    - field.field.node.page.field_seo_image
+    - field.field.node.page.field_seo_title
     - node.type.page
   module:
     - silverback_external_preview
@@ -46,4 +49,8 @@ content:
     region: content
 hidden:
   field_metatags: true
+  field_seo_description: true
+  field_seo_image: true
+  field_seo_title: true
   langcode: true
+  search_api_excerpt: true
