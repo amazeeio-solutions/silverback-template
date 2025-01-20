@@ -5,6 +5,7 @@ import React from 'react';
 
 import { isTruthy } from '../../utils/isTruthy';
 import { useOperation } from '../../utils/operation';
+import { Alert } from '../Molecules/Alert';
 import { Pagination, useCurrentPage } from '../Molecules/Pagination';
 import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
@@ -48,21 +49,26 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
           )}
         />
         {error ? (
-          <div className="flex items-center justify-center">
-            <div className="my-8 rounded-full bg-red-100 px-3 py-1 text-center text-xs font-medium leading-none text-red-500">
+          <div className="my-8">
+            <Alert status="danger" withIcon={false}>
               {typeof error === 'string' || error instanceof String
                 ? error
                 : intl.formatMessage({
                     defaultMessage: 'Something has gone wrong',
                     id: 'wREPik',
                   })}
-            </div>
+            </Alert>
           </div>
         ) : null}
         {isLoading ? <Loading /> : null}
         {data?.contentHub.total === 0 ? (
           <div className="my-8">
-            {intl.formatMessage({ defaultMessage: 'No results', id: 'jHJmjf' })}
+            <Alert status="info" withIcon>
+              {intl.formatMessage({
+                defaultMessage: 'No results',
+                id: 'jHJmjf',
+              })}
+            </Alert>
           </div>
         ) : null}
         {data?.contentHub.total ? (

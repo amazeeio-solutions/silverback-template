@@ -10,7 +10,7 @@ export default {
   component: Component,
 } satisfies Meta<typeof Component>;
 
-export const Info: StoryObj<typeof Component> = {
+export const MessagesList: StoryObj<typeof Component> = {
   parameters: {
     location: new URL('local:/gatsby-turbo'),
   },
