@@ -7,9 +7,7 @@ test.describe('instant preview', () => {
   test('display an unpublished page in an iframe', async ({ page }) => {
     await page.goto(cmsUrl('/admin/content'));
     await page.getByRole('link', { name: 'Add content' }).click();
-    await page
-      .getByLabel('Title', { exact: true })
-      .fill('Instant preview test');
+    await page.locator("[name='title[0][value]']").fill('Instant preview test');
     await page.locator('#edit-submit').click();
     await page
       .locator('#editor-edit-body-0-value h1 span')

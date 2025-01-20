@@ -8,7 +8,7 @@ test.describe('instant preview - toggle editor sidebar', () => {
     await page.goto(cmsUrl('/admin/content'));
     await page.getByRole('link', { name: 'Add content' }).click();
     await page
-      .getByLabel('Title', { exact: true })
+      .locator("[name='title[0][value]']")
       .fill('Instant preview sidebar test');
     await page.locator('#edit-submit').click();
     await page.locator('#edit-preview-link').click();
