@@ -30,6 +30,9 @@ export function Head({ data }: HeadProps<typeof query>) {
               key={`link-${index}`}
               rel={metaTag.attributes?.rel}
               href={metaTag.attributes?.href}
+              type={
+                metaTag.attributes?.rel === 'image_src' ? 'image' : undefined
+              }
             />
           );
         }
