@@ -213,22 +213,22 @@ function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     }
   }
 
-//  // Move the SEO group inside the sidebar.
-//  if (!empty($form['#fieldgroups']['group_seo']) && $form['#fieldgroups']['group_seo']->parent_name === 'metabox_fields') {
-//    // First, make sure to move back the seo fields into the seo group, because
-//    // the gutenberg module moved them into the metabox_fields group.
-//    foreach ($form['#fieldgroups']['group_seo']->children as $seo_field_name) {
-//      if (!empty($form[$seo_field_name])) {
-//        $form[$seo_field_name]['#group'] = 'group_seo';
-//      }
-//    }
-//    // Move now the SEO group into the sidebar and position it right bellow the
-//    // meta group.
-//    $form['#fieldgroups']['group_seo']->parent_name = 'advanced';
-//    if (!empty($form['meta']['#weight'])) {
-//      $form['#fieldgroups']['group_seo']->weight = $form['meta']['#weight'] + 1;
-//    }
-//  }
+  // Move the SEO group inside the sidebar.
+  if (!empty($form['#fieldgroups']['group_seo']) && $form['#fieldgroups']['group_seo']->parent_name === 'metabox_fields') {
+    // First, make sure to move back the seo fields into the seo group, because
+    // the gutenberg module moved them into the metabox_fields group.
+    foreach ($form['#fieldgroups']['group_seo']->children as $seo_field_name) {
+      if (!empty($form[$seo_field_name])) {
+        $form[$seo_field_name]['#group'] = 'group_seo';
+      }
+    }
+    // Move now the SEO group into the sidebar and position it right bellow the
+    // meta group.
+    $form['#fieldgroups']['group_seo']->parent_name = 'advanced';
+    if (!empty($form['meta']['#weight'])) {
+      $form['#fieldgroups']['group_seo']->weight = $form['meta']['#weight'] + 1;
+    }
+  }
 
   // Check if something has been moved to `details_sidebar`
   $groups = $form['#fieldgroups'] ?? [];
