@@ -4,6 +4,8 @@ _meta:
   uuid: fef0d57f-5a13-4009-8740-bb7a62935906
   bundle: page
   default_langcode: en
+  depends:
+    eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3: taxonomy_term
 default:
   revision_uid:
     -
@@ -58,3 +60,6 @@ default:
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''
+  field_content_hub_terms:
+    -
+      entity: eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3

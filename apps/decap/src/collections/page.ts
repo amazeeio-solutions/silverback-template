@@ -49,6 +49,13 @@ export const PageCollection: CmsCollection = {
       i18n: true,
     },
     {
+      label: 'Terms',
+      name: 'terms',
+      widget: 'string',
+      required: false,
+      i18n: false,
+    },
+    {
       label: 'Teaser image',
       name: 'teaserImage',
       widget: 'image',
@@ -228,6 +235,14 @@ export const getPages: SilverbackSource<DecapPageSource> = () => {
                 url: editUrl,
                 type: 'decap',
               },
+              terms: [
+                {
+                  __typename: 'TermContentHub',
+                  label: 'Test',
+                  termId: '1',
+                  depth: 0,
+                },
+              ],
             },
           ]);
         } else {

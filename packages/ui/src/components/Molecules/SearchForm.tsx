@@ -1,5 +1,5 @@
 import { useIntl } from '@amazeelabs/react-intl';
-import { useLocation } from '@custom/schema';
+import { TermContentHub, useLocation } from '@custom/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { z } from 'zod';
 
 const formValueSchema = z.object({
   keyword: z.string().optional(),
+  terms: z.string().optional(),
 });
 
 export function useSearchParameters() {
@@ -16,7 +17,7 @@ export function useSearchParameters() {
   );
 }
 
-export function SearchForm() {
+export function SearchForm(props: { termOptions?: TermContentHub[] }) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
   const { register, handleSubmit } = useForm<FormValues>({
@@ -33,6 +34,34 @@ export function SearchForm() {
             navigate(location, { ...values, page: 1 });
           })}
         >
+          {props.termOptions && props.termOptions.length > 0 ? (
+            <div className="mb-2 mr-2 w-full sm:max-w-xs">
+              <label htmlFor="terms" className="sr-only">
+                {intl.formatMessage({
+                  defaultMessage: 'Filter by terms',
+                  id: 'EqfeAF',
+                })}
+              </label>
+              <select
+                id="terms"
+                {...register('terms')}
+                defaultValue={'default'}
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option key="default" value="">
+                  {intl.formatMessage({
+                    defaultMessage: 'Filter by terms',
+                    id: 'EqfeAF',
+                  })}
+                </option>
+                {props.termOptions.map((term) => (
+                  <option key={term.termId} value={term.termId}>
+                    {term.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
           <div className="mb-2 mr-2 w-full sm:max-w-xs">
             <label htmlFor="keyword" className="sr-only">
               {intl.formatMessage({
@@ -42,7 +71,7 @@ export function SearchForm() {
             </label>
             <input
               {...register('keyword')}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:ring-0"
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:border-blue-500 focus:ring-blue-500"
               placeholder={intl.formatMessage({
                 defaultMessage: 'Keyword',
                 id: 'fe0rMF',

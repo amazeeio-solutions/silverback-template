@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.global_search
     - field.field.node.page.body
+    - field.field.node.page.field_content_hub_terms
     - field.field.node.page.field_metatags
     - field.field.node.page.field_seo_description
     - field.field.node.page.field_seo_image
@@ -54,6 +55,7 @@ hidden:
   content_moderation_control: true
   external_preview_link: true
   field_seo_image: true
+  field_content_hub_terms: true
   langcode: true
   links: true
   search_api_excerpt: true

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.page.body
+    - field.field.node.page.field_content_hub_terms
     - field.field.node.page.field_metatags
     - field.field.node.page.field_seo_description
     - field.field.node.page.field_seo_image
@@ -14,6 +15,7 @@ dependencies:
     - content_moderation
     - field_group
     - media_library
+    - field_group
     - metatag
     - path
     - text
@@ -37,6 +39,23 @@ third_party_settings:
         open: false
         description: ''
         required_fields: true
+    group_taxonomy:
+      children:
+        - field_content_hub_terms
+      label: Taxonomy
+      region: content
+      parent_name: ''
+      weight: 14
+      format_type: details_sidebar
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
+        weight: 0
 id: node.page.default
 targetEntityType: node
 bundle: page
@@ -55,6 +74,12 @@ content:
   created:
     type: datetime_timestamp
     weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_content_hub_terms:
+    type: options_buttons
+    weight: 13
     region: content
     settings: {  }
     third_party_settings: {  }

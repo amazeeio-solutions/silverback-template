@@ -9,6 +9,7 @@ export const CardItem = ({
   path,
   teaserImage,
   readMoreText,
+  terms,
 }: CardItemFragment & { readMoreText?: string }) => {
   const formattedID = 'heading-' + id;
   const intl = useIntl();
@@ -25,7 +26,19 @@ export const CardItem = ({
         >
           {title}
         </h5>
-        {hero?.headline ? <div>{hero?.headline}</div> : null}
+        {hero?.headline ? <div className="mb-2">{hero?.headline}</div> : null}
+        {terms?.length ? (
+          <div className={`mb-2 flex flex-wrap`}>
+            {terms.map((term) => (
+              <span
+                key={term.termId}
+                className="me-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+              >
+                {term.label}
+              </span>
+            ))}
+          </div>
+        ) : null}
         <Link
           href={path}
           className="inline-flex items-center rounded-lg border border-blue-700 px-3 py-2 text-center text-sm font-medium text-blue-700 after:absolute after:inset-0 after:content-[''] hover:bg-blue-800 hover:text-white focus:outline-offset-4"
