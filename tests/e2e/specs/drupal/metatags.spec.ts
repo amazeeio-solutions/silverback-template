@@ -18,7 +18,9 @@ test('Metatags on Basic page', async ({ page }) => {
     'SEO test - all empty | Silverback Drupal Template',
   );
   await expect(page.locator('head meta[name="description"]')).toHaveCount(0);
-  await expect(page.locator('head meta[property="og:description"]')).toHaveCount(0);
+  await expect(
+    page.locator('head meta[property="og:description"]'),
+  ).toHaveCount(0);
   await expect(page.locator('head meta[rel="image_src"]')).toHaveCount(0);
   await expect(page.locator('head meta[property="og:image"]')).toHaveCount(0);
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
@@ -42,7 +44,9 @@ test('Metatags on Basic page', async ({ page }) => {
     'SEO test - all empty DE | Silverback Drupal Template',
   );
   await expect(page.locator('head meta[name="description"]')).toHaveCount(0);
-  await expect(page.locator('head meta[property="og:description"]')).toHaveCount(0);
+  await expect(
+    page.locator('head meta[property="og:description"]'),
+  ).toHaveCount(0);
   await expect(page.locator('head link[rel="image_src"]')).toHaveCount(0);
   await expect(page.locator('head meta[property="og:image"]')).toHaveCount(0);
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
@@ -70,10 +74,9 @@ test('Metatags on Basic page', async ({ page }) => {
     'content',
     'SEO description',
   );
-  await expect(page.locator('head meta[property="og:description"]')).toHaveAttribute(
-    'content',
-    'SEO description',
-  );
+  await expect(
+    page.locator('head meta[property="og:description"]'),
+  ).toHaveAttribute('content', 'SEO description');
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
     'href',
     allFilledUrlEn,
@@ -105,10 +108,9 @@ test('Metatags on Basic page', async ({ page }) => {
     'content',
     'SEO description DE',
   );
-  await expect(page.locator('head meta[property="og:description"]')).toHaveAttribute(
-    'content',
-    'SEO description DE',
-  );
+  await expect(
+    page.locator('head meta[property="og:description"]'),
+  ).toHaveAttribute('content', 'SEO description DE');
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
     'href',
     allFilledUrlDe,
