@@ -141,6 +141,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "en",
               "metaTags": [
@@ -197,6 +198,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "de",
               "metaTags": [
@@ -257,6 +259,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "en",
               "metaTags": [
@@ -353,6 +356,7 @@ test('Page', async () => {
               ],
               "hero": {
                 "__typename": "Hero",
+                "image": null,
               },
               "locale": "de",
               "metaTags": [
