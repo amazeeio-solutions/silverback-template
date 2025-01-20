@@ -45,7 +45,7 @@ export const ContentHubPage = (() => {
     <OperationExecutorsProvider
       executors={[
         { executor: PageStory.args, id: ViewPageQuery },
-        { executor: WithResults.args?.exec, id: ContentHubQuery },
+        { executor: WithResults.args?.execQuery, id: ContentHubQuery },
         { executor: FrameStory.args, id: FrameQuery },
       ]}
     >

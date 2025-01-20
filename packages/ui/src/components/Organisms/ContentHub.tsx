@@ -21,13 +21,12 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
   const intl = useIntl();
   const page = useCurrentPage();
   const search = useSearchParameters();
-  console.log('search', search);
   const { data, isLoading, error } = useOperation(ContentHubQuery, {
     locale: intl.locale as Locale,
     args: qs.stringify(
       {
         title: search.keyword,
-        terms: search.terms,
+        terms: search.terms === '' ? undefined : search.terms,
         page: `${page}`,
         pageSize: `${pageSize}`,
       } satisfies ContentHubQueryArgs,
@@ -36,8 +35,6 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
   });
 
   const termsResult = useOperation(ContentHubTermsQuery, {});
-
-  console.log('termsResult', termsResult);
 
   if (error) {
     console.error(error);
