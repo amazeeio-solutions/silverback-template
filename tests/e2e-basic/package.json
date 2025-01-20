@@ -16,7 +16,7 @@
     "@custom/publisher": "workspace:*",
     "@custom/website": "workspace:*",
     "@playwright/test": "^1.44.1",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "typescript": "^5.3.3"
   }
 }

@@ -4,7 +4,7 @@
   "license": "MIT",
   "author": "Amazee Labs <development@amazeelabs.com>",
   "engines": {
-    "node": "^18.19.0",
+    "node": "20",
     "pnpm": "8.15.9"
   },
   "packageManager": "pnpm@8.15.9",

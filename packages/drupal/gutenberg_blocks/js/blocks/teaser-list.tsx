@@ -47,7 +47,7 @@ registerBlockType<{
       attributes;
 
     return (
-      <div className={'container-wrapper'}>
+      <div className={'container-wrapper !border-stone-500'}>
         <div className={'container-label'}>{__('Teaser list')}</div>
         <InspectorControls>
           <PanelBody>

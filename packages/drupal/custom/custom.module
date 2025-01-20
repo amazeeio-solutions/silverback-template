@@ -1,6 +1,11 @@
 <?php
 
+/**
+ * @file
+ */
+
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\ContentEntityFormInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -11,11 +16,10 @@ use Drupal\Core\StreamWrapper\StreamWrapperInterface;
 use Drupal\Core\Utility\Error as ErrorUtil;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
+use Drupal\node\NodeInterface;
 use Drupal\silverback_gutenberg\LinkProcessor;
 use Drupal\user\Entity\Role;
 use Drupal\user\UserInterface;
-use Drupal\Core\Entity\ContentEntityFormInterface;
-use Drupal\node\NodeInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -52,7 +56,7 @@ function custom_default_content_exported_fields_alter(array &$fields, ContentEnt
 function custom_silverback_gutenberg_link_processor_outbound_url_alter(
   string &$url,
   LanguageInterface $language,
-  LinkProcessor $linkProcessor
+  LinkProcessor $linkProcessor,
 ) {
 
   // For some links pointing to media, we want to print the direct file URL
@@ -80,14 +84,15 @@ function custom_silverback_gutenberg_link_processor_outbound_url_alter(
             $file = File::load($source);
             $url = $file->createFileUrl();
           }
-        } catch (\Throwable $e) {
+        }
+        catch (\Throwable $e) {
           \Drupal::logger('custom')->error(
             'Error turning media (id: "{mediaId}") route into file url. Error: {error}',
             [
               'mediaId' => $mediaId,
               'error' => ErrorUtil::renderExceptionSafe($e),
             ]
-          );
+                  );
         }
       }
     );
@@ -96,16 +101,18 @@ function custom_silverback_gutenberg_link_processor_outbound_url_alter(
 
 /**
  * Implements hook_silverback_gutenberg_link_processor_inbound_link_alter().
+ *
  * @param \DOMElement $link
  * @param \Drupal\silverback_gutenberg\LinkProcessor $linkProcessor
  *
  * @return void
+ *
  * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
  * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
  */
 function custom_silverback_gutenberg_link_processor_inbound_link_alter(
   \DOMElement $link,
-  LinkProcessor $linkProcessor
+  LinkProcessor $linkProcessor,
 ) {
   // For inbound links (when data gets saved), if the link points to a public
   // file, then we want to replace the href value with "media/uuid/edit" and
@@ -117,9 +124,9 @@ function custom_silverback_gutenberg_link_processor_inbound_link_alter(
   // needed so that the entity usage integration works properly (where the
   // data-id and data-entity-type attributes are checked).
   $href = $link->getAttribute('href');
-  /* @var \Drupal\Core\StreamWrapper\StreamWrapperManager $wrapperManager */
+  /** @var \Drupal\Core\StreamWrapper\StreamWrapperManager $wrapperManager */
   $wrapperManager = \Drupal::service('stream_wrapper_manager');
-  /* @var \Drupal\Core\StreamWrapper\StreamWrapperInterface[] $visibleWrappers */
+  /** @var \Drupal\Core\StreamWrapper\StreamWrapperInterface[] $visibleWrappers */
   $visibleWrappers = $wrapperManager->getWrappers(StreamWrapperInterface::VISIBLE);
   foreach ($visibleWrappers as $scheme => $wrapperInfo) {
     $wrapper = $wrapperManager->getViaScheme($scheme);
@@ -167,6 +174,7 @@ function custom_silverback_gutenberg_link_processor_inbound_link_alter(
  * Implements hook_form_alter().
  *
  * Using global form_alter as it's to be executed at the very late stage.
+ *
  * @see custom_heavy_module_implements_alter
  */
 function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
@@ -262,13 +270,13 @@ function custom_field_widget_language_select_form_alter(&$element, FormStateInte
 function custom_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Remove all the confusing options from the language list.
   unset(
-    // Site's default language
+    // Site's default language.
     $form['langcode']['#options']['***LANGUAGE_site_default***'],
-    // Interface text language selected for page
+    // Interface text language selected for page.
     $form['langcode']['#options']['***LANGUAGE_language_interface***'],
-    // Not specified
+    // Not specified.
     $form['langcode']['#options']['und'],
-    // Not applicable
+    // Not applicable.
     $form['langcode']['#options']['zxx'],
   );
   // The `excludeIds` filter contains a list of UUIDs, and this might exceed the
@@ -289,7 +297,8 @@ function _custom_key_auth_form_access(UserInterface $user): AccessResult {
   $access = AccessResult::forbidden();
   if (\Drupal::currentUser()->id() == 1) {
     $access = AccessResult::allowed();
-  } else {
+  }
+  else {
     $roleIds = \Drupal::currentUser()->getRoles();
     if ($roleIds) {
       foreach (Role::loadMultiple($roleIds) as $role) {
@@ -327,6 +336,15 @@ function custom_views_data_alter(array &$data) {
       'id' => 'custom_node_revision_title',
       'field' => 'title',
       'click sortable' => TRUE,
+    ],
+  ];
+
+  $data['media']['custom_usage_count'] = [
+    'title' => t('Usage count'),
+    'help' => t('Display entity usage count.'),
+    'field' => [
+      'id' => 'custom_usage_count',
+      'click sortable' => FALSE,
     ],
   ];
 }
