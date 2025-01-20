@@ -10,7 +10,7 @@
     "@amazeelabs/save-webpage": "^1.1.1",
     "@custom/eslint-config": "workspace:*",
     "@playwright/test": "^1.44.1",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "typescript": "^5.3.3"
   }
 }

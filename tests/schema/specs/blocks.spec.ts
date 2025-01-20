@@ -407,6 +407,7 @@ test('Block: Image with Text', async () => {
           ... on BlockImageWithText {
             image {
               __typename
+              id
             }
             imagePosition
             textContent {
@@ -427,6 +428,7 @@ test('Block: Image with Text', async () => {
               "__typename": "BlockImageWithText",
               "image": {
                 "__typename": "MediaImage",
+                "id": "3a0fe860-a6d6-428a-9474-365bd57509aa",
               },
               "imagePosition": "left",
               "textContent": {
@@ -440,6 +442,7 @@ test('Block: Image with Text', async () => {
               "__typename": "BlockImageWithText",
               "image": {
                 "__typename": "MediaImage",
+                "id": "5dfc1856-e9e4-4f02-9cd6-9d888870ce1a",
               },
               "imagePosition": "right",
               "textContent": {
@@ -467,6 +470,7 @@ test('Block: Image Teasers', async () => {
               __typename
               image {
                 __typename
+                id
               }
               title
               ctaText
@@ -491,6 +495,7 @@ test('Block: Image Teasers', async () => {
                   "ctaUrl": "/",
                   "image": {
                     "__typename": "MediaImage",
+                    "id": "3a0fe860-a6d6-428a-9474-365bd57509aa",
                   },
                   "title": "Image One Teaser Title",
                 },
@@ -500,6 +505,7 @@ test('Block: Image Teasers', async () => {
                   "ctaUrl": "/",
                   "image": {
                     "__typename": "MediaImage",
+                    "id": "5dfc1856-e9e4-4f02-9cd6-9d888870ce1a",
                   },
                   "title": "Image Two Teaser Title",
                 },
@@ -602,9 +608,11 @@ test('Block: Media', async () => {
               __typename
               ... on MediaImage {
                 __typename
+                id
               }
               ... on MediaVideo {
                 __typename
+                url
               }
             }
           }
@@ -622,6 +630,7 @@ test('Block: Media', async () => {
               "caption": "Media Image Caption",
               "media": {
                 "__typename": "MediaImage",
+                "id": "5dfc1856-e9e4-4f02-9cd6-9d888870ce1a",
               },
             },
           ],
@@ -677,6 +686,7 @@ test('Block: Quote', async () => {
             role
             image {
               __typename
+              id
             }
           }
         }
@@ -693,6 +703,7 @@ test('Block: Quote', async () => {
               "author": "Rose (Betty White)",
               "image": {
                 "__typename": "MediaImage",
+                "id": "5dfc1856-e9e4-4f02-9cd6-9d888870ce1a",
               },
               "quote": "My mother always used to say: The older you get, the better you get, unless you’re a banana.",
               "role": "TheGoldenGirls",

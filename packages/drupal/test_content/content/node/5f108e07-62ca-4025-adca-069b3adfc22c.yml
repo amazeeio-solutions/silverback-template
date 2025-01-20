@@ -1,0 +1,106 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 5f108e07-62ca-4025-adca-069b3adfc22c
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'SEO test - all empty'
+  created:
+    -
+      value: 1733209894
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /seo-test-all-empty
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"SEO test - all empty","lead":"SEO test - all empty"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:paragraph -->
+        <p></p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
+translations:
+  de:
+    status:
+      -
+        value: true
+    uid:
+      -
+        target_id: 1
+    title:
+      -
+        value: 'SEO test - all empty DE'
+    created:
+      -
+        value: 1733212459
+    promote:
+      -
+        value: false
+    sticky:
+      -
+        value: false
+    moderation_state:
+      -
+        value: published
+    path:
+      -
+        alias: /seo-test-all-empty-de
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    body:
+      -
+        value: |-
+          <!-- wp:custom/hero {"headline":"SEO test - all empty DE","lead":"SEO test - all empty DE"} /-->
+
+          <!-- wp:custom/content -->
+          <!-- wp:paragraph -->
+          <p></p>
+          <!-- /wp:paragraph -->
+          <!-- /wp:custom/content -->
+        format: gutenberg
+        summary: ''

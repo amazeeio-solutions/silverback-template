@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@custom/eslint-config": "workspace:*",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "@vitest/ui": "^1.1.1",
     "got": "^13.0.0",
     "noop-tag": "^2.0.0",

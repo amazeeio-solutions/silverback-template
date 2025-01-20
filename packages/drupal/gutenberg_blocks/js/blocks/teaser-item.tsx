@@ -36,7 +36,6 @@ registerBlockType<{
           }}
           settings={{}}
           suggestionsQuery={{
-            type: 'post',
             // Use the teaser_list linkit profile to fetch suggestions.
             subtype: 'teaser_list',
           }}

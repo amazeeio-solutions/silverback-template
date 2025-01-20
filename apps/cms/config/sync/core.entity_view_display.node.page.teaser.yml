@@ -7,6 +7,9 @@ dependencies:
     - field.field.node.page.body
     - field.field.node.page.field_content_hub_terms
     - field.field.node.page.field_metatags
+    - field.field.node.page.field_seo_description
+    - field.field.node.page.field_seo_image
+    - field.field.node.page.field_seo_title
     - node.type.page
   module:
     - silverback_external_preview
@@ -48,5 +51,8 @@ content:
 hidden:
   field_content_hub_terms: true
   field_metatags: true
+  field_seo_description: true
+  field_seo_image: true
+  field_seo_title: true
   langcode: true
   search_api_excerpt: true

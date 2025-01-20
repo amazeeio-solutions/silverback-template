@@ -7,6 +7,9 @@ dependencies:
     - field.field.node.page.body
     - field.field.node.page.field_content_hub_terms
     - field.field.node.page.field_metatags
+    - field.field.node.page.field_seo_description
+    - field.field.node.page.field_seo_image
+    - field.field.node.page.field_seo_title
     - node.type.page
   module:
     - gutenberg
@@ -33,9 +36,25 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_seo_description:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_seo_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
 hidden:
   content_moderation_control: true
   external_preview_link: true
+  field_seo_image: true
   field_content_hub_terms: true
   langcode: true
   links: true

@@ -168,6 +168,7 @@ const BlockMediaImageSchema = z
         __typename: 'MediaImage',
         source: image,
         alt,
+        id: '',
       },
       caption: caption,
     };
@@ -192,6 +193,7 @@ export const pageSchema = z.object({
               __typename: 'MediaImage',
               source,
               alt: '',
+              id: '',
             }
           : undefined,
       ),
