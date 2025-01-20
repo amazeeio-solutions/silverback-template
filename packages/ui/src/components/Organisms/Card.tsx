@@ -28,9 +28,12 @@ export const CardItem = ({
         </h5>
         {hero?.headline ? <div className="mb-2">{hero?.headline}</div> : null}
         {terms?.length ? (
-          <div className={`flex flex-wrap mb-2`}>
+          <div className={`mb-2 flex flex-wrap`}>
             {terms.map((term) => (
-              <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+              <span
+                key={term.termId}
+                className="me-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+              >
                 {term.label}
               </span>
             ))}
