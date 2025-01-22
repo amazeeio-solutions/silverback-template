@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Silverback AI module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_schema().
+ */
+function silverback_ai_import_schema() {
+
+  $db_schema = \Drupal::database()->schema();
+  if ($db_schema->tableExists('silverback_ai_import')) {
+    $db_schema->dropTable('silverback_ai_import');
+  }
+
+  $schema['silverback_ai_import'] = [
+    'description' => 'Import log for the Silverback AI import module.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key.',
+      ],
+      'uid' => [
+        'description' => 'Foreign key to {users}.uid; uniquely identifies a Drupal user executed the ai fetch action.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'timestamp' => [
+        'description' => 'Date/time if the import, as Unix timestamp.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'target_entity_type_id' => [
+        'type' => 'varchar_ascii',
+        'length' => EntityTypeInterface::ID_MAX_LENGTH,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => 'The ID of the associated entity type.',
+      ],
+      'target_entity_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'description' => 'The ID of the associated entity.',
+      ],
+      'target_entity_revision_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'description' => 'The revision ID of the associated entity.',
+      ],
+      'source' => [
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'normal',
+        'description' => 'The source of the import.',
+      ],
+      'output_folder' => [
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'small',
+        'description' => 'The name of the folder exported.',
+      ],
+      'data' => [
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'The import response *usually a text series of gutenberg formatted blocks.',
+      ],
+      'primary key' => ['id'],
+      'indexes' => [
+        'uid' => ['uid'],
+        'timestamp' => ['timestamp'],
+      ],
+    ],
+  ];
+
+  return $schema;
+}

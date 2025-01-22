@@ -1,0 +1,15 @@
+silverback_ai_import.import_ai_settings:
+  path: '/admin/config/system/silverback/import-ai-settings'
+  defaults:
+    _title: 'Import AI settings'
+    _form: 'Drupal\silverback_ai_import\Form\ImportAiSettingsForm'
+  requirements:
+    _permission: 'administer site configuration'
+
+silverback_ai_import.page_drop:
+  path: '/admin/config/content/silverback-page-drop'
+  defaults:
+    _title: 'Silverback Page Drop'
+    _form: 'Drupal\silverback_ai_import\Form\PageDropForm'
+  requirements:
+    _permission: 'access content'

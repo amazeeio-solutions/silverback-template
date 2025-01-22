@@ -15,10 +15,10 @@ RUN npm install -g pnpm@8.15.9 && pnpm config set store-dir /tmp/cache/pnpm
 COPY pnpm-lock.yaml .npmrc /app/
 # COPY patches /app/patches
 RUN --mount=type=cache,target=/tmp/cache pnpm fetch && \
-    # There is a bug in pnpm: `pnpm fetch` creates _some_ node_modules folders
-    # with _some_ packages. This can lead to an incomplete package installation.
-    # So we remove them now.
-    find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+  # There is a bug in pnpm: `pnpm fetch` creates _some_ node_modules folders
+  # with _some_ packages. This can lead to an incomplete package installation.
+  # So we remove them now.
+  find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
 # Install composer dependencies.
 # They may contain directive definitions required by prep scripts.
@@ -43,9 +43,9 @@ ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 # Copy the all package sources, install and prepare them.
 COPY . /app
 RUN --mount=type=cache,target=/tmp/cache pnpm i && \
-    pnpm turbo:prep && \
-    # Remove all node_modules to reduce the size of the image.
-    find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+  pnpm turbo:prep && \
+  # Remove all node_modules to reduce the size of the image.
+  find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
 # Deploy apps.
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/cms" /tmp/.deploy/cms --prod
@@ -124,3 +124,13 @@ ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 
 CMD pnpm publisher
+
+# ====================================================================================================
+# CONVERTER IMAGE
+# ====================================================================================================
+
+FROM uselagoon/node-18 as convertmd
+
+RUN npm install -g pnpm@8.15.9
+COPY --from=builder /tmp/.deploy/converter /app
+CMD pnpm start

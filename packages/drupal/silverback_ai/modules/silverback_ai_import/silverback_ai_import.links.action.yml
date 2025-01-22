@@ -1,0 +1,5 @@
+silverback_ai_ipmort.add_page:
+  route_name: silverback_ai_import.page_drop
+  title: 'Page Drop'
+  appears_on:
+    - system.admin_content

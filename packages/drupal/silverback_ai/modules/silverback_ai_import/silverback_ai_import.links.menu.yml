@@ -1,0 +1,6 @@
+silverback_ai_import.import_ai_settings:
+  title: Import AI settings
+  description: Settings for content import (AI)
+  parent: silverback_ai.admin_config_ai
+  route_name: silverback_ai_import.import_ai_settings
+  weight: 11

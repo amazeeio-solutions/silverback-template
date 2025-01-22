@@ -1,0 +1,186 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for silverback_ai_import module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\silverback_ai_import\ContentImportAiService;
+
+/**
+ * {@inheritdoc}
+ */
+function silverback_ai_import_form_alter(&$form, &$form_state, $form_id) {
+  // @todo
+  //$logger = Drupal::service('silverback_ai_imoprt.logger');
+}
+
+/**
+ * {@inheritdoc}
+ */
+function silverback_ai_import_form_node_page_split_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $form['import'] = [
+    '#type' => 'details',
+    '#title' => t('Import content'),
+    '#open' => TRUE,
+    '#weight' => 99,
+  ];
+  $form['import']['import_type'] = [
+    '#type' => 'radios',
+    '#title' => t('Import content from:'),
+    '#options' => [
+      'none' => t('Do not import any content'),
+      'docx' => t('Microsoft Word file'),
+      'pdf' => t("PDF file"),
+      'url' => t("Remote HTML page"),
+    ],
+    '#default_value' => 'none',
+  ];
+
+  $form['import']['container_docx'] = [
+    '#type' => 'container',
+    '#states' => [
+      'visible' => [
+        'input[name="import_type"]' => ['value' => 'docx'],
+      ],
+    ],
+  ];
+
+  $form['import']['container_docx']['file'] = [
+    '#title' => t('Drag and drop a Microsoft Word file'),
+    '#type' => 'dropzonejs',
+    '#required' => TRUE,
+    '#dropzone_description' => 'Drag and drop a file here',
+    '#max_filesize' => '20M',
+    '#max_files' => 1,
+    '#extensions' => 'doc docx',
+    '#upload_location' => 'public://converted/',
+    '#states' => [
+      'required' => [
+        'input[name="import_type"]' => ['value' => 'docx'],
+      ],
+    ],
+  ];
+
+  $form['import']['container_url'] = [
+    '#type' => 'container',
+    '#states' => [
+      'visible' => [
+        'input[name="import_type"]' => ['value' => 'url'],
+      ],
+    ],
+  ];
+
+  $form['import']['container_url']['url_value'] = [
+    '#type' => 'url',
+    '#title' => t('URL'),
+    '#maxlength' => 2048,
+    '#size' => 128,
+    '#states' => [
+      'required' => [
+        'input[name="import_type"]' => ['value' => 'url'],
+      ],
+    ],
+  ];
+
+  $form['import']['container_pdf'] = [
+    '#type' => 'container',
+    '#states' => [
+      'visible' => [
+        'input[name="import_type"]' => ['value' => 'pdf'],
+      ],
+    ],
+  ];
+
+  $form['import']['container_pdf']['pdf_file'] = [
+    '#title' => t('Drag and drop a PDF file'),
+    '#type' => 'dropzonejs',
+    '#required' => TRUE,
+    '#dropzone_description' => 'Drag and drop a file here',
+    '#max_filesize' => '24M',
+    '#max_files' => 1,
+    '#extensions' => 'pdf',
+    '#upload_location' => 'public://converted/',
+    '#states' => [
+      'required' => [
+        'input[name="import_type"]' => ['value' => 'pdf'],
+      ],
+    ],
+  ];
+
+  $form['actions']['submit']['#submit'][] = '_silverback_ai_import_form_submit';
+  $form['#validate'][] = '_silverback_ai_import_form_submit_validate';
+  // Better to have this unpublished originally, and then
+  // we will display a message to the user (esp. if there is AI content)
+  $form['moderation_state']['#access'] = FALSE;
+  $form['actions']['submit']['#value'] = t('Create');
+}
+
+/**
+ * @param array $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *
+ * @return void
+ */
+function _silverback_ai_import_form_submit_validate(array $form, FormStateInterface $form_state) {
+  // @todo
+  $type = $form_state->getValue('import_type');
+  if ($type == ContentImportAiService::PDF) {
+    $file = $form_state->getValue('pdf_file');
+    if (empty($file['uploaded_files'])) {
+      $form_state->setErrorByName('pdf_file', t('PDF file is required.'));
+    }
+  }
+
+  if ($type == ContentImportAiService::DOCX) {
+    $file = $form_state->getValue('file');
+    if (empty($file['uploaded_files'])) {
+      $form_state->setErrorByName('file', t('DOCX file is required.'));
+    }
+  }
+}
+
+/**
+ * @param array $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *
+ * @return void
+ */
+function _silverback_ai_import_form_submit(array $form, FormStateInterface $form_state) {
+
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $form_state->getFormObject()->getEntity();
+  $url_value = $form_state->getValue('url_value');
+
+  $service = \Drupal::service('silverback_ai_import.content');
+  $content = \Drupal::service('silverback_ai_import.batch.import');
+  $type = $form_state->getValue('import_type');
+  $contentImportLogger = \Drupal::service('silverback_ai_imoprt.logger');
+
+  switch ($type) {
+    case ContentImportAiService::PDF:
+      $file = $form_state->getValue('pdf_file');
+      break;
+    case ContentImportAiService::URL:
+      $file = $url_value;
+      break;
+    case ContentImportAiService::NONE:
+      break;
+    default:
+      $file = $form_state->getValue('file');
+  }
+
+  if (in_array($type, [ContentImportAiService::DOCX, ContentImportAiService::PDF])) {
+    $file = $service->createFileEntityFromDropzoneData($file);
+  }
+
+  if (!empty($file)) {
+    $ast = $service->getAst($file, $type);
+    $flatten = $service->flattenAst($ast->content);
+    $content->create($flatten, $entity);
+    $contentImportLogger->createEntry($ast, $entity, $file->getFileUri());
+  }
+}

@@ -1,0 +1,8 @@
+name: 'Silverback Import AI'
+type: module
+description: 'Silverback AI content import and more'
+package: Silverback
+core_version_requirement: ^10 || ^11
+dependencies:
+  - silverback_ai:silverback_ai
+  - media:media

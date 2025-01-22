@@ -1,0 +1,17 @@
+services:
+  silverback_ai_import.content:
+    class: Drupal\silverback_ai_import\ContentImportAiService
+    arguments: ['@current_route_match', '@current_user', '@entity_type.manager', '@logger.factory', '@config.factory', '@silverback_ai.openai_http_client', '@plugin.manager.ai.import', '@plugin.manager.ai.post.import', '@silverback_ai.service', '@silverback_ai.token.usage']
+  silverback_ai_import.batch.import:
+    class: 'Drupal\silverback_ai_import\ContentImportBatch'
+    arguments:
+      - '@logger.factory'
+  plugin.manager.ai.import:
+    class: Drupal\silverback_ai_import\AiImportPluginManager
+    arguments: ['@container.namespaces', '@cache.default', '@module_handler']
+  plugin.manager.ai.post.import:
+    class: Drupal\silverback_ai_import\AiPostImportPluginManager
+    arguments: ['@container.namespaces', '@cache.default', '@module_handler']
+  silverback_ai_imoprt.logger:
+    class: Drupal\silverback_ai_import\ContentImportLoggerService
+    arguments: ['@database', '@current_user', '@logger.factory', '@config.factory', '@entity_type.manager']
