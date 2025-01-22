@@ -41,7 +41,7 @@ export function Carousel({
   return (
     <div className="embla m-auto max-w-full">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-        <div
+        <ul
           className={clsx(
             'embla__container grid touch-pan-y touch-pinch-zoom grid-flow-col gap-4',
             {
@@ -53,11 +53,11 @@ export function Carousel({
           )}
         >
           {React.Children.map(children, (child, index) => (
-            <div key={index} className="embla__slide min-w-0 p-2">
+            <li key={index} className="embla__slide min-w-0 p-2">
               {child}
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
 
       <div className="embla__controls mt-4 grid grid-cols-[auto_1fr] justify-between gap-4">
