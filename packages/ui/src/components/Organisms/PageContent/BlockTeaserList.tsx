@@ -1,6 +1,7 @@
 import { useIntl } from '@amazeelabs/react-intl';
 import {
   BlockTeaserListFragment,
+  BlockTeaserListLayout,
   Locale,
   TeaserListQuery,
 } from '@custom/schema';
@@ -8,7 +9,8 @@ import queryString from 'query-string';
 import React from 'react';
 
 import { useOperation } from '../../../utils/operation';
-import { CardItem } from '../Card';
+import { CardItem } from '../CardItem';
+import { Carousel } from '../Carousel/Carousel';
 
 export type TeaserListQueryArgs = {
   title: string | undefined;
@@ -26,28 +28,58 @@ function getUUIDFromId(id: string) {
 
 export function BlockTeaserList(props: BlockTeaserListFragment) {
   const staticIds: Array<string | undefined> = [];
+
   return (
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <ul className="my-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {props.staticContent?.map((teaserItem) => {
-            staticIds.push(getUUIDFromId(teaserItem?.content?.id || ''));
-            return teaserItem?.content ? (
-              <li
-                key={teaserItem?.content?.id}
-                className="grid grid-rows-subgrid"
-              >
+        {props.layout === BlockTeaserListLayout.Grid ? (
+          <ul className="my-8 grid grid-cols-subgrid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {props.staticContent?.map((teaserItem) => {
+              staticIds.push(getUUIDFromId(teaserItem?.content?.id || ''));
+
+              return teaserItem?.content ? (
+                <li
+                  key={teaserItem?.content?.id}
+                  className="grid grid-rows-subgrid"
+                >
+                  <CardItem
+                    readMoreText={props.buttonText}
+                    {...teaserItem?.content}
+                  />
+                </li>
+              ) : null;
+            })}
+            {props.contentHubEnabled && (
+              <DynamicTeaserList excludeIds={staticIds} {...props} />
+            )}
+          </ul>
+        ) : null}
+
+        {props.layout === BlockTeaserListLayout.Carousel ? (
+          <Carousel
+            visibleSlides={3}
+            options={{
+              loop: true,
+              align: 'start',
+              slidesToScroll: 1,
+            }}
+          >
+            {props.staticContent?.map((teaserItem) => {
+              staticIds.push(getUUIDFromId(teaserItem?.content?.id || ''));
+
+              return teaserItem?.content ? (
                 <CardItem
+                  key={teaserItem?.content?.id}
                   readMoreText={props.buttonText}
                   {...teaserItem?.content}
                 />
-              </li>
-            ) : null;
-          })}
-          {props.contentHubEnabled && (
-            <DynamicTeaserList excludeIds={staticIds} {...props} />
-          )}
-        </ul>
+              ) : null;
+            })}
+            {props.contentHubEnabled && (
+              <DynamicTeaserList excludeIds={staticIds} {...props} />
+            )}
+          </Carousel>
+        ) : null}
       </div>
     </div>
   );

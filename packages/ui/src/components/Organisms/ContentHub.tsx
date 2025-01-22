@@ -9,7 +9,7 @@ import { Alert } from '../Molecules/Alert';
 import { Pagination, useCurrentPage } from '../Molecules/Pagination';
 import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
-import { CardItem } from './Card';
+import { CardItem } from './CardItem';
 
 export type ContentHubQueryArgs = {
   title: string | undefined;
@@ -73,7 +73,7 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
         ) : null}
         {data?.contentHub.total ? (
           <>
-            <ul className="my-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            <ul className="my-8 grid auto-rows-fr grid-rows-subgrid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
               {data?.contentHub.items.filter(isTruthy).map((item) => {
                 return (
                   <li key={item.path} className="grid grid-rows-subgrid">

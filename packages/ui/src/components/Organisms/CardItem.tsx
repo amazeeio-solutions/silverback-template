@@ -17,7 +17,7 @@ export const CardItem = ({
   return (
     <article
       aria-labelledby={formattedID}
-      className="relative flex max-w-sm flex-col-reverse overflow-hidden rounded-lg bg-white focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:shadow"
+      className="relative grid max-w-sm grid-rows-[auto_1fr] rounded-lg bg-white focus-within:outline focus-within:outline-2 focus-within:outline-indigo-600 hover:shadow"
     >
       <div className="grid grid-rows-[auto_1fr_auto] gap-4 p-5">
         <h5
@@ -41,7 +41,7 @@ export const CardItem = ({
         ) : null}
         <Link
           href={path}
-          className="inline-flex items-center rounded-lg border border-blue-700 px-3 py-2 text-center text-sm font-medium text-blue-700 after:absolute after:inset-0 after:content-[''] hover:bg-blue-800 hover:text-white focus:outline-offset-4"
+          className="row-start-3 inline-flex items-center justify-self-start rounded-lg border border-blue-700 px-3 py-2 text-center text-sm font-medium text-blue-700 after:absolute after:inset-0 after:content-[''] hover:bg-blue-800 hover:text-white focus:outline-offset-4"
         >
           <span className="sr-only size-0 overflow-hidden">{title}</span>
           {readMoreText ||
