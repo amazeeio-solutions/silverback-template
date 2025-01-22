@@ -8,7 +8,7 @@ import { useOperation } from '../../utils/operation';
 import { Pagination, useCurrentPage } from '../Molecules/Pagination';
 import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
-import { CardItem } from './Card';
+import { CardItem } from './CardItem';
 
 export type ContentHubQueryArgs = {
   title: string | undefined;
