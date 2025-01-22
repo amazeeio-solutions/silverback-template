@@ -8,36 +8,14 @@ import { Page } from '@custom/ui/routes/Page';
 import { HeadProps, PageProps } from 'gatsby';
 import React from 'react';
 
+import { Metatags } from '../utils/metatags';
+
 export const query = graphql(ViewPageQuery);
 
 export function Head({ data }: HeadProps<typeof query>) {
   return data.page ? (
     <>
-      <title>{data.page.title}</title>
-      {data.page.metaTags?.map((metaTag, index) => {
-        if (metaTag?.tag === 'meta') {
-          return (
-            <meta
-              key={`meta-${index}`}
-              name={metaTag.attributes?.name}
-              property={metaTag.attributes?.property}
-              content={metaTag.attributes?.content}
-            />
-          );
-        } else if (metaTag?.tag === 'link') {
-          return (
-            <link
-              key={`link-${index}`}
-              rel={metaTag.attributes?.rel}
-              href={metaTag.attributes?.href}
-              type={
-                metaTag.attributes?.rel === 'image_src' ? 'image' : undefined
-              }
-            />
-          );
-        }
-        return null;
-      }) || null}
+      <Metatags metaTags={data.page.metaTags} defaultTitle={data.page.title} />
     </>
   ) : null;
 }
