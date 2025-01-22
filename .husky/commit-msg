@@ -1,3 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
 if [ -f .devbox/virtenv/nodejs/corepack-bin/pnpm ]; then
   # For devbox users making Git commits from IDE.
   .devbox/virtenv/nodejs/corepack-bin/pnpm commitlint --edit "$1"
