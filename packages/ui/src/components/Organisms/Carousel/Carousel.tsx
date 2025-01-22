@@ -1,18 +1,14 @@
-import React, {
-  ReactComponentElement,
-  ReactElement,
-  ReactNode,
-  useEffect,
-} from 'react';
-import { DotButton, useDotButton } from './CarouselDotButton';
+import clsx from 'clsx';
+import { EmblaOptionsType } from 'embla-carousel';
+import useEmblaCarousel from 'embla-carousel-react';
+import React, { ReactNode, useEffect } from 'react';
+
 import {
-  PrevButton,
   NextButton,
+  PrevButton,
   usePrevNextButtons,
 } from './CarouselArrowButtons';
-import useEmblaCarousel from 'embla-carousel-react';
-import { EmblaOptionsType } from 'embla-carousel';
-import clsx from 'clsx';
+import { DotButton, useDotButton } from './CarouselDotButton';
 
 export function Carousel({
   children,
@@ -47,7 +43,7 @@ export function Carousel({
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
         <div
           className={clsx(
-            'embla__container grid grid-flow-col gap-4 touch-pan-y touch-pinch-zoom',
+            'embla__container grid touch-pan-y touch-pinch-zoom grid-flow-col gap-4',
             {
               'auto-cols-[100%]': visibleSlides === 1,
               'auto-cols-[50%]': visibleSlides === 2,
@@ -64,19 +60,19 @@ export function Carousel({
         </div>
       </div>
 
-      <div className="embla__controls grid grid-cols-[auto_1fr] justify-between gap-4 mt-4">
+      <div className="embla__controls mt-4 grid grid-cols-[auto_1fr] justify-between gap-4">
         <div className="embla__buttons grid grid-cols-[repeat(2,1fr)] gap-2">
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
 
-        <div className="embla__dots flex flex-wrap gap-2 justify-end align-center">
+        <div className="embla__dots align-center flex flex-wrap justify-end gap-2">
           {scrollSnaps.map((_: unknown, index: number) => (
             <DotButton
               key={index}
               onClick={() => onDotButtonClick(index)}
               className={clsx(
-                'embla__dot touch-manipulation cursor-pointer w-6 h-6 inline-flex items-center justify-center rounded-[50%] text-gray-400',
+                'embla__dot inline-flex h-6 w-6 cursor-pointer touch-manipulation items-center justify-center rounded-[50%] text-gray-400',
                 {
                   'embla__dot--selected bg-gray-800': index === selectedIndex,
                   'bg-gray-200': index !== selectedIndex,
