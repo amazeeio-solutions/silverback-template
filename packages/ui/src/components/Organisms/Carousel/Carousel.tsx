@@ -53,7 +53,10 @@ export function Carousel({
           )}
         >
           {React.Children.map(children, (child, index) => (
-            <li key={index} className="embla__slide min-w-0 p-2">
+            <li
+              key={index}
+              className="embla__slide grid min-w-0 grid-cols-subgrid p-2"
+            >
               {child}
             </li>
           ))}
