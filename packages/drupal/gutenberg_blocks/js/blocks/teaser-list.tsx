@@ -23,7 +23,7 @@ registerBlockType<{
   attributes: {
     layout: {
       type: 'string',
-      default: 'GRID',
+      default: '',
     },
     buttonText: {
       type: 'string',

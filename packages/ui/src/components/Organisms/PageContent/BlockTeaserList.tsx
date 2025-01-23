@@ -32,7 +32,8 @@ export function BlockTeaserList(props: BlockTeaserListFragment) {
   return (
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        {props.layout === BlockTeaserListLayout.Grid ? (
+        {props.layout === undefined ||
+        props.layout === BlockTeaserListLayout.Grid ? (
           <ul className="my-8 grid grid-cols-subgrid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {props.staticContent?.map((teaserItem) => {
               staticIds.push(getUUIDFromId(teaserItem?.content?.id || ''));
