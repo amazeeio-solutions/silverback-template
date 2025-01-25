@@ -100,14 +100,14 @@ translations:
     body:
       -
         value: |-
-          <!-- wp:custom/hero {"mediaEntityIds":["3a0fe860-a6d6-428a-9474-365bd57509aa"],"headline":"Headline","lead":"Lead text"} /-->
+          <!-- wp:custom/hero {"mediaEntityIds":["3a0fe860-a6d6-428a-9474-365bd57509aa"],"headline":"\u00dcberschrift","lead":"Leittext"} /-->
 
           <!-- wp:custom/content -->
           <!-- wp:paragraph -->
-          <p>Paragraph</p>
+          <p>Absatz</p>
           <!-- /wp:paragraph -->
 
-          <!-- wp:drupalmedia/drupal-media-entity {"mediaEntityIds":["72187a1f-3e48-4b45-a9b7-189c6fd7ee26"],"caption":"Image caption"} /-->
+          <!-- wp:drupalmedia/drupal-media-entity {"mediaEntityIds":["72187a1f-3e48-4b45-a9b7-189c6fd7ee26"],"caption":"Bildunterschrift"} /-->
           <!-- /wp:custom/content -->
         format: gutenberg
         summary: ''

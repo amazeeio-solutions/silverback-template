@@ -5,3 +5,6 @@
 dist
 styles.css
 persisted-store
+
+# Deno comes with "netlify dev". We don't need its lock file.
+/deno.lock

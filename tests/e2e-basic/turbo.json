@@ -1,0 +1,12 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "test:static": {
+      "inputs": ["specs/**", "playwright.config.ts"]
+    },
+    "test:integration": {
+      "dependsOn": ["^prep"],
+      "inputs": ["specs/**", "playwright.config.ts"]
+    }
+  }
+}

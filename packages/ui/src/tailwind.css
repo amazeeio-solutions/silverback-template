@@ -37,6 +37,10 @@
   content: '' !important;
 }
 
+.prose p.has-drop-cap:first-letter {
+  @apply font-bold text-8xl float-left mr-4 ml-1 mb-2 mt-0;
+}
+
 /*
   Selects the .block-background-image-cards only when it is the direct
    sibling of .default-hero section.

@@ -1,0 +1,72 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 71e7b043-3718-4d6a-a2c8-42fb03554800
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Table'
+  created:
+    -
+      value: 1733840802
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-table
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Table","lead":"Block: Table"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:table -->
+        <figure class="wp-block-table"><table><tbody><tr><td>Col 1</td><td>Col 2</td><td>Col 3</td><td>Col 4</td></tr><tr><td>Row 1</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 2</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 3</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 4</td><td>-</td><td>-</td><td>-</td></tr></tbody></table><figcaption>Table Caption</figcaption></figure>
+        <!-- /wp:table -->
+
+        <!-- wp:table {"hasFixedLayout":true} -->
+        <figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td>Col 1</td><td>Col 2</td><td>Col 3</td><td>Col 4</td></tr><tr><td>Row 1</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 2</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 3</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 4</td><td>-</td><td>-</td><td>-</td></tr></tbody></table><figcaption>Table Caption - Fixed width</figcaption></figure>
+        <!-- /wp:table -->
+
+        <!-- wp:table -->
+        <figure class="wp-block-table"><table><thead><tr><th>Header 1</th><th>Header 2</th><th>Header 3</th><th>Header 4</th></tr></thead><tbody><tr><td>Col 1</td><td>Col 2</td><td>Col 3</td><td>Col 4</td></tr><tr><td>Row 1</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 2</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 3</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 4</td><td>-</td><td>-</td><td>-</td></tr></tbody></table><figcaption>Table Caption - Header Section</figcaption></figure>
+        <!-- /wp:table -->
+
+        <!-- wp:table -->
+        <figure class="wp-block-table"><table><tbody><tr><td>Col 1</td><td>Col 2</td><td>Col 3</td><td>Col 4</td></tr><tr><td>Row 1</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 2</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 3</td><td>-</td><td>-</td><td>-</td></tr><tr><td>Row 4</td><td>-</td><td>-</td><td>-</td></tr></tbody><tfoot><tr><td>Footer 1</td><td>Footer 2</td><td>Footer 3</td><td>Footer 4</td></tr></tfoot></table><figcaption>Table Caption - Footer Section</figcaption></figure>
+        <!-- /wp:table -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

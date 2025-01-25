@@ -10,7 +10,7 @@
     "gutenberg:generate": "node ./scripts/generate-gutenberg-block.js"
   },
   "dependencies": {
-    "@types/node": "^18",
+    "@types/node": "^20",
     "clsx": "^2.1.0",
     "fs": "0.0.1-security",
     "graphql": "16.8.1",

@@ -30,7 +30,14 @@ function App() {
   }, [refresh]);
   return (
     <OperationExecutorsProvider
-      executors={[{ executor: createDrupalExecutor(window.DRUPAL_URL) }]}
+      executors={[
+        {
+          executor: createDrupalExecutor(
+            window.DRUPAL_URL,
+            window.location.pathname,
+          ),
+        },
+      ]}
     >
       <Frame>
         <Preview />

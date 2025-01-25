@@ -12,7 +12,11 @@ import React from 'react';
 import { AccordionItemText } from '../Organisms/PageContent/BlockAccordion.stories';
 import { Default as BlockImageTeasers } from '../Organisms/PageContent/BlockImageTeasers.stories';
 import { ImageRight } from '../Organisms/PageContent/BlockImageWithText.stories';
-import { Mixed, Paragraph } from '../Organisms/PageContent/BlockMarkup.stories';
+import {
+  InlineStyles,
+  Mixed,
+  Paragraph,
+} from '../Organisms/PageContent/BlockMarkup.stories';
 import { WithCaption } from '../Organisms/PageContent/BlockMedia.stories';
 import { Default as FrameStory } from './Frame.stories';
 import { Page } from './Page';
@@ -67,6 +71,10 @@ export const Default = {
         },
         {
           __typename: 'BlockMarkup',
+          ...InlineStyles.args,
+        },
+        {
+          __typename: 'BlockMedia',
           ...Paragraph.args,
         },
         {

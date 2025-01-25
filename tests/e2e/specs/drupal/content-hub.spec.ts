@@ -38,7 +38,7 @@ test.describe('content hub', () => {
     ).not.toBeVisible();
     await expect(
       content.getByRole('heading', {
-        name: 'Gatsby',
+        name: 'Block: Heading',
         level: 5,
       }),
     ).toBeVisible();

@@ -1,27 +1,20 @@
 {
   "name": "@custom-tests/e2e",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "module",
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:integration:drupal": "playwright install chromium && playwright test --config playwright.config.drupal.ts",
-    "test:integration:decap": "playwright install chromium && playwright test --config playwright.config.decap.ts",
-    "test:headed:drupal": "playwright install chromium && playwright test --headed --config playwright.config.drupal.ts",
-    "test:headed:decap": "playwright install chromium && playwright test --headed --config playwright.config.decap.ts",
-    "dev:decap": "playwright install chromium && playwright test --ui --config playwright.config.decap.ts",
-    "dev:drupal": "playwright install chromium && playwright test --ui --config playwright.config.drupal.ts",
-    "webform-snapshots": "playwright install chromium && playwright test --config playwright.config.webforms.ts",
-    "webform-snapshots:headed": "playwright install chromium && playwright test --config playwright.config.webforms.ts --headed"
+    "test:integration": "playwright install chromium && playwright test",
+    "test:headed": "playwright install chromium && playwright test --headed",
+    "dev": "playwright install chromium && playwright test --ui"
   },
   "devDependencies": {
-    "@amazeelabs/save-webpage": "^1.1.1",
+    "@custom/cms": "workspace:*",
+    "@custom/decap": "workspace:*",
     "@custom/eslint-config": "workspace:*",
+    "@custom/preview": "workspace:*",
+    "@custom/website": "workspace:*",
     "@playwright/test": "^1.44.1",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "typescript": "^5.3.3"
   }
 }

@@ -1,0 +1,64 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 358dcf0d-0910-4d0b-acc8-5a20108b3f20
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Horizontal separator'
+  created:
+    -
+      value: 1733841108
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-horizontal-separator
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Horizontal separator","lead":"Block: Horizontal separator"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/horizontal-separator /-->
+
+        <!-- wp:paragraph -->
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit mi phasellus, molestie nascetur bibendum condimentum justo non purus inceptos, vestibulum facilisis congue luctus ultricies tempor urna penatibus. Sagittis eleifend maecenas mauris ante ullamcorper montes sed penatibus integer, fames mollis scelerisque vitae gravida cras dictum feugiat augue.</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:custom/horizontal-separator /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

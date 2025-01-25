@@ -1,8 +1,8 @@
 import { useIntl } from '@amazeelabs/react-intl';
 import { FrameQuery, NavigationItem, Url, useLocation } from '@custom/schema';
 
-import { useOperation } from '../../utils/operation';
 import { useLocale } from '../../utils/locale';
+import { useOperation } from '../../utils/operation';
 
 export type MenuNameType = 'main' | 'footer';
 

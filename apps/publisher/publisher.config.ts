@@ -44,7 +44,7 @@ export default defineConfig(
         commands: {
           build: {
             command:
-              'cd ../website && DRUPAL_EXTERNAL_URL=http://127.0.0.1:8888 pnpm build:gatsby',
+              'cd ../website && DRUPAL_EXTERNAL_URL=http://127.0.0.1:8888 pnpm build:waku',
           },
           clean: 'pnpm clean',
           serve: {
@@ -72,6 +72,8 @@ function githubEnvVars(): Record<string, string> {
       'PUBLISHER_OAUTH2_SESSION_SECRET',
       'PUBLISHER_OAUTH2_ENVIRONMENT_TYPE',
       'PUBLISHER_OAUTH2_TOKEN_HOST',
+      'VITE_DECAP_REPO',
+      'VITE_DECAP_BRANCH',
     ].map((name) => {
       if (name === 'DRUPAL_INTERNAL_URL') {
         // No internal URLs when building on Github.

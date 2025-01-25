@@ -1,0 +1,76 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 87b412b9-09e6-4de4-be13-a97b64df74b8
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Teaser list'
+  created:
+    -
+      value: 1733841857
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-teaser-list
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Teaser list","lead":"Block: Teaser list"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/teaser-list -->
+        <!-- wp:custom/teaser-item {"url":"/en/block-accordion","uuid":"a11aaeea-a71a-4ef0-a996-833c95767386","entityType":"node"} /-->
+
+        <!-- wp:custom/teaser-item {"url":"/en/block-cta","uuid":"080b30e2-5a68-4390-9dec-0c7e850840a7","entityType":"node"} /-->
+
+        <!-- wp:custom/teaser-item {"url":"/en/block-conditional-content","uuid":"f14c6cb1-b052-4523-ad52-1fbfd32282ff","entityType":"node"} /-->
+
+        <!-- wp:custom/teaser-item {"url":"/en/block-form","uuid":"69c06c93-0d3f-47e1-a5ee-ba697bd532c1","entityType":"node"} /-->
+        <!-- /wp:custom/teaser-list -->
+
+        <!-- wp:custom/teaser-list {"layout":"CAROUSEL"} -->
+        <!-- wp:custom/teaser-item {"url":"/en/block-accordion","uuid":"a11aaeea-a71a-4ef0-a996-833c95767386","entityType":"node"} /-->
+
+        <!-- wp:custom/teaser-item {"url":"/en/block-cta","uuid":"080b30e2-5a68-4390-9dec-0c7e850840a7","entityType":"node"} /-->
+
+        <!-- wp:custom/teaser-item {"url":"/en/block-conditional-content","uuid":"f14c6cb1-b052-4523-ad52-1fbfd32282ff","entityType":"node"} /-->
+
+        <!-- wp:custom/teaser-item {"url":"/en/block-form","uuid":"69c06c93-0d3f-47e1-a5ee-ba697bd532c1","entityType":"node"} /-->
+        <!-- /wp:custom/teaser-list -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

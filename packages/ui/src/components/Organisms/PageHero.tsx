@@ -26,7 +26,7 @@ function HeroImage(
         priority={true}
         width={3840}
         focalPoint={props.focalPoint}
-        className="absolute inset-0 -z-10 h-full w-full object-cover hidden lg:block"
+        className="absolute inset-0 -z-10 hidden size-full object-cover lg:block"
         data-test-id={'hero-image'}
       />
       <Image
@@ -36,7 +36,7 @@ function HeroImage(
         width={1200}
         height={2400}
         focalPoint={props.focalPoint}
-        className="absolute inset-0 -z-10 h-full w-full object-cover block lg:hidden"
+        className="absolute inset-0 -z-10 block size-full object-cover lg:hidden"
         data-test-id={'hero-image'}
       />
       {props.dim ? (
@@ -49,7 +49,7 @@ function HeroImage(
 function DefaultHero(props: NonNullable<PageFragment['hero']>) {
   return (
     <>
-      <section className="default-hero relative isolate overflow-hidden bg-gray-900 pt-12 pb-24 min-h-[20rem] lg:min-h-[33rem] container-page h-[50rem] lg:h-auto">
+      <section className="default-hero container-page relative isolate h-[50rem] min-h-80 overflow-hidden bg-gray-900 pb-24 pt-12 lg:h-auto lg:min-h-[33rem]">
         {props.image ? <HeroImage {...props.image} dim={false} /> : null}
         <div className="container-content">
           <div className="mx-auto max-w-2xl lg:mx-0">
@@ -94,7 +94,6 @@ function FormHero(props: NonNullable<PageFragment['hero']>) {
     <section>
       <div className="relative isolate overflow-hidden bg-gray-900 py-12 md:py-24">
         {props.image ? <HeroImage {...props.image} dim={true} /> : null}
-
         <div className="container-page relative px-4 pb-[22rem] text-center lg:px-6 lg:pb-96">
           <div className="mx-auto max-w-screen-xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-md">

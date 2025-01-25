@@ -1,0 +1,64 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 67c21535-4851-4aea-b46e-c4eccd4e494a
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Paragraph'
+  created:
+    -
+      value: 1733840599
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-paragraph
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Paragraph","lead":"Block Paragraph"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:paragraph {"dropCap":true} -->
+        <p class="has-drop-cap">Lorem ipsum dolor sit amet consectetur, adipiscing elit nisi tincidunt urna, ligula viverra congue est. Netus congue bibendum fringilla risus nisl fermentum massa, eleifend venenatis lacus interdum elementum. Donec euismod venenatis ridiculus non risus porttitor magna mollis faucibus vel tincidunt, molestie lacus felis mi montes mauris placerat et sagittis vitae, sociosqu curabitur cursus iaculis quam dapibus sed mattis velit aptent. Vestibulum feugiat vel vitae venenatis vulputate ad nulla arcu eget in, magna pulvinar sem primis auctor erat justo scelerisque.</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:paragraph -->
+        <p>Pharetra magna condimentum per est aliquet in blandit metus, magnis iaculis diam ultrices integer bibendum cursus consequat auctor, etiam mollis euismod nisi imperdiet tristique donec. Nec rutrum mus sociosqu dictumst arcu congue ligula, conubia lectus egestas volutpat lacus enim, ultrices praesent nisl venenatis netus quis. Nostra commodo per aliquam neque litora habitasse cubilia mattis phasellus nec, aliquet etiam libero urna consequat vivamus scelerisque eu rhoncus sed, mus lacinia natoque auctor quis massa pellentesque cras sem. Fringilla accumsan laoreet rutrum integer sagittis pellentesque, rhoncus condimentum luctus semper dictumst, aliquet eros imperdiet lectus bibendum. Donec vel placerat accumsan cursus, posuere mi velit facilisis fermentum, lobortis penatibus id.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

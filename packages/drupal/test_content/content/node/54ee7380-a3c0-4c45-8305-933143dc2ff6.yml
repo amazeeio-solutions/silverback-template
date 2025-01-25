@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 54ee7380-a3c0-4c45-8305-933143dc2ff6
+  bundle: page
+  default_langcode: en
+  depends:
+    5dfc1856-e9e4-4f02-9cd6-9d888870ce1a: media
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Quote'
+  created:
+    -
+      value: 1733840993
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-quote
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Quote","lead":"Block: Quote"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/quote {"quote":"My mother always used to say: The older you get, the better you get, unless you\u2019re a banana.","author":"Rose (Betty White)","role":"TheGoldenGirls","mediaEntityIds":["5dfc1856-e9e4-4f02-9cd6-9d888870ce1a"]} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

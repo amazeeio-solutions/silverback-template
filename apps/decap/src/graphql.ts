@@ -48,7 +48,7 @@ export function createExecutor(
         const resolver = registry[
           info.parentType.name as keyof SourceResolvers
         ]?.[info.fieldName as keyof SourceResolvers[keyof SourceResolvers]] as
-          | GraphQLFieldResolver<any, any>
+          | GraphQLFieldResolver<unknown, unknown>
           | undefined;
         if (resolver) {
           try {

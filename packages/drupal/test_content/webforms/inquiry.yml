@@ -140,7 +140,7 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: url_message
-  confirmation_url: /page-minimal
+  confirmation_url: /webform/success
   confirmation_title: ''
   confirmation_message: 'Confirmation message for Contact webform'
   confirmation_attributes: {  }

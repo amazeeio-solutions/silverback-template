@@ -1,0 +1,71 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 4189dec1-3b09-4eec-b4d5-b7cc28eaeae3
+  bundle: page
+  default_langcode: en
+  depends:
+    3a0fe860-a6d6-428a-9474-365bd57509aa: media
+    5dfc1856-e9e4-4f02-9cd6-9d888870ce1a: media
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Image with Text'
+  created:
+    -
+      value: 1733841504
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-image-text
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Image with Text","lead":"Block: Image with Text"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/image-with-text {"mediaEntityIds":["3a0fe860-a6d6-428a-9474-365bd57509aa"]} -->
+        <!-- wp:paragraph -->
+        <p>Image with text on the left</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/image-with-text -->
+
+        <!-- wp:custom/image-with-text {"mediaEntityIds":["5dfc1856-e9e4-4f02-9cd6-9d888870ce1a"],"imagePosition":"right"} -->
+        <!-- wp:paragraph -->
+        <p>Image with text on the right</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/image-with-text -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

@@ -1,0 +1,80 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: bdbcc2b9-2d33-4723-a6fc-35c5f56b1ab9
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Heading'
+  created:
+    -
+      value: 1733841242
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-heading
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Heading","lead":"Block: Heading"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/heading {"text":"Heading two"} -->
+        <h2 class="wp-block-custom-heading">Heading two</h2>
+        <!-- /wp:custom/heading -->
+
+        <!-- wp:custom/heading {"level":3,"text":"Heading three"} -->
+        <h3 class="wp-block-custom-heading">Heading three</h3>
+        <!-- /wp:custom/heading -->
+
+        <!-- wp:custom/heading {"level":4,"text":"Heading four"} -->
+        <h4 class="wp-block-custom-heading">Heading four</h4>
+        <!-- /wp:custom/heading -->
+
+        <!-- wp:custom/heading {"text":"\u003cstrong\u003eHeading two - Bold\u003c/strong\u003e"} -->
+        <h2 class="wp-block-custom-heading"><strong>Heading two - Bold</strong></h2>
+        <!-- /wp:custom/heading -->
+
+        <!-- wp:custom/heading {"level":3,"text":"\u003cstrong\u003eHeading three - Bold\u003c/strong\u003e"} -->
+        <h3 class="wp-block-custom-heading"><strong>Heading three - Bold</strong></h3>
+        <!-- /wp:custom/heading -->
+
+        <!-- wp:custom/heading {"level":4,"text":"\u003cstrong\u003eHeading four - Bold\u003c/strong\u003e"} -->
+        <h4 class="wp-block-custom-heading"><strong>Heading four - Bold</strong></h4>
+        <!-- /wp:custom/heading -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

@@ -13,7 +13,11 @@
       "dependsOn": ["prep:database"]
     },
     "prep:database": {
-      "dependsOn": ["prep:composer", "^prep"],
+      "dependsOn": [
+        "prep:composer",
+        "^prep",
+        "@custom/webform-export#test:static"
+      ],
       "inputs": [
         "turbo-seed.txt",
         "prep-database.sh",
@@ -37,13 +41,6 @@
         "!web/modules/custom/**",
         "!web/themes/custom/**",
         "!web/sites/default/files/**"
-      ]
-    },
-    "test:integration": {
-      "dependsOn": [
-        "prep",
-        "@custom-tests/e2e#test:integration:drupal",
-        "@custom-tests/schema#test:integration"
       ]
     }
   }

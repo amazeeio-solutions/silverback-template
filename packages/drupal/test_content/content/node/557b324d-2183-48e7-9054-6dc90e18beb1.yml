@@ -1,0 +1,76 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 557b324d-2183-48e7-9054-6dc90e18beb1
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Info Grid'
+  created:
+    -
+      value: 1733841773
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-info-grid
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Info Grid","lead":"Block: Info Grid"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/info-grid -->
+        <!-- wp:custom/info-grid-item {"icon":"EMAIL"} -->
+        <!-- wp:paragraph -->
+        <p>Some information here</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/info-grid-item -->
+
+        <!-- wp:custom/info-grid-item {"icon":"PHONE"} -->
+        <!-- wp:paragraph -->
+        <p>Some information here</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/info-grid-item -->
+
+        <!-- wp:custom/info-grid-item {"icon":"LIFE_RING"} -->
+        <!-- wp:paragraph -->
+        <p>Some information here</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/info-grid-item -->
+        <!-- /wp:custom/info-grid -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
