@@ -1,7 +1,13 @@
-import { OperationExecutorsProvider, useLocation } from '@custom/schema';
+import {
+  ModerateContentMutation,
+  OperationExecutorsProvider,
+  useLocation,
+} from '@custom/schema';
+import { useMutation } from '@custom/ui/operations';
 import { Frame } from '@custom/ui/routes/Frame';
 import { Preview, usePreviewRefresh } from '@custom/ui/routes/Preview';
 import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { retry } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { getCookie, setCookie } from 'typescript-cookie';
@@ -42,6 +48,48 @@ export function usePreviewAccessToken() {
   return preview_access_token || getCookie('preview_access_token') || undefined;
 }
 
+function StateTransitionForm({
+  contentId,
+  contentType,
+}: {
+  contentId: string;
+  contentType: string;
+}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { data, trigger } = useMutation(ModerateContentMutation);
+  return (
+    <div>
+      <form
+        onSubmit={handleSubmit((values) => {
+          trigger({
+            contentId: contentId,
+            contentType: contentType,
+            submittedData: JSON.stringify(values),
+          });
+        })}
+      >
+        <div>
+          <label>Name</label>
+          <input {...register('name', { required: true })} />
+        </div>
+        <div>
+          <label>Comment</label>
+          <textarea {...register('comment', { required: true })} />
+        </div>
+        {errors.name && <p>Name is required.</p>}
+        {errors.comment && <p>Comment is required.</p>}
+        <div>
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
+  );
+}
+
 function App() {
   const refresh = usePreviewRefresh();
   useEffect(() => {
@@ -49,6 +97,10 @@ function App() {
     return sub.unsubscribe;
   }, [refresh]);
   const preview_access_token = usePreviewAccessToken();
+  const [location] = useLocation();
+
+  const nid = location.searchParams.get('nid');
+
   return (
     <OperationExecutorsProvider
       executors={[
@@ -62,6 +114,7 @@ function App() {
       ]}
     >
       <Frame>
+        <StateTransitionForm contentId={nid || ''} contentType="node" />
         <Preview />
       </Frame>
     </OperationExecutorsProvider>
