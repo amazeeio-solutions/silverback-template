@@ -1,0 +1,18 @@
+mutation ModerateContent(
+  $contentId: String!
+  $contentType: String!
+  $submittedData: JSONString!
+) {
+  moderateContent(
+    contentId: $contentId
+    contentType: $contentType
+    submittedData: $submittedData
+  ) {
+    errors {
+      key
+      field
+      message
+    }
+    result
+  }
+}

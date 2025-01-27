@@ -22,6 +22,15 @@ directive @createWebformSubmission(
 ) on FIELD_DEFINITION
 
 """
+implementation(drupal): custom.content_moderation::moderateContent
+"""
+directive @moderateContent(
+  contentId: String!
+  contentType: String!
+  submittedData: JSONString!
+) on FIELD_DEFINITION
+
+"""
 Retrieve the properties of an image.
 TODO: Move to a shared "image" package.
 
@@ -462,11 +471,27 @@ type Mutation {
       webformId: "$webformId"
       submittedData: "$submittedData"
     )
+
+  moderateContent(
+    contentId: String!
+    contentType: String!
+    submittedData: JSONString!
+  ): ModerateContentMutationResponse
+    @moderateContent(
+      contentId: "$contentId"
+      contentType: "$contentType"
+      submittedData: "$submittedData"
+    )
 }
 
 type WebformSubmissionCreateResponse {
   errors: [MutationError]
   submission: JSONString
+}
+
+type ModerateContentMutationResponse {
+  errors: [MutationError]
+  result: JSONString
 }
 
 type MutationError {

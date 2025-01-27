@@ -11,6 +11,9 @@ services:
   custom.menus:
     class: Drupal\custom\Menus
 
+  custom.content_moderation:
+    class: Drupal\custom\ContentModeration
+
   custom.entity_language_redirect_subscriber:
     class: Drupal\custom\EventSubscriber\EntityLanguageRedirectSubscriber
     arguments: ['@language_manager', '@current_route_match']

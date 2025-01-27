@@ -10,6 +10,9 @@
     "./routes/*": [
       "./build/components/Routes/*.js"
     ],
+    "./operations": [
+      "./build/utils/operation.js"
+    ],
     "./styles.css": [
       "./build/styles.css"
     ]
