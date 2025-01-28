@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 7f0f6893-c61d-4ecd-8b74-fb0a0d023ead
+  bundle: page
+  default_langcode: en
+  depends:
+    5dfc1856-e9e4-4f02-9cd6-9d888870ce1a: media
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Media'
+  created:
+    -
+      value: 1733841189
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-media
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Media","lead":"Block: Media"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:drupalmedia/drupal-media-entity {"mediaEntityIds":["5dfc1856-e9e4-4f02-9cd6-9d888870ce1a"],"caption":"Media Image Caption"} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

@@ -1,0 +1,17 @@
+{
+  "name": "@custom/init",
+  "description": "Init script for preparing new projects.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "init": "tsx init.ts"
+  },
+  "devDependencies": {
+    "@custom/eslint-config": "workspace:*",
+    "@types/prompts": "^2.4.9",
+    "prompts": "^2.4.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}

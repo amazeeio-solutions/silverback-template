@@ -1,0 +1,72 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 487b2750-bf2a-4b5d-a753-2942a63bb6a4
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: List'
+  created:
+    -
+      value: 1733840670
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-list
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: List","lead":"Block: List"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:list -->
+        <ul><li>Bullet Item 1</li><li>Bullet Item 2</li><li>Bullet Item 3</li></ul>
+        <!-- /wp:list -->
+
+        <!-- wp:list {"customListStyle":"arrows"} -->
+        <ul class="list-style--arrows"><li>Arrow Item 1</li><li>Arrow Item 2</li><li>Arrow Item 3</li></ul>
+        <!-- /wp:list -->
+
+        <!-- wp:list {"customListStyle":"checkmarks"} -->
+        <ul class="list-style--checkmarks"><li>Check Item 1</li><li>Check Item 2</li><li>Check Item 3</li></ul>
+        <!-- /wp:list -->
+
+        <!-- wp:list {"customListStyle":"question-marks"} -->
+        <ul class="list-style--question-marks"><li>Question Item 1</li><li>Question Item 2</li><li>Question Item 3</li></ul>
+        <!-- /wp:list -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

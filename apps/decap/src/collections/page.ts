@@ -173,12 +173,13 @@ const BlockMediaImageSchema = z
         __typename: 'MediaImage',
         url: imagePath(image),
         alt,
+        id: '',
       },
       caption: caption,
     };
   });
 
-type ResolvedPage = Exclude<SourceResolversTypes['Page'], Promise<any>>;
+type ResolvedPage = Exclude<SourceResolversTypes['Page'], Promise<unknown>>;
 
 export const pageSchema = z
   .object({
@@ -196,6 +197,7 @@ export const pageSchema = z
         .transform((source): SourceMediaImage | undefined =>
           source
             ? {
+                id: imagePath(source),
                 __typename: 'MediaImage',
                 url: imagePath(source),
                 alt: '',
@@ -207,6 +209,12 @@ export const pageSchema = z
   })
   .transform((data): ResolvedPage => ({ __typename: 'Page', ...data }));
 
+const fileSchema = z.record(z.union([pageSchema, z.any()]));
+
+function isNotEmpty<T extends object>(value: T | {}): value is T {
+  return Object.keys(value).length > 0;
+}
+
 const pages: Array<ResolvedPage> = [];
 
 const getPages = (path: string) => {
@@ -215,10 +223,11 @@ const getPages = (path: string) => {
     fs.readdirSync(dir)
       .filter((file) => file.endsWith('.yml'))
       .forEach((file) => {
-        const content = yaml.parse(fs.readFileSync(`${dir}/${file}`, 'utf-8'));
+        const raw = fs.readFileSync(`${dir}/${file}`, 'utf-8');
+        const content = fileSchema.parse(yaml.parse(raw));
         const id = Object.values(content)
-          .map((page: any) => page.id)
-          .filter((id) => !!id)
+          .filter(isNotEmpty)
+          .map((page) => page.id)
           .pop();
         const translations: Array<ResolvedPage> = [];
         Object.keys(content).forEach((lang) => {

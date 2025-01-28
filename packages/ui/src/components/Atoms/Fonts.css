@@ -59,15 +59,43 @@
 @font-face {
   font-family: 'Inter';
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   src: url('/fonts/preload/Inter-Bold.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: italic;
-  font-weight: 600;
+  font-weight: 700;
   src: url('/fonts/preload/Inter-BoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/preload/Inter-ExtraBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 800;
+  src: url('/fonts/preload/Inter-ExtraBoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/preload/Inter-Black.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 900;
+  src: url('/fonts/preload/Inter-Black.woff2') format('woff2');
 }
 
 html,

@@ -35,7 +35,7 @@
       "dependsOn": ["test:static"]
     },
     "test:integration": {
-      "dependsOn": ["build", "test:unit", "^test:integration"]
+      "dependsOn": ["test:unit"]
     }
   }
 }

@@ -3,31 +3,22 @@
   "tasks": {
     "dev": {
       "persistent": true,
-      "dependsOn": ["prep", "^prep"]
-    },
-    "prep": {
-      "outputs": ["src/gatsby-fragments.js", "styles.css"]
+      "dependsOn": ["^prep"]
     },
     "test:static": {
       "dependsOn": ["^prep"],
-      "inputs": ["src/**", "!src/gatsby-fragments.js"]
+      "inputs": ["src/**"]
     },
     "build": {
-      "dependsOn": ["prep", "^prep"],
+      "dependsOn": ["^prep"],
       "inputs": [
         "netlify/**",
         "src/**",
         "static/**",
-        "autoload.mjs",
-        "gatsby-browser.ts",
-        "gatsby-config.mjs",
-        "gatsby-node.mjs",
-        "gatsby-ssr.ts",
-        "image.mjs",
         "netlify.toml",
-        "styles.css"
+        "vite.config.js"
       ],
-      "outputs": [".cache/**", ".netlify/**", "public/**", ".env"]
+      "outputs": [".netlify/**", "dist/**", ".env"]
     }
   }
 }

@@ -2,18 +2,18 @@ import { expect, test } from '@playwright/test';
 
 import { websiteUrl } from '../../helpers/url';
 
-test.fixme('Webforms work', async ({ page }) => {
-  await page.goto(websiteUrl('/en/blocks-complete'));
+test('Webforms work', async ({ page }) => {
+  await page.goto(websiteUrl('/en/block-form'));
 
   // Webform can be submitted.
   await page
     .frameLocator('.silverback-iframe iframe')
-    .last()
+    .first()
     .getByRole('button', { name: 'Send message' })
     .click();
 
   // Webform redirects to confirmation page.
-  await expect(page).toHaveURL(websiteUrl('/en/page-minimal'));
+  await expect(page).toHaveURL(websiteUrl('/en/webform/success'));
 
   // Confirmation message is shown.
   await expect(
@@ -27,14 +27,13 @@ test.fixme('Webforms work', async ({ page }) => {
   ).toHaveCount(0);
 
   // Webform from the German page redirects to the German confirmation page.
-  await page.goto(websiteUrl('/de/blocks-complete'));
+  await page.goto(websiteUrl('/de/block-form'));
   await page
     .frameLocator('.silverback-iframe iframe')
-    .last()
+    .first()
     .getByRole('button', { name: 'Send message' })
     .click();
-  // TODO: Find out why it does not work.
-  //await expect(page).toHaveURL(websiteUrl('/de/page-minimal'));
+  await expect(page).toHaveURL(websiteUrl('/de/webform/success'));
 
   // TODO: Move all silverback-mono tests here?
   //  https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/tests/silverback-iframe/playwright-tests

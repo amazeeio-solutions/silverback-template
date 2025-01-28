@@ -1,25 +1,10 @@
 {
   "extends": ["//"],
   "tasks": {
-    "test:integration:decap": {
+    "test:integration": {
       "dependsOn": ["@custom/website#build"],
-      "env": ["PLAYWRIGHT_WEBSITE_URL"],
-      "inputs": [
-        "helpers/**",
-        "specs/decap/**",
-        "playwright.config.decap.ts",
-        "playwright.config.default.ts"
-      ]
-    },
-    "test:integration:drupal": {
-      "dependsOn": ["@custom/website#build", "@custom/preview#prep", "prep"],
       "env": ["PLAYWRIGHT_WEBSITE_URL", "PLAYWRIGHT_CMS_URL"],
-      "inputs": [
-        "helpers/**",
-        "specs/drupal/**",
-        "playwright.config.drupal.ts",
-        "playwright.config.default.ts"
-      ]
+      "inputs": ["helpers/**", "specs/**", "playwright.config.ts"]
     }
   }
 }

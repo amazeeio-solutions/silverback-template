@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 080b30e2-5a68-4390-9dec-0c7e850840a7
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: CTA'
+  created:
+    -
+      value: 1733840458
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-cta
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: CTA","lead":"Block: CTA"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/cta {"text":"Block CTA"} /-->
+
+        <!-- wp:custom/cta {"text":"CTA with Icon","icon":"ARROW"} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

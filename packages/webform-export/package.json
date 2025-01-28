@@ -1,0 +1,16 @@
+{
+  "name": "@custom/webform-export",
+  "type": "module",
+  "scripts": {
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "webform-snapshots": "playwright install chromium && playwright test",
+    "webform-snapshots:headed": "playwright install chromium && playwright test --headed"
+  },
+  "devDependencies": {
+    "@amazeelabs/save-webpage": "^1.1.1",
+    "@custom/eslint-config": "workspace:*",
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20",
+    "typescript": "^5.3.3"
+  }
+}

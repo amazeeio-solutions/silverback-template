@@ -1,0 +1,65 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: a23e5334-20fc-4c34-acba-bf3c8cb5fa40
+  bundle: page
+  default_langcode: en
+  depends:
+    3a0fe860-a6d6-428a-9474-365bd57509aa: media
+    5dfc1856-e9e4-4f02-9cd6-9d888870ce1a: media
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Image Teasers'
+  created:
+    -
+      value: 1733841404
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-image-teasers
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Image Teasers","lead":"Block: Image Teasers"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/image-teasers -->
+        <!-- wp:custom/image-teaser {"mediaEntityIds":["3a0fe860-a6d6-428a-9474-365bd57509aa"],"title":"Image One Teaser Title","ctaUrl":"/","ctaText":"Image One Teaser CTA"} /-->
+
+        <!-- wp:custom/image-teaser {"mediaEntityIds":["5dfc1856-e9e4-4f02-9cd6-9d888870ce1a"],"title":"Image Two Teaser Title","ctaUrl":"/","ctaText":"Image Two Teaser CTA"} /-->
+        <!-- /wp:custom/image-teasers -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

@@ -1,0 +1,22 @@
+{
+  "name": "@custom-tests/e2e-basic",
+  "version": "1.0.0",
+  "description": "A very basic e2e test suite.",
+  "type": "module",
+  "scripts": {
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "test:integration": "playwright install chromium && playwright test",
+    "test:headed": "playwright install chromium && playwright test --headed"
+  },
+  "devDependencies": {
+    "@custom/cms": "workspace:*",
+    "@custom/decap": "workspace:*",
+    "@custom/eslint-config": "workspace:*",
+    "@custom/preview": "workspace:*",
+    "@custom/publisher": "workspace:*",
+    "@custom/website": "workspace:*",
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20",
+    "typescript": "^5.3.3"
+  }
+}

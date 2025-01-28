@@ -312,3 +312,25 @@ details[open] > summary svg {
 .col-start-2 {
   grid-column-start: 2;
 }
+
+.entity-meta .media-library-selection .media-library-item--grid {
+  width: 100%;
+}
+
+/* Reset a few link input suggestion styles to their gutenberg editor values. */
+.block-editor-inner-blocks .block-editor-link-control__search-input-wrapper {
+  border: 1px solid #cccccc;
+  font-size: 13px;
+}
+
+.block-editor-inner-blocks
+  .block-editor-link-control__search-input-wrapper
+  button.block-editor-link-control__search-item {
+  padding: 12px 16px;
+}
+
+.block-editor-inner-blocks
+  .block-editor-link-control__search-input-wrapper
+  button.block-editor-link-control__search-item:hover {
+  background-color: #ddd;
+}

@@ -1,0 +1,123 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 6344bdc5-1b02-4542-b4ae-4e6df23b3e4c
+  bundle: page
+  default_langcode: en
+  depends:
+    5dfc1856-e9e4-4f02-9cd6-9d888870ce1a: media
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'SEO test - all filled in'
+  created:
+    -
+      value: 1733224790
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /seo-test-all-filled
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"SEO test - all filled in","lead":"SEO test - all filled in"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:paragraph -->
+        <p></p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
+  field_seo_description:
+    -
+      value: 'SEO description'
+  field_seo_image:
+    -
+      entity: 5dfc1856-e9e4-4f02-9cd6-9d888870ce1a
+  field_seo_title:
+    -
+      value: 'Overwritten SEO title'
+translations:
+  de:
+    status:
+      -
+        value: true
+    uid:
+      -
+        target_id: 1
+    title:
+      -
+        value: 'SEO test - all filled in DE'
+    created:
+      -
+        value: 1733224861
+    promote:
+      -
+        value: false
+    sticky:
+      -
+        value: false
+    moderation_state:
+      -
+        value: published
+    path:
+      -
+        alias: /seo-test-all-filled-de
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    body:
+      -
+        value: |-
+          <!-- wp:custom/hero {"headline":"SEO test - all filled in DE","lead":"SEO test - all filled in DE"} /-->
+
+          <!-- wp:custom/content -->
+          <!-- wp:paragraph -->
+          <p></p>
+          <!-- /wp:paragraph -->
+          <!-- /wp:custom/content -->
+        format: gutenberg
+        summary: ''
+    field_seo_description:
+      -
+        value: 'SEO description DE'
+    field_seo_title:
+      -
+        value: 'Overwritten SEO title DE'

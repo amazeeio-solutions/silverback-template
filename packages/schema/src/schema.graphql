@@ -189,6 +189,7 @@ type BlockMarkup @type(id: "core/paragraph") {
 union Media @resolveEntityBundle = MediaImage | MediaVideo
 
 type MediaImage @type(id: "image") @entity(type: "media", bundle: "image") {
+  id: ID! @resolveEntityUuid
   url: Url! @resolveProperty(path: "field_media_image.entity") @imageUrl
   focalPoint: [Int!]
     @resolveProperty(path: "field_media_image.entity")

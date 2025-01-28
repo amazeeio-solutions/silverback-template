@@ -1,0 +1,110 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 69c06c93-0d3f-47e1-a5ee-ba697bd532c1
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Form'
+  created:
+    -
+      value: 1733841355
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-form
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Form","lead":"Block: Form"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/form {"formId":"contact"} /-->
+
+        <!-- wp:custom/form {"formId":"inquiry"} /-->
+
+        <!-- wp:custom/form {"formId":"styling"} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
+translations:
+  de:
+    status:
+      -
+        value: true
+    uid:
+      -
+        target_id: 1
+    title:
+      -
+        value: 'Block: Form DE'
+    created:
+      -
+        value: 1734004706
+    promote:
+      -
+        value: false
+    sticky:
+      -
+        value: false
+    moderation_state:
+      -
+        value: published
+    path:
+      -
+        alias: /block-form
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    body:
+      -
+        value: |-
+          <!-- wp:custom/hero {"headline":"Block: Formular","lead":"Block: Formular"} /-->
+
+          <!-- wp:custom/content -->
+          <!-- wp:custom/form {"formId":"contact"} /-->
+
+          <!-- wp:custom/form {"formId":"inquiry"} /-->
+
+          <!-- wp:custom/form {"formId":"styling"} /-->
+          <!-- /wp:custom/content -->
+        format: gutenberg
+        summary: ''

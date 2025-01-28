@@ -1,0 +1,62 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: f14c6cb1-b052-4523-ad52-1fbfd32282ff
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Conditional content'
+  created:
+    -
+      value: 1733841586
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-conditional-content
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Conditional content","lead":"Block: Conditional content"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/conditional {"displayFrom":"2024-12-10T14:40:00.000Z","displayTo":"2025-12-10T14:40:00.000Z","purpose":"One Year!"} -->
+        <!-- wp:paragraph -->
+        <p>This content will only be shown for one year.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/conditional -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

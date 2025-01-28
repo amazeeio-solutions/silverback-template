@@ -1,0 +1,106 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 3c975048-5899-48c6-ae51-798202e8dc50
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Webform Success Page'
+  created:
+    -
+      value: 1734004272
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /webform/success
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Webform Success Page","lead":"Webform Success Page"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:paragraph -->
+        <p>This is the webform success page, and some webforms will be redirected here upon success.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
+translations:
+  de:
+    status:
+      -
+        value: true
+    uid:
+      -
+        target_id: 1
+    title:
+      -
+        value: 'Webform Success Page DE'
+    created:
+      -
+        value: 1734005079
+    promote:
+      -
+        value: false
+    sticky:
+      -
+        value: false
+    moderation_state:
+      -
+        value: published
+    path:
+      -
+        alias: /webform/success
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    body:
+      -
+        value: |-
+          <!-- wp:custom/hero {"headline":"Webformular-Erfolgsseite","lead":"Webformular-Erfolgsseite"} /-->
+
+          <!-- wp:custom/content -->
+          <!-- wp:paragraph -->
+          <p>Dies ist die Erfolgsseite des Webformulars. Einige Webformulare werden bei Erfolg hierher umgeleitet.</p>
+          <!-- /wp:paragraph -->
+          <!-- /wp:custom/content -->
+        format: gutenberg
+        summary: ''

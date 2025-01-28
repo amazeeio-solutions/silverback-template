@@ -1,0 +1,98 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: a11aaeea-a71a-4ef0-a996-833c95767386
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: Accordion'
+  created:
+    -
+      value: 1733841680
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /block-accordion
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Block: Accordion","lead":"Block: Accordion"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/accordion -->
+        <!-- wp:custom/accordion-item-text {"title":"Accordion Title One","icon":"checkmark"} -->
+        <!-- wp:paragraph -->
+        <p>I am the content for title one.</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:paragraph -->
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit auctor, lectus nibh gravida platea euismod parturient vitae interdum senectus, laoreet litora mauris tempor risus curae inceptos. Morbi ut facilisi ullamcorper arcu dictum hac congue eros nunc, nisl nullam dictumst malesuada euismod primis fusce convallis tempor, sociosqu est dis cursus maecenas id felis dui. Vestibulum turpis scelerisque montes felis laoreet metus ligula tincidunt auctor tempus fusce fermentum, conubia habitant sapien hac sed semper cum cubilia nunc augue. Laoreet velit parturient fermentum penatibus sociosqu mollis auctor nascetur pellentesque et libero, ac nisl commodo posuere sagittis enim egestas placerat molestie curabitur. Dictumst laoreet commodo magnis feugiat sagittis platea felis est convallis, integer curae blandit sociis suspendisse maecenas potenti risus ridiculus, a tempor tellus pellentesque fermentum fames tincidunt scelerisque.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/accordion-item-text -->
+
+        <!-- wp:custom/accordion-item-text {"title":"Accordion Title Two","icon":"questionmark"} -->
+        <!-- wp:paragraph -->
+        <p><meta charset="utf-8">I am the content for title two.</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:paragraph -->
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit dis rutrum vestibulum congue est malesuada egestas vitae, at ante varius nec vulputate cubilia mauris cras auctor suscipit faucibus nisl dictumst. Pulvinar sociosqu parturient habitant himenaeos in volutpat nascetur magnis, iaculis varius at mi sollicitudin morbi ligula nec, diam per scelerisque risus elementum tempor vel. Velit montes quisque metus penatibus porttitor iaculis justo posuere, porta suspendisse sem nullam ante facilisis proin, neque sollicitudin dis himenaeos ligula morbi euismod. Volutpat tempus ultrices feugiat dictum senectus porta condimentum sodales, eros sociosqu libero risus suspendisse proin tortor, egestas ridiculus nostra platea commodo id torquent. Dis ultrices mollis hac tempor magna diam suscipit natoque odio et, tortor tellus enim litora eu felis ad volutpat cursus pharetra, nostra mus auctor inceptos metus mattis porta scelerisque magnis. Natoque iaculis nascetur pellentesque est arcu pharetra phasellus interdum, venenatis tempor proin dictum metus dapibus dis, tortor malesuada duis ad eu ullamcorper elementum. Metus odio dignissim dictum fames nec ut, faucibus porta placerat ullamcorper cum donec felis, tempor imperdiet scelerisque commodo himenaeos.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/accordion-item-text -->
+
+        <!-- wp:custom/accordion-item-text {"title":"Accordion Title Three","icon":"arrow"} -->
+        <!-- wp:paragraph -->
+        <p><meta charset="utf-8">I am the content for title three.</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:paragraph -->
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sodales, dictum massa scelerisque parturient sagittis rutrum taciti porttitor, in eleifend habitant habitasse enim placerat phasellus. Mus tempus euismod id donec facilisi imperdiet mollis, montes convallis cubilia per tristique faucibus, pellentesque quam interdum sagittis tellus ac. Sociis sapien imperdiet himenaeos mus ornare conubia hac molestie proin, etiam diam arcu eleifend euismod odio vivamus. Turpis nisl ad hac duis fusce phasellus nibh dictum integer purus arcu, donec sociosqu eu at tortor sapien scelerisque tempus gravida mattis, torquent praesent feugiat volutpat felis viverra pellentesque eget suscipit quisque.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/accordion-item-text -->
+
+        <!-- wp:custom/accordion-item-text {"title":"Accordion Title Four","icon":""} -->
+        <!-- wp:paragraph -->
+        <p><meta charset="utf-8"><meta charset="utf-8">I am the content for title four.</p>
+        <!-- /wp:paragraph -->
+
+        <!-- wp:paragraph -->
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit justo habitant, platea laoreet hac suspendisse taciti euismod fermentum cras. Sed purus est varius nullam, sem magna ultricies viverra dui, class a vehicula. Leo enim dapibus malesuada feugiat dis dui placerat pretium, lacus taciti cum sociis diam tortor dictumst, libero vel venenatis turpis nisl dictum cursus. Auctor habitant duis vestibulum venenatis natoque a ligula, malesuada senectus integer tempus fames turpis. Nostra varius feugiat habitasse eget lacinia porttitor phasellus aliquet nascetur eu a semper maecenas conubia velit sagittis, euismod praesent justo nunc lectus pulvinar nullam egestas molestie pretium metus ullamcorper luctus tincidunt tellus. Accumsan dapibus per quisque malesuada sagittis leo montes erat, euismod nostra sem cras rhoncus turpis tempor placerat aptent, taciti cubilia lobortis pellentesque nulla lectus eleifend.</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/accordion-item-text -->
+        <!-- /wp:custom/accordion -->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

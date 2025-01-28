@@ -34,13 +34,6 @@ jobs:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare
-        run: SKIP_DRUPAL_INSTALL=1 pnpm turbo:prep
-        env:
-          TURBO_API: 'http://127.0.0.1:9080'
-          TURBO_TOKEN: 'local'
-          TURBO_TEAM: 'local'
-
       - name: Publisher
         uses: AmazeeLabs/publisher-action@4371b4a90a9fe2c86248e76c0f428e39abf6b610
         with:
@@ -49,6 +42,13 @@ jobs:
             apps/website/.cache
             apps/website/public
           cache_key: 'fe-build-${{ inputs.env }}'
+
+      - name: Prepare
+        run: SKIP_DRUPAL_INSTALL=1 pnpm turbo:prep
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
 
       - name: Build & deploy
         run: |
@@ -68,10 +68,16 @@ jobs:
             pnpm build:gatsby 
           fi
 
+          # "netlify deploy" fails to locate edge functions when executed from a
+          # monorepo. Flags like --cwd or --filter do not help. So we deploy the
+          # website app to a dedicated folder first.
+          pnpm deploy --filter "@custom/website" /tmp/deploy --prod
+          cd /tmp/deploy
+
           # Deploy
-          pnpm netlify env:set AWS_LAMBDA_JS_RUNTIME nodejs18.x
+          pnpm netlify env:set AWS_LAMBDA_JS_RUNTIME nodejs20.x
           pnpm netlify env:set DRUPAL_EXTERNAL_URL $DRUPAL_EXTERNAL_URL
-          pnpm netlify deploy --cwd=. --dir=apps/website/public --prodIfUnlocked
+          pnpm netlify deploy --prodIfUnlocked
 
           # Report success to Publisher
           echo "BUILD_IS_SUCCESSFUL=1" >> $GITHUB_ENV

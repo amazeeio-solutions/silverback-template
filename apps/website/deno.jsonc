@@ -1,0 +1,10 @@
+// This isn't a Deno project, yet Deno is added by netlify-cli when
+// "netlify dev" is used.
+// This file is picked up by Deno automatically, so we can use it to adjust Deno
+// behavior.
+{
+  // By default, Deno will use node_modules/.deno dir for storing dependencies.
+  // Somehow it messes up node_modules resolution leading to Gatsby build
+  // errors. So we prevent Deno from using node_modules dir.
+  "nodeModulesDir": false,
+}
