@@ -18,12 +18,7 @@ const config: StorybookConfig = {
         alias: {
           '@amazeelabs/bridge': '@amazeelabs/bridge-storybook',
           '@stories': resolve(
-            dirname(
-              new URL(
-                // @ts-expect-error It works.
-                import.meta.url,
-              ).pathname,
-            ),
+            dirname(new URL(import.meta.url).pathname),
             '../static/stories',
           ),
         },
@@ -37,7 +32,7 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-interactions'),
     getAbsolutePath('@storybook/addon-coverage'),
-    getAbsolutePath('@storybook/addon-a11y'),
+    // getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-mdx-gfm'),
   ],
   framework: {
