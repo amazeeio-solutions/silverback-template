@@ -1,6 +1,6 @@
-declare module '*as=metadata' {
-  import { buildResponsiveImage } from '@amazeelabs/cloudinary-responsive-image';
+declare module '*.jpg' {
+  import { Url } from '@custom/schema';
 
-  const content: Parameters<typeof buildResponsiveImage>[1];
+  const content: Url;
   export default content;
 }

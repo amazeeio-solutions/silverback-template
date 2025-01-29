@@ -6,7 +6,7 @@ import { fetch } from '../lib.js';
 test('Links', async () => {
   const result = await fetch(gql`
     {
-      page: _loadDrupalPage(id: "25086be7-ca5f-4ff8-9695-b9c71a676d4e") {
+      page: viewPage(path: "/en/page-links") {
         content {
           __typename
           ... on BlockMarkup {

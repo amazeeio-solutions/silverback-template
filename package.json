@@ -29,14 +29,8 @@
     "@commitlint/config-conventional": "^18.4.3",
     "husky": "^8.0.3",
     "prettier": "^3.2.5",
-    "turbo": "^2.0.6"
-  },
-  "resolutions": {
-    "gatsby-plugin-sharp": "5.13.1",
-    "sharp": "0.33.1",
-    "graphql": "16.8.1"
-  },
-  "pnpm": {
-    "patchedDependencies": {}
+    "turbo": "^2.0.6",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.1"
   }
 }

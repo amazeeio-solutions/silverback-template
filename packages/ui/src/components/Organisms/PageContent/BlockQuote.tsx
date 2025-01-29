@@ -1,4 +1,5 @@
-import { BlockQuoteFragment, Html, Image } from '@custom/schema';
+import { Image } from '@amazeelabs/image';
+import { BlockQuoteFragment, Html } from '@custom/schema';
 import React from 'react';
 
 import { FadeUp } from '../../Molecules/FadeUp';
@@ -31,7 +32,8 @@ export function BlockQuote(props: BlockQuoteFragment) {
                   {props.image && (
                     <Image
                       className="mr-3.5 size-6 rounded-full object-contain "
-                      source={props.image.source}
+                      src={props.image.url}
+                      width={24}
                       alt={props.image.alt || 'Author image'}
                     />
                   )}

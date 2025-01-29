@@ -87,3 +87,19 @@ environments:
         schedule: '30 * * * *'
         command: drush silverback-gatsby:build main
         service: cli
+  lagoon-waku:
+    routes:
+      - nginx:
+          - waku.cms.amazeelabs.dev
+      - build:
+          - waku.build.amazeelabs.dev
+      - preview:
+          - waku.preview.amazeelabs.dev
+    cronjobs:
+      - name: drush cron
+        schedule: '*/15 * * * *'
+        command: drush cron
+      - name: Frontend a frontend build
+        schedule: '30 * * * *'
+        command: drush silverback-gatsby:build main
+        service: cli

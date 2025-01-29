@@ -1,4 +1,3 @@
-'use client';
 import { BlockConditionalFragment, PageFragment } from '@custom/schema';
 import React from 'react';
 
@@ -20,10 +19,12 @@ import { BlockMedia } from './PageContent/BlockMedia';
 import { BlockQuote } from './PageContent/BlockQuote';
 import { BlockTeaserList } from './PageContent/BlockTeaserList';
 import { PageHero } from './PageHero';
+import { PageMeta } from './PageMeta';
 
 export function PageDisplay(page: PageFragment) {
   return (
     <PageTransition>
+      <PageMeta meta={page.metaTags} locale={page.locale}></PageMeta>
       <div>
         {page.editLink ? <ContentEditLink {...page.editLink} /> : null}
         {!page.hero && <BreadCrumbs />}

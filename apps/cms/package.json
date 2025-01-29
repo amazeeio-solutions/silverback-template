@@ -1,15 +1,19 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@custom/cms",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "license": "MIT",
   "private": true,
+  "types": "./dist/index.d.ts",
+  "type": "module",
   "description": "Drupal based content management system.",
   "sideEffects": false,
   "scripts": {
     "prep:composer": "if command -v composer; then COMPOSER_ALLOW_SUPERUSER=1 composer install; else echo 'Skipping composer install.'; fi",
     "prep:database": "./prep-database.sh",
     "prep:schema": "pnpm drush silverback-gatsby:schema-export ../../../tests/schema || true",
+    "prep:scripts": "tsc",
     "fix-premissions": "chmod +w web/sites/default/files/.htaccess && chmod +w web/sites/default/files/private/.htaccess",
     "drush": "SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite DRUSH_OPTIONS_URI=http://127.0.0.1:8888 vendor/bin/drush",
     "silverback": "SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite SB_ADMIN_USER=admin SB_ADMIN_PASS=admin vendor/bin/silverback",
@@ -33,9 +37,12 @@
     "@custom/custom_heavy": "workspace:*",
     "@custom/gutenberg_blocks": "workspace:*",
     "@custom/schema": "workspace:*",
-    "@custom/test_content": "workspace:*",
+    "@custom/test_content": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.3",
     "@custom/ui": "workspace:*",
-    "@custom/preview": "workspace:*",
     "@custom/search_api_global": "workspace:*"
   }
 }

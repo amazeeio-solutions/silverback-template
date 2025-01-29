@@ -1,6 +1,6 @@
-import config from './gatsby-config.mjs';
+import pkgJson from './package.json' assert { type: 'json' };
 
-if (config.plugins?.filter((plugin) => plugin === '@custom/cms').length) {
+if (pkgJson.dependencies['@custom/cms']) {
   process.exit(0);
 }
 process.exit(1);

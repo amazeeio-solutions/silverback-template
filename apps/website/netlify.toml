@@ -1,29 +1,30 @@
 [dev]
-  autoLaunch = false
+autoLaunch = false
 
 [functions]
-  directory = "netlify/functions"
+directory = "netlify/functions"
 
 [build]
-  publish = "public"
-  edge_functions = "netlify/edge-functions"
+publish = "dist/public"
+edge_functions = "netlify/edge-functions"
+command = "true"
 
 [functions.strangler]
-  included_files = ["public/404.html"]
+included_files = ["dist/public/404.html", "dist/public/RSC/404.txt"]
 
 [[edge_functions]]
-  path = "/"
-  function = "homepage-redirect"
+path = "/"
+function = "homepage-redirect"
 
 [[edge_functions]]
-  path = "/.netlify/functions/github-proxy"
-  function = "github-proxy-auth"
+path = "/.netlify/functions/github-proxy"
+function = "github-proxy-auth"
 
 [[edge_functions]]
-  path = "/.netlify/functions/github-proxy/*"
-  function = "github-proxy-auth"
+path = "/.netlify/functions/github-proxy/*"
+function = "github-proxy-auth"
 
 [[headers]]
-  for = "/set-drupal-session"
-  [headers.values]
-    Content-Security-Policy = "frame-ancestors *"
+for = "/set-drupal-session"
+[headers.values]
+Content-Security-Policy = "frame-ancestors *"

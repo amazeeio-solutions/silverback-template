@@ -740,6 +740,75 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
+  frontend_redirects:
+    id: frontend_redirects
+    display_title: 'Frontend redirects'
+    display_plugin: embed
+    position: 3
+    display_options:
+      title: 'Frontend redirects'
+      pager:
+        type: full
+        options:
+          offset: 0
+          items_per_page: 2
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          quantity: 9
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      cache:
+        type: none
+        options: {  }
+      filters: {  }
+      filter_groups:
+        operator: AND
+        groups: {  }
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+      row:
+        type: 'entity:campaign_url'
+        options:
+          relationship: none
+          view_mode: default
+      defaults:
+        access: false
+        cache: false
+        title: false
+        pager: false
+        style: false
+        row: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders: {  }
+    cache_metadata:
+      max-age: 0
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - user.permissions
+      tags: {  }
   page_campaign_urls:
     id: page_campaign_urls
     display_title: Page

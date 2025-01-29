@@ -14,6 +14,7 @@
       "outputs": ["build/**"]
     },
     "test:static": {
+      "dependsOn": ["^prep"],
       "inputs": ["src/**", "!src/gatsby-fragments.js"]
     }
   }

@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - config_pages
     - graphql
     - media
     - system
@@ -16,3 +17,4 @@ permissions:
   - 'access content'
   - 'execute main persisted graphql requests'
   - 'view media'
+  - 'view website_settings config page entity'

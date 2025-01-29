@@ -1,3 +1,4 @@
+'use client';
 import { SilverbackIframe } from '@amazeelabs/silverback-iframe';
 import { BlockFormFragment, Url, useLocation } from '@custom/schema';
 import clsx from 'clsx';

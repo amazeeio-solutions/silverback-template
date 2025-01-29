@@ -4,7 +4,7 @@ import {
   OperationExecutorsProvider,
   Url,
 } from '@custom/schema';
-import { NavigationItemSource } from '@custom/schema/source';
+import { SourceNavigationItem } from '@custom/schema/source';
 import { Frame } from '@custom/ui/routes/Frame';
 import { PropsWithChildren } from 'react';
 
@@ -16,7 +16,7 @@ const menuItems = (amount: number) =>
         __typename: 'NavigationItem',
         title: `Item ${i + 1}`,
         target: '/' as Url,
-      }) satisfies NavigationItemSource,
+      }) satisfies SourceNavigationItem,
   );
 
 export function PreviewFrame({ children }: PropsWithChildren) {

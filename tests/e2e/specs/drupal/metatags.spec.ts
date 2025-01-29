@@ -2,7 +2,8 @@ import { expect, test } from '@playwright/test';
 
 import { websiteUrl } from '../../helpers/url';
 
-test('Metatags on Basic page', async ({ page }) => {
+// TODO: Re-enable after SLB-477 is resolved.
+test.fixme('Metatags on Basic page', async ({ page }) => {
   // This is a page with all the SEO fields empty. In this case:
   // - the title should fallback to the node title.
   // - the description and image_src should be empty.

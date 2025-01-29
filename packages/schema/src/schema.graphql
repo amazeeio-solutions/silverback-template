@@ -1,12 +1,21 @@
 scalar Url @default @value(string: "")
 scalar Markup @default @value(string: "")
-scalar ImageSource @default @value(string: "")
 scalar JSONString @default @value(string: "{}")
 
 """
 implementation(drupal): custom.menus::getMenuTranslations
 """
 directive @menuTranslations(menu_id: String!) on FIELD_DEFINITION
+
+"""
+implementation(drupal): \Drupal\custom\FocalPoint::getFocalPoint
+"""
+directive @focalPoint on FIELD_DEFINITION
+
+"""
+implementation(drupal): custom.translatables::all
+"""
+directive @translatables(context: String!) on FIELD_DEFINITION
 
 """
 implementation(drupal): custom.webform::url
@@ -20,57 +29,6 @@ directive @createWebformSubmission(
   webformId: String!
   submittedData: JSONString!
 ) on FIELD_DEFINITION
-
-"""
-Retrieve the properties of an image.
-TODO: Move to a shared "image" package.
-
-implementation(gatsby): ./image.js#imageProps
-"""
-directive @imageProps repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
-
-"""
-Override the image saving to add focal point info
-
-implementation(gatsby): ./image.js#responsiveImage
-"""
-directive @responsiveImage(
-  height: String
-  sizes: String
-  transform: String
-  width: String
-) repeatable on ENUM | FIELD_DEFINITION | INTERFACE | OBJECT | SCALAR | UNION
-
-"""
-Retrieve an entity from the Gatsby datastore.
-For Drupal, this is implicitly implemented in the "graphql_directives" module.
-
-implementation(gatsby): ./page.js#loadEntity
-"""
-directive @loadEntity(
-  id: String
-  operation: String
-  route: String
-  type: String
-  uuid: String
-) repeatable on ENUM | FIELD_DEFINITION | INTERFACE | OBJECT | SCALAR | UNION
-
-"""
-Retrieve all translations of a decap page.
-
-implementation(gatsby): ./page.js#decapTranslations
-"""
-directive @decapPageTranslations on FIELD_DEFINITION
-
-"""
-Parse a given Url.
-For Drupal, this is implicitly implemented in the "graphql_directives" module.
-
-implementation(gatsby): ./page.js#route
-"""
-directive @route(
-  path: String!
-) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
 
 enum Locale @default @value(string: "en") {
   en
@@ -141,37 +99,10 @@ type FooterNavigation implements Navigation @menu(menu_id: "footer") {
   items: [NavigationItem]! @lang @resolveMenuItems
 }
 
-interface Page implements CardItem & Editable @resolveEntityBundle {
-  id: ID!
-  translations: [Page]
-  locale: Locale!
-  path: Url!
-  editLink: EditLink
-  title: String!
-  teaserImage: MediaImage
-  hero: Hero
-  content: [PageContent]
-  metaTags: [MetaTag]
-}
-
-type DecapPage implements Page & Editable & CardItem
-  @sourceFrom(fn: "getPages") {
-  id: ID!
-  translations: [Page] @decapPageTranslations
-  locale: Locale!
-  path: Url!
-  editLink: EditLink
-  title: String!
-  teaserImage: MediaImage
-  hero: Hero
-  content: [PageContent]
-  metaTags: [MetaTag]
-}
-
 """
 A generic page.
 """
-type DrupalPage implements Page & Editable & CardItem
+type Page implements CardItem
   @entity(type: "node", bundle: "page")
   @type(id: "page") {
   id: ID! @resolveEntityUuid
@@ -201,6 +132,13 @@ type DrupalPage implements Page & Editable & CardItem
     @seek(pos: 1)
     @resolveEditorBlockChildren
   metaTags: [MetaTag] @resolveProperty(path: "metatag")
+}
+
+type CampaignUrlRedirect @entity(type: "campaign_url", bundle: "campaign_url") {
+  source: String! @resolveProperty(path: "campaign_url_source.value")
+  destination: String! @resolveProperty(path: "campaign_url_destination.value")
+  statusCode: Int! @resolveProperty(path: "status_code.value")
+  force: Boolean! @resolveProperty(path: "force.value")
 }
 
 type Hero {
@@ -251,22 +189,11 @@ type BlockMarkup @type(id: "core/paragraph") {
 union Media @resolveEntityBundle = MediaImage | MediaVideo
 
 type MediaImage @type(id: "image") @entity(type: "media", bundle: "image") {
-  source(
-    width: Int
-    height: Int
-    sizes: [[Int!]!]
-    transform: String
-  ): ImageSource!
-    @resolveProperty(path: "field_media_image.entity")
-    @imageProps
-    @focalPoint
-    @responsiveImage(
-      height: "$height"
-      width: "$width"
-      sizes: "$sizes"
-      transform: "$transform"
-    )
   id: ID! @resolveEntityUuid
+  url: Url! @resolveProperty(path: "field_media_image.entity") @imageUrl
+  focalPoint: [Int!]
+    @resolveProperty(path: "field_media_image.entity")
+    @focalPoint
   alt: String! @resolveProperty(path: "field_media_image.alt")
 }
 
@@ -409,14 +336,14 @@ input PaginationInput {
 }
 
 type Query {
-  previewDecapPage: DecapPage
+  previewDecapPage: Page
   previewDrupalPage(
     id: ID!
     rid: ID
     locale: String!
     preview_user_id: ID
     preview_access_token: String
-  ): DrupalPage
+  ): Page
     @fetchEntity(
       type: "node"
       id: "$id"
@@ -426,20 +353,16 @@ type Query {
       preview_access_token: "$preview_access_token"
     )
 
-  metaNavigations: [MetaNavigation]
-    @gatsbyNodes(type: "MetaNavigation")
-    @menuTranslations(menu_id: "meta")
+  mainNavigations: [MainNavigation] @menuTranslations(menu_id: "main")
+  metaNavigations: [MetaNavigation] @menuTranslations(menu_id: "meta")
 
-  mainNavigations: [MainNavigation]
-    @gatsbyNodes(type: "MainNavigation")
-    @menuTranslations(menu_id: "main")
+  footerNavigations: [FooterNavigation] @menuTranslations(menu_id: "footer")
 
-  footerNavigations: [FooterNavigation]
-    @gatsbyNodes(type: "FooterNavigation")
-    @menuTranslations(menu_id: "footer")
+  ssgPages(args: String): SSGPagesResult
+    @drupalView(id: "ssg_pages:default", args: "$args")
 
-  allPages: [Page] @gatsbyNodes(type: "Page")
-  websiteSettings: WebsiteSettings
+  websiteSettings: WebsiteSettings @loadEntity(type: "config_pages", id: "1")
+
   viewPage(path: String!): Page @route(path: "$path") @loadEntity
 
   contentHub(locale: Locale!, args: String): ContentHubResult!
@@ -449,8 +372,20 @@ type Query {
     @lang(code: "$locale")
     @drupalView(id: "content_hub:default", args: "$args")
 
-  stringTranslations: [TranslatableString!]
-    @gatsbyNodes(type: "TranslatableString")
+  stringTranslations: [TranslatableString!] @translatables(context: "gatsby")
+
+  campaignUrlRedirects(args: String): CampaignUrlRedirectsResult
+    @drupalView(id: "campaign_urls:frontend_redirects", args: "$args")
+}
+
+type SSGPagesResult {
+  total: Int!
+  rows: [Page]!
+}
+
+type CampaignUrlRedirectsResult {
+  total: Int!
+  rows: [CampaignUrlRedirect]
 }
 
 type Mutation {
@@ -498,7 +433,7 @@ type DemoBlock {
 """
 The type provided by translations source (e.g. Decap or Drupal).
 """
-interface TranslatableString @default @value {
+type TranslatableString @value(string: "drupal") @default @value {
   """
   The default message, used in the UI.
   """
@@ -510,19 +445,5 @@ interface TranslatableString @default @value {
   """
   The actual translated string.
   """
-  translation: String
-}
-
-type DecapTranslatableString implements TranslatableString
-  @sourceFrom(fn: "getTranslatables") {
-  source: String!
-  language: Locale!
-  translation: String
-}
-
-type DrupalTranslatableString implements TranslatableString
-  @translatableString(contextPrefix: "gatsby") {
-  source: String!
-  language: Locale!
   translation: String
 }

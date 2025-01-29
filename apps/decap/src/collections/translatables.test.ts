@@ -1,14 +1,28 @@
-import { expect, test, vi } from 'vitest';
+import { FrameQuery } from '@custom/schema';
+import { expect, test } from 'vitest';
+import { z } from 'zod';
 
-import { getTranslatables } from './translatables';
+import { createExecutor } from '../graphql';
+import { translatableResolvers } from './translatables';
 
-vi.mock('../helpers/path', () => ({
-  path: `${new URL(import.meta.url).pathname
-    .split('/')
-    .slice(0, -1)
-    .join('/')}/../..`,
-}));
+const exec = createExecutor([translatableResolvers('./')]);
 
-test('getTranslatables', () => {
-  expect(() => getTranslatables()).not.toThrow();
+test('retrieve all translatables', async () => {
+  const result = await exec(FrameQuery, undefined);
+  const parsed = z
+    .object({
+      stringTranslations: z.array(
+        z.object({
+          language: z.string(),
+          source: z.string(),
+          translation: z.string().nullable(),
+        }),
+      ),
+    })
+    .safeParse(result);
+
+  if (!parsed.success) {
+    console.error(parsed.error);
+  }
+  expect(parsed.success).toBe(true);
 });

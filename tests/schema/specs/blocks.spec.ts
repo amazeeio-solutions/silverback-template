@@ -6,7 +6,7 @@ import { fetch } from '../lib.js';
 test('Block: Teaser list', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "87b412b9-09e6-4de4-be13-a97b64df74b8") {
+      viewPage(path: "/en/block-teaser-list") {
         content {
           __typename
           ... on BlockTeaserList {
@@ -28,7 +28,7 @@ test('Block: Teaser list', async () => {
                     }
                     teaserImage {
                       alt
-                      source(width: 400, height: 300)
+                      url
                     }
                   }
                 }
@@ -47,7 +47,7 @@ test('Block: Teaser list', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "viewPage": {
           "content": [
             {
               "__typename": "BlockTeaserList",
@@ -62,7 +62,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: Accordion",
                       "lead": "Block: Accordion",
@@ -76,7 +76,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: CTA",
                       "lead": "Block: CTA",
@@ -90,7 +90,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: Conditional content",
                       "lead": "Block: Conditional content",
@@ -104,7 +104,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: Form",
                       "lead": "Block: Form",
@@ -130,7 +130,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: Accordion",
                       "lead": "Block: Accordion",
@@ -144,7 +144,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: CTA",
                       "lead": "Block: CTA",
@@ -158,7 +158,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: Conditional content",
                       "lead": "Block: Conditional content",
@@ -172,7 +172,7 @@ test('Block: Teaser list', async () => {
                 {
                   "__typename": "BlockTeaserItem",
                   "content": {
-                    "__typename": "DrupalPage",
+                    "__typename": "Page",
                     "hero": {
                       "headline": "Block: Form",
                       "lead": "Block: Form",
@@ -195,7 +195,7 @@ test('Block: Teaser list', async () => {
 test('Block: Info Grid', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "557b324d-2183-48e7-9054-6dc90e18beb1") {
+      _loadPage(id: "557b324d-2183-48e7-9054-6dc90e18beb1") {
         content {
           __typename
           ... on BlockInfoGrid {
@@ -223,7 +223,7 @@ test('Block: Info Grid', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockInfoGrid",
@@ -270,7 +270,7 @@ test('Block: Info Grid', async () => {
 test('Block: Accordion', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "a11aaeea-a71a-4ef0-a996-833c95767386") {
+      _loadPage(id: "a11aaeea-a71a-4ef0-a996-833c95767386") {
         content {
           __typename
           ... on BlockAccordion {
@@ -293,7 +293,7 @@ test('Block: Accordion', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockAccordion",
@@ -358,7 +358,7 @@ test('Block: Accordion', async () => {
 test('Block: Conditional content', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "f14c6cb1-b052-4523-ad52-1fbfd32282ff") {
+      _loadPage(id: "f14c6cb1-b052-4523-ad52-1fbfd32282ff") {
         content {
           __typename
           ... on BlockConditional {
@@ -377,7 +377,7 @@ test('Block: Conditional content', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockConditional",
@@ -401,7 +401,7 @@ test('Block: Conditional content', async () => {
 test('Block: Image with Text', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "4189dec1-3b09-4eec-b4d5-b7cc28eaeae3") {
+      _loadPage(id: "4189dec1-3b09-4eec-b4d5-b7cc28eaeae3") {
         content {
           __typename
           ... on BlockImageWithText {
@@ -422,7 +422,7 @@ test('Block: Image with Text', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockImageWithText",
@@ -462,7 +462,7 @@ test('Block: Image with Text', async () => {
 test('Block: Image Teasers', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "a23e5334-20fc-4c34-acba-bf3c8cb5fa40") {
+      _loadPage(id: "a23e5334-20fc-4c34-acba-bf3c8cb5fa40") {
         content {
           __typename
           ... on BlockImageTeasers {
@@ -484,7 +484,7 @@ test('Block: Image Teasers', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockImageTeasers",
@@ -521,7 +521,7 @@ test('Block: Image Teasers', async () => {
 test('Block: Form', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "69c06c93-0d3f-47e1-a5ee-ba697bd532c1") {
+      _loadPage(id: "69c06c93-0d3f-47e1-a5ee-ba697bd532c1") {
         content {
           __typename
           ... on BlockForm {
@@ -534,7 +534,7 @@ test('Block: Form', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockForm",
@@ -558,7 +558,7 @@ test('Block: Form', async () => {
 test('Block: Heading', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "bdbcc2b9-2d33-4723-a6fc-35c5f56b1ab9") {
+      _loadPage(id: "bdbcc2b9-2d33-4723-a6fc-35c5f56b1ab9") {
         content {
           __typename
           ... on BlockMarkup {
@@ -571,7 +571,7 @@ test('Block: Heading', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockMarkup",
@@ -599,7 +599,7 @@ test('Block: Heading', async () => {
 test('Block: Media', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "7f0f6893-c61d-4ecd-8b74-fb0a0d023ead") {
+      _loadPage(id: "7f0f6893-c61d-4ecd-8b74-fb0a0d023ead") {
         content {
           __typename
           ... on BlockMedia {
@@ -623,7 +623,7 @@ test('Block: Media', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockMedia",
@@ -643,7 +643,7 @@ test('Block: Media', async () => {
 test('Block: Horizontal separator', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "358dcf0d-0910-4d0b-acc8-5a20108b3f20") {
+      _loadPage(id: "358dcf0d-0910-4d0b-acc8-5a20108b3f20") {
         content {
           __typename
           ... on BlockHorizontalSeparator {
@@ -656,7 +656,7 @@ test('Block: Horizontal separator', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockHorizontalSeparator",
@@ -677,7 +677,7 @@ test('Block: Horizontal separator', async () => {
 test('Block: Quote', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "54ee7380-a3c0-4c45-8305-933143dc2ff6") {
+      _loadPage(id: "54ee7380-a3c0-4c45-8305-933143dc2ff6") {
         content {
           __typename
           ... on BlockQuote {
@@ -696,7 +696,7 @@ test('Block: Quote', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockQuote",
@@ -718,7 +718,7 @@ test('Block: Quote', async () => {
 test('Block: Table', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "71e7b043-3718-4d6a-a2c8-42fb03554800") {
+      _loadPage(id: "71e7b043-3718-4d6a-a2c8-42fb03554800") {
         content {
           __typename
           ... on BlockMarkup {
@@ -731,7 +731,7 @@ test('Block: Table', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockMarkup",
@@ -754,7 +754,7 @@ test('Block: Table', async () => {
 test('Block: List', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "487b2750-bf2a-4b5d-a753-2942a63bb6a4") {
+      _loadPage(id: "487b2750-bf2a-4b5d-a753-2942a63bb6a4") {
         content {
           __typename
           ... on BlockMarkup {
@@ -767,7 +767,7 @@ test('Block: List', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockMarkup",
@@ -790,7 +790,7 @@ test('Block: List', async () => {
 test('Block: Paragraph', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "67c21535-4851-4aea-b46e-c4eccd4e494a") {
+      _loadPage(id: "67c21535-4851-4aea-b46e-c4eccd4e494a") {
         content {
           __typename
           ... on BlockMarkup {
@@ -803,7 +803,7 @@ test('Block: Paragraph', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockMarkup",
@@ -822,7 +822,7 @@ test('Block: Paragraph', async () => {
 test('Block: CTA', async () => {
   const result = await fetch(gql`
     {
-      _loadDrupalPage(id: "080b30e2-5a68-4390-9dec-0c7e850840a7") {
+      _loadPage(id: "080b30e2-5a68-4390-9dec-0c7e850840a7") {
         content {
           __typename
           ... on BlockCta {
@@ -839,7 +839,7 @@ test('Block: CTA', async () => {
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "_loadDrupalPage": {
+        "_loadPage": {
           "content": [
             {
               "__typename": "BlockCta",

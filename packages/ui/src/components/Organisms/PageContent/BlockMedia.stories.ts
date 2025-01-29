@@ -1,9 +1,8 @@
 import { Markup } from '@custom/schema';
-import Landscape from '@stories/landscape.jpg?as=metadata';
-import Portrait from '@stories/portrait.jpg?as=metadata';
+import Landscape from '@stories/landscape.jpg';
+import Portrait from '@stories/portrait.jpg';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { image } from '../../../helpers/image';
 import { BlockMedia } from './BlockMedia';
 
 export default {
@@ -14,7 +13,7 @@ export const ImageLandscape = {
   args: {
     media: {
       __typename: 'MediaImage',
-      source: image(Landscape),
+      url: Landscape,
       alt: 'Landscape',
     },
   },
@@ -24,7 +23,7 @@ export const ImagePortrait = {
   args: {
     media: {
       __typename: 'MediaImage',
-      source: image(Portrait),
+      url: Portrait,
       alt: 'Portrait',
     },
   },

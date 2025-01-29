@@ -5,6 +5,7 @@ dependencies:
   config:
     - filter.format.webform_default
   module:
+    - config_pages
     - file
     - filter
     - graphql
@@ -28,3 +29,4 @@ permissions:
   - userprotect.mail.edit
   - userprotect.pass.edit
   - 'view media'
+  - 'view website_settings config page entity'

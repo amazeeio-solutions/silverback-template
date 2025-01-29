@@ -44,7 +44,7 @@ export default defineConfig(
         commands: {
           build: {
             command:
-              'cd ../website && DRUPAL_EXTERNAL_URL=http://127.0.0.1:8888 pnpm build:gatsby',
+              'cd ../website && DRUPAL_EXTERNAL_URL=http://127.0.0.1:8888 pnpm build:waku',
           },
           clean: 'pnpm clean',
           serve: {

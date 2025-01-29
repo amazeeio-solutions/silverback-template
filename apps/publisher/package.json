@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "dev": "cd ../website && pnpm clean && cd - && publisher",
+    "dev": "publisher",
     "open": "open http://127.0.0.1:8000/___status/"
   },
   "devDependencies": {

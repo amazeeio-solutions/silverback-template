@@ -1,4 +1,5 @@
-import { BlockImageTeasersFragment, Image, Link } from '@custom/schema';
+import { Image } from '@amazeelabs/image';
+import { BlockImageTeasersFragment, Link } from '@custom/schema';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -35,7 +36,8 @@ export function BlockImageTeaser(
       {props.image ? (
         <Image
           className="absolute left-0 top-0 h-72 w-full object-cover lg:h-96"
-          source={props.image.source}
+          src={props.image.url}
+          width={1920}
           alt={props.image.alt}
         />
       ) : null}

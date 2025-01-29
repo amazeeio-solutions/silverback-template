@@ -1,6 +1,7 @@
 import { useIntl } from '@amazeelabs/react-intl';
 import { FrameQuery, NavigationItem, Url, useLocation } from '@custom/schema';
 
+import { useLocale } from '../../utils/locale';
 import { useOperation } from '../../utils/operation';
 
 export type MenuNameType = 'main' | 'footer';
@@ -60,6 +61,7 @@ export function useMenuAncestors(path: string, menuName: MenuNameType) {
   const menuItemFromPath = useMenuItem(path, menuName);
   let processingMenuItem = menuItemFromPath;
   const ancestors: Array<NavigationItem> = [];
+  const locale = useLocale();
 
   // Set current page breadcrumb
   if (typeof processingMenuItem !== 'undefined') {
@@ -83,7 +85,7 @@ export function useMenuAncestors(path: string, menuName: MenuNameType) {
     }
   }
   if (ancestors.length > 0) {
-    ancestors.push({ id: '_', target: '/' as Url, title: 'Home' });
+    ancestors.push({ id: '_', target: `/${locale}` as Url, title: 'Home' });
     // Pop off the current path, we dont care about it
     ancestors.reverse().pop();
   }

@@ -1,8 +1,5 @@
-import {
-  BlockImageWithTextFragment,
-  Image,
-  ImagePosition,
-} from '@custom/schema';
+import { Image } from '@amazeelabs/image';
+import { BlockImageWithTextFragment, ImagePosition } from '@custom/schema';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -28,11 +25,12 @@ export function BlockImageWithText(props: BlockImageWithTextFragment) {
                 <BlockMarkup {...props.textContent} />
               )}
             </div>
-            {!!props.image?.source && (
-              <div className={'self-start lg:w-1/2'}>
+            {!!props.image?.url && (
+              <div className={'self-start lg:w-1/2 '}>
                 <Image
                   className="w-full object-cover"
-                  source={props.image.source}
+                  src={props.image.url}
+                  width={608}
                   alt={props.image.alt || ''}
                 />
               </div>

@@ -41,19 +41,15 @@ test('Page', async () => {
       }
     }
     {
-      complete: _loadDrupalPage(id: "ef80e284-154b-41fd-9317-154b0a175299") {
+      complete: viewPage(path: "/en/page-complete") {
         ...Page
       }
-      seo_all_empty: _loadDrupalPage(
-        id: "5f108e07-62ca-4025-adca-069b3adfc22c"
-      ) {
+      seo_all_empty: _loadPage(id: "5f108e07-62ca-4025-adca-069b3adfc22c") {
         translations {
           ...Page
         }
       }
-      seo_all_filled_in: _loadDrupalPage(
-        id: "6344bdc5-1b02-4542-b4ae-4e6df23b3e4c"
-      ) {
+      seo_all_filled_in: _loadPage(id: "6344bdc5-1b02-4542-b4ae-4e6df23b3e4c") {
         translations {
           ...Page
         }

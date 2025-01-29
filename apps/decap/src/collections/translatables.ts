@@ -1,13 +1,14 @@
-import { SilverbackSource } from '@amazeelabs/gatsby-source-silverback';
 import { Locale } from '@custom/schema';
-import { DecapTranslatableStringSource } from '@custom/schema/source';
+import {
+  SourceResolvers,
+  SourceTranslatableString,
+} from '@custom/schema/source';
 import { CmsCollection } from 'decap-cms-core';
 import fs from 'fs';
 import yaml from 'yaml';
 import { z } from 'zod';
 
 import rawTranslatables from '../../node_modules/@custom/ui/build/translatables.json';
-import { path } from '../helpers/path';
 
 // Validate that translatables.json contains what we expect.
 const translationSources = z
@@ -45,35 +46,37 @@ export const Translatables: CmsCollection = {
   ],
 };
 
-export const getTranslatables: SilverbackSource<
-  DecapTranslatableStringSource
-> = () => {
-  const dir = `${path}/data`;
-  const rawTranslations = yaml.parse(
-    fs.readFileSync(`${dir}/translatables.yml`, 'utf-8'),
-  );
-  return z
-    .record(z.record(z.string()))
-    .transform((data) => {
-      const translations: Array<[string, DecapTranslatableStringSource]> = [];
-      Object.keys(data).forEach((langcode) => {
-        Object.keys(data[langcode]).forEach((key) => {
-          Object.keys(data).forEach((locale) => {
-            if (translationSources[key]) {
-              translations.push([
-                `${key}:${locale}`,
-                {
-                  __typename: 'DecapTranslatableString',
-                  source: translationSources[key],
-                  language: locale as Locale,
-                  translation: data[locale][key],
-                },
-              ]);
-            }
-          });
-        });
-      });
-      return translations;
-    })
-    .parse(rawTranslations);
-};
+export const translatableResolvers = (path: string) =>
+  ({
+    Query: {
+      stringTranslations: () => {
+        const dir = `${path}/data`;
+        const rawTranslations = yaml.parse(
+          fs.readFileSync(`${dir}/translatables.yml`, 'utf-8'),
+        );
+
+        return z
+          .record(z.record(z.string()))
+          .transform((data) => {
+            const translations: Array<SourceTranslatableString> = [];
+
+            Object.keys(data).forEach((langcode) => {
+              Object.keys(data[langcode]).forEach((key) => {
+                Object.keys(data).forEach((locale) => {
+                  if (translationSources[key]) {
+                    translations.push({
+                      __typename: 'TranslatableString',
+                      source: translationSources[key],
+                      language: locale as Locale,
+                      translation: data[locale][key],
+                    });
+                  }
+                });
+              });
+            });
+            return translations;
+          })
+          .parse(rawTranslations);
+      },
+    },
+  }) satisfies SourceResolvers;

@@ -66,7 +66,10 @@ export function Header() {
             aria-label="Global"
           >
             <div className="flex lg:flex-1">
-              <Link href={'/' as Url} className="-ml-1 mt-1 md:-mt-2.5">
+              <Link
+                href={`/${intl.locale}` as Url}
+                className="-ml-1 mt-1 md:-mt-2.5"
+              >
                 <span className="sr-only">
                   {intl.formatMessage({
                     defaultMessage: 'Company name',

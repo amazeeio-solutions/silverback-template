@@ -1,3 +1,4 @@
+import raw from 'esbuild-plugin-raw';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
@@ -7,4 +8,5 @@ export default defineConfig({
   treeshake: true,
   outDir: 'build',
   clean: true,
+  esbuildPlugins: [raw()],
 });

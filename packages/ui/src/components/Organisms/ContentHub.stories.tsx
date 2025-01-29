@@ -6,13 +6,12 @@ import {
   OperationVariables,
   Url,
 } from '@custom/schema';
-import Landscape from '@stories/landscape.jpg?as=metadata';
-import Portrait from '@stories/portrait.jpg?as=metadata';
+import Landscape from '@stories/landscape.jpg';
+import Portrait from '@stories/portrait.jpg';
 import { Meta, StoryObj } from '@storybook/react';
 import qs from 'query-string';
 import React from 'react';
 
-import { image } from '../../helpers/image';
 import { ContentHub, ContentHubQueryArgs } from './ContentHub';
 
 type ContentHubExecutor = (
@@ -76,10 +75,7 @@ export const WithResults: ContentHubStory = {
                 ? undefined
                 : {
                     alt: `Image for item #${i + 1}`,
-                    source: image(i % 2 === 0 ? Landscape : Portrait, {
-                      width: 400,
-                      height: 300,
-                    }),
+                    url: i % 2 === 0 ? Landscape : Portrait,
                   },
           }) satisfies CardItemFragment,
       );

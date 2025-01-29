@@ -32,14 +32,6 @@ const config: CodegenConfig = {
     'build/operations.json': {
       plugins: ['@amazeelabs/codegen-operation-ids'],
     },
-    // Directive autoloader for Gatsby.
-    'build/gatsby-autoload.mjs': {
-      plugins: ['@amazeelabs/codegen-autoloader'],
-      config: {
-        mode: 'js',
-        context: ['gatsby'],
-      },
-    },
     // Directive autoloader for Drupal.
     'build/drupal-autoload.json': {
       plugins: ['@amazeelabs/codegen-autoloader'],
@@ -67,16 +59,16 @@ const config: CodegenConfig = {
       },
     },
     // Source type definitions.
-    // All graphql schema types, suffixed with `Source` and with required
+    // All graphql schema types and resolvers, prefixed with `Source` and with required
     // type names. Used for validating incoming data, e.g. from Decap.
     'src/generated/source.ts': {
-      plugins: [`typescript`],
+      plugins: [`typescript`, `typescript-resolvers`],
       config: {
         ...common,
         scalars: Object.fromEntries(
           Object.keys(scalars).map((key) => [key, 'string']),
         ),
-        typesSuffix: 'Source',
+        typesPrefix: 'Source',
         // In source types we always want an enforced __typename, so unions and
         // interfaces can be resolved automatically.
         skipTypename: false,

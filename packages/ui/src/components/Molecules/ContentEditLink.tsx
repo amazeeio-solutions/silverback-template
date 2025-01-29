@@ -1,3 +1,4 @@
+'use client';
 import { useIntl } from '@amazeelabs/react-intl';
 import { PageFragment } from '@custom/schema';
 import Cookies from 'js-cookie';

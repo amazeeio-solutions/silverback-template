@@ -1,8 +1,7 @@
 import { ImagePosition, Markup } from '@custom/schema';
-import Landscape from '@stories/landscape.jpg?as=metadata';
+import Landscape from '@stories/landscape.jpg';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { image } from '../../../helpers/image';
 import { BlockImageWithText } from './BlockImageWithText';
 
 export default {
@@ -12,7 +11,7 @@ export default {
 export const ImageRight = {
   args: {
     image: {
-      source: image(Landscape),
+      url: Landscape,
       alt: 'Landscape',
     },
     imagePosition: ImagePosition.Right,
@@ -32,7 +31,7 @@ export const ImageRight = {
 export const ImageLeft = {
   args: {
     image: {
-      source: image(Landscape),
+      url: Landscape,
       alt: 'Landscape',
     },
     imagePosition: ImagePosition.Left,
@@ -52,7 +51,7 @@ export const ImageLeft = {
 export const ArrowList = {
   args: {
     image: {
-      source: image(Landscape),
+      url: Landscape,
       alt: 'Landscape',
     },
     textContent: {
@@ -71,7 +70,7 @@ export const ArrowList = {
 export const QuestionMarkList = {
   args: {
     image: {
-      source: image(Landscape),
+      url: Landscape,
       alt: 'Landscape',
     },
     textContent: {
@@ -90,7 +89,7 @@ export const QuestionMarkList = {
 export const CheckMarkList = {
   args: {
     image: {
-      source: image(Landscape),
+      url: Landscape,
       alt: 'Landscape',
     },
     textContent: {

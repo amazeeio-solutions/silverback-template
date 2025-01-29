@@ -2,7 +2,12 @@
   "extends": ["//"],
   "tasks": {
     "prep": {
-      "dependsOn": ["prep:schema"]
+      "dependsOn": ["prep:scripts", "prep:schema"]
+    },
+    "prep:scripts": {
+      "dependsOn": ["^prep"],
+      "inputs": ["src/**"],
+      "outputs": ["dist/**"]
     },
     "prep:schema": {
       "dependsOn": ["prep:database"]

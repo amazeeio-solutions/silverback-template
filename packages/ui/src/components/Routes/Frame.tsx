@@ -1,6 +1,7 @@
+import { ImageSettings } from '@amazeelabs/image';
 import { IntlProvider } from '@amazeelabs/react-intl';
 import { FrameQuery, Locale, Operation } from '@custom/schema';
-import React, { PropsWithChildren } from 'react';
+import React, { ComponentProps, PropsWithChildren } from 'react';
 
 import translationSources from '../../../build/translatables.json';
 import { useLocale } from '../../utils/locale';
@@ -14,29 +15,28 @@ function filterByLocale(locale: Locale) {
     str.language === locale;
 }
 
-function translationsMap(translatables: FrameQuery['stringTranslations']) {
+function translationsMap(
+  translatables: Required<FrameQuery>['stringTranslations'],
+) {
   return Object.fromEntries(
-    [
-      // Make sure that Drupal translations have higher precedence.
-      ...(translatables?.filter(
-        (tr) => tr.__typename === 'DecapTranslatableString',
-      ) || []),
-      ...(translatables?.filter(
-        (tr) => tr.__typename === 'DrupalTranslatableString',
-      ) || []),
-    ]
+    translatables
       .filter((tr) => tr.translation)
       .map((tr) => [tr.source, tr.translation]),
   );
 }
 
-export function Frame({ children }: PropsWithChildren) {
+export function Frame({
+  children,
+  ...imageSettings
+}: PropsWithChildren<ComponentProps<typeof ImageSettings>>) {
   const locale = useLocale();
   return (
-    <Operation id={FrameQuery}>
+    <Operation id={FrameQuery} all={true}>
       {(result) => {
         if (result.state === 'success') {
-          const rawTranslations = result.data.stringTranslations || [];
+          const rawTranslations = result.data
+            .map((res) => res.stringTranslations || [])
+            .reduce((acc, val) => [...acc, ...val], []);
           const translations = {
             ...translationsMap(
               rawTranslations?.filter(filterByLocale('en')) || [],
@@ -57,13 +57,20 @@ export function Frame({ children }: PropsWithChildren) {
             ]),
           );
           return (
-            <IntlProvider locale={locale} messages={messages}>
-              <TranslationsProvider>
-                <Header />
-                <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                <Footer />
-              </TranslationsProvider>
-            </IntlProvider>
+            <ImageSettings {...imageSettings}>
+              <IntlProvider locale={locale} messages={messages}>
+                <TranslationsProvider>
+                  <link
+                    rel="icon"
+                    href="/images/favicon.ico"
+                    type="image/x-icon"
+                  />
+                  <Header />
+                  <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                  <Footer />
+                </TranslationsProvider>
+              </IntlProvider>
+            </ImageSettings>
           );
         }
       }}

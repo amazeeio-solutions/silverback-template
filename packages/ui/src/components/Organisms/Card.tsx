@@ -1,5 +1,6 @@
+import { Image } from '@amazeelabs/image';
 import { useIntl } from '@amazeelabs/react-intl';
-import { CardItemFragment, Image, Link } from '@custom/schema';
+import { CardItemFragment, Link } from '@custom/schema';
 import React from 'react';
 
 export const CardItem = ({
@@ -55,7 +56,13 @@ export const CardItem = ({
       </div>
       <div className="rounded-t-lg">
         {teaserImage ? (
-          <Image {...teaserImage} className="w-full" />
+          <Image
+            {...teaserImage}
+            src={teaserImage.url}
+            width={400}
+            height={300}
+            className="w-full"
+          />
         ) : (
           <div className="aspect-[4/3] bg-indigo-200" />
         )}

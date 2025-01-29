@@ -1,5 +1,3 @@
-// @ts-check
-
 import eslint from '@eslint/js';
 import prettier from 'eslint-config-prettier';
 import formatjs from 'eslint-plugin-formatjs';

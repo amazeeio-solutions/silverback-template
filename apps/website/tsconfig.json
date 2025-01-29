@@ -9,12 +9,12 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "checkJs": true,
     "jsx": "react"
   },
-  "exclude": ["netlify", "node_modules", "public"]
+  "exclude": ["netlify", "node_modules", "public", "dist", "eslint.config.mjs"]
 }

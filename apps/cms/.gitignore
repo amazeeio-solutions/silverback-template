@@ -38,3 +38,6 @@ autoload.json
 
 # A workaround to avoid turbo caching locally.
 turbo-seed.txt
+
+# Executor typescript build
+dist

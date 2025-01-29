@@ -1,3 +1,4 @@
+'use client';
 import { BlockConditionalFragment } from '@custom/schema';
 import React, { useEffect, useState } from 'react';
 

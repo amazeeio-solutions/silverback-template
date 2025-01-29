@@ -1,9 +1,8 @@
 import { Url } from '@custom/schema';
-import Landscape from '@stories/landscape.jpg?as=metadata';
-import Portrait from '@stories/portrait.jpg?as=metadata';
+import Landscape from '@stories/landscape.jpg';
+import Portrait from '@stories/portrait.jpg';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { image } from '../../../helpers/image';
 import { BlockImageTeasers } from './BlockImageTeasers';
 
 export default {
@@ -18,7 +17,7 @@ export const Default = {
         ctaText: 'Call to action',
         ctaUrl: '/test' as Url,
         image: {
-          source: image(Landscape),
+          url: Landscape,
           alt: 'Alt text',
         },
       },
@@ -27,7 +26,7 @@ export const Default = {
         ctaText: 'Call to action',
         ctaUrl: '/test' as Url,
         image: {
-          source: image(Portrait),
+          url: Portrait,
           alt: 'Alt text',
         },
       },

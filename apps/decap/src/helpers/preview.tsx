@@ -6,15 +6,16 @@ import {
   OperationResult,
   OperationVariables,
 } from '@custom/schema';
-import operations from '@custom/schema/operations';
 import { PreviewTemplateComponentProps } from 'decap-cms-core';
 import { buildSchema, graphql, GraphQLFieldResolver } from 'graphql';
 import { useEffect, useState } from 'react';
 import { ZodType, ZodTypeDef } from 'zod';
 
+import rawOperations from '../../node_modules/@custom/schema/build/operations.json?raw';
 import rawSchema from '../../node_modules/@custom/schema/build/schema.graphql?raw';
 import { PreviewFrame } from './frame.js';
 
+const operations = JSON.parse(rawOperations);
 const schema = buildSchema(rawSchema);
 
 type DecapContext = {

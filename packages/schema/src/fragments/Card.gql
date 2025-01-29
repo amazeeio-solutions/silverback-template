@@ -8,6 +8,6 @@ fragment CardItem on CardItem {
   }
   teaserImage {
     alt
-    source(width: 400, height: 300)
+    url
   }
 }

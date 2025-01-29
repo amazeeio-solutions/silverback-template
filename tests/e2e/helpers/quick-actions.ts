@@ -13,6 +13,7 @@ export class QuickActions {
   }
 
   async changeLanguageTo(language: SiteLanguage): Promise<void> {
+    await this.page.waitForLoadState('networkidle');
     // Open the language switcher.
     await this.page
       .locator("(//button[contains(@aria-haspopup, 'menu')])[1]")

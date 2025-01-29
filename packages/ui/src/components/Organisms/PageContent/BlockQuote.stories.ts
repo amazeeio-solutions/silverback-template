@@ -1,8 +1,7 @@
 import { Markup } from '@custom/schema';
-import Avatar from '@stories/avatar.jpg?as=metadata';
+import Avatar from '@stories/avatar.jpg';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { image } from '../../../helpers/image';
 import { BlockQuote } from './BlockQuote';
 
 export default {
@@ -14,7 +13,7 @@ export const Quote = {
     role: 'test role',
     author: 'Author name',
     image: {
-      source: image(Avatar),
+      url: Avatar,
       alt: 'Portrait',
     },
     quote:

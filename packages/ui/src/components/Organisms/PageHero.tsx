@@ -1,4 +1,5 @@
-import { Image, Link, PageFragment } from '@custom/schema';
+import { Image } from '@amazeelabs/image';
+import { Link, PageFragment } from '@custom/schema';
 import React from 'react';
 
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
@@ -14,45 +15,42 @@ export function PageHero(props: NonNullable<PageFragment['hero']>) {
   );
 }
 
-const HeroImage = (
-  props: NonNullable<PageFragment['hero']> & { enableOverlay?: boolean },
-) => {
-  return (
+function HeroImage(
+  props: NonNullable<PageFragment['hero']>['image'] & { dim: boolean },
+) {
+  return props ? (
     <>
-      {props.image ? (
-        <>
-          {props.image.landscape ? (
-            <Image
-              alt={props.image.alt}
-              source={props.image.landscape}
-              priority={true}
-              className="absolute inset-0 -z-10 hidden size-full object-cover lg:block"
-              data-test-id={'hero-image'}
-            />
-          ) : null}
-          {props.image.portrait ? (
-            <Image
-              alt={props.image.alt}
-              source={props.image.portrait}
-              priority={true}
-              className="absolute inset-0 -z-10 block size-full object-cover lg:hidden"
-              data-test-id={'hero-image'}
-            />
-          ) : null}
-          {props.enableOverlay ? (
-            <div className="absolute inset-0 size-full bg-black opacity-40" />
-          ) : null}
-        </>
+      <Image
+        alt={props.alt}
+        src={props.url}
+        priority={true}
+        width={3840}
+        focalPoint={props.focalPoint}
+        className="absolute inset-0 -z-10 hidden size-full object-cover lg:block"
+        data-test-id={'hero-image'}
+      />
+      <Image
+        alt={props.alt}
+        src={props.url}
+        priority={true}
+        width={1200}
+        height={2400}
+        focalPoint={props.focalPoint}
+        className="absolute inset-0 -z-10 block size-full object-cover lg:hidden"
+        data-test-id={'hero-image'}
+      />
+      {props.dim ? (
+        <div className="absolute inset-0 size-full bg-black opacity-40" />
       ) : null}
     </>
-  );
-};
+  ) : null;
+}
 
 function DefaultHero(props: NonNullable<PageFragment['hero']>) {
   return (
     <>
       <section className="default-hero container-page relative isolate h-[50rem] min-h-80 overflow-hidden bg-gray-900 pb-24 pt-12 lg:h-auto lg:min-h-[33rem]">
-        <HeroImage {...props} />
+        {props.image ? <HeroImage {...props.image} dim={false} /> : null}
         <div className="container-content">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
@@ -95,7 +93,7 @@ function FormHero(props: NonNullable<PageFragment['hero']>) {
   return (
     <section>
       <div className="relative isolate overflow-hidden bg-gray-900 py-12 md:py-24">
-        <HeroImage {...props} enableOverlay={true} />
+        {props.image ? <HeroImage {...props.image} dim={true} /> : null}
         <div className="container-page relative px-4 pb-[22rem] text-center lg:px-6 lg:pb-96">
           <div className="mx-auto max-w-screen-xl">
             <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-md">

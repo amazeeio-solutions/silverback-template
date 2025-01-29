@@ -122,11 +122,6 @@ replace('.lagoon.yml', '-example.', '-' + PROJECT_NAME_MACHINE + '.');
 // Update the auth key for Gatsby user.
 const authKey = randomString(32);
 replace(
-  'apps/cms/gatsby-config.mjs',
-  "auth_key: 'cfdb0555111c0f8924cecab028b53474'",
-  `auth_key: '${authKey}'`,
-);
-replace(
   'packages/drupal/test_content/content/user/f20d961b-ba45-4820-b2cc-166e5ce56815.yml',
   'value: cfdb0555111c0f8924cecab028b53474',
   `value: ${authKey}`,

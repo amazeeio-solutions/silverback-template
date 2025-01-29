@@ -1,0 +1,8 @@
+# Local Netlify folder
+.netlify
+.cache
+.turbo
+dist
+styles.css
+persisted-store
+public/admin

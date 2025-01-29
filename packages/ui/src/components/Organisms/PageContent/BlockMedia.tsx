@@ -1,4 +1,5 @@
-import { BlockMediaFragment, Html, Image } from '@custom/schema';
+import { Image } from '@amazeelabs/image';
+import { BlockMediaFragment, Html } from '@custom/schema';
 import React from 'react';
 
 import { UnreachableCaseError } from '../../../utils/unreachable-case-error';
@@ -30,7 +31,8 @@ function Media(props: Required<BlockMediaFragment>['media']) {
       return (
         <Image
           className="mx-auto max-w-full"
-          source={props.source}
+          src={props.url}
+          width={768}
           alt={props.alt}
         />
       );

@@ -1,0 +1,11 @@
+query CampaignUrlRedirects($args: String!) {
+  campaignUrlRedirects(args: $args) {
+    rows {
+      source
+      destination
+      statusCode
+      force
+    }
+    total
+  }
+}

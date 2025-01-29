@@ -5,12 +5,10 @@ import {
   Url,
   ViewPageQuery,
 } from '@custom/schema';
-import Landscape from '@stories/landscape.jpg?as=metadata';
-import Portrait from '@stories/portrait.jpg?as=metadata';
+import Landscape from '@stories/landscape.jpg';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-import { image } from '../../helpers/image';
 import { AccordionItemText } from '../Organisms/PageContent/BlockAccordion.stories';
 import { Default as BlockImageTeasers } from '../Organisms/PageContent/BlockImageTeasers.stories';
 import { ImageRight } from '../Organisms/PageContent/BlockImageWithText.stories';
@@ -125,8 +123,7 @@ export const FullHero = {
         headline: 'Page Hero Headline',
         lead: 'A longer lead text that even might break into multiple lines.',
         image: {
-          landscape: image(Landscape, { width: 2000 }),
-          portrait: image(Portrait, { width: 2000 }),
+          url: Landscape,
           alt: 'Stock photo landscape hero.',
         },
         ctaUrl: '/test' as Url,
@@ -146,8 +143,7 @@ export const FormHero = {
         headline: 'Page Hero Headline',
         lead: 'A longer lead text that even might break into multiple lines.',
         image: {
-          landscape: image(Landscape, { width: 2000 }),
-          portrait: image(Portrait, { width: 2000 }),
+          url: Landscape,
           alt: 'Stock photo landscape hero.',
         },
         ctaUrl: '/test' as Url,

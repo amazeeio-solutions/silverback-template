@@ -34,9 +34,9 @@ const authMiddleware = getAuthenticationMiddleware();
 
 app.get('/endpoint.js', (_, res) => {
   res.send(
-    `window.GRAPHQL_ENDPOINT = "${
-      process.env.DRUPAL_URL || 'http://127.0.0.1:8888'
-    }/graphql";`,
+    `window.DRUPAL_URL = ${JSON.stringify(
+      process.env.DRUPAL_URL || 'http://127.0.0.1:8888',
+    )};`,
   );
 });
 
