@@ -1,11 +1,11 @@
 mutation ModerateContent(
   $contentId: String!
-  $contentType: String!
+  $entityType: String!
   $submittedData: JSONString!
 ) {
   moderateContent(
     contentId: $contentId
-    contentType: $contentType
+    entityType: $entityType
     submittedData: $submittedData
   ) {
     errors {

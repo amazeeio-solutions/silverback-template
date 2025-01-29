@@ -36,9 +36,14 @@ implementation(drupal): custom.content_moderation::moderateContent
 """
 directive @moderateContent(
   contentId: String!
-  contentType: String!
+  entityType: String!
   submittedData: JSONString!
 ) on FIELD_DEFINITION
+
+"""
+implementation(drupal): custom.content_moderation::moderationInfo
+"""
+directive @resolveModerationInfo on FIELD_DEFINITION
 
 """
 Retrieve an entity from the Gatsby datastore.
@@ -206,6 +211,7 @@ interface Page implements CardItem & Editable @entityBundle {
   content: [PageContent]
   metaTags: [MetaTag]
   terms: [TermContentHub!]!
+  moderationInfo: ModerationInformation
 }
 
 type DecapPage implements Page & Editable & CardItem
@@ -221,6 +227,7 @@ type DecapPage implements Page & Editable & CardItem
   content: [PageContent]
   metaTags: [MetaTag]
   terms: [TermContentHub!]!
+  moderationInfo: ModerationInformation
 }
 
 """
@@ -257,6 +264,7 @@ type DrupalPage implements Page & Editable & CardItem
     @resolveEditorBlockChildren
   metaTags: [MetaTag] @property(path: "metatag")
   terms: [TermContentHub!]! @entityReference(field: "field_content_hub_terms")
+  moderationInfo: ModerationInformation @resolveModerationInfo
 }
 
 type Hero {
@@ -515,12 +523,12 @@ type Mutation {
 
   moderateContent(
     contentId: String!
-    contentType: String!
+    entityType: String!
     submittedData: JSONString!
   ): ModerateContentMutationResponse
     @moderateContent(
       contentId: "$contentId"
-      contentType: "$contentType"
+      entityType: "$entityType"
       submittedData: "$submittedData"
     )
 }
@@ -552,6 +560,16 @@ type MetaTagAttributes @default @value(json: "{}") {
   property: String
   rel: String
   href: String
+}
+
+type ModerationInformation {
+  currentState: ModerationState
+  availableStates: [ModerationState]
+}
+
+type ModerationState {
+  id: ID
+  label: String
 }
 
 type DemoBlock {
