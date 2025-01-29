@@ -39,7 +39,7 @@ declare global {
   }
 }
 
-const SWRCacheDecorator: Decorator = (Story) => {
+const SWRCacheDecorator: Decorator = (Story, context) => {
   const { cache } = useSWRConfig();
   for (const key of cache.keys()) {
     cache.delete(key);
@@ -52,10 +52,7 @@ const SWRCacheDecorator: Decorator = (Story) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             return useSWR(
               // Make sure SWR caches are unique per story.
-              [
-                ...(key instanceof Array ? key : [key]),
-                window.__STORYBOOK_PREVIEW__.currentRender.id,
-              ],
+              [...(key instanceof Array ? key : [key]), context.id],
               fetcher,
               config,
             );
@@ -70,59 +67,6 @@ const SWRCacheDecorator: Decorator = (Story) => {
 
 export const parameters = {
   chromatic: { viewports: [320, 840, 1440] },
-  a11y: {
-    // Optional selector to inspect
-    element: '#storybook-root',
-    config: {
-      rules: [
-        {
-          // The autocomplete rule will not run based on the CSS selector provided
-          id: 'autocomplete-valid',
-          selector: '*:not([autocomplete="nope"])',
-        },
-        {
-          // Setting the enabled option to false will disable checks for this particular rule on all stories.
-          id: 'image-alt',
-          enabled: false,
-        },
-        {
-          // Setting the enabled option to false will disable checks for this particular rule on all stories.
-          id: 'color-contrast',
-          reviewOnFail: true,
-        },
-        {
-          id: 'link-name',
-          reviewOnFail: true,
-        },
-        {
-          id: 'duplicate-id',
-          reviewOnFail: true,
-        },
-        {
-          id: 'landmark-no-duplicate-main',
-          reviewOnFail: true,
-        },
-        {
-          id: 'landmark-main-is-top-level',
-          reviewOnFail: true,
-        },
-        {
-          id: 'landmark-unique',
-          reviewOnFail: true,
-        },
-        {
-          id: 'button-name',
-          reviewOnFail: true,
-        },
-        {
-          id: 'list',
-          reviewOnFail: true,
-        },
-      ],
-    },
-    // Axe's options parameter
-    options: {},
-  },
 };
 
 export const decorators = [
