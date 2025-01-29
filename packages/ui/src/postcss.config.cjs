@@ -13,6 +13,7 @@ module.exports = {
           gutenberg:
             '.gutenberg__editor .edit-post-visual-editor__content-area',
         }[process.env.PREFIX] || '',
+      skipGlobalSelectors: true,
     },
   },
 };

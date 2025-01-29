@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 const attemptDelay = 1000 * 5;
-const netlifyBootTimeout = 1000 * 60 * 2;
+const netlifyBootTimeout = 1000 * 60 * 3;
 const websiteBuildTimeout = 1000 * 60 * 2;
 
 test.setTimeout(websiteBuildTimeout + netlifyBootTimeout + 10_000);
