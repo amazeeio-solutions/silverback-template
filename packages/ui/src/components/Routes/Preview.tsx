@@ -53,7 +53,6 @@ export function Preview() {
     PreviewDrupalPageQuery,
     usePreviewParameters(),
   );
-
   const intl = useIntl();
   // @todo forward error from the backend.
   // @todo 403 status code.

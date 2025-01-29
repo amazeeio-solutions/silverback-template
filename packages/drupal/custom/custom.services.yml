@@ -13,6 +13,7 @@ services:
 
   custom.content_moderation:
     class: Drupal\custom\ContentModeration
+    arguments: ['@content_moderation.moderation_information', '@content_moderation.state_transition_validation', '@current_user', '@access_check.silverback_preview_link', '@account_switcher']
 
   custom.entity_language_redirect_subscriber:
     class: Drupal\custom\EventSubscriber\EntityLanguageRedirectSubscriber

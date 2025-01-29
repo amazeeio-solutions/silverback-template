@@ -26,9 +26,14 @@ implementation(drupal): custom.content_moderation::moderateContent
 """
 directive @moderateContent(
   contentId: String!
-  contentType: String!
+  entityType: String!
   submittedData: JSONString!
 ) on FIELD_DEFINITION
+
+"""
+implementation(drupal): custom.content_moderation::moderationInfo
+"""
+directive @resolveModerationInfo on FIELD_DEFINITION
 
 """
 Retrieve the properties of an image.
@@ -161,6 +166,7 @@ interface Page implements CardItem & Editable @resolveEntityBundle {
   hero: Hero
   content: [PageContent]
   metaTags: [MetaTag]
+  moderationInfo: ModerationInformation
 }
 
 type DecapPage implements Page & Editable & CardItem
@@ -175,6 +181,7 @@ type DecapPage implements Page & Editable & CardItem
   hero: Hero
   content: [PageContent]
   metaTags: [MetaTag]
+  moderationInfo: ModerationInformation
 }
 
 """
@@ -210,6 +217,7 @@ type DrupalPage implements Page & Editable & CardItem
     @seek(pos: 1)
     @resolveEditorBlockChildren
   metaTags: [MetaTag] @resolveProperty(path: "metatag")
+  moderationInfo: ModerationInformation @resolveModerationInfo
 }
 
 type Hero {
@@ -474,12 +482,12 @@ type Mutation {
 
   moderateContent(
     contentId: String!
-    contentType: String!
+    entityType: String!
     submittedData: JSONString!
   ): ModerateContentMutationResponse
     @moderateContent(
       contentId: "$contentId"
-      contentType: "$contentType"
+      entityType: "$entityType"
       submittedData: "$submittedData"
     )
 }
@@ -511,6 +519,16 @@ type MetaTagAttributes @default @value(json: "{}") {
   property: String
   rel: String
   href: String
+}
+
+type ModerationInformation {
+  currentState: ModerationState
+  availableStates: [ModerationState]
+}
+
+type ModerationState {
+  id: ID
+  label: String
 }
 
 type DemoBlock {
