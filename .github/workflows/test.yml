@@ -93,7 +93,8 @@ jobs:
       - name: Deploy storybook to netlify
         run:
           pnpm run --filter=@custom/ui build && npx netlify-cli deploy --prod
-          --filter @custom/ui --dir=packages/ui/storybook-static
+          --filter @custom/ui --dir=packages/ui/storybook-static --debug
+          --verbose
         env:
           VITEST_CLOUDINARY_CLOUDNAME: local
           NETLIFY_SITE_ID: ${{ vars.NETLIFY_STORYBOOK_ID }}
