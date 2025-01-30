@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3704c67619022646a408ea39aedbbcf7",
+    "content-hash": "535fad9290fee81b205a58e7f7ba93fc",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -381,20 +381,20 @@
         },
         {
             "name": "amazeelabs/silverback_gutenberg",
-            "version": "2.5.21",
+            "version": "2.5.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AmazeeLabs/silverback_gutenberg.git",
-                "reference": "e89057a0bd02912abbc0cf640d86dd1ad23b8d43"
+                "reference": "98779ee217d2f4f6b2a3f819e14a974a9c2432fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AmazeeLabs/silverback_gutenberg/zipball/e89057a0bd02912abbc0cf640d86dd1ad23b8d43",
-                "reference": "e89057a0bd02912abbc0cf640d86dd1ad23b8d43",
+                "url": "https://api.github.com/repos/AmazeeLabs/silverback_gutenberg/zipball/98779ee217d2f4f6b2a3f819e14a974a9c2432fc",
+                "reference": "98779ee217d2f4f6b2a3f819e14a974a9c2432fc",
                 "shasum": ""
             },
             "require": {
-                "drupal/gutenberg": "^2.8.0"
+                "drupal/gutenberg": "^2.14.0"
             },
             "type": "drupal-module",
             "notification-url": "https://packagist.org/downloads/",
@@ -403,9 +403,9 @@
             "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_gutenberg#readme",
             "support": {
                 "issues": "https://github.com/AmazeeLabs/silverback_gutenberg/issues",
-                "source": "https://github.com/AmazeeLabs/silverback_gutenberg/tree/2.5.21"
+                "source": "https://github.com/AmazeeLabs/silverback_gutenberg/tree/2.5.23"
             },
-            "time": "2024-12-04T11:33:15+00:00"
+            "time": "2025-01-30T08:59:53+00:00"
         },
         {
             "name": "amazeelabs/silverback_iframe",
@@ -15597,6 +15597,6 @@
     "platform": {
         "php": "^8.3 <8.4"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
