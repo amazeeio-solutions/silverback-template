@@ -25,11 +25,11 @@
   },
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^18.6.1",
-    "@commitlint/config-conventional": "^18.6.3",
-    "husky": "^8.0.3",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^9.1.7",
     "prettier": "^3.4.2",
-    "turbo": "^2.3.3"
+    "turbo": "^2.3.4"
   },
   "resolutions": {
     "gatsby-plugin-sharp": "5.13.1",
