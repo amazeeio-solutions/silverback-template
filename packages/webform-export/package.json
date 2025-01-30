@@ -7,10 +7,10 @@
     "webform-snapshots:headed": "playwright install chromium && playwright test --headed"
   },
   "devDependencies": {
-    "@amazeelabs/save-webpage": "^1.1.1",
+    "@amazeelabs/save-webpage": "^1.2.10",
     "@custom/eslint-config": "workspace:*",
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.50.0",
     "@types/node": "^20",
-    "typescript": "^5.3.3"
+    "typescript": "^5.7.3"
   }
 }
