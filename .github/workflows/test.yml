@@ -92,8 +92,8 @@ jobs:
 
       - name: Deploy storybook to netlify
         run:
-          pnpm run --filter=@custom/ui build && echo "Built" && pnpx
-          --package=netlify-cli netlify deploy --prod --filter @custom/ui
+          pnpm run --filter=@custom/ui build && echo "Built" && pnpm
+          --package=netlify-cli dlx netlify deploy --prod --filter @custom/ui
           --dir=packages/ui/storybook-static --debug --verbose
         env:
           VITEST_CLOUDINARY_CLOUDNAME: local
