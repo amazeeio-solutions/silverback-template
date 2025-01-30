@@ -75,8 +75,6 @@ ${
 import { DrupalMediaEntity } from '../utils/drupal-media';`
 }
 
-const { t: __ } = Drupal;
-
 registerBlockType<{
 ${attributes
   .filter((attribute) => attribute.type)
@@ -112,12 +110,12 @@ ${attributes
     return (
       <Fragment>
         <InspectorControls>
-          <PanelBody title={__('Block settings')}>  
+          <PanelBody title={Drupal.t('Block settings')}>  
             <p>Block settings</p>
           </PanelBody>
         </InspectorControls>
         <div className={'container-wrapper'}>
-          <div className={'container-label'}>{__('${titleCaseTitle}')}</div>
+          <div className={'container-label'}>{Drupal.t('${titleCaseTitle}')}</div>
           <div className="custom-block-${blockName}">
             ${attributes
               .map((attribute) => getGutenbergFieldBlock(attribute))
@@ -146,7 +144,7 @@ function getGutenbergFieldBlock(attribute) {
             allowedFormats={[]}
             // @ts-ignore
             disableLineBreaks={true}
-            placeholder={__("${toTitleCase(attribute.name)}")}
+            placeholder={Drupal.t("${toTitleCase(attribute.name)}")}
             keepPlaceholderOnFocus={true}
             onChange={(newValue) => {
               setAttributes({ ${attribute.name}: newValue })

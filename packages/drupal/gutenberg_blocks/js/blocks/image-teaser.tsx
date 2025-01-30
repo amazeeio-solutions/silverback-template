@@ -10,7 +10,6 @@ import { dispatch } from 'wordpress__data';
 
 import { DrupalMediaEntity } from '../utils/drupal-media';
 
-const { t: __ } = Drupal;
 const { setPlainTextAttribute } = silverbackGutenbergUtils;
 
 registerBlockType<{
@@ -19,7 +18,7 @@ registerBlockType<{
   ctaUrl?: string;
   ctaText: string;
 }>('custom/image-teaser', {
-  title: __('Image Teaser'),
+  title: Drupal.t('Image Teaser'),
   parent: ['custom/image-teasers'],
   icon: 'cover-image',
   category: 'layout',
@@ -43,9 +42,9 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={__('CTA Link')}>
+          <PanelBody title={Drupal.t('CTA Link')}>
             <LinkControl
-              placeholder={__('Link')}
+              placeholder={Drupal.t('Link')}
               value={{
                 url: props.attributes.ctaUrl,
               }}
@@ -86,7 +85,7 @@ registerBlockType<{
                 value={props.attributes.title}
                 allowedFormats={[]}
                 disableLineBreaks={true}
-                placeholder={__('Title')}
+                placeholder={Drupal.t('Title')}
                 keepPlaceholderOnFocus={true}
                 onChange={(title) => {
                   setPlainTextAttribute(props, 'title', title);
@@ -101,7 +100,7 @@ registerBlockType<{
                 value={props.attributes.ctaText}
                 allowedFormats={[]}
                 disableLineBreaks={true}
-                placeholder={__('CTA text')}
+                placeholder={Drupal.t('CTA text')}
                 keepPlaceholderOnFocus={true}
                 style={{
                   cursor: 'text',

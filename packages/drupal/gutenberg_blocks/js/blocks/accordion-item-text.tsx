@@ -8,8 +8,6 @@ import {
 import { registerBlockType } from 'wordpress__blocks';
 import { PanelBody, SelectControl } from 'wordpress__components';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{
   title: string;
   icon?: string;
@@ -31,10 +29,10 @@ registerBlockType<{
   edit: (props) => {
     const { attributes, setAttributes, context } = props;
     const icons = [
-      { label: __('- Select an optional icon -'), value: '' },
-      { label: __('Checkmark'), value: 'checkmark' },
-      { label: __('Questionmark'), value: 'questionmark' },
-      { label: __('Arrow'), value: 'arrow' },
+      { label: Drupal.t('- Select an optional icon -'), value: '' },
+      { label: Drupal.t('Checkmark'), value: 'checkmark' },
+      { label: Drupal.t('Questionmark'), value: 'questionmark' },
+      { label: Drupal.t('Arrow'), value: 'arrow' },
     ];
 
     setAttributes({
@@ -46,16 +44,18 @@ registerBlockType<{
     return (
       <Fragment>
         <InspectorControls>
-          <PanelBody title={__('Heading Level')}>
+          <PanelBody title={Drupal.t('Heading Level')}>
             <div>
-              {__('Heading level is defined in the parent accordion block.')}
+              {Drupal.t(
+                'Heading level is defined in the parent accordion block.',
+              )}
             </div>
             <div>
-              {__('Currently it is set to:')}{' '}
+              {Drupal.t('Currently it is set to:')}{' '}
               <strong>{headingLevel as string}</strong>
             </div>
           </PanelBody>
-          <PanelBody title={__('Block settings')}>
+          <PanelBody title={Drupal.t('Block settings')}>
             <SelectControl
               value={attributes.icon}
               options={icons}
@@ -68,7 +68,9 @@ registerBlockType<{
           </PanelBody>
         </InspectorControls>
         <div className={'container-wrapper !border-stone-500'}>
-          <div className={'container-label'}>{__('Accordion Item Text')}</div>
+          <div className={'container-label'}>
+            {Drupal.t('Accordion Item Text')}
+          </div>
           <div
             className={clsx(
               'custom-block-accordion-item-text',
@@ -81,7 +83,7 @@ registerBlockType<{
               value={attributes.title}
               allowedFormats={[]}
               disableLineBreaks={true}
-              placeholder={__('Title')}
+              placeholder={Drupal.t('Title')}
               keepPlaceholderOnFocus={true}
               onChange={(newValue) => {
                 setAttributes({ title: newValue });

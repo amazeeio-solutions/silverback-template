@@ -173,17 +173,14 @@ pattern.
 - remove the `InnerBlocks` appender when the limit is reached
 
 ```tsx
-/* global Drupal */
 import { registerBlockType } from 'wordpress__blocks';
 import { InnerBlocks } from 'wordpress__block-editor';
 import { useSelect } from 'wordpress__data';
 
-const __ = Drupal.t;
-
 const MAX_BLOCKS: number = 1;
 
 registerBlockType('custom/my-block', {
-  title: __('My Block'),
+  title: Drupal.t('My Block'),
   icon: 'location',
   category: 'layout',
   attributes: {},

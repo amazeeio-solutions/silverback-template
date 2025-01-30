@@ -1,5 +1,3 @@
-const { t: __ } = Drupal;
-
 // HOW TO ADD A NEW ICON.
 //
 // 1. Add a new icon to the Icons enum.
@@ -40,7 +38,7 @@ const ICON_IMAGE_PATH = '/modules/custom/gutenberg_blocks/images/icons/';
  */
 export const allIconListOptions = (
   addDefault: boolean = true,
-  defaultLabel: string = __('Select an icon'),
+  defaultLabel: string = Drupal.t('Select an icon'),
   defaultValue: string = '',
 ): Icon[] => {
   // Empty array of icons.
@@ -49,15 +47,15 @@ export const allIconListOptions = (
   // *2. The list of all icons.
   allIcons = [
     {
-      label: __('Email'),
+      label: Drupal.t('Email'),
       value: Icons.EMAIL,
     },
     {
-      label: __('Telephone'),
+      label: Drupal.t('Telephone'),
       value: Icons.PHONE,
     },
     {
-      label: __('Life Ring'),
+      label: Drupal.t('Life Ring'),
       value: Icons.LIFE_RING,
     },
   ];
@@ -116,7 +114,7 @@ export const iconImagePreview = (icon: string): string => {
 export const limitedIconListOption = (
   icons: Icons[],
   addDefault: boolean = true,
-  defaultLabel: string = __('Select an icon'),
+  defaultLabel: string = Drupal.t('Select an icon'),
   defaultValue: string = '',
 ): Icon[] => {
   if (addDefault) {

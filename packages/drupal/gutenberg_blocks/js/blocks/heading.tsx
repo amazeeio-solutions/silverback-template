@@ -4,7 +4,6 @@ import { Path, SVG, ToolbarGroup } from 'wordpress__components';
 
 import { cleanUpText } from '../utils/clean-up-text';
 
-const { t: __ } = Drupal;
 const { sanitizeText } = silverbackGutenbergUtils;
 
 // There is no way to remove formatting options (bold, italic, etc.) from the
@@ -13,7 +12,7 @@ registerBlockType<{
   level: number;
   text: string;
 }>('custom/heading', {
-  title: __('Heading'),
+  title: Drupal.t('Heading'),
   icon: (
     <svg
       width="24"
@@ -79,7 +78,7 @@ registerBlockType<{
               const isActive = level === props.attributes.level;
               return {
                 icon: <HeadingLevelIcon level={level} isPressed={false} />,
-                title: __('Heading @level', { '@level': level }),
+                title: Drupal.t('Heading @level', { '@level': level }),
                 isActive,
                 onClick: () => {
                   props.setAttributes({
@@ -96,7 +95,7 @@ registerBlockType<{
           value={props.attributes.text}
           allowedFormats={['core/bold']}
           disableLineBreaks={true}
-          placeholder={__('Heading')}
+          placeholder={Drupal.t('Heading')}
           keepPlaceholderOnFocus={true}
           onChange={(text) => {
             props.setAttributes({

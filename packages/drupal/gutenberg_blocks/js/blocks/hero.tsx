@@ -10,7 +10,6 @@ import { dispatch } from 'wordpress__data';
 
 import { DrupalMediaEntity } from '../utils/drupal-media';
 
-const { t: __ } = Drupal;
 const { setPlainTextAttribute } = silverbackGutenbergUtils;
 
 registerBlockType<{
@@ -23,7 +22,7 @@ registerBlockType<{
   showLinkControl: boolean;
   formId?: string;
 }>('custom/hero', {
-  title: __('Hero'),
+  title: Drupal.t('Hero'),
   icon: 'cover-image',
   category: 'layout',
   attributes: {
@@ -67,10 +66,10 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={__('CTA Link')}>
+          <PanelBody title={Drupal.t('CTA Link')}>
             {!!props.attributes.showLinkControl && (
               <LinkControl
-                placeholder={__('Link')}
+                placeholder={Drupal.t('Link')}
                 value={{
                   url: props.attributes.ctaUrl,
                   openInNewTab: props.attributes.ctaOpenInNewTab,
@@ -100,15 +99,15 @@ registerBlockType<{
                   );
                 }}
               >
-                {__('Remove')}
+                {Drupal.t('Remove')}
               </button>
             )}
           </PanelBody>
-          <PanelBody title={__('Form')}>
+          <PanelBody title={Drupal.t('Form')}>
             <SelectControl
               value={props.attributes.formId}
               options={[
-                { label: __('- Select a form -'), value: '' },
+                { label: Drupal.t('- Select a form -'), value: '' },
                 ...drupalSettings.customGutenbergBlocks.forms.map((form) => ({
                   label: form.label,
                   value: form.id,
@@ -151,7 +150,7 @@ registerBlockType<{
                   value={props.attributes.headline}
                   allowedFormats={[]}
                   disableLineBreaks={true}
-                  placeholder={__('Headline')}
+                  placeholder={Drupal.t('Headline')}
                   keepPlaceholderOnFocus={true}
                   onChange={(headline) => {
                     setPlainTextAttribute(props, 'headline', headline);
@@ -166,7 +165,7 @@ registerBlockType<{
                 value={props.attributes.lead}
                 allowedFormats={[]}
                 disableLineBreaks={true}
-                placeholder={__('Lead text')}
+                placeholder={Drupal.t('Lead text')}
                 keepPlaceholderOnFocus={true}
                 onChange={(lead) => {
                   setPlainTextAttribute(props, 'lead', lead);
@@ -184,7 +183,7 @@ registerBlockType<{
                     value={props.attributes.ctaText}
                     allowedFormats={[]}
                     disableLineBreaks={true}
-                    placeholder={__('CTA text')}
+                    placeholder={Drupal.t('CTA text')}
                     keepPlaceholderOnFocus={true}
                     style={{
                       cursor: 'text',
