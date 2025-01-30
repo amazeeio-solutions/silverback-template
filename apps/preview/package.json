@@ -14,6 +14,7 @@
     "start": "node build/index.js"
   },
   "dependencies": {
+    "@amazeelabs/react-intl": "^1.1.1",
     "@custom/eslint-config": "workspace:*",
     "@custom/schema": "workspace:*",
     "@custom/ui": "workspace:*",
