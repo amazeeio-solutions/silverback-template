@@ -25,7 +25,7 @@ export function useOperation<TOperation extends AnyOperationId>(
     [operation, variables],
     // If the executor is not a function, pass null to SWR,
     // so it does not try to fetch.
-    executor instanceof Function ? (arg) => executor(arg[1]) : null,
+    executor instanceof Function ? (arg) => executor(arg[0], arg[1]) : null,
     variables?.pathname?.indexOf('__preview') > 0
       ? {
           suspense: false,
@@ -60,6 +60,6 @@ export function useMutation<TOperation extends AnyOperationId>(
     string,
     OperationVariables<TOperation>
   >(operation, (_, opts) =>
-    executor instanceof Function ? executor(opts.arg) : executor,
+    executor instanceof Function ? executor(operation, opts.arg) : executor,
   );
 }
