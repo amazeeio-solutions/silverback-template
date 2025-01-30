@@ -27,7 +27,9 @@ implementation(drupal): custom.content_moderation::moderateContent
 directive @moderateContent(
   contentId: String!
   entityType: String!
+  revisionId: String!
   submittedData: JSONString!
+  accessCredentials: AccessCredentialsInput
 ) on FIELD_DEFINITION
 
 """
@@ -483,13 +485,22 @@ type Mutation {
   moderateContent(
     contentId: String!
     entityType: String!
+    revisionId: String!
     submittedData: JSONString!
+    accessCredentials: AccessCredentialsInput
   ): ModerateContentMutationResponse
     @moderateContent(
       contentId: "$contentId"
       entityType: "$entityType"
+      revisionId: "$revisionId"
       submittedData: "$submittedData"
+      accessCredentials: "$accessCredentials"
     )
+}
+
+input AccessCredentialsInput {
+  previewUserId: String!
+  previewAccessToken: String!
 }
 
 type WebformSubmissionCreateResponse {

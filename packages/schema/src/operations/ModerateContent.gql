@@ -2,11 +2,15 @@ mutation ModerateContent(
   $contentId: String!
   $entityType: String!
   $submittedData: JSONString!
+  $revisionId: String!
+  $accessCredentials: AccessCredentialsInput
 ) {
   moderateContent(
     contentId: $contentId
     entityType: $entityType
+    revisionId: $revisionId
     submittedData: $submittedData
+    accessCredentials: $accessCredentials
   ) {
     errors {
       key
