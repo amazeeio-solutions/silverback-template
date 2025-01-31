@@ -14,17 +14,17 @@ function encodeRSCUrl(inputUrl: string) {
 
 function decodeRSCUrl(inputUrl: string) {
   const url = new URL(inputUrl, 'http://localhost');
-  url.pathname = url.pathname.replace(/^\/RSC/, '').replace(/\.txt$/, '');
+  url.pathname = url.pathname.replace(/^\/RSC\/R/, '').replace(/\.txt$/, '');
   return url;
 }
 
-const notFoundRSC = fs.readFileSync('dist/public/RSC/404.txt').toString();
+const notFoundRSC = fs.readFileSync('dist/public/RSC/R/404.txt').toString();
 
 export const handler = createStrangler(
   [
     {
       url: drupalUrl,
-      applies: (url) => url.pathname.startsWith('/RSC/'),
+      applies: (url) => url.pathname.startsWith('/RSC/R/'),
       preprocess: (event) => {
         // Before handling, turn the RSC url into the corresponding Drupal url.
         event.rawUrl = decodeRSCUrl(event.rawUrl).toString();

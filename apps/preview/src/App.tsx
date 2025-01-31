@@ -2,6 +2,7 @@ import { createDrupalExecutor } from '@custom/cms';
 import { OperationExecutorsProvider } from '@custom/schema';
 import { Frame } from '@custom/ui/routes/Frame';
 import { Preview, usePreviewRefresh } from '@custom/ui/routes/Preview';
+import { Providers } from '@custom/ui/routes/Providers';
 import { useEffect } from 'react';
 import { retry } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
@@ -29,20 +30,22 @@ function App() {
     return sub.unsubscribe;
   }, [refresh]);
   return (
-    <OperationExecutorsProvider
-      executors={[
-        {
-          executor: createDrupalExecutor(
-            window.DRUPAL_URL,
-            window.location.pathname,
-          ),
-        },
-      ]}
-    >
-      <Frame>
-        <Preview />
-      </Frame>
-    </OperationExecutorsProvider>
+    <Providers>
+      <OperationExecutorsProvider
+        executors={[
+          {
+            executor: createDrupalExecutor(
+              window.DRUPAL_URL,
+              window.location.pathname,
+            ),
+          },
+        ]}
+      >
+        <Frame>
+          <Preview />
+        </Frame>
+      </OperationExecutorsProvider>
+    </Providers>
   );
 }
 

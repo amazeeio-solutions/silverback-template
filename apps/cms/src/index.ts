@@ -1,10 +1,17 @@
 import type { AnyOperationId, OperationVariables } from '@custom/schema';
 
+const cache: Record<string, any> = {};
+
 export function createDrupalExecutor(host: string, frontendUrl: string) {
   return async function <OperationId extends AnyOperationId>(
     id: OperationId,
     variables?: OperationVariables<OperationId>,
   ) {
+    const key = `${id}:${JSON.stringify(variables)}`;
+    if (cache[key]) {
+      return cache[key];
+    }
+
     const url = new URL(`${host}/graphql`);
     const isMutation = id.includes('Mutation:');
     const publicUrl =
@@ -52,6 +59,9 @@ export function createDrupalExecutor(host: string, frontendUrl: string) {
         if (!data) {
           throw new Error('GraphQL error: ' + JSON.stringify(errors));
         }
+      }
+      if (!isMutation) {
+        cache[key] = data;
       }
       return data;
     } catch (error) {

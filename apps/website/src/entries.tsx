@@ -16,10 +16,10 @@ import { HomePage } from '@custom/ui/routes/HomePage';
 import { Inquiry } from '@custom/ui/routes/Inquiry';
 import { NotFoundPage } from '@custom/ui/routes/NotFoundPage';
 import { Page } from '@custom/ui/routes/Page';
-import React from 'react';
+import { Providers } from '@custom/ui/routes/Providers';
+import React, { PropsWithChildren } from 'react';
 import { createPages } from 'waku';
 
-import { BrokenLinkHandler } from './broken-link-handler.js';
 import { ClientExecutors } from './executors-client.js';
 import { ServerExecutors, serverExecutors } from './executors-server.js';
 import { query } from './query.js';
@@ -36,58 +36,44 @@ async function queryAll<TOperation extends AnyOperationId>(
   );
 }
 
-export default createPages(async ({ createPage, createLayout }) => {
-  createLayout({
-    render: 'static',
-    path: '/',
-    component: ({ children, path }) => (
-      <BrokenLinkHandler>
-        <LocationProvider
-          currentLocation={{
-            pathname: path,
-            searchParams: new URLSearchParams(),
-            search: '',
-            hash: '',
-          }}
-        >
-          <ServerExecutors>
-            <ClientExecutors>
-              <Frame alterSrc={(src) => src.replace(frontendUrl, drupalUrl)}>
-                {children}
+function Layout({ children }: PropsWithChildren) {
+  return (
+    <ServerExecutors>
+      <ClientExecutors>
+        <Providers alterSrc={(src) => src.replace(frontendUrl, drupalUrl)}>
+          {children}
+        </Providers>
+      </ClientExecutors>
+    </ServerExecutors>
+  );
+}
+
+function withPageWrapper(Component: React.FC) {
+  return function PageWrapper({ path }: { path: string }) {
+    return (
+      <LocationProvider
+        currentLocation={{
+          pathname: path,
+          searchParams: new URLSearchParams(),
+          search: '',
+          hash: '',
+        }}
+      >
+        <ServerExecutors>
+          <ClientExecutors>
+            <Providers alterSrc={(src) => src.replace(frontendUrl, drupalUrl)}>
+              <Frame>
+                <Component />
               </Frame>
-            </ClientExecutors>
-          </ServerExecutors>
-        </LocationProvider>
-      </BrokenLinkHandler>
-    ),
-  });
+            </Providers>
+          </ClientExecutors>
+        </ServerExecutors>
+      </LocationProvider>
+    );
+  };
+}
 
-  Object.values(Locale).forEach((lang) => {
-    createPage({
-      render: 'static',
-      path: `/${lang}`,
-      component: () => <HomePage />,
-    });
-
-    createPage({
-      render: 'static',
-      path: `/${lang}/content-hub`,
-      component: () => <ContentHub pageSize={6} />,
-    });
-
-    createPage({
-      render: 'static',
-      path: `/${lang}/inquiry`,
-      component: () => <Inquiry />,
-    });
-  });
-
-  createPage({
-    render: 'static',
-    path: '/404',
-    component: () => <NotFoundPage />,
-  });
-
+export default createPages(async ({ createPage, createLayout }) => {
   // Initialise a map for the homepages, since we want to exclude them from
   // creating a page for their internal path.
   const homePages = await query(HomePageQuery, {});
@@ -119,10 +105,46 @@ export default createPages(async ({ createPage, createLayout }) => {
     });
   }
 
-  createPage({
-    render: 'static',
-    path: '/[...path]',
-    staticPaths: [...pagePaths].map((path) => path.substring(1).split('/')),
-    component: Page,
-  });
+  return [
+    createLayout({
+      render: 'static',
+      path: '/',
+      component: Layout,
+    }),
+
+    ...Object.values(Locale)
+      .map((lang) => [
+        createPage({
+          render: 'static',
+          path: `/${lang}`,
+          component: withPageWrapper(HomePage),
+        }),
+
+        createPage({
+          render: 'static',
+          path: `/${lang}/content-hub`,
+          component: withPageWrapper(() => <ContentHub pageSize={6} />),
+        }),
+
+        createPage({
+          render: 'static',
+          path: `/${lang}/inquiry`,
+          component: withPageWrapper(Inquiry),
+        }),
+      ])
+      .reduce((acc, val) => [...acc, ...val]),
+
+    createPage({
+      render: 'static',
+      path: '/404',
+      component: withPageWrapper(NotFoundPage),
+    }),
+
+    createPage({
+      render: 'static',
+      path: '/[...path]',
+      staticPaths: [...pagePaths].map((path) => path.substring(1).split('/')),
+      component: withPageWrapper(Page),
+    }),
+  ];
 });

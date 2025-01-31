@@ -140,7 +140,7 @@ function writeRedirectsNetlify(config: RedirectsOutputConfig) {
       redirectEntry += '!';
     }
     if ([301, 302].includes(value.statusCode)) {
-      redirectEntry += `\n/RSC${value.source}.txt /RSC${value.destination}.txt ${value.statusCode}`;
+      redirectEntry += `\n/RSC/R${value.source}.txt /RSC/R${value.destination}.txt ${value.statusCode}`;
     }
 
     fs.appendFileSync(`${config.outputFile}`, redirectEntry);

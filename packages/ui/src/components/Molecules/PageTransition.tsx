@@ -1,5 +1,5 @@
 'use client';
-import { Locale } from '@custom/schema';
+import { Locale, useLocation } from '@custom/schema';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import React, { PropsWithChildren, ReactNode, useEffect } from 'react';
 
@@ -24,6 +24,7 @@ export function PageTransition({ children }: PropsWithChildren) {
   const [messageComponents, setMessageComponents] = React.useState<
     Array<ReactNode>
   >([]);
+  const [location] = useLocation();
   useEffect(() => {
     // Standard messages.
     setMessages(readMessages());
@@ -32,7 +33,7 @@ export function PageTransition({ children }: PropsWithChildren) {
     if (languageMessage) {
       setMessageComponents([languageMessage]);
     }
-  }, []);
+  }, [location.pathname, location.search]);
 
   return useReducedMotion() ? (
     <main id="main-content">
