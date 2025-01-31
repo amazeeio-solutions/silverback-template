@@ -35,7 +35,7 @@ jobs:
 
       - name: TurboRepo local server
         if: ${{ github.event.inputs.turborepo_caching != 'Off' }}
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
