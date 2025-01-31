@@ -18,6 +18,7 @@ import './blocks/info-grid';
 import './blocks/info-grid-item';
 import './blocks/teaser-list';
 import './blocks/teaser-item';
+import './blocks/person-teaser';
 
 import { ComponentType } from 'react';
 

@@ -17,6 +17,7 @@ import { BlockImageWithText } from './PageContent/BlockImageWithText';
 import { BlockInfoGrid } from './PageContent/BlockInfoGrid';
 import { BlockMarkup } from './PageContent/BlockMarkup';
 import { BlockMedia } from './PageContent/BlockMedia';
+import { BlockPersonTeaser } from './PageContent/BlockPersonTeaser';
 import { BlockQuote } from './PageContent/BlockQuote';
 import { BlockTeaserList } from './PageContent/BlockTeaserList';
 import { PageHero } from './PageHero';
@@ -54,6 +55,8 @@ export function PageDisplay(page: PageFragment) {
               return <BlockTeaserList key={index} {...block} />;
             case 'BlockConditional':
               return <BlockConditional key={index} {...block} />;
+            case 'BlockPersonTeaser':
+              return <BlockPersonTeaser key={index} {...block} />;
             default:
               throw new UnreachableCaseError(block);
           }
@@ -89,6 +92,8 @@ export function CommonContent(props: CommonContentBlock) {
       return <BlockAccordion {...props} />;
     case 'BlockInfoGrid':
       return <BlockInfoGrid {...props} />;
+    case 'BlockPersonTeaser':
+      return <BlockPersonTeaser {...props} />;
     default:
       throw new UnreachableCaseError(props);
   }

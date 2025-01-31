@@ -1,0 +1,8 @@
+fragment BlockPersonTeaser on BlockPersonTeaser {
+  image {
+    source(width: 400, height: 400)
+    alt
+  }
+  name
+  birthdate
+}

@@ -225,6 +225,7 @@ union CommonContent @resolveEditorBlockType =
   | BlockHorizontalSeparator
   | BlockAccordion
   | BlockInfoGrid
+  | BlockPersonTeaser
 
 union PageContent @resolveEditorBlockType =
   | BlockMarkup
@@ -239,6 +240,7 @@ union PageContent @resolveEditorBlockType =
   | BlockInfoGrid
   | BlockTeaserList
   | BlockConditional
+  | BlockPersonTeaser
 
 type BlockForm @type(id: "custom/form") {
   url: Url @resolveEditorBlockAttribute(key: "formId") @webformIdToUrl(id: "$")
@@ -525,4 +527,10 @@ type DrupalTranslatableString implements TranslatableString
   source: String!
   language: Locale!
   translation: String
+}
+
+type BlockPersonTeaser @type(id: "custom/person-teaser") {
+  image: MediaImage @resolveEditorBlockMedia
+  name: String! @resolveEditorBlockAttribute(key: "name")
+  birthdate: String! @resolveEditorBlockAttribute(key: "birthdate")
 }
