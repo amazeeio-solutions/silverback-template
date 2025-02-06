@@ -46,7 +46,7 @@
     "report": "mkdir -p coverage/storybook && nyc report --reporter=lcov -t coverage/storybook --report-dir coverage/storybook"
   },
   "dependencies": {
-    "@amazeelabs/react-intl": "^1.1.3",
+    "@amazeelabs/react-intl": "^1.1.4",
     "@amazeelabs/silverback-iframe": "workspace:*",
     "@custom/schema": "workspace:*",
     "@headlessui/react": "^2.2.0",
