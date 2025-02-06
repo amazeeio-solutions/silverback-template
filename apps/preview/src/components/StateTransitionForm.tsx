@@ -1,34 +1,13 @@
+'use client';
 import { useIntl } from '@amazeelabs/react-intl';
 import {
   ModerateContentMutation,
-  OperationVariables,
   PreviewDrupalPageQuery,
-  useLocation,
 } from '@custom/schema';
 import { useMutation, useOperation } from '@custom/ui/operations';
+import { usePreviewParameters } from '@custom/ui/routes/Preview';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-// @todo Duplicated function, the same exits in the ui package, in the Preview
-// route.
-function usePreviewParameters(): OperationVariables<
-  typeof PreviewDrupalPageQuery
-> {
-  const [location] = useLocation();
-
-  const nid = location.searchParams.get('nid');
-  const rid = location.searchParams.get('rid');
-  const lang = location.searchParams.get('lang');
-  const previewUserId = location.searchParams.get('preview_user_id');
-  const previewAccessToken = location.searchParams.get('preview_access_token');
-  return {
-    id: nid || '',
-    rid: rid || '',
-    locale: lang || 'en',
-    preview_user_id: previewUserId || '',
-    preview_access_token: previewAccessToken || '',
-  };
-}
 
 export default function StateTransitionForm() {
   const [showForm, setShowForm] = useState(false);
