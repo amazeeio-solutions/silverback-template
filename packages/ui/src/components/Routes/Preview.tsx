@@ -9,7 +9,7 @@ import { Loading } from '../Molecules/Loading';
 import { Messages } from '../Molecules/Messages';
 import { PageDisplay } from '../Organisms/PageDisplay';
 
-function usePreviewParameters(): OperationVariables<
+export function usePreviewParameters(): OperationVariables<
   typeof PreviewDrupalPageQuery
 > {
   const [location] = useLocation();
