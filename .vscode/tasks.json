@@ -2,11 +2,54 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Rebuild website",
-      "command": "pnpm",
-      "args": ["run", "turbo:build:website"],
+      "label": "_root: install",
       "type": "shell",
-      "problemMatcher": []
+      "command": "devbox run 'pnpm i'"
+    },
+    {
+      "label": "_root: turbo:prep",
+      "type": "shell",
+      "command": "devbox run 'pnpm run turbo:prep'"
+    },
+    {
+      "label": "_root: turbo:prep:force",
+      "type": "shell",
+      "command": "devbox run 'pnpm run turbo:prep:force'"
+    },
+    {
+      "label": "_root: turbo:test",
+      "type": "shell",
+      "command": "devbox run 'pnpm run turbo:test'"
+    },
+    {
+      "label": "cms: dev",
+      "type": "shell",
+      "command": "devbox run 'cd apps/cms && pnpm run dev'"
+    },
+    {
+      "label": "cms: login",
+      "type": "shell",
+      "command": "devbox run 'cd apps/cms && pnpm run login'"
+    },
+    {
+      "label": "preview: dev",
+      "type": "shell",
+      "command": "devbox run 'cd apps/preview && pnpm run start'"
+    },
+    {
+      "label": "publisher: dev",
+      "type": "shell",
+      "command": "devbox run 'cd apps/publisher && pnpm run dev'"
+    },
+    {
+      "label": "publisher: open",
+      "type": "shell",
+      "command": "devbox run 'cd apps/publisher && pnpm run open'"
+    },
+    {
+      "label": "ui: dev",
+      "type": "shell",
+      "command": "devbox run 'cd packages/ui && pnpm run dev'"
     }
   ]
 }
