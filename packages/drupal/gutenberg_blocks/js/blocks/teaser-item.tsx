@@ -6,7 +6,7 @@ registerBlockType<{
   uuid?: string;
   entityType?: string;
 }>('custom/teaser-item', {
-  title: 'Teaser item',
+  title: Drupal.t('Teaser item', {}, { context: 'gutenberg' }),
   icon: 'slides',
   category: 'layout',
   parent: ['custom/teaser-list'],

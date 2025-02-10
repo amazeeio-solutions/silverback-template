@@ -12,4 +12,4 @@
  */
 $processor = \Drupal::service('silverback_translations.json_processor');
 $sources = file_get_contents('../node_modules/@custom/ui/build/translatables.json');
-$processor->createSources($sources, 'gatsby');
+$processor->createSources($sources, 'website');

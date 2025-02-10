@@ -48,6 +48,7 @@
     "composer/installers": "^2.2",
     "drupal/admin_toolbar": "^3.4.1",
     "drupal/coffee": "^1.4",
+    "drupal/admin_user_language": "^1.2",
     "drupal/config_ignore": "^3.2",
     "drupal/config_notify": "^1.10",
     "drupal/config_pages": "^2.14",
@@ -102,7 +103,11 @@
   "extra": {
     "patches": {
       "drupal/core": {
-        "Multilingual-route-resolution-in-graphql": "./patches/multilingual-route-resolution-in-graphql.patch"
+        "Multilingual-route-resolution-in-graphql": "./patches/multilingual-route-resolution-in-graphql.patch",
+        "#2313309 - Admin toolbar and contextual links should always be rendered in the admin language (if set)": "https://www.drupal.org/files/issues/2023-12-19/2313309-179.patch",
+        "#2123543 - Add string context and location filters to the translate interface": "https://www.drupal.org/files/issues/2024-08-01/drupal-translate_string_context_filter-2123543-105.patch.patch",
+        "Default context for translation UI": "./patches/core/default-context-for-translation-ui.patch",
+        "3222997 - Allow disable non translatable fields on translation forms": "https://www.drupal.org/files/issues/2022-11-03/content_translation-disable_non_translatable_fields_translation_forms-3222997-15.patch"
       },
       "drupal/gutenberg": {
         "Gutenberg enabled hook": "https://www.drupal.org/files/issues/2024-05-07/gutenberg_enabled_hook_3445677-2.patch",
