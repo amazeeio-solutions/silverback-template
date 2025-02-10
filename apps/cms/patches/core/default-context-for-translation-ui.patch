@@ -1,0 +1,22 @@
+diff --git a/core/modules/locale/src/Form/TranslateFormBase.php b/core/modules/locale/src/Form/TranslateFormBase.php
+index 2f36ae6a2c..835e7062fa 100644
+--- a/core/modules/locale/src/Form/TranslateFormBase.php
++++ b/core/modules/locale/src/Form/TranslateFormBase.php
+@@ -162,7 +162,7 @@ abstract class TranslateFormBase extends FormBase {
+
+     // Get all available string translation contexts.
+     $contexts = $this->localeStorage->getContexts();
+-    $context_options = [];
++    $context_options = ['' => t('- All -')];
+     foreach ($contexts as $context) {
+       $context_options[strtolower($context)] = $context;
+     }
+@@ -224,7 +224,7 @@ abstract class TranslateFormBase extends FormBase {
+     $filters['context'] = [
+       'title' => $this->t('Context'),
+       'options' => $context_options,
+-      'default' => '',
++      'default' => 'website',
+     ];
+
+     return $filters;

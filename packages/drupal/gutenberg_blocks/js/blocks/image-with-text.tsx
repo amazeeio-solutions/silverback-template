@@ -5,13 +5,11 @@ import { dispatch } from 'wordpress__data';
 
 import { DrupalMediaEntity } from '../utils/drupal-media';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{
   mediaEntityIds?: [string];
   imagePosition: string;
 }>('custom/image-with-text', {
-  title: __('Image with Text'),
+  title: Drupal.t('Image with Text', {}, { context: 'gutenberg' }),
   icon: 'cover-image',
   category: 'layout',
   attributes: {
@@ -28,12 +26,20 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={__('Image position')}>
+          <PanelBody
+            title={Drupal.t('Image position', {}, { context: 'gutenberg' })}
+          >
             <SelectControl
               value={props.attributes.imagePosition}
               options={[
-                { label: __('Left'), value: 'left' },
-                { label: __('Right'), value: 'right' },
+                {
+                  label: Drupal.t('Left', {}, { context: 'gutenberg' }),
+                  value: 'left',
+                },
+                {
+                  label: Drupal.t('Right', {}, { context: 'gutenberg' }),
+                  value: 'right',
+                },
               ]}
               onChange={(imagePosition: string) => {
                 setAttributes({
@@ -44,7 +50,9 @@ registerBlockType<{
           </PanelBody>
         </InspectorControls>
         <div className={'container-wrapper !border-stone-500'}>
-          <div className={'container-label'}>{__('Image with Text')}</div>
+          <div className={'container-label'}>
+            {Drupal.t('Image with Text', {}, { context: 'gutenberg' })}
+          </div>
           <DrupalMediaEntity
             classname={'w-full'}
             attributes={{

@@ -11,6 +11,7 @@ third_party_settings:
     enabled: false
     bundle_settings:
       untranslatable_fields_hide: '0'
+      untranslatable_fields_disabled: '0'
 id: shortcut.default
 target_entity_type_id: shortcut
 target_bundle: default

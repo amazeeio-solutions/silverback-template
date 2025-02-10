@@ -9,8 +9,6 @@ import {
   TextControl,
 } from 'wordpress__components';
 
-const { t: __ } = Drupal;
-
 type ConditionsType = {
   [key: string]: {
     label: string;
@@ -19,7 +17,11 @@ type ConditionsType = {
   };
 };
 
-const blockTitle = __('Conditional content');
+const blockTitle = Drupal.t(
+  'Conditional content',
+  {},
+  { context: 'gutenberg' },
+);
 
 registerBlockType<{
   displayFrom: string;
@@ -62,20 +64,25 @@ registerBlockType<{
 
     const conditions: ConditionsType = {
       scheduledDisplay: {
-        label: '⏱️ ' + __('Scheduled display'),
+        label:
+          '⏱️ ' + Drupal.t('Scheduled display', {}, { context: 'gutenberg' }),
         visible: !!(displayFrom || displayTo),
         template: (
           <>
             {displayFrom ? (
               <>
-                <span className="font-extralight">{__('From')}:</span>{' '}
+                <span className="font-extralight">
+                  {Drupal.t('From', {}, { context: 'gutenberg' })}:
+                </span>{' '}
                 {new Date(displayFrom).toLocaleString()}
               </>
             ) : null}
             {displayFrom && displayTo ? ' ' : null}
             {displayTo ? (
               <>
-                <span className="font-extralight">{__('To')}:</span>{' '}
+                <span className="font-extralight">
+                  {Drupal.t('To', {}, { context: 'gutenberg' })}:
+                </span>{' '}
                 {new Date(displayTo).toLocaleString()}
               </>
             ) : null}
@@ -83,7 +90,7 @@ registerBlockType<{
         ),
       },
       device: {
-        label: '📱 ' + __('Device'),
+        label: '📱 ' + Drupal.t('Device', {}, { context: 'gutenberg' }),
         visible: false,
         template: <>{'Mobile only.'}</>,
       },
@@ -104,7 +111,7 @@ registerBlockType<{
           </>
         ))
     ) : (
-      <>{'ℹ️ ' + __('No conditions set')}</>
+      <>{'ℹ️ ' + Drupal.t('No conditions set', {}, { context: 'gutenberg' })}</>
     );
 
     return (
@@ -123,26 +130,30 @@ registerBlockType<{
           </div>
         </CollapsibleContainer>
         <InspectorControls>
-          <PanelBody title={__('Purpose')}>
+          <PanelBody title={Drupal.t('Purpose', {}, { context: 'gutenberg' })}>
             <PanelRow>
               <TextControl
                 id="purpose"
                 hideLabelFromVision={true}
-                label={__('Purpose')}
+                label={Drupal.t('Purpose', {}, { context: 'gutenberg' })}
                 value={purpose}
                 onChange={(value: string) => setAttributes({ purpose: value })}
-                help={__(
+                help={Drupal.t(
                   'The value is not exposed to the frontend and serves to identify the reason of the conditional content (e.g. Summer Campaign).',
+                  {},
+                  { context: 'gutenberg' },
                 )}
               />
             </PanelRow>
           </PanelBody>
 
-          <PanelBody title={__('Scheduled display')}>
+          <PanelBody
+            title={Drupal.t('Scheduled display', {}, { context: 'gutenberg' })}
+          >
             <PanelRow className={'flex flex-col items-start gap-4'}>
               <BaseControl
                 id="displayFrom"
-                label={__('From')}
+                label={Drupal.t('From', {}, { context: 'gutenberg' })}
                 className={
                   '!m-0 [&>div>label]:my-auto [&>div>label]:w-4 [&>div]:flex [&>div]:gap-4'
                 }
@@ -162,7 +173,7 @@ registerBlockType<{
               </BaseControl>
               <BaseControl
                 id="displayTo"
-                label={__('To')}
+                label={Drupal.t('To', {}, { context: 'gutenberg' })}
                 className={
                   '!m-0 [&>div>label]:my-auto [&>div>label]:mb-0 [&>div>label]:w-4 [&>div]:flex [&>div]:gap-4'
                 }
@@ -183,7 +194,7 @@ registerBlockType<{
             </PanelRow>
             <PanelRow>
               <p className={'text-xs text-neutral-500'}>
-                {__('Time zone') +
+                {Drupal.t('Time zone', {}, { context: 'gutenberg' }) +
                   ': ' +
                   Intl.DateTimeFormat().resolvedOptions().timeZone}
               </p>

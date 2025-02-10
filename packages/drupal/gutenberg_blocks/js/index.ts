@@ -26,7 +26,7 @@ import { ComponentType } from 'react';
 declare global {
   const Drupal: {
     behaviors: any;
-    t: (s: string, t?: object) => string;
+    t: (s: string, t?: object, c?: object) => string;
   };
 
   const DrupalGutenberg: {

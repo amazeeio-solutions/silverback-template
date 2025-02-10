@@ -11,6 +11,7 @@ third_party_settings:
     enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
+      untranslatable_fields_disabled: '1'
 id: media.video
 target_entity_type_id: media
 target_bundle: video

@@ -25,3 +25,11 @@ Provided by the "custom" module.
 Implemented in "Drupal\custom\Plugin\GraphQL\Directive\PEntityEditLink".
 """
 directive @resolveEntityEditLink repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Resolves the translated strings.
+
+Provided by the "custom" module.
+Implemented in "Drupal\custom\Plugin\GraphQL\Directive\DrupalTranslatedStrings".
+"""
+directive @drupalTranslatedStrings repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
