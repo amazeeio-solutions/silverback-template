@@ -435,36 +435,28 @@
     },
     {
       "name": "amazeelabs/silverback_iframe",
-      "version": "1.4.3",
+      "version": "dev-one-repo-to-rule-them-all",
       "dist": {
         "type": "path",
         "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe",
-        "reference": "410169fbe0879c1c85da0788fc5f683ee8471805"
+        "reference": "d836c851499f49e44f137711eec3491664a9f0cd"
       },
       "type": "drupal-module",
-      "license": [
-        "GPL-2.0+"
-      ],
       "description": "Provides a way for displaying Drupal content/forms in iframes.",
-      "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_iframe#readme",
       "transport-options": {
         "relative": true
       }
     },
     {
       "name": "amazeelabs/silverback_iframe_theme",
-      "version": "1.4.3",
+      "version": "dev-one-repo-to-rule-them-all",
       "dist": {
         "type": "path",
         "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme",
-        "reference": "acb4f762ef103587fb912aaeceede9846888a87c"
+        "reference": "a880356a379ea86f82dff1209be6c8c5fd4800f6"
       },
       "type": "drupal-theme",
-      "license": [
-        "GPL-2.0+"
-      ],
       "description": "Theme for amazeelabs/silverback_iframe module.",
-      "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_iframe_theme#readme",
       "transport-options": {
         "relative": true
       }
