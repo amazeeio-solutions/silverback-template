@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "ae685239b5c7d38c5148f05a0651be48",
+  "content-hash": "f9d786d9df4054b7e829ff8038c67585",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -435,11 +435,11 @@
     },
     {
       "name": "amazeelabs/silverback_iframe",
-      "version": "dev-one-repo-to-rule-them-all",
+      "version": "dev-main",
       "dist": {
         "type": "path",
         "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe",
-        "reference": "d836c851499f49e44f137711eec3491664a9f0cd"
+        "reference": "38622f916396456786c21c40e1bbf22bd08a7137"
       },
       "type": "drupal-module",
       "description": "Provides a way for displaying Drupal content/forms in iframes.",
@@ -449,11 +449,11 @@
     },
     {
       "name": "amazeelabs/silverback_iframe_theme",
-      "version": "dev-one-repo-to-rule-them-all",
+      "version": "dev-main",
       "dist": {
         "type": "path",
         "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme",
-        "reference": "a880356a379ea86f82dff1209be6c8c5fd4800f6"
+        "reference": "c9274834748ed9abc203379002d491cc7ef0ee6d"
       },
       "type": "drupal-theme",
       "description": "Theme for amazeelabs/silverback_iframe module.",
@@ -16749,8 +16749,6 @@
   "aliases": [],
   "minimum-stability": "dev",
   "stability-flags": {
-    "amazeelabs/silverback_iframe": 20,
-    "amazeelabs/silverback_iframe_theme": 20,
     "drupal/entity_usage": 10,
     "drupal/linkit": 10,
     "drupal/masquerade": 5

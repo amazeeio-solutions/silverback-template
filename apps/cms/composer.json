@@ -27,11 +27,7 @@
     },
     {
       "type": "path",
-      "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe"
-    },
-    {
-      "type": "path",
-      "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme"
+      "url": "node_modules/@amazeelabs/*/drupal/*"
     }
   ],
   "require": {
@@ -48,8 +44,8 @@
     "amazeelabs/silverback_gatsby": "^3.0",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
     "amazeelabs/silverback_gutenberg": "^2.5.23",
-    "amazeelabs/silverback_iframe": "@dev",
-    "amazeelabs/silverback_iframe_theme": "@dev",
+    "amazeelabs/silverback_iframe": "*",
+    "amazeelabs/silverback_iframe_theme": "*",
     "amazeelabs/silverback_preview_link": "^1.6",
     "amazeelabs/silverback_publisher_monitor": "^2.3.2",
     "amazeelabs/silverback_translations": "^1.0.4",
