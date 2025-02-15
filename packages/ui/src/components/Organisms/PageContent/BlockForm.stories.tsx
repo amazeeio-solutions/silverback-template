@@ -6,6 +6,12 @@ import { BlockForm } from './BlockForm';
 
 export default {
   component: BlockForm,
+  parameters: {
+    a11y: {
+      // Disable because axe requires itself to be added inside the iframe.
+      disable: true,
+    },
+  },
 } satisfies Meta<typeof BlockForm>;
 
 export const Idle = {

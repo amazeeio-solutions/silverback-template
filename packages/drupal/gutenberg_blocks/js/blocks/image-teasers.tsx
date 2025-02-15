@@ -1,17 +1,17 @@
 import { InnerBlocks } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{}>('custom/image-teasers', {
-  title: __('Image Teasers'),
+  title: Drupal.t('Image Teasers', {}, { context: 'gutenberg' }),
   icon: 'format-image',
   category: 'layout',
   attributes: {},
   edit: () => {
     return (
       <div className={'container-wrapper !border-stone-500'}>
-        <div className={'container-label'}>{__('Image Teasers')}</div>
+        <div className={'container-label'}>
+          {Drupal.t('Image Teasers', {}, { context: 'gutenberg' })}
+        </div>
         <InnerBlocks
           templateLock={false}
           allowedBlocks={['custom/image-teaser']}

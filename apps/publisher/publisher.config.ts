@@ -74,6 +74,12 @@ function githubEnvVars(): Record<string, string> {
       'PUBLISHER_OAUTH2_TOKEN_HOST',
       'VITE_DECAP_REPO',
       'VITE_DECAP_BRANCH',
+      // For Publisher Slack notifications.
+      'PUBLISHER_SLACK_WEBHOOK',
+      'PUBLISHER_SLACK_CHANNEL',
+      'PUBLISHER_URL',
+      'LAGOON_PROJECT',
+      'LAGOON_ENVIRONMENT',
     ].map((name) => {
       if (name === 'DRUPAL_INTERNAL_URL') {
         // No internal URLs when building on Github.

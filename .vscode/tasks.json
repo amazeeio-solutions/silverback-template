@@ -2,11 +2,49 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Rebuild website",
-      "command": "pnpm",
-      "args": ["run", "turbo:build:website"],
-      "type": "shell",
-      "problemMatcher": []
+      "label": "_root: install",
+      "command": "devbox run 'pnpm i'",
+      "type": "shell"
+    },
+    {
+      "label": "_root: turbo:prep",
+      "command": "devbox run 'pnpm run turbo:prep'",
+      "type": "shell"
+    },
+    {
+      "label": "_root: turbo:prep:force",
+      "command": "devbox run 'pnpm run turbo:prep:force'",
+      "type": "shell"
+    },
+    {
+      "label": "cms: dev",
+      "command": "devbox run 'cd apps/cms && pnpm run dev'",
+      "type": "shell"
+    },
+    {
+      "label": "cms: login",
+      "command": "devbox run 'cd apps/cms && pnpm run login'",
+      "type": "shell"
+    },
+    {
+      "label": "preview: dev",
+      "command": "devbox run 'cd apps/preview && pnpm run start'",
+      "type": "shell"
+    },
+    {
+      "label": "publisher: dev",
+      "command": "devbox run 'cd apps/publisher && pnpm run dev'",
+      "type": "shell"
+    },
+    {
+      "label": "publisher: open",
+      "command": "devbox run 'cd apps/publisher && pnpm run open'",
+      "type": "shell"
+    },
+    {
+      "label": "ui: dev",
+      "command": "devbox run 'cd packages/ui && pnpm run dev'",
+      "type": "shell"
     }
   ]
 }
