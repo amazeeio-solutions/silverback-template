@@ -13,11 +13,6 @@ implementation(drupal): \Drupal\custom\FocalPoint::getFocalPoint
 directive @focalPoint on FIELD_DEFINITION
 
 """
-implementation(drupal): custom.translatables::all
-"""
-directive @translatables(context: String!) on FIELD_DEFINITION
-
-"""
 implementation(drupal): custom.webform::url
 """
 directive @webformIdToUrl(id: String!) on FIELD_DEFINITION
@@ -372,7 +367,7 @@ type Query {
     @lang(code: "$locale")
     @drupalView(id: "content_hub:default", args: "$args")
 
-  stringTranslations: [TranslatableString!] @translatables(context: "gatsby")
+  stringTranslations: [TranslatableString!] @drupalTranslatedStrings
 
   campaignUrlRedirects(args: String): CampaignUrlRedirectsResult
     @drupalView(id: "campaign_urls:frontend_redirects", args: "$args")
