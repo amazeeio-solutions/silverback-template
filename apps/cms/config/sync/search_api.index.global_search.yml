@@ -3,24 +3,23 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.media.field_media_image
-    - field.storage.media.field_media_video_file
-    - search_api.server.database
     - core.entity_view_mode.config_pages.global_search
     - core.entity_view_mode.media.global_search
     - core.entity_view_mode.node.global_search
     - core.entity_view_mode.user.global_search
+    - field.storage.media.field_media_image
+    - field.storage.media.field_media_video_file
+    - search_api.server.database
   module:
-    - path_alias
-    - menu_link_content
-    - silverback_campaign_urls
-    - user
-    - redirect
-    - search_api
     - config_pages
     - media
+    - menu_link_content
     - node
+    - path_alias
+    - redirect
+    - silverback_campaign_urls
     - taxonomy
+    - user
 id: global_search
 name: 'Global search'
 description: ''
