@@ -11,3 +11,4 @@ apps/website/.env
 .DS_Store
 .turbo
 /_local
+/lerna-debug.log
