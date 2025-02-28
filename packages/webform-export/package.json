@@ -1,6 +1,7 @@
 {
   "name": "@custom/webform-export",
   "type": "module",
+  "private": true,
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
     "webform-snapshots": "playwright install chromium && playwright test",
