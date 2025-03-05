@@ -1,7 +1,6 @@
 import {
   CardItemFragment,
   ContentHubQuery,
-  ContentHubTermsQuery,
   OperationExecutorsProvider,
   OperationResult,
   OperationVariables,
@@ -29,38 +28,28 @@ export default {
   render: (args) => {
     return (
       <OperationExecutorsProvider
-        executors={[
-          { executor: args.execQuery, id: ContentHubQuery },
-          { executor: args.execTerms, id: ContentHubTermsQuery },
-        ]}
+        executors={[{ executor: args.execQuery, id: ContentHubQuery }]}
       >
-        <ContentHub pageSize={pageSize} />
+        <ContentHub
+          pageSize={pageSize}
+          termsResults={SearchFormStories.args.termOptions}
+        />
       </OperationExecutorsProvider>
     );
   },
 } satisfies Meta<{
   execQuery: ContentHubExecutor;
-  execTerms: ContentHubTermsQuery;
 }>;
 
 type ContentHubStory = StoryObj<{
   execQuery: ContentHubExecutor;
-  execTerms: ContentHubTermsQuery;
 }>;
-
-const termOptions = {
-  contentHubTerms: {
-    total: SearchFormStories.args.termOptions.length,
-    items: SearchFormStories.args.termOptions,
-  },
-};
 
 export const Empty = {
   args: {
     execQuery: async () => ({
       contentHub: { total: 0, items: [] },
     }),
-    execTerms: termOptions,
   },
 } satisfies ContentHubStory;
 
@@ -68,7 +57,6 @@ export const Loading = {
   args: {
     execQuery: () =>
       new Promise<OperationResult<typeof ContentHubQuery>>(() => {}),
-    execTerms: termOptions,
   },
 } satisfies ContentHubStory;
 
@@ -78,7 +66,6 @@ export const Error = {
       new Promise<OperationResult<typeof ContentHubQuery>>(() => {
         throw 'Error loading content hub.';
       }),
-    execTerms: termOptions,
   },
 } satisfies ContentHubStory;
 
@@ -135,7 +122,6 @@ export const WithResults: ContentHubStory = {
         },
       };
     },
-    execTerms: termOptions,
   },
 };
 

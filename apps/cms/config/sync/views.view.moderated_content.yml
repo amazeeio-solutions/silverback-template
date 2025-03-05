@@ -26,7 +26,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Moderated content'
+      title: Content
       fields:
         node_bulk_form:
           id: node_bulk_form
@@ -920,7 +920,7 @@ display:
         - 'config:workflow_list'
   moderated_content:
     id: moderated_content
-    display_title: 'Moderated content'
+    display_title: Content
     display_plugin: page
     position: 1
     display_options:

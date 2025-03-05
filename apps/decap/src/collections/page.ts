@@ -241,6 +241,7 @@ export const getPages: SilverbackSource<DecapPageSource> = () => {
                   label: 'Test',
                   termId: '1',
                   depth: 0,
+                  locale: 'en',
                 },
               ],
             },
