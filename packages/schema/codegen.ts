@@ -31,6 +31,9 @@ const config: CodegenConfig = {
     // Persisted query ids to be consumed by Drupal.
     'build/operations.json': {
       plugins: ['@amazeelabs/codegen-operation-ids'],
+      config: {
+        fragments: 'inline',
+      },
     },
     // Directive autoloader for Gatsby.
     'build/gatsby-autoload.mjs': {

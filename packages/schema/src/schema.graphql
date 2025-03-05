@@ -501,6 +501,7 @@ type Query {
 
   stringTranslations: [TranslatableString!]
     @gatsbyNodes(type: "TranslatableString")
+    @drupalTranslatedStrings
 
   contentHubTerms: TermContentHubResults!
     @loadByVocabulary(bundle: "content_hub")
@@ -574,7 +575,7 @@ type DecapTranslatableString implements TranslatableString
 }
 
 type DrupalTranslatableString implements TranslatableString
-  @translatableString(contextPrefix: "gatsby") {
+  @translatableString(contextPrefix: "website") {
   source: String!
   language: Locale!
   translation: String

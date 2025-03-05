@@ -35,7 +35,7 @@ jobs:
 
       - name: TurboRepo local server
         if: ${{ github.event.inputs.turborepo_caching != 'Off' }}
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -92,8 +92,9 @@ jobs:
 
       - name: Deploy storybook to netlify
         run:
-          pnpm run --filter=@custom/ui build && npx netlify-cli deploy --prod
-          --filter @custom/ui --dir=packages/ui/storybook-static
+          pnpm run --filter=@custom/ui build && pnpm --package=netlify-cli dlx
+          netlify deploy --prod --filter @custom/ui
+          --dir=packages/ui/storybook-static
         env:
           VITEST_CLOUDINARY_CLOUDNAME: local
           NETLIFY_SITE_ID: ${{ vars.NETLIFY_STORYBOOK_ID }}
@@ -159,15 +160,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
       - name: Install Pygmy
         run: |
           set -ex
-          git clone https://github.com/pygmystack/pygmy.git
-          cd pygmy
-          make build
-          ls -lisa ./builds
-          cp ./builds/pygmy-linux-amd64 /usr/local/bin/pygmy
-          chmod +x /usr/local/bin/pygmy
+          brew tap pygmystack/pygmy
+          brew install pygmy
       - name: Start Pygmy
         run: pygmy up
       - name: Docker Build & Up

@@ -5,7 +5,6 @@ import { dispatch } from 'wordpress__data';
 import { cleanUpText } from '../utils/clean-up-text';
 import { DrupalMediaEntity } from '../utils/drupal-media';
 
-const { t: __ } = Drupal;
 const { setPlainTextAttribute } = silverbackGutenbergUtils;
 
 registerBlockType<{
@@ -14,7 +13,7 @@ registerBlockType<{
   role: string;
   mediaEntityIds?: [string];
 }>(`custom/quote`, {
-  title: __('Quote'),
+  title: Drupal.t('Quote', {}, { context: 'gutenberg' }),
   icon: 'format-quote',
   category: 'text',
   attributes: {
@@ -58,7 +57,7 @@ registerBlockType<{
             value={props.attributes.quote}
             allowedFormats={['core/bold']}
             disableLineBreaks={false}
-            placeholder={__('Quote')}
+            placeholder={Drupal.t('Quote', {}, { context: 'gutenberg' })}
             keepPlaceholderOnFocus={false}
             onChange={(quote) => {
               props.setAttributes({
@@ -88,7 +87,7 @@ registerBlockType<{
               value={props.attributes.author}
               allowedFormats={[]}
               disableLineBreaks={false}
-              placeholder={__('Author')}
+              placeholder={Drupal.t('Author', {}, { context: 'gutenberg' })}
               keepPlaceholderOnFocus={false}
               onChange={(author) => {
                 setPlainTextAttribute(props, 'author', author);
@@ -101,7 +100,7 @@ registerBlockType<{
               value={props.attributes.role}
               allowedFormats={[]}
               disableLineBreaks={false}
-              placeholder={__('Role')}
+              placeholder={Drupal.t('Role', {}, { context: 'gutenberg' })}
               keepPlaceholderOnFocus={false}
               onChange={(role) => {
                 setPlainTextAttribute(props, 'role', role);

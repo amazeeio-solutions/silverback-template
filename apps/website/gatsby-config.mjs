@@ -12,6 +12,8 @@ process.env.CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY || 'test';
 process.env.CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET || 'test';
 process.env.CLOUDINARY_CLOUDNAME = process.env.CLOUDINARY_CLOUDNAME || 'demo';
 
+process.env.NOINDEX = process.env.NOINDEX || 'false';
+
 /**
  *
  * @type {import('gatsby').GatsbyConfig['plugins']}
@@ -42,6 +44,12 @@ const plugins = [
     options: {
       // To avoid "X-Frame-Options: DENY" in Drupal iframes.
       mergeSecurityHeaders: false,
+      headers:
+        process.env.NOINDEX === 'true'
+          ? {
+              '/*': ['X-Robots-Tag: noindex, nofollow'],
+            }
+          : {},
     },
   },
   {
@@ -50,7 +58,10 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-robots-txt',
     options: {
-      policy: [{ userAgent: '*', allow: '/', disallow: [] }],
+      policy:
+        process.env.NOINDEX === 'true'
+          ? [{ userAgent: '*', disallow: '/' }]
+          : [{ userAgent: '*', allow: '/', disallow: [] }],
     },
   },
   {

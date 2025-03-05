@@ -5,7 +5,7 @@
     "test:static": "tsc --noEmit && eslint . --quiet",
     "test:integration": "playwright install chromium && playwright test",
     "test:headed": "playwright install chromium && playwright test --headed",
-    "dev": "playwright install chromium && playwright test --ui"
+    "dev": "playwright install chromium && playwright test --ui --headed"
   },
   "devDependencies": {
     "@custom/cms": "workspace:*",
@@ -13,8 +13,8 @@
     "@custom/eslint-config": "workspace:*",
     "@custom/preview": "workspace:*",
     "@custom/website": "workspace:*",
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.50.0",
     "@types/node": "^20",
-    "typescript": "^5.3.3"
+    "typescript": "^5.7.3"
   }
 }

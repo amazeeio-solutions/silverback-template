@@ -2,8 +2,6 @@ import { InnerBlocks, InspectorControls } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
 import { PanelBody, SelectControl } from 'wordpress__components';
 
-const { t: __ } = Drupal;
-
 enum HeadingLevels {
   H2 = 'h2',
   H3 = 'h3',
@@ -14,7 +12,7 @@ enum HeadingLevels {
 registerBlockType<{
   headingLevel: string;
 }>('custom/accordion', {
-  title: __('Accordion'),
+  title: Drupal.t('Accordion', {}, { context: 'gutenberg' }),
   icon: 'menu',
   category: 'layout',
   attributes: {
@@ -32,39 +30,45 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={__('Heading Level')}>
+          <PanelBody
+            title={Drupal.t('Heading Level', {}, { context: 'gutenberg' })}
+          >
             <SelectControl
               value={attributes.headingLevel}
               options={[
                 {
-                  label: __('Heading 2'),
+                  label: Drupal.t('Heading 2', {}, { context: 'gutenberg' }),
                   value: HeadingLevels.H2,
                 },
                 {
-                  label: __('Heading 3'),
+                  label: Drupal.t('Heading 3', {}, { context: 'gutenberg' }),
                   value: HeadingLevels.H3,
                 },
                 {
-                  label: __('Heading 4'),
+                  label: Drupal.t('Heading 4', {}, { context: 'gutenberg' }),
                   value: HeadingLevels.H4,
                 },
                 {
-                  label: __('Heading 5'),
+                  label: Drupal.t('Heading 5', {}, { context: 'gutenberg' }),
                   value: HeadingLevels.H5,
                 },
               ]}
               onChange={(headingLevel: string) => {
                 setAttributes({ headingLevel });
               }}
-              help={__(
+              help={Drupal.t(
                 'The heading level will be applied to all nested accordion items.',
+                {},
+                { context: 'gutenberg' },
               )}
             />
           </PanelBody>
         </InspectorControls>
 
         <div className={'container-wrapper !border-stone-500'}>
-          <div className={'container-label'}>{__('Accordion')}</div>
+          <div className={'container-label'}>
+            {Drupal.t('Accordion', {}, { context: 'gutenberg' })}
+          </div>
           <InnerBlocks
             templateLock={false}
             allowedBlocks={['custom/accordion-item-text']}
