@@ -514,7 +514,9 @@ type Query {
     @gatsbyNodes(type: "TranslatableString")
     @drupalTranslatedStrings
 
-  contentHubTerms: [TermContentHub!] @gatsbyNodes(type: "TermContentHub")
+  contentHubTerms: [TermContentHub!]
+    @gatsbyNodes(type: "TermContentHub")
+    @loadByVocabulary(bundle: "content_hub")
 }
 
 type Mutation {

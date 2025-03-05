@@ -7,38 +7,37 @@ test('Terms', async () => {
   const result = await fetch(gql`
     {
       contentHubTerms {
-        total
-        items {
-          label
-          depth
-        }
+        label
+        depth
+        locale
       }
     }
   `);
   expect(result).toMatchInlineSnapshot(`
     {
       "data": {
-        "contentHubTerms": {
-          "items": [
-            {
-              "depth": 0,
-              "label": "Block",
-            },
-            {
-              "depth": 0,
-              "label": "Demo",
-            },
-            {
-              "depth": 0,
-              "label": "List",
-            },
-            {
-              "depth": 0,
-              "label": "Page",
-            },
-          ],
-          "total": 4,
-        },
+        "contentHubTerms": [
+          {
+            "depth": 0,
+            "label": "Block",
+            "locale": "en",
+          },
+          {
+            "depth": 0,
+            "label": "Demo",
+            "locale": "en",
+          },
+          {
+            "depth": 0,
+            "label": "List",
+            "locale": "en",
+          },
+          {
+            "depth": 0,
+            "label": "Page",
+            "locale": "en",
+          },
+        ],
       },
     }
   `);
