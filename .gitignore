@@ -12,3 +12,4 @@ apps/website/.env
 .turbo
 /_local
 /lerna-debug.log
+/.prettierignore
