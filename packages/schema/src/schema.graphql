@@ -129,6 +129,10 @@ interface Term {
   The depth of the term, in the hierarchy.
   """
   depth: Int!
+  """
+  The language of this translation.
+  """
+  locale: Locale! @resolveEntityLanguage
 }
 
 """
@@ -141,16 +145,7 @@ type TermContentHub implements Term
   termId: String! @resolveProperty(path: "tid.value")
   label: String! @resolveProperty(path: "name.value")
   depth: Int!
-}
-
-"""
-Content Hub Terms Results from query
-"""
-type TermContentHubResults
-  @default
-  @value(json: "{\"total\": 0, \"items\": []}") {
-  total: Int!
-  items: [TermContentHub]
+  locale: Locale! @resolveEntityLanguage
 }
 
 """
@@ -503,8 +498,7 @@ type Query {
     @gatsbyNodes(type: "TranslatableString")
     @drupalTranslatedStrings
 
-  contentHubTerms: TermContentHubResults!
-    @loadByVocabulary(bundle: "content_hub")
+  contentHubTerms: [TermContentHub!] @gatsbyNodes(type: "TermContentHub")
 }
 
 type Mutation {

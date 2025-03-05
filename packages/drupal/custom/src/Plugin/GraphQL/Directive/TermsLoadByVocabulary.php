@@ -43,10 +43,7 @@ class TermsLoadByVocabulary extends PluginBase implements DirectiveInterface {
         }
       }
 
-      return [
-        'total' => count($items),
-        'items' => $items ?: NULL,
-      ];
+      return $items ?: NULL;
     });
   }
 }

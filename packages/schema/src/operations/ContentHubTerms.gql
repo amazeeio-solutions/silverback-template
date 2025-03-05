@@ -1,8 +1,5 @@
 query ContentHubTerms {
   contentHubTerms {
-    total
-    items {
-      ...TermContentHub
-    }
+    ...TermContentHub
   }
 }
