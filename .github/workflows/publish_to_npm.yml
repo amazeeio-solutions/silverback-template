@@ -50,10 +50,12 @@ jobs:
           git config --global user.name "K.I.T.T."
         shell: bash
 
+      - name: Set NPM token
+        run:
+          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" >>
+          ~/.npmrc
+
       - name: Publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm lerna publish -y --loglevel verbose
 
       - name: 'Logs: cms'
