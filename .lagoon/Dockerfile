@@ -41,9 +41,11 @@ ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 # Copy the all package sources, install and prepare them.
 COPY . /app
 RUN --mount=type=cache,target=/tmp/cache pnpm i && \
-    # Composer packages may contain directive definitions required by prep 
-    # scripts. Yet, we need to tun "composer install" after "pnpm i" because 
-    # some Composer packages are stored inside NPM dependencies.
+    # "composer install" needs to be executed
+    # - after "pnpm i" because some Composer packages are stored inside NPM 
+    #   dependencies
+    # - before "pnpm turbo:prep" because some Composer packages may contain 
+    #   GraphQL directives required by prep scripts
     cd /app/apps/cms && composer install --no-dev && cd - && \
     pnpm turbo:prep && \
     # Remove all node_modules to reduce the size of the image.
