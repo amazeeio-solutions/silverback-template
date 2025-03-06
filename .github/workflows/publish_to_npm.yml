@@ -41,6 +41,12 @@ jobs:
       - name: Check for git changes
         run: git diff --exit-code
 
+      - name: Set Git user
+        run: |
+          git config --global user.email "kitt@amazee.com"
+          git config --global user.name "K.I.T.T."
+        shell: bash
+
       - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
