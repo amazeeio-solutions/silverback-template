@@ -1,7 +1,6 @@
 {
   "name": "@custom/preview",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",

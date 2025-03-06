@@ -1,5 +1,8 @@
 name: Entity Create Split
 type: module
-description: 'Provides a route for splitting the entity creation in two steps: first for the mandatory fields and a second one, which is actually the edit form, for the rest of the fields.'
+description:
+  'Provides a route for splitting the entity creation in two steps: first for
+  the mandatory fields and a second one, which is actually the edit form, for
+  the rest of the fields.'
 package: Custom
 core_version_requirement: ^9 || ^10

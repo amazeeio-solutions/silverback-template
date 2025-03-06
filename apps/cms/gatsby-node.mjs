@@ -38,12 +38,21 @@ export const createPages = async ({ actions }) => {
   });
 
   // Proxy Drupal webforms.
+  const netlifyUrl = new URL(
+    process.env.NETLIFY_URL || 'http://127.0.0.1:8000',
+  );
   Object.values(Locale).forEach((locale) => {
-    actions.createRedirect({
-      fromPath: `/${locale}/form/*`,
-      toPath: `${process.env.GATSBY_DRUPAL_URL}/${locale}/form/:splat`,
-      statusCode: 200,
-    });
+    global.netlifyTomlParts.push(`
+      [[redirects]]
+        from = "/${locale}/form/*"
+        to = "${process.env.GATSBY_DRUPAL_URL}/${locale}/form/:splat"
+        status = 200
+        force = true
+        [redirects.headers]
+          SLB-Forwarded-Proto = "${netlifyUrl.protocol.slice(0, -1)}"
+          SLB-Forwarded-Host = "${netlifyUrl.host}"
+          SLB-Forwarded-Port = "${netlifyUrl.port}"
+    `);
   });
 
   // Additionally proxy themes and modules as they can have additional

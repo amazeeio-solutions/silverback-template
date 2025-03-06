@@ -1,7 +1,0 @@
-_local
-apps
-packages
-tests
-.turbo
-pnpm-lock.yaml
-.devbox
