@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.4.0 (2025-03-06)
+
+
+### Features
+
+* move silverback-iframe to template ([3811ddc](https://github.com/AmazeeLabs/silverback-template/commit/3811ddca5e57e44940bd9ecbf182758b431201f7))
+
+
+
+
+
 ## [1.3.8](https://github.com/AmazeeLabs/silverback-mono/compare/@amazeelabs/silverback-iframe@1.3.7...@amazeelabs/silverback-iframe@1.3.8) (2025-01-27)
 
 **Note:** Version bump only for package @amazeelabs/silverback-iframe
