@@ -19,8 +19,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Commons
-        uses: ./.github/actions/commons
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: TurboRepo local server
         uses: felixmosh/turborepo-gh-artifacts@v3
