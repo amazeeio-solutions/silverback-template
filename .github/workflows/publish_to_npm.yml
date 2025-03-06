@@ -43,7 +43,7 @@ jobs:
 
       - name: Set Git user
         run: |
-          git config --global user.email "kitt@amazee.com"
+          git config --global user.email "kitt@amazeelabs.com"
           git config --global user.name "K.I.T.T."
         shell: bash
 

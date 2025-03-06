@@ -1,5 +1,8 @@
 # .prettierignore for monorepos
 
+The package is a temporary workaround for
+https://github.com/prettier/prettier/issues/4081
+
 Usage: `pnpm run --filter @amazeelabs/prettierignore-monorepo generate $PWD`
 
 What it does:
