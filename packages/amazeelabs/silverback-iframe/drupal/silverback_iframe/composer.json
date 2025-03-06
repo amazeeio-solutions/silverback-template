@@ -1,0 +1,6 @@
+{
+  "name": "amazeelabs/silverback_iframe",
+  "version": "dev-main",
+  "type": "drupal-module",
+  "description": "Provides a way for displaying Drupal content/forms in iframes."
+}

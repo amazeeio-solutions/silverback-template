@@ -1,0 +1,66 @@
+name: Publish to NPM
+
+on:
+  push:
+    branches:
+      - release
+
+# Only one workflow run at a time.
+concurrency:
+  group: publish_to_npm
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Commons
+        uses: ./.github/actions/commons
+
+      - name: TurboRepo local server
+        uses: felixmosh/turborepo-gh-artifacts@v3
+        with:
+          server-token: 'local'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        run: pnpm turbo:test
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
+
+      - name: Prepare packages
+        run: pnpm turbo:prep
+
+      - name: Check for git changes
+        run: git diff --exit-code
+
+      - name: Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm lerna publish -y --loglevel verbose
+
+      - name: 'Logs: cms'
+        run: cat /tmp/cms.log || true
+        if: always()
+      - name: 'Logs: website'
+        run: cat /tmp/website.log || true
+        if: always()
+      - name: 'Logs: preview'
+        run: cat /tmp/preview.log || true
+        if: always()
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: tests/e2e/playwright-report/
+          retention-days: 3
