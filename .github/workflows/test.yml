@@ -148,6 +148,17 @@ jobs:
           pnpm --filter @custom/init run init --project-human-name "Foo Bar"
           --project-machine-name foo_bar | grep 'Run `pnpm i` to update the lock
           file'
+      - name: Run "pnpm i" to ensure all packages are linked
+        run: pnpm i
+      - name: Run tests (for "test-all/" branches)
+        if:
+          startsWith(github.ref_name, 'test-all/') ||
+          startsWith(github.head_ref, 'test-all/')
+        run: pnpm turbo:test
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
 
   docker_build:
     name: Docker Build
