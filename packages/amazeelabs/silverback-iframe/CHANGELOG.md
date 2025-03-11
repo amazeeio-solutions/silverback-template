@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.4.1...@amazeelabs/silverback-iframe@1.4.2) (2025-03-11)
+
+
+### Bug Fixes
+
+* add missing .npmignore ([93353c7](https://github.com/AmazeeLabs/silverback-template/commit/93353c7dc90d888ce5dca77820bebc2932a951c7))
+
+
+
+
+
 ## [1.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.4.0...@amazeelabs/silverback-iframe@1.4.1) (2025-03-06)
 
 **Note:** Version bump only for package @amazeelabs/silverback-iframe
