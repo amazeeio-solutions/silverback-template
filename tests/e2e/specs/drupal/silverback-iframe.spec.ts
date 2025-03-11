@@ -135,6 +135,18 @@ test('confirmation type: message with fallback', async ({
   );
 });
 
+test('links open in parent frame, using parent frame base url, without iframe=true param in the url', async ({
+  page,
+}) => {
+  await page.goto(websiteUrl('/en/test-webform-confirmation-options'));
+  const iframe = await getIframe(page);
+  await iframe.waitForSelector('body.silverback-iframe-links-processed');
+  await iframe.click(
+    '.form-item-optional-text-field .webform-element-description a',
+  );
+  expect(page.url()).toBe(websiteUrl('/en/article/with-everything'));
+});
+
 const confirmationOptions = [
   'inline',
   'message',
