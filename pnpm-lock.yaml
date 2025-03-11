@@ -381,28 +381,6 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4(@types/node@20.11.17)(happy-dom@16.7.3)
 
-  packages/amazeelabs/prettierignore-monorepo:
-    dependencies:
-      ignore-walk:
-        specifier: ^7.0.0
-        version: 7.0.0
-      tsx:
-        specifier: ^4.19.2
-        version: 4.19.2
-      typescript:
-        specifier: ^5.7.3
-        version: 5.7.3
-    devDependencies:
-      '@types/ignore-walk':
-        specifier: ^4.0.3
-        version: 4.0.3
-      '@types/node':
-        specifier: ^20
-        version: 20.11.17
-      vitest:
-        specifier: ^3.0.4
-        version: 3.0.4(@types/node@20.11.17)(tsx@4.19.2)
-
   packages/amazeelabs/silverback-iframe:
     dependencies:
       iframe-resizer-react:
@@ -583,6 +561,28 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
+
+  packages/prettierignore-monorepo:
+    dependencies:
+      ignore-walk:
+        specifier: ^7.0.0
+        version: 7.0.0
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
+    devDependencies:
+      '@types/ignore-walk':
+        specifier: ^4.0.3
+        version: 4.0.3
+      '@types/node':
+        specifier: ^20
+        version: 20.11.17
+      vitest:
+        specifier: ^3.0.4
+        version: 3.0.4(@types/node@20.11.17)(tsx@4.19.2)
 
   packages/schema:
     dependencies:
@@ -10208,7 +10208,7 @@ packages:
       '@vitest/spy': 3.0.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.0.11(@types/node@20.11.17)(tsx@4.19.2)
+      vite: 6.0.11(@types/node@20.11.17)(yaml@2.7.0)
     dev: true
 
   /@vitest/pretty-format@2.0.5:
