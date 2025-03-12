@@ -1,5 +1,5 @@
 {
-  "name": "@amazeelabs/prettierignore-monorepo",
+  "name": "@custom/prettierignore-monorepo",
   "private": true,
   "scripts": {
     "generate": "tsx index.ts",

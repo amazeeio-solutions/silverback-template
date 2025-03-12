@@ -19,7 +19,7 @@
     "turbo:test:quick": "pnpm turbo:local && pnpm turbo test:unit --output-logs=new-only",
     "turbo:prep": "pnpm turbo:local && pnpm turbo prep --output-logs=new-only",
     "turbo:prep:force": "rm -f apps/cms/web/sites/default/files/.sqlite && pnpm turbo prep --force",
-    "generate:prettierignore": "pnpm run --filter @amazeelabs/prettierignore-monorepo generate $PWD",
+    "generate:prettierignore": "pnpm run --filter @custom/prettierignore-monorepo generate $PWD",
     "gutenberg:generate": "pnpm run --filter \"@custom/gutenberg_blocks\" gutenberg:generate"
   },
   "private": true,
