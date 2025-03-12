@@ -160,7 +160,7 @@ if (!fs.existsSync(e2ePackage)) {
 fs.rmSync(e2ePackage, { recursive: true, force: true });
 
 // Remove shared packages from the repo.
-const sharedPackagesDir = 'packages/amazeelabs';
+const sharedPackagesDir = 'packages/@amazeelabs';
 if (!fs.existsSync(sharedPackagesDir)) {
   console.error('Shared packages already removed.');
   process.exit(1);
