@@ -1,4 +1,7 @@
 import fs from 'node:fs';
+import path from 'node:path';
+
+import ignoreWalk from 'ignore-walk';
 
 export function replace(
   path: string | Array<string>,
@@ -39,4 +42,58 @@ export function getArg(name: string): string | null {
     return null;
   }
   return process.argv[index + 1];
+}
+
+export function relinkSharedPackages(sharedPackagesDir: string): void {
+  const sharedPackages = ignoreWalk
+    .sync({
+      path: sharedPackagesDir,
+      ignoreFiles: ['.gitignore'],
+    })
+    .filter((file) => path.basename(file) === 'package.json')
+    .map((file) => {
+      const pkg = JSON.parse(
+        fs.readFileSync(path.join(sharedPackagesDir, file), 'utf8'),
+      );
+      return {
+        name: pkg.name as string,
+        version: pkg.version as string,
+      };
+    });
+
+  ignoreWalk
+    .sync({
+      path: process.cwd(),
+      ignoreFiles: ['.gitignore'],
+    })
+    .filter(
+      (file) =>
+        path.basename(file) === 'package.json' &&
+        !file.startsWith(sharedPackagesDir),
+    )
+    .map((file) => {
+      const targetPkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+      let updated = false;
+      for (const depType of [
+        'dependencies',
+        'devDependencies',
+        'peerDependencies',
+      ]) {
+        if (targetPkg[depType]) {
+          for (const pkg of sharedPackages) {
+            if (targetPkg[depType][pkg.name] === 'workspace:*') {
+              targetPkg[depType][pkg.name] = `^${pkg.version}`;
+              updated = true;
+            }
+          }
+        }
+      }
+      if (updated) {
+        fs.writeFileSync(
+          file,
+          JSON.stringify(targetPkg, null, 2) + '\n',
+          'utf8',
+        );
+      }
+    });
 }
