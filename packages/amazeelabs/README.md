@@ -1,16 +1,22 @@
 # Shared Amazee Labs packages
 
-Packages from this folder are published to NPM.
+Packages in this directory are published to NPM.
 
-When a new project is created from `silverback-template`, the INIT script
+When a new project is created from `silverback-template`, the [INIT](../init)
+script:
 
 - removes the shared packages
 - re-links the shared packages from NPM
 
 ## Requirements
 
-The packages should meet certain criterias:
+Packages `package.json` must meet the following criteria:
 
-- The package name should start with `@amazeelabs/`
-- The `package.json` should have `version` property
-- The `package.json` should NOT have `private` property
+- `name` must start with `@amazeelabs/`
+- must include a `version` property
+- must NOT have a `private` property
+
+## Maintenance
+
+When a package is no longer needed for `silverback-template`, it should be
+removed from this repository and maintained in a separate repository.
