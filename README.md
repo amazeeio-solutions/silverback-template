@@ -2,6 +2,8 @@
 
 ## Create a new project from this template
 
+foo
+
 Minimum steps
 
 - https://github.com/AmazeeLabs/silverback-template > `Use this template` >
