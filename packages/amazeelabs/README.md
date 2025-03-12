@@ -8,13 +8,21 @@ script:
 - removes the shared packages
 - re-links the shared packages from NPM
 
-## Requirements
+## Requirements for packages
 
 Packages `package.json` must meet the following criteria:
 
 - `name` must start with `@amazeelabs/`
 - must include a `version` property
 - must NOT have a `private` property
+
+When adding a new package, make sure
+
+- It uses `prep` script to build the package (in `silverback-mono` the default
+  build script was called `build`)
+- It has proper `turbo.json`
+- It has `.npmignore` (otherwise npm will use `.gitignore` and won't publish the
+  build)
 
 ## Maintenance
 
