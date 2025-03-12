@@ -27,7 +27,13 @@
       "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]
     },
     "prep:composer": {
-      "inputs": ["composer.json", "composer.lock", "scaffold/**", "patches/**"],
+      "inputs": [
+        "composer.json",
+        "composer.lock",
+        "scaffold/**",
+        "patches/**",
+        "node_modules/@amazeelabs/**/drupal/**"
+      ],
       "outputs": [
         "drush/**",
         "vendor/**",

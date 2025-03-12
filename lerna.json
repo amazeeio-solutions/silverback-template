@@ -1,5 +1,5 @@
 {
-  "packages": [".", "packages/amazeelabs/*"],
+  "packages": [".", "packages/@amazeelabs/*"],
   "version": "independent",
   "npmClient": "pnpm",
   "command": {
