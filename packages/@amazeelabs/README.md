@@ -13,7 +13,7 @@ script will:
 `package.json` must meet the following criteria:
 
 - `name` must start with `@amazeelabs/`
-- `version` must preset
+- `version` must present
 - `private` must not present, or be `false`
 
 If a package includes a Drupal modules or theme, they must be placed under

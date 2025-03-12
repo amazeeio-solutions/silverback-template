@@ -39,7 +39,7 @@ importers:
         version: 1.15.3(@types/node@20.11.17)(gatsby-plugin-sharp@5.13.1)(gatsby@5.14.1)(typescript@5.7.3)
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
-        version: link:../../packages/amazeelabs/silverback-iframe
+        version: link:../../packages/@amazeelabs/silverback-iframe
       '@custom/custom':
         specifier: workspace:*
         version: link:../../packages/drupal/custom
@@ -381,7 +381,7 @@ importers:
         specifier: ^3.0.4
         version: 3.0.4(@types/node@20.11.17)(happy-dom@16.7.3)
 
-  packages/amazeelabs/silverback-iframe:
+  packages/@amazeelabs/silverback-iframe:
     dependencies:
       iframe-resizer-react:
         specifier: ^1.1.1
@@ -673,7 +673,7 @@ importers:
         version: 1.1.3(react-dom@18.2.0)(react@18.3.1)(typescript@5.7.3)(webpack@5.91.0)
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
-        version: link:../amazeelabs/silverback-iframe
+        version: link:../@amazeelabs/silverback-iframe
       '@custom/schema':
         specifier: workspace:*
         version: link:../schema
@@ -21279,7 +21279,7 @@ packages:
       jest-util: 29.7.0
       jest-validate: 29.7.0
       resolve: 1.22.8
-      resolve.exports: 2.0.2
+      resolve.exports: 2.0.3
       slash: 3.0.0
     dev: true
 
@@ -28015,11 +28015,6 @@ packages:
     dependencies:
       protocol-buffers-schema: 3.6.0
     dev: false
-
-  /resolve.exports@2.0.2:
-    resolution: {integrity: sha512-X2UW6Nw3n/aMgDVy+0rSqgHlv39WZAlZrXCdnbyEiKm17DSqHX4MmQMaST3FbeWR5FTuRcUwYAziZajji0Y7mg==}
-    engines: {node: '>=10'}
-    dev: true
 
   /resolve.exports@2.0.3:
     resolution: {integrity: sha512-OcXjMsGdhL4XnbShKpAcSqPMzQoYkYyhbEaeSko47MjRP9NfEQMhZkXL1DoFlt9LWQn4YttrdnV6X2OiyzBi+A==}
