@@ -1,6 +1,0 @@
-This package was moved to another directory. Looks like turborepo did not get 
-this as a change, so @custom/cms:prep:composer cache still hits and produces a 
-wrong symlink to a drupal part of this package.
-
-Let's see if an update to this package will invalidate @custom/cms:prep:composer
-caches.
