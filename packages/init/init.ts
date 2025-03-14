@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 import prompt from 'prompts';
 
-import { getArg, randomString, replace } from './lib';
+import { getArg, randomString, relinkSharedPackages, replace } from './lib';
 
 // Switch to the project root.
 process.chdir('../..');
@@ -159,6 +159,16 @@ if (!fs.existsSync(e2ePackage)) {
 }
 fs.rmSync(e2ePackage, { recursive: true, force: true });
 
+// Remove shared packages from the repo.
+const sharedPackagesDir = 'packages/@amazeelabs';
+if (!fs.existsSync(sharedPackagesDir)) {
+  console.error('Shared packages already removed.');
+  process.exit(1);
+}
+// But first, relink shared packages to NPM.
+relinkSharedPackages(sharedPackagesDir);
+fs.rmSync(sharedPackagesDir, { recursive: true, force: true });
+
 // Remove the init script check.
 replace('.github/workflows/test.yml', / {6}- name: Init check.*?\n\n/gs, '');
 
@@ -169,7 +179,6 @@ if (!fs.existsSync(initPackage)) {
   process.exit(1);
 }
 fs.rmSync(initPackage, { recursive: true, force: true });
-console.log('👉 Run `pnpm i` to update the lock file.');
 
 // Remove the init script check.
 replace(
@@ -177,3 +186,13 @@ replace(
   / {2}init_script:.*? {2}docker_build:/gs,
   '  docker_build:',
 );
+
+// Remove publish_to_npm workflow.
+const publishToNpmWorkflow = '.github/workflows/publish_to_npm.yml';
+if (!fs.existsSync(publishToNpmWorkflow)) {
+  console.error('Publish to NPM workflow already removed.');
+  process.exit(1);
+}
+fs.rmSync(publishToNpmWorkflow, { force: true });
+
+console.log('👉 Run `pnpm i` to update the lock file.');

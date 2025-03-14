@@ -1,0 +1,6 @@
+{
+  "name": "amazeelabs/silverback_iframe_theme",
+  "version": "dev-main",
+  "type": "drupal-theme",
+  "description": "Theme for amazeelabs/silverback_iframe module."
+}

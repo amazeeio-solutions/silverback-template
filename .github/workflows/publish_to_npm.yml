@@ -1,0 +1,77 @@
+name: Publish to NPM
+
+on:
+  push:
+    branches:
+      - release
+
+# Only one workflow run at a time.
+concurrency:
+  group: publish_to_npm
+
+jobs:
+  publish:
+    name: Publish
+    if:
+      "! contains(github.event.head_commit.message, 'chore(release): release')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AMAZEELABS_KITT_TOKEN }}
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: TurboRepo local server
+        uses: felixmosh/turborepo-gh-artifacts@v3
+        with:
+          server-token: 'local'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        run: pnpm turbo:test
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
+
+      - name: Prepare packages
+        run: pnpm turbo:prep
+
+      - name: Check for git changes
+        run: git diff --exit-code
+
+      - name: Set Git user
+        run: |
+          git config --global user.email "kitt@amazeelabs.com"
+          git config --global user.name "K.I.T.T."
+        shell: bash
+
+      - name: Set NPM token
+        run:
+          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" >>
+          ~/.npmrc
+
+      - name: Publish
+        run: pnpm lerna publish -y --loglevel verbose
+
+      - name: 'Logs: cms'
+        run: cat /tmp/cms.log || true
+        if: always()
+      - name: 'Logs: website'
+        run: cat /tmp/website.log || true
+        if: always()
+      - name: 'Logs: preview'
+        run: cat /tmp/preview.log || true
+        if: always()
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: tests/e2e/playwright-report/
+          retention-days: 3

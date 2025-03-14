@@ -8,3 +8,6 @@ persisted-store
 
 # Deno comes with "netlify dev". We don't need its lock file.
 /deno.lock
+
+# Created by gatsby-node.mjs
+netlify.toml

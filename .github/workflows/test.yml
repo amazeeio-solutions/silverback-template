@@ -40,6 +40,26 @@ jobs:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check if Drupal content export is up to date
+        run: |
+          set -ex
+          cd apps/cms
+          pnpm turbo prep
+          pnpm content:export
+          if [[ $(git status --porcelain) ]]; then
+            echo "Error: Content export is not up to date"
+            echo "Please run 'pnpm content:export' from apps/cms and commit the changes"
+            echo "Detected changes:"
+            git status --porcelain
+            echo "Diff:"
+            git diff
+            exit 1
+          fi
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
+
       - name: Test
         run: pnpm turbo:test
         env:
@@ -143,11 +163,28 @@ jobs:
           fetch-depth: 0
       - name: Setup
         uses: ./.github/actions/setup
+      - name: TurboRepo local server
+        if: ${{ github.event.inputs.turborepo_caching != 'Off' }}
+        uses: felixmosh/turborepo-gh-artifacts@v3
+        with:
+          server-token: 'local'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test init script
         run:
           pnpm --filter @custom/init run init --project-human-name "Foo Bar"
           --project-machine-name foo_bar | grep 'Run `pnpm i` to update the lock
           file'
+      - name: Run "pnpm i" to ensure all packages are linked
+        run: pnpm i --no-frozen-lockfile
+      - name: Run tests (for "test-all/" branches)
+        if:
+          startsWith(github.ref_name, 'test-all/') ||
+          startsWith(github.head_ref, 'test-all/')
+        run: pnpm turbo:test
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
 
   docker_build:
     name: Docker Build

@@ -45,6 +45,11 @@
       "label": "ui: dev",
       "command": "devbox run 'cd packages/ui && pnpm run dev'",
       "type": "shell"
+    },
+    {
+      "label": "e2e: dev",
+      "command": "devbox run 'cd tests/e2e && pnpm run dev'",
+      "type": "shell"
     }
   ]
 }

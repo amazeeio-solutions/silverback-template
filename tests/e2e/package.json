@@ -1,6 +1,7 @@
 {
   "name": "@custom-tests/e2e",
   "type": "module",
+  "private": true,
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
     "test:integration": "playwright install chromium && playwright test",
