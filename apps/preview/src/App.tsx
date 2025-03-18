@@ -1,4 +1,4 @@
-import { OperationExecutorsProvider } from '@custom/schema';
+import { OperationExecutorsProvider, useLocation } from '@custom/schema';
 import { Frame } from '@custom/ui/routes/Frame';
 import { Preview, usePreviewRefresh } from '@custom/ui/routes/Preview';
 import { useEffect } from 'react';
@@ -29,9 +29,20 @@ function App() {
     const sub = updates$.subscribe((value) => refresh(value));
     return sub.unsubscribe;
   }, [refresh]);
+  const [location] = useLocation();
+  const preview_access_token =
+    location.searchParams.get('preview_access_token') || undefined;
   return (
     <OperationExecutorsProvider
-      executors={[{ executor: drupalExecutor(window.GRAPHQL_ENDPOINT, false) }]}
+      executors={[
+        {
+          executor: drupalExecutor(
+            window.GRAPHQL_ENDPOINT,
+            false,
+            preview_access_token,
+          ),
+        },
+      ]}
     >
       <Frame>
         <Preview />

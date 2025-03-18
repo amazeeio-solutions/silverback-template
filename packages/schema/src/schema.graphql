@@ -410,21 +410,8 @@ input PaginationInput {
 
 type Query {
   previewDecapPage: DecapPage
-  previewDrupalPage(
-    id: ID!
-    rid: ID
-    locale: String!
-    preview_user_id: ID
-    preview_access_token: String
-  ): DrupalPage
-    @fetchEntity(
-      type: "node"
-      id: "$id"
-      rid: "$rid"
-      language: "$locale"
-      preview_user_id: "$preview_user_id"
-      preview_access_token: "$preview_access_token"
-    )
+  previewDrupalPage(path: String!, rid: ID): DrupalPage
+    @fetchEntity(type: "node", id: "$path", rid: "$rid")
 
   metaNavigations: [MetaNavigation]
     @gatsbyNodes(type: "MetaNavigation")
