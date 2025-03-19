@@ -1,0 +1,14 @@
+uuid: 34023030-28d4-42eb-9df6-b41deba57e0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.preview
+  module:
+    - user
+id: user_add_role_action.preview
+label: 'Add the Preview role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: preview
