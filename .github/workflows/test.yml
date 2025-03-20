@@ -161,21 +161,36 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup
         uses: ./.github/actions/setup
+
       - name: TurboRepo local server
         if: ${{ github.event.inputs.turborepo_caching != 'Off' }}
         uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Test init script
         run:
           pnpm --filter @custom/init run init --project-human-name "Foo Bar"
           --project-machine-name foo_bar | grep 'Run `pnpm i` to update the lock
           file'
+
       - name: Run "pnpm i" to ensure all packages are linked
-        run: pnpm i --no-frozen-lockfile
+        run: |
+          set +e
+          output=$(pnpm i --no-frozen-lockfile 2>&1)
+          exit_code=$?
+          echo "$output"
+          if echo "$output" | grep -q "is not in the npm registry"; then
+            echo "👉 This error is expected if you've added a new @amazeelabs package in this PR."
+            echo "The package needs to be published to npm first, which happens automatically after the PR is merged."
+            echo "You can safely ignore this error - the CI will pass once the package is published."
+          fi
+          exit $exit_code
+
       - name: Run tests (for "test-all/" branches)
         if:
           startsWith(github.ref_name, 'test-all/') ||
