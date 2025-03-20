@@ -48,6 +48,7 @@
     "amazeelabs/silverback_iframe_theme": "*",
     "amazeelabs/silverback_preview_link": "^1.6",
     "amazeelabs/silverback_publisher_monitor": "^2.3.2",
+    "amazeelabs/silverback_search": "*",
     "amazeelabs/silverback_translations": "^1.0.4",
     "composer/installers": "^2.2",
     "drupal/admin_toolbar": ">=3 <4, !=3.5.2",

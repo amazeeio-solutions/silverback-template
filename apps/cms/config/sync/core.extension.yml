@@ -84,6 +84,7 @@ module:
   silverback_image_ai: 0
   silverback_preview_link: 0
   silverback_publisher_monitor: 0
+  silverback_search: 0
   silverback_translations: 0
   simple_oauth: 0
   slack: 0
