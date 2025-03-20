@@ -179,22 +179,24 @@ jobs:
           file'
 
       - name: Run "pnpm i" to ensure all packages are linked
+        id: package_check
         run: |
           set +e
           output=$(pnpm i --no-frozen-lockfile 2>&1)
           exit_code=$?
           echo "$output"
           if echo "$output" | grep -q "is not in the npm registry"; then
-            echo "👉 This error is expected if you've added a new @amazeelabs package in this PR."
-            echo "The package needs to be published to npm first, which happens automatically after the PR is merged."
-            echo "You can safely ignore this error - the CI will pass once the package is published."
+            echo "Looks like a new @amazeelabs package was added in this PR. Skipping the package link check."
+            echo "should_skip_test=true" >> $GITHUB_OUTPUT
+            exit 0
           fi
           exit $exit_code
 
       - name: Run tests (for "test-all/" branches)
         if:
-          startsWith(github.ref_name, 'test-all/') ||
-          startsWith(github.head_ref, 'test-all/')
+          (startsWith(github.ref_name, 'test-all/') ||
+          startsWith(github.head_ref, 'test-all/')) &&
+          steps.package_check.outputs.should_skip_test != 'true'
         run: pnpm turbo:test
         env:
           TURBO_API: 'http://127.0.0.1:9080'
