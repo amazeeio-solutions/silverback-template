@@ -87,7 +87,7 @@ h1 {
 .form-item input[type='color'],
 .form-item textarea,
 .form-item select {
-  @apply bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+  @apply bg-gray-50 border border-gray-300 text-base rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5;
 }
 
 /* checkbox  */
@@ -105,11 +105,11 @@ h1 {
 }
 
 .form-item input[type='file']::file-selector-button {
-  @apply text-white bg-blue-700 hover:bg-blue-800 rounded-l-lg text-sm w-full sm:w-auto px-6 py-2.5 text-center shadow-none border-0 font-medium mr-4;
+  @apply text-white bg-teal-700 hover:bg-teal-800 rounded-l-lg text-sm w-full sm:w-auto px-6 py-2.5 text-center shadow-none border-0 font-medium mr-4;
 }
 
 .form-actions input[type='submit'] {
-  @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center;
+  @apply text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center;
 }
 
 .form-item input.error,

@@ -85,7 +85,7 @@ export function BreadCrumbs() {
                   href={target}
                   title={title}
                   className={clsx(
-                    'inline-flex items-center whitespace-nowrap text-sm font-medium hover:text-blue-600',
+                    'inline-flex items-center whitespace-nowrap text-sm font-medium hover:text-teal-600',
                     index < breadcrumbs.length - 1 &&
                       hideInnerBreadcrumbs !== true
                       ? 'hidden xl:inline-flex xl:items-center'

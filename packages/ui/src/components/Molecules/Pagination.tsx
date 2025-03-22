@@ -56,7 +56,7 @@ export function Pagination(props: { total: number; pageSize: number }) {
         )}
       </div>
       <div className="hidden md:-mt-px md:flex">
-        <span className="inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600">
+        <span className="inline-flex items-center border-t-2 border-teal-500 px-4 pt-4 text-sm font-medium text-teal-600">
           {intl.formatMessage(
             { defaultMessage: '{current} of {total}', id: 'stJYEY' },
             {

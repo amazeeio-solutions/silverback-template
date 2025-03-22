@@ -96,9 +96,9 @@ export function MobileMenuDropdown({
           <DisclosureButton
             className={clsx(
               'flex w-full items-center justify-between py-4 leading-5',
-              open && 'text-blue-600',
+              open && 'text-teal-600',
               !open && 'text-gray-900',
-              open && nestLevel === 1 && 'bg-blue-100',
+              open && nestLevel === 1 && 'bg-teal-100',
               !open && nestLevel === 1 && 'border-b border-b-blue-100',
               nestLevel === 1 && 'px-8 text-lg',
               !open && nestLevel === 2 && 'px-10',
@@ -107,7 +107,7 @@ export function MobileMenuDropdown({
           >
             {title}
             <ChevronDownIcon
-              className={clsx('size-5 flex-none text-blue-600', {
+              className={clsx('size-5 flex-none text-teal-600', {
                 'rotate-180': open,
               })}
               aria-hidden="true"

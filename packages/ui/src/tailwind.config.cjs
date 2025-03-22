@@ -7,6 +7,10 @@ module.exports = {
   content: ['./src/**/*.{tsx, mdx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Trebuchet MS'],
+        serif: ['Georgia', 'Cambria'],
+      },
       typography: ({ theme }) => ({
         DEFAULT: {
           css: [
@@ -40,17 +44,16 @@ module.exports = {
               blockquote: {},
               '.prose blockquote p': {
                 fontWeight: '700',
-                color: '#111928',
-              },
-              cite: {},
-              'h1, h2, h3, h4, h5, h6': {},
-              '.prose h1': {},
-              '.prose h2': {
-                fontWeight: '700',
                 color: theme('colors.gray.900'),
               },
-              '.prose h3': {},
-              '.prose h4': {},
+              cite: {},
+              'h1, h2, h3, h4, h5, h6': {
+                fontFamily: theme('fontFamily.serif'),
+                fontWeight: '400',
+              },
+              'h1, h2': {
+                color: theme('colors.teal.800'),
+              },
             },
           ],
         },

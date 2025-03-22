@@ -28,7 +28,7 @@ export const CardItem = ({
         {hero?.headline ? <div>{hero?.headline}</div> : null}
         <Link
           href={path}
-          className="inline-flex items-center rounded-lg border border-blue-700 px-3 py-2 text-center text-sm font-medium text-blue-700 after:absolute after:inset-0 after:content-[''] hover:bg-blue-800 hover:text-white focus:outline-offset-4"
+          className="inline-flex items-center rounded-lg border border-teal-700 px-3 py-2 text-center text-sm font-medium text-teal-700 after:absolute after:inset-0 after:content-[''] hover:bg-teal-800 hover:text-white focus:outline-offset-4"
         >
           <span className="sr-only size-0 overflow-hidden">{title}</span>
           {readMoreText ||
@@ -57,7 +57,7 @@ export const CardItem = ({
         {teaserImage ? (
           <Image {...teaserImage} className="w-full" />
         ) : (
-          <div className="aspect-[4/3] bg-indigo-200" />
+          <div className="aspect-[4/3] bg-teal-200" />
         )}
       </div>
     </article>

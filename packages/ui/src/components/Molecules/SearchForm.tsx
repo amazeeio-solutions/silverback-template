@@ -51,7 +51,7 @@ export function SearchForm() {
           </div>
           <button
             type="submit"
-            className="mb-2 rounded-lg bg-indigo-600 px-5 py-3 text-center text-sm font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:w-fit dark:bg-indigo-600 dark:hover:bg-indigo-600 dark:focus:ring-indigo-600"
+            className="mb-2 rounded-lg bg-teal-600 px-5 py-3 text-center text-sm font-medium text-white hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 sm:w-fit dark:bg-teal-600 dark:hover:bg-teal-600 dark:focus:ring-teal-600"
           >
             {intl.formatMessage({ defaultMessage: 'Search', id: 'xmcVZ0' })}
           </button>

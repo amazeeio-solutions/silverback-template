@@ -38,7 +38,7 @@
 }
 
 .prose p.has-drop-cap:first-letter {
-  @apply font-bold text-8xl float-left mr-4 ml-1 mb-2 mt-0;
+  @apply font-bold font-serif text-8xl float-left mr-4 ml-1 mb-2 mt-0;
 }
 
 /*
@@ -82,7 +82,7 @@
         @apply px-6 py-4 text-gray-500;
 
         a {
-          @apply font-medium text-blue-600 hover:underline;
+          @apply font-medium text-teal-600 hover:underline;
         }
       }
     }
