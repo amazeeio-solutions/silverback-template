@@ -75,20 +75,19 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       ->filterForPropertyPath($item->getFields(), NULL, 'silverback_remote_rendered_item');
     foreach ($fields as $field) {
       $configuration = $field->getConfiguration();
-      $html = $this->getHtml($item, $configuration);
+      $entity = $item->getOriginalObject()?->getValue();
+      if (!($entity instanceof ContentEntityInterface)) {
+        continue;
+      }
+      if (!in_array($entity->getEntityTypeId(), $configuration['entity_types'], TRUE)) {
+        continue;
+      }
+      $html = $this->getHtml($entity, $configuration);
       $field->addValue($html);
     }
   }
 
-  private function getHtml(ItemInterface $item, array $configuration): string {
-    $entity = $item->getOriginalObject()?->getValue();
-    if (!($entity instanceof ContentEntityInterface)) {
-      return '';
-    }
-    if (!in_array($entity->getEntityTypeId(), $configuration['entity_types'], TRUE)) {
-      return '';
-    }
-    
+  private function getHtml(ContentEntityInterface $entity, array $configuration): string {
     $liveUrl = $this->externalPreviewLink->createPreviewUrlFromEntity($entity, 'live')?->toString();
     if (!$liveUrl) {
       return '';

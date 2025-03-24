@@ -30,11 +30,6 @@ class RemoteRenderedItemTest extends UnitTestCase {
     ?array $httpResponses,
     ?array $expectedError
   ): void {
-    $item = $this->prophesize(ItemInterface::class);
-    $originalObject = $this->prophesize(\Drupal\Core\TypedData\ComplexDataInterface::class);
-    $originalObject->getValue()->willReturn($entity);
-    $item->getOriginalObject()->willReturn($originalObject->reveal());
-
     $externalPreviewLink = $this->prophesize(ExternalPreviewLink::class);
     if ($previewUrl) {
       $url = $this->prophesize(Url::class);
@@ -77,7 +72,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
     $method = $reflection->getMethod('getHtml');
     $method->setAccessible(true);
 
-    $result = $method->invoke($processor, $item->reveal(), $config);
+    $result = $method->invoke($processor, $entity, $config);
     $this->assertEquals($expectedResult, $result);
   }
 
@@ -123,14 +118,6 @@ class RemoteRenderedItemTest extends UnitTestCase {
             'response' => new Response(200, [], $successHtml),
           ],
         ],
-        null,
-      ],
-      'non_content_entity' => [
-        $config,
-        new \stdClass(),
-        '',
-        null,
-        null,
         null,
       ],
       'wrong_entity_type' => [
