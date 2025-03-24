@@ -198,13 +198,13 @@ class RemoteRenderedItem extends ProcessorPluginBase {
 
   protected function getUpdateCount(string $entityUuid, int $buildId): int {
     return (int) $this->database->select('gatsby_update_log', 'gul')
-      ->countQuery()
       ->condition(
         $this->database->condition('OR')
           ->condition('object_id', $entityUuid)
           ->condition('object_id', $entityUuid . ':%', 'LIKE')
       )
       ->condition('id', $buildId, '>')
+      ->countQuery()
       ->execute()
       ->fetchField();
   }
