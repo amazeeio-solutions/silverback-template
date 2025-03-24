@@ -36,6 +36,7 @@ class RemoteRenderedItem extends ProcessorPluginBase {
   protected Connection $database;
   
   private ?int $cachedBuildId = NULL;
+  private ?string $cached404PageUuid = NULL;
 
   public function __construct(
     array $configuration,
@@ -95,7 +96,11 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       if (!in_array($entity->getEntityTypeId(), $configuration['entity_types'], TRUE)) {
         continue;
       }
-      $html = $this->getHtml($entity, $configuration);
+      if ($this->is404Page($entity)) {
+        $html = '';
+      } else {
+        $html = $this->getHtml($entity, $configuration);
+      }
       $field->addValue($html);
       if ($this->isOutdated($entity)) {
         $item->addWarning('The remote rendered item is outdated. Marking the search item as dirty.');
@@ -193,7 +198,24 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     if (!$buildId) {
       return FALSE;
     }
-    return $this->getUpdateCount($entity->uuid(), $buildId) > 0;
+    $count = $this->getUpdateCount($entity->uuid(), $buildId);
+    return $count > 0;
+  }
+
+  protected function is404Page(ContentEntityInterface $entity): bool {
+    if ($this->cached404PageUuid === NULL) {
+      try {
+        $this->cached404PageUuid = config_pages_config('website_settings')
+          ->get('field_404_page')
+          ->entity
+          ->uuid();
+      }
+      catch (\Exception $e) {
+        $this->logger->error('Error getting 404 page from website_settings: {error}', ['error' => $e->getMessage()]);
+        return FALSE;
+      }
+    }
+    return $entity->uuid() === $this->cached404PageUuid;
   }
 
   protected function getUpdateCount(string $entityUuid, int $buildId): int {
