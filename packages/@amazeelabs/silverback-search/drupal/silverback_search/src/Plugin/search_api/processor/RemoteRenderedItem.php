@@ -2,6 +2,7 @@
 
 namespace Drupal\silverback_search\Plugin\search_api\processor;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\search_api\Datasource\DatasourceInterface;
 use Drupal\search_api\Item\ItemInterface;
@@ -32,16 +33,27 @@ class RemoteRenderedItem extends ProcessorPluginBase {
   protected ExternalPreviewLink $externalPreviewLink;
   protected Client $httpClient;
   protected LoggerInterface $logger;
+  protected Connection $database;
+  
+  private ?int $cachedBuildId = NULL;
 
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, ExternalPreviewLink $external_preview_link, LoggerInterface $logger) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    array $plugin_definition,
+    ExternalPreviewLink $external_preview_link,
+    LoggerInterface $logger,
+    $database
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->externalPreviewLink = $external_preview_link;
+    $this->logger = $logger;
+    $this->database = $database;
     $this->httpClient = new Client([
       RequestOptions::HTTP_ERRORS => FALSE,
       RequestOptions::COOKIES => new CookieJar(),
       RequestOptions::TIMEOUT => 5,
     ]);
-    $this->logger = $logger;
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -50,7 +62,8 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       $plugin_id,
       $plugin_definition,
       $container->get('silverback_external_preview.external_preview_link'),
-      $container->get('logger.factory')->get('silverback_search')
+      $container->get('logger.factory')->get('silverback_search'),
+      $container->get('database'),
     );
   }
 
@@ -84,6 +97,9 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       }
       $html = $this->getHtml($entity, $configuration);
       $field->addValue($html);
+      if ($this->isOutdated($entity)) {
+        $item->addWarning('The remote rendered item is outdated. Marking the search item as dirty.');
+      }
     }
   }
 
@@ -170,6 +186,58 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
 
     return '';
+  }
+
+  private function isOutdated(ContentEntityInterface $entity): bool {
+    $buildId = $this->getBuildId();
+    if (!$buildId) {
+      return FALSE;
+    }
+    return $this->getUpdateCount($entity->uuid(), $buildId) > 0;
+  }
+
+  protected function getUpdateCount(string $entityUuid, int $buildId): int {
+    return (int) $this->database->select('gatsby_update_log', 'gul')
+      ->countQuery()
+      ->condition(
+        $this->database->condition('OR')
+          ->condition('object_id', $entityUuid)
+          ->condition('object_id', $entityUuid . ':%', 'LIKE')
+      )
+      ->condition('id', $buildId, '>')
+      ->execute()
+      ->fetchField();
+  }
+
+  private function getBuildId(): ?int {
+    if ($this->cachedBuildId !== NULL) {
+      return $this->cachedBuildId;
+    }
+    try {
+      $buildJsonUrl = $this->externalPreviewLink->getLiveBaseUrl() . '/build.json';
+      $response = $this->httpClient->get($buildJsonUrl);
+      if ($response->getStatusCode() !== 200) {
+        $this->logger->error('Could not check if the remote rendered item is outdated because the build.json response status code is {status_code}. URL: {url}', [
+          'status_code' => $response->getStatusCode(),
+          'url' => $buildJsonUrl,
+        ]);
+        return NULL;
+      }
+      $buildInfo = json_decode($response->getBody()->getContents(), TRUE);
+      if (!isset($buildInfo['drupalBuildId'])) {
+        return NULL;
+      }
+      $buildId = (int) $buildInfo['drupalBuildId'];
+      if (!$buildId) {
+        return NULL;
+      }
+      $this->cachedBuildId = $buildId;
+      return $buildId;
+    }
+    catch (\Throwable $e) {
+      $this->logger->error('Could not fetch build ID: {error}', ['error' => $e->getMessage()]);
+      return NULL;
+    }
   }
 
 }
