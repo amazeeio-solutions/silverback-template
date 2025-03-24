@@ -16,7 +16,7 @@ export const CardItem = ({
   return (
     <article
       aria-labelledby={formattedID}
-      className="relative flex max-w-sm flex-col-reverse overflow-hidden rounded-lg bg-white focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:shadow"
+      className="relative flex max-w-sm flex-col-reverse overflow-hidden rounded-lg bg-white focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-teal-600 hover:shadow"
     >
       <div className="p-5">
         <h5
@@ -57,7 +57,7 @@ export const CardItem = ({
         {teaserImage ? (
           <Image {...teaserImage} className="w-full" />
         ) : (
-          <div className="aspect-[4/3] bg-teal-200" />
+          <div className="aspect-[4/3] bg-teal-800" />
         )}
       </div>
     </article>

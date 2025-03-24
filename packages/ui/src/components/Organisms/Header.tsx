@@ -54,7 +54,7 @@ export function Header() {
                   key={key}
                   href={item.target}
                   className="mt-px text-sm font-medium leading-6 text-gray-900 hover:text-teal-600"
-                  activeClassName={'font-bold text-teal-200'}
+                  activeClassName={'font-bold text-teal-700'}
                 >
                   {item.title}
                 </Link>
