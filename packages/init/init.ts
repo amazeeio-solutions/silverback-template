@@ -195,4 +195,12 @@ if (!fs.existsSync(publishToNpmWorkflow)) {
 }
 fs.rmSync(publishToNpmWorkflow, { force: true });
 
+// Remove Merge Release to Prod workflow.
+const mergeReleaseWorkflow = '.github/workflows/merge_release_to_prod.yml';
+if (!fs.existsSync(mergeReleaseWorkflow)) {
+  console.error('Merge Release to Prod workflow already removed.');
+  process.exit(1);
+}
+fs.rmSync(mergeReleaseWorkflow, { force: true });
+
 console.log('👉 Run `pnpm i` to update the lock file.');

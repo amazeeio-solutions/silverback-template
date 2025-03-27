@@ -125,17 +125,6 @@ jobs:
           ${{ github.ref  == 'refs/heads/dev' && vars.NETLIFY_STORYBOOK_ID != ''
           }}
 
-      - name: Merge release to prod (silverback-template only)
-        uses: devmasx/merge-branch@1.4.0
-        if:
-          ${{ github.repository == 'AmazeeLabs/silverback-template' &&
-          github.ref  == 'refs/heads/release'}}
-        with:
-          type: now
-          from_branch: release
-          target_branch: prod
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
   update_dashboard:
     name: Update dashboard
     if: github.ref == 'refs/heads/release' && vars.JIRA_PROJECT_ID != ''
