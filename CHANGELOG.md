@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.0...@amazeelabs/silverback-template@1.3.1) (2025-03-27)
+
+### Bug Fixes
+
+- do not run tests on tag pushes
+  ([d89b933](https://github.com/AmazeeLabs/silverback-template/commit/d89b933a8392de85b1f81bddf95ef0ed93c8e11c))
+- make the package public
+  ([d4ab4bb](https://github.com/AmazeeLabs/silverback-template/commit/d4ab4bbdb82f10f8965e97ae7dd77cfbfabfdb4d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.3.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.2.9...@amazeelabs/silverback-template@1.3.0) (2025-03-27)
 
 ### Bug Fixes
