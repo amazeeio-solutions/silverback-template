@@ -40,6 +40,9 @@ importers:
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-iframe
+      '@amazeelabs/silverback-search':
+        specifier: workspace:^
+        version: link:../../packages/@amazeelabs/silverback-search
       '@custom/custom':
         specifier: workspace:*
         version: link:../../packages/drupal/custom
@@ -408,6 +411,8 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
+
+  packages/@amazeelabs/silverback-search: {}
 
   packages/drupal/custom: {}
 

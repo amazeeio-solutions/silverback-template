@@ -1,0 +1,5 @@
+name: Silverback Search
+type: module
+description: 'Search functionality for Silverback.'
+package: Silverback
+core_version_requirement: ^10 || ^11

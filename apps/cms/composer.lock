@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "f9d786d9df4054b7e829ff8038c67585",
+  "content-hash": "1639922c64f449edb8a4c357475787cc",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -522,6 +522,23 @@
         "source": "https://github.com/AmazeeLabs/silverback_publisher_monitor/tree/2.3.15"
       },
       "time": "2024-09-09T12:01:03+00:00"
+    },
+    {
+      "name": "amazeelabs/silverback_search",
+      "version": "dev-main",
+      "dist": {
+        "type": "path",
+        "url": "node_modules/@amazeelabs/silverback-search/drupal/silverback_search",
+        "reference": "b48d13098258bb98bea81ef0e0fc87a9bc3226a9"
+      },
+      "require": {
+        "symfony/dom-crawler": "^6 || ^7"
+      },
+      "type": "drupal-module",
+      "description": "Search functionality for Silverback.",
+      "transport-options": {
+        "relative": true
+      }
     },
     {
       "name": "amazeelabs/silverback_translations",
@@ -8088,6 +8105,73 @@
         }
       ],
       "time": "2024-09-25T14:20:29+00:00"
+    },
+    {
+      "name": "symfony/dom-crawler",
+      "version": "v6.4.18",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/dom-crawler.git",
+        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/fd07959d3e8992795029bdab3605c2e8e895034e",
+        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e",
+        "shasum": ""
+      },
+      "require": {
+        "masterminds/html5": "^2.6",
+        "php": ">=8.1",
+        "symfony/polyfill-ctype": "~1.8",
+        "symfony/polyfill-mbstring": "~1.0"
+      },
+      "require-dev": {
+        "symfony/css-selector": "^5.4|^6.0|^7.0"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\DomCrawler\\": ""
+        },
+        "exclude-from-classmap": [
+          "/Tests/"
+        ]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Eases DOM navigation for HTML and XML documents",
+      "homepage": "https://symfony.com",
+      "support": {
+        "source": "https://github.com/symfony/dom-crawler/tree/v6.4.18"
+      },
+      "funding": [
+        {
+          "url": "https://symfony.com/sponsor",
+          "type": "custom"
+        },
+        {
+          "url": "https://github.com/fabpot",
+          "type": "github"
+        },
+        {
+          "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+          "type": "tidelift"
+        }
+      ],
+      "time": "2025-01-09T15:35:00+00:00"
     },
     {
       "name": "symfony/error-handler",
@@ -16139,73 +16223,6 @@
         }
       ],
       "time": "2024-09-25T14:18:03+00:00"
-    },
-    {
-      "name": "symfony/dom-crawler",
-      "version": "v6.4.18",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/symfony/dom-crawler.git",
-        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/fd07959d3e8992795029bdab3605c2e8e895034e",
-        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e",
-        "shasum": ""
-      },
-      "require": {
-        "masterminds/html5": "^2.6",
-        "php": ">=8.1",
-        "symfony/polyfill-ctype": "~1.8",
-        "symfony/polyfill-mbstring": "~1.0"
-      },
-      "require-dev": {
-        "symfony/css-selector": "^5.4|^6.0|^7.0"
-      },
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "Symfony\\Component\\DomCrawler\\": ""
-        },
-        "exclude-from-classmap": [
-          "/Tests/"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Fabien Potencier",
-          "email": "fabien@symfony.com"
-        },
-        {
-          "name": "Symfony Community",
-          "homepage": "https://symfony.com/contributors"
-        }
-      ],
-      "description": "Eases DOM navigation for HTML and XML documents",
-      "homepage": "https://symfony.com",
-      "support": {
-        "source": "https://github.com/symfony/dom-crawler/tree/v6.4.18"
-      },
-      "funding": [
-        {
-          "url": "https://symfony.com/sponsor",
-          "type": "custom"
-        },
-        {
-          "url": "https://github.com/fabpot",
-          "type": "github"
-        },
-        {
-          "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-          "type": "tidelift"
-        }
-      ],
-      "time": "2025-01-09T15:35:00+00:00"
     },
     {
       "name": "symfony/lock",
