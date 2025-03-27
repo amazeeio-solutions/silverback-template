@@ -15,6 +15,7 @@ script will:
 - `name` must start with `@amazeelabs/`
 - `version` must present
 - `private` must not present, or be `false`
+- `publishConfig` should be `{ "access": "public" }`
 
 If a package includes a Drupal modules or theme, they must be placed under
 `drupal` subdir (e.g. `packages/@amazeelabs/my-package/drupal/my_module`). Then
