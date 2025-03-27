@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.3...@amazeelabs/silverback-template@1.3.4) (2025-03-27)
+
+### Reverts
+
+- Revert "chore: try re-publishing @amazeelabs/silverback-search"
+  ([2aaf881](https://github.com/AmazeeLabs/silverback-template/commit/2aaf88143282b31cc352d0be7e41eb0adc16711a))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.3.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.2...@amazeelabs/silverback-template@1.3.3) (2025-03-27)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
