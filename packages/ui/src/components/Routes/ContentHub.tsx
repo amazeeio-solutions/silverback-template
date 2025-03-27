@@ -1,15 +1,12 @@
 'use client';
-import { Locale, TermContentHub } from '@custom/schema';
+import { Locale } from '@custom/schema';
 import React from 'react';
 
 import { Translations } from '../../utils/translations';
 import { PageTransition } from '../Molecules/PageTransition';
 import { ContentHub as ContentHubOrganism } from '../Organisms/ContentHub';
 
-export function ContentHub(props: {
-  pageSize: number;
-  termsResults: TermContentHub[];
-}) {
+export function ContentHub(props: { pageSize: number }) {
   return (
     <PageTransition>
       <Translations
@@ -20,10 +17,7 @@ export function ContentHub(props: {
           ]),
         )}
       >
-        <ContentHubOrganism
-          pageSize={props.pageSize}
-          termsResults={props.termsResults}
-        />
+        <ContentHubOrganism pageSize={props.pageSize} />
       </Translations>
     </PageTransition>
   );

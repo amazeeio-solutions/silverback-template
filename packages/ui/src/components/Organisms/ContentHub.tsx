@@ -1,5 +1,5 @@
 import { useIntl } from '@amazeelabs/react-intl';
-import { ContentHubQuery, Locale, TermContentHub } from '@custom/schema';
+import { ContentHubQuery, ContentHubTermsQuery, Locale } from '@custom/schema';
 import qs from 'query-string';
 import React from 'react';
 
@@ -18,13 +18,7 @@ export type ContentHubQueryArgs = {
   pageSize: string | undefined;
 };
 
-export function ContentHub({
-  pageSize = 10,
-  termsResults = [],
-}: {
-  pageSize: number;
-  termsResults: TermContentHub[];
-}) {
+export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
   const intl = useIntl();
   const page = useCurrentPage();
   const search = useSearchParameters();
@@ -41,6 +35,8 @@ export function ContentHub({
     ),
   });
 
+  const termsResult = useOperation(ContentHubTermsQuery, {});
+
   if (error) {
     console.error(error);
   }
@@ -48,7 +44,7 @@ export function ContentHub({
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <SearchForm
-          termOptions={termsResults
+          termOptions={termsResult?.data?.contentHubTerms
             ?.filter(isTruthy)
             .filter((term) => term.locale === (intl.locale as Locale))}
         />

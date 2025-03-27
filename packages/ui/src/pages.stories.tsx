@@ -1,5 +1,6 @@
 import {
   ContentHubQuery,
+  ContentHubTermsQuery,
   FrameQuery,
   OperationExecutorsProvider,
   ViewPageQuery,
@@ -46,11 +47,12 @@ export const ContentHubPage = (() => {
       executors={[
         { executor: PageStory.args, id: ViewPageQuery },
         { executor: WithResults.args?.execQuery, id: ContentHubQuery },
+        { executor: WithResults.args?.execTerms, id: ContentHubTermsQuery },
         { executor: FrameStory.args, id: FrameQuery },
       ]}
     >
       <Frame>
-        <ContentHub pageSize={6} termsResults={[]} />
+        <ContentHub pageSize={6} />
       </Frame>
     </OperationExecutorsProvider>
   );
