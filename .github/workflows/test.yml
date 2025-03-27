@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Init check
-        if: ${{ github.repository != 'AmazeeLabs/silverback-template'}}
+        if: github.repository != 'AmazeeLabs/silverback-template'
         run:
           echo 'Please run the INIT script. See the root README.md for
           instructions.' && false
@@ -36,7 +36,7 @@ jobs:
         run: pnpm test:format
 
       - name: TurboRepo local server
-        if: ${{ github.event.inputs.turborepo_caching != 'Off' }}
+        if: github.event.inputs.turborepo_caching != 'Off'
         uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           server-token: 'local'
@@ -184,7 +184,7 @@ jobs:
           exit $exit_code
 
       - name: Run tests (for "test-all/" branches)
-        if:
+        if: >-
           (startsWith(github.ref_name, 'test-all/') ||
           startsWith(github.head_ref, 'test-all/')) &&
           steps.package_check.outputs.should_skip_test != 'true'
@@ -196,7 +196,7 @@ jobs:
 
   docker_build:
     name: Docker Build
-    if:
+    if: >-
       startsWith(github.ref_name, 'test-all/') || startsWith(github.head_ref,
       'test-all/')
     runs-on: ubuntu-latest
