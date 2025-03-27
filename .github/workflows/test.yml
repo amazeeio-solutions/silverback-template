@@ -1,6 +1,8 @@
 name: Test
 on:
   push:
+    branches:
+      - '**'
   workflow_dispatch:
     inputs:
       turborepo_caching:

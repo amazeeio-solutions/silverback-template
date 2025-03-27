@@ -3,5 +3,8 @@
   "version": "1.1.0",
   "scripts": {
     "test:unit": "cd ../../../apps/cms && vendor/phpunit/phpunit/phpunit web/modules/contrib/silverback_search"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
