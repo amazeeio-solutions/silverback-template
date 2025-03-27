@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.1.0...@amazeelabs/silverback-search@1.1.1) (2025-03-27)
+
+### Bug Fixes
+
+- make the package public
+  ([d4ab4bb](https://github.com/AmazeeLabs/silverback-template/commit/d4ab4bbdb82f10f8965e97ae7dd77cfbfabfdb4d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # 1.1.0 (2025-03-27)
 
 ### Bug Fixes
