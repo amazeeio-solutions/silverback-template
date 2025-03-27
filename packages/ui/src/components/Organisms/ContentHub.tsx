@@ -44,7 +44,9 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <SearchForm
-          termOptions={termsResult?.data?.contentHubTerms?.filter(isTruthy)}
+          termOptions={termsResult?.data?.contentHubTerms
+            ?.filter(isTruthy)
+            .filter((term) => term.locale === (intl.locale as Locale))}
         />
         {error ? (
           <div className="my-8">
