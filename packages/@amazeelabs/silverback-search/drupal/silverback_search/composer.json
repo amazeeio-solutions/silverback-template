@@ -1,0 +1,9 @@
+{
+  "name": "amazeelabs/silverback_search",
+  "version": "dev-main",
+  "type": "drupal-module",
+  "description": "Search functionality for Silverback.",
+  "require": {
+    "symfony/dom-crawler": "^6 || ^7"
+  }
+}

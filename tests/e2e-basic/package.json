@@ -1,6 +1,6 @@
 {
   "name": "@custom-tests/e2e-basic",
-  "version": "1.0.0",
+  "private": true,
   "description": "A very basic e2e test suite.",
   "type": "module",
   "scripts": {

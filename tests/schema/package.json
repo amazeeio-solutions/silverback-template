@@ -1,6 +1,6 @@
 {
   "name": "@custom-tests/schema",
-  "version": "1.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "start": "pnpm run --filter @custom/cms start >> /tmp/cms.log 2>&1",

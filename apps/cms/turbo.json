@@ -24,10 +24,16 @@
         "web/sites/default/files/**",
         "../../packages/ui/static/stories/webforms/**"
       ],
-      "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL", "GITHUB_ACTIONS"]
+      "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]
     },
     "prep:composer": {
-      "inputs": ["composer.json", "composer.lock", "scaffold/**", "patches/**"],
+      "inputs": [
+        "composer.json",
+        "composer.lock",
+        "scaffold/**",
+        "patches/**",
+        "node_modules/@amazeelabs/**/drupal/**"
+      ],
       "outputs": [
         "drush/**",
         "vendor/**",
