@@ -21,3 +21,8 @@ services:
     class: Drupal\custom\EventSubscriber\RobotsSubscriber
     tags:
       - { name: event_subscriber }
+
+  custom.media_links:
+    class: Drupal\custom\MediaLinks
+    arguments:
+      ['@renderer', '@logger.factory', '@stream_wrapper_manager', '@file.usage']
