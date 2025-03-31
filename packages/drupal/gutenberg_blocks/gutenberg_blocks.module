@@ -117,3 +117,21 @@ function _template_preprocess_gutenberg_block_add_rendered_image(&$variables) {
     );
   }
 }
+
+/**
+ * Implements hook_silverback_gutenberg_link_processor_block_attrs_alter().
+ */
+function gutenberg_blocks_silverback_gutenberg_link_processor_block_attrs_alter(array &$attributes, array $context) {
+  // The CTA block can contain the url to a Media,
+  // so we need to transform it into a link to the actual File.
+  // @see custom_silverback_gutenberg_link_processor_outbound_url_alter().
+  if ($context['blockName'] === 'custom/cta' && !empty($attributes['url'])) {
+    /** @var \Drupal\custom\MediaLinks $mediaLinks */
+    $mediaLinks = \Drupal::service('custom.media_links');
+    $language = \Drupal::languageManager()->getDefaultLanguage();
+    if (!empty($context['language']) && $context['language'] instanceof LanguageInterface) {
+      $language = $context['language'];
+    }
+    $attributes['url'] = $mediaLinks->getMediaFileUrl($attributes['url'], $language);
+  }
+}
