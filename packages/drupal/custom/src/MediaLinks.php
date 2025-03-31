@@ -40,7 +40,7 @@ final class MediaLinks {
    * @return string
    */
   public function getMediaFileUrl(
-    string &$url,
+    string $url,
     LanguageInterface $language,
     array $media_bundles = ['document']
   ): string {
