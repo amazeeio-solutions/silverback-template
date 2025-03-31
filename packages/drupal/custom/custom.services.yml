@@ -24,4 +24,5 @@ services:
 
   custom.media_links:
     class: Drupal\custom\MediaLinks
-    arguments: ['@renderer', '@logger.factory', '@stream_wrapper_manager', '@file.usage']
+    arguments:
+      ['@renderer', '@logger.factory', '@stream_wrapper_manager', '@file.usage']
