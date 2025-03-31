@@ -29,14 +29,21 @@ final class MediaLinks {
   ) {}
 
   /**
-   * For some links pointing to Media, we want to print the direct file URL
-   * instead of the media route.
+   * Returns a File url based on the parent Media path.
    *
    * @param string $url
-   *
+   *   The Media relative url.
+   * @param \Drupal\Core\Language\LanguageInterface $language
+   *   The language of the Media translation to use.
+   * @param array $media_bundles
+   *   An array of allowed media bundles.
    * @return string
    */
-  public function getMediaFileUrl(string &$url, LanguageInterface $language, array $media_bundles = ['document']): string {
+  public function getMediaFileUrl(
+    string &$url,
+    LanguageInterface $language,
+    array $media_bundles = ['document']
+  ): string {
     if (preg_match('#^(/[a-z]{2})?/media/([0-9]+)(/edit)?$#', $url, $matches)) {
       $this->renderer->executeInRenderContext(
         new RenderContext(),
