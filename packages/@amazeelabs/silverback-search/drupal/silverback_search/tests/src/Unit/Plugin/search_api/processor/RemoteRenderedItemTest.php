@@ -2,18 +2,18 @@
 
 namespace Drupal\Tests\silverback_search\Unit\Plugin\search_api\processor;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Url;
-use Drupal\search_api\Item\ItemInterface;
 use Drupal\silverback_external_preview\ExternalPreviewLink;
 use Drupal\silverback_search\Plugin\search_api\processor\RemoteRenderedItem;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
-use Psr\Log\LoggerInterface;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Log\LoggerInterface;
 
 class RemoteRenderedItemTest extends UnitTestCase {
   use ProphecyTrait;
@@ -24,17 +24,12 @@ class RemoteRenderedItemTest extends UnitTestCase {
    */
   public function testGetHtml(
     array $config,
-    $entity,
+    ContentEntityInterface $entity,
     string $expectedResult,
     ?string $previewUrl,
     ?array $httpResponses,
     ?array $expectedError
   ): void {
-    $item = $this->prophesize(ItemInterface::class);
-    $originalObject = $this->prophesize(\Drupal\Core\TypedData\ComplexDataInterface::class);
-    $originalObject->getValue()->willReturn($entity);
-    $item->getOriginalObject()->willReturn($originalObject->reveal());
-
     $externalPreviewLink = $this->prophesize(ExternalPreviewLink::class);
     if ($previewUrl) {
       $url = $this->prophesize(Url::class);
@@ -61,12 +56,15 @@ class RemoteRenderedItemTest extends UnitTestCase {
       $logger->error(Argument::cetera())->shouldNotBeCalled();
     }
 
+    $database = $this->prophesize(Connection::class);
+
     $processor = new RemoteRenderedItem(
       $config,
       'silverback_remote_rendered_item',
       [],
       $externalPreviewLink->reveal(),
-      $logger->reveal()
+      $logger->reveal(),
+      $database->reveal()
     );
 
     $reflection = new \ReflectionClass($processor);
@@ -77,7 +75,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
     $method = $reflection->getMethod('getHtml');
     $method->setAccessible(true);
 
-    $result = $method->invoke($processor, $item->reveal(), $config);
+    $result = $method->invoke($processor, $entity, $config);
     $this->assertEquals($expectedResult, $result);
   }
 
@@ -123,14 +121,6 @@ class RemoteRenderedItemTest extends UnitTestCase {
             'response' => new Response(200, [], $successHtml),
           ],
         ],
-        null,
-      ],
-      'non_content_entity' => [
-        $config,
-        new \stdClass(),
-        '',
-        null,
-        null,
         null,
       ],
       'wrong_entity_type' => [
@@ -237,6 +227,177 @@ class RemoteRenderedItemTest extends UnitTestCase {
         [
           'message' => 'Root selector `{root_selector}` did not match any elements on the page. Debug:<pre>{debug}</pre>',
         ],
+      ],
+    ];
+  }
+
+  /**
+   * @dataProvider isOutdatedProvider
+   * @covers \Drupal\silverback_search\Plugin\search_api\processor\RemoteRenderedItem::isOutdated
+   */
+  public function testIsOutdated(
+    bool $expectedResult,
+    ?int $buildId,
+    int $updateCount,
+    string $entityUuid
+  ): void {
+    $externalPreviewLink = $this->prophesize(ExternalPreviewLink::class);
+    $externalPreviewLink->getLiveBaseUrl()->willReturn('https://example.com');
+
+    $httpClient = $this->prophesize(Client::class);
+    if ($buildId !== null) {
+      $httpClient->get('https://example.com/build.json')->willReturn(
+        new Response(200, [], json_encode(['drupalBuildId' => $buildId]))
+      );
+    }
+
+    $logger = $this->prophesize(LoggerInterface::class);
+    $database = $this->prophesize(Connection::class);
+
+    $processor = $this->getMockBuilder(RemoteRenderedItem::class)
+      ->setConstructorArgs([
+        [],
+        'silverback_remote_rendered_item',
+        [],
+        $externalPreviewLink->reveal(),
+        $logger->reveal(),
+        $database->reveal(),
+      ])
+      ->onlyMethods(['getUpdateCount'])
+      ->getMock();
+
+    if ($buildId !== null) {
+      $processor->expects($this->once())
+        ->method('getUpdateCount')
+        ->with($entityUuid, $buildId)
+        ->willReturn($updateCount);
+    } else {
+      $processor->expects($this->never())
+        ->method('getUpdateCount');
+    }
+
+    $reflection = new \ReflectionClass($processor);
+    $property = $reflection->getProperty('httpClient');
+    $property->setAccessible(true);
+    $property->setValue($processor, $httpClient->reveal());
+
+    $method = $reflection->getMethod('isOutdated');
+    $method->setAccessible(true);
+
+    $entity = $this->prophesize(ContentEntityInterface::class);
+    $entity->uuid()->willReturn($entityUuid);
+
+    $result = $method->invoke($processor, $entity->reveal());
+    $this->assertEquals($expectedResult, $result);
+  }
+
+  public function isOutdatedProvider(): array {
+    return [
+      'entity_is_outdated' => [
+        true,
+        100,
+        1,
+        'test-uuid',
+      ],
+      'entity_is_not_outdated' => [
+        false,
+        100,
+        0,
+        'test-uuid',
+      ],
+      'no_build_id' => [
+        false,
+        null,
+        0,
+        'test-uuid',
+      ],
+    ];
+  }
+
+  /**
+   * @dataProvider getBuildIdProvider
+   * @covers \Drupal\silverback_search\Plugin\search_api\processor\RemoteRenderedItem::getBuildId
+   */
+  public function testGetBuildId(
+    ?int $expectedResult,
+    ?Response $response,
+    bool $shouldLogError,
+    ?string $expectedErrorMessage = null
+  ): void {
+    $externalPreviewLink = $this->prophesize(ExternalPreviewLink::class);
+    $externalPreviewLink->getLiveBaseUrl()->willReturn('https://example.com');
+
+    $httpClient = $this->prophesize(Client::class);
+    if ($response) {
+      $httpClient->get('https://example.com/build.json')->willReturn($response);
+    } else {
+      $httpClient->get('https://example.com/build.json')->willThrow(new \Exception('Connection error'));
+    }
+
+    $logger = $this->prophesize(LoggerInterface::class);
+    if ($shouldLogError) {
+      $logger->error($expectedErrorMessage, Argument::any())->shouldBeCalled();
+    } else {
+      $logger->error(Argument::cetera())->shouldNotBeCalled();
+    }
+
+    $database = $this->prophesize(Connection::class);
+
+    $processor = new RemoteRenderedItem(
+      [],
+      'silverback_remote_rendered_item',
+      [],
+      $externalPreviewLink->reveal(),
+      $logger->reveal(),
+      $database->reveal()
+    );
+
+    $reflection = new \ReflectionClass($processor);
+    $property = $reflection->getProperty('httpClient');
+    $property->setAccessible(true);
+    $property->setValue($processor, $httpClient->reveal());
+
+    $method = $reflection->getMethod('getBuildId');
+    $method->setAccessible(true);
+
+    $result = $method->invoke($processor);
+    $this->assertEquals($expectedResult, $result);
+
+    if ($expectedResult !== null) {
+      $cachedResult = $method->invoke($processor);
+      $this->assertEquals($expectedResult, $cachedResult);
+      $httpClient->get('https://example.com/build.json')->shouldHaveBeenCalledOnce();
+    }
+  }
+
+  public function getBuildIdProvider(): array {
+    return [
+      'success_case' => [
+        100,
+        new Response(200, [], json_encode(['drupalBuildId' => 100])),
+        false,
+      ],
+      'non_200_response' => [
+        null,
+        new Response(500),
+        true,
+        'Could not check if the remote rendered item is outdated because the build.json response status code is {status_code}. URL: {url}',
+      ],
+      'missing_build_id' => [
+        null,
+        new Response(200, [], json_encode(['foo' => 'bar'])),
+        false,
+      ],
+      'invalid_build_id' => [
+        null,
+        new Response(200, [], json_encode(['drupalBuildId' => 0])),
+        false,
+      ],
+      'exception_case' => [
+        null,
+        null,
+        true,
+        'Could not fetch build ID: {error}',
       ],
     ];
   }

@@ -1,0 +1,25 @@
+66e4befb3ea8e3be3e277d937ffcdd2b3a392e5d<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+f4b835792a1a5b30749a41a73b404ac0fd93aa31<|ENT|><|RY|>Merge pull request #427 from AmazeeLabs/test-all/no-double-merge<|COM|><|MIT|>
+85ee8d002934c63d6d8ab954e2b7771c64853261<|ENT|><|RY|>chore: avoid double merge-to-prod<|COM|><|MIT|>
+a950d65f879f365621f83eb6df256fb05ee2d8a3<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+f094ebf5ca6c52d29e4c908b89d81f0846b56e3a<|ENT|><|RY|>chore: rename the publish_to_npm workflow to release<|COM|><|MIT|>
+214e09bffb31aaa34c09c1501b46c48de29aa84f<|ENT|><|RY|>chore: remove the tag_release workflow<|COM|><|MIT|>
+2aaf88143282b31cc352d0be7e41eb0adc16711a<|ENT|><|RY|>Revert "chore: try re-publishing @amazeelabs/silverback-search"<|COM|><|MIT|>
+75220e16d3ab0127a4a7a0f982e832d4445c632d<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+771387d733534801bb26a2273261b923b007bbb1<|ENT|><|RY|>chore: fix the publish worflow condition<|COM|><|MIT|>
+2db067b31f32af2daaa89ac0cd98e6a0f2d3938d<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+7e141741ca1c943279d828390d4f84061870ed95<|ENT|><|RY|>chore: try re-publishing @amazeelabs/silverback-search<|COM|><|MIT|>
+4a0785a6be0071797ba58b861daeb069766df325<|ENT|><|RY|>chore: don't run tests twice<|COM|><|MIT|>
+d8e1909a80bb528579f6669a5efaaaf381ec4102<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+d4ab4bbdb82f10f8965e97ae7dd77cfbfabfdb4d<|ENT|><|RY|>fix: make the package public<|COM|><|MIT|>
+d89b933a8392de85b1f81bddf95ef0ed93c8e11c<|ENT|><|RY|>fix: do not run tests on tag pushes<|COM|><|MIT|>
+7193d82755391897eafb091cf81b2cadd3bad901<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+ccb3eea64cd3e368d31531b19de50225cdb0d8d4<|ENT|><|RY|>Merge pull request #425 from AmazeeLabs/SLB-530--index-remote-html<|COM|><|MIT|>
+3cfb225f96a27841c66e3bfa4bdd1958f1d17d85<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+4af19843fde39fc286d0658b9c9a7aa3005de816<|ENT|><|RY|>chore: update publisher action to latest<|COM|><|MIT|>
+ebd166124befe3363e99581a66b6d8cb02f75c7b<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+2527037a68fabc19be6870e98c196fea1cb27e39<|ENT|><|RY|>Merge pull request #426 from AmazeeLabs/test-all/dockerignore<|COM|><|MIT|>
+23aaf0f7abc14e0dd992d8d135cf66e19a0366dc<|ENT|><|RY|>chore: improve dockerignore<|COM|><|MIT|>
+9b2fbd13be91a0ada81c032168655eef45bf80e2<|ENT|><|RY|>chore(release): release<|COM|><|MIT|>
+5580f120150d0f24def23f19d32c9724bf448175<|ENT|><|RY|>chore: update publisher action<|COM|><|MIT|>
+6dce5feb833aa9523efef9acd3d7d4dc39a821f8<|ENT|><|RY|>chore: fix turbo setup<|COM|><|MIT|>

@@ -1,6 +1,8 @@
 name: Test
 on:
   push:
+    branches:
+      - '**'
   workflow_dispatch:
     inputs:
       turborepo_caching:
@@ -17,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Init check
-        if: ${{ github.repository != 'AmazeeLabs/silverback-template'}}
+        if: github.repository != 'AmazeeLabs/silverback-template'
         run:
           echo 'Please run the INIT script. See the root README.md for
           instructions.' && false
@@ -34,7 +36,7 @@ jobs:
         run: pnpm test:format
 
       - name: TurboRepo local server
-        if: ${{ github.event.inputs.turborepo_caching != 'Off' }}
+        if: github.event.inputs.turborepo_caching != 'Off'
         uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           server-token: 'local'
@@ -123,17 +125,6 @@ jobs:
           ${{ github.ref  == 'refs/heads/dev' && vars.NETLIFY_STORYBOOK_ID != ''
           }}
 
-      - name: Merge release to prod (silverback-template only)
-        uses: devmasx/merge-branch@1.4.0
-        if:
-          ${{ github.repository == 'AmazeeLabs/silverback-template' &&
-          github.ref  == 'refs/heads/release'}}
-        with:
-          type: now
-          from_branch: release
-          target_branch: prod
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
   update_dashboard:
     name: Update dashboard
     if: github.ref == 'refs/heads/release' && vars.JIRA_PROJECT_ID != ''
@@ -193,7 +184,7 @@ jobs:
           exit $exit_code
 
       - name: Run tests (for "test-all/" branches)
-        if:
+        if: >-
           (startsWith(github.ref_name, 'test-all/') ||
           startsWith(github.head_ref, 'test-all/')) &&
           steps.package_check.outputs.should_skip_test != 'true'
@@ -205,7 +196,7 @@ jobs:
 
   docker_build:
     name: Docker Build
-    if:
+    if: >-
       startsWith(github.ref_name, 'test-all/') || startsWith(github.head_ref,
       'test-all/')
     runs-on: ubuntu-latest

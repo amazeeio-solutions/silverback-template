@@ -1,0 +1,35 @@
+name: Merge Release to Prod
+
+on:
+  workflow_run:
+    workflows:
+      - Test
+    types:
+      - completed
+    branches:
+      - release
+
+# Only one workflow run at a time.
+concurrency:
+  group: merge_release_to_prod
+
+jobs:
+  merge:
+    name: Merge
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      !contains(github.event.workflow_run.head_commit.message, 'chore(release):
+      release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Merge release to prod
+        uses: devmasx/merge-branch@1.4.0
+        with:
+          type: now
+          from_branch: release
+          target_branch: prod
+          github_token: ${{ github.token }}
