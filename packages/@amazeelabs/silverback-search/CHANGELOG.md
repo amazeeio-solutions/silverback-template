@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.1.3...@amazeelabs/silverback-search@1.2.0) (2025-04-01)
+
+### Features
+
+- add exclude_selector to remote rendered item
+  ([91cd352](https://github.com/AmazeeLabs/silverback-template/commit/91cd352459aa62b1325a7e0116e4bb00e14d731f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.1.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.1.2...@amazeelabs/silverback-search@1.1.3) (2025-03-27)
 
 ### Reverts
