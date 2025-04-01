@@ -156,7 +156,13 @@ class RemoteRenderedItem extends ProcessorPluginBase {
         $rootSelector = $configuration['root_selector'] ?: 'body';
         $filtered = $crawler->filter($rootSelector);
         if ($filtered->count() > 0) {
-          $html = $filtered->first()->outerHtml();
+          $result = $filtered->first();
+          if (!empty($configuration['exclude_selector'])) {
+            $result->filter($configuration['exclude_selector'])->each(function ($node) {
+              $node->getNode(0)->parentNode->removeChild($node->getNode(0));
+            });
+          }
+          $html = $result->outerHtml();
           return $html;
         } else {
           $this->logger->error(
