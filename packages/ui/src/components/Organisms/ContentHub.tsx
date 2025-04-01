@@ -12,10 +12,13 @@ import { Loading } from '../Routes/Loading';
 import { CardItem } from './Card';
 
 export type ContentHubQueryArgs = {
-  title: string | undefined;
-  terms: string | undefined;
-  page: string | undefined;
-  pageSize: string | undefined;
+  title?: string;
+  terms?: string;
+};
+
+export type ContentHubPaginationArgs = {
+  page?: string;
+  pageSize?: string;
 };
 
 export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
@@ -26,11 +29,11 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
     locale: intl.locale as Locale,
     args: qs.stringify(
       {
-        title: search.keyword,
+        title: search.title,
         terms: search.terms === '' ? undefined : search.terms,
         page: `${page}`,
         pageSize: `${pageSize}`,
-      } satisfies ContentHubQueryArgs,
+      } satisfies ContentHubQueryArgs & ContentHubPaginationArgs,
       { arrayFormat: 'bracket' },
     ),
   });

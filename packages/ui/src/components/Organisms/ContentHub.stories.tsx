@@ -15,7 +15,11 @@ import React from 'react';
 
 import { image } from '../../helpers/image';
 import SearchFormStories from '../Molecules/SearchForm.stories';
-import { ContentHub, ContentHubQueryArgs } from './ContentHub';
+import {
+  ContentHub,
+  ContentHubPaginationArgs,
+  ContentHubQueryArgs,
+} from './ContentHub';
 
 type ContentHubExecutor = (
   id: typeof ContentHubQuery,
@@ -110,7 +114,8 @@ export const WithResults: ContentHubStory = {
           }) satisfies CardItemFragment,
       );
 
-      const args = qs.parse(vars.args || '') as ContentHubQueryArgs;
+      const args = qs.parse(vars.args || '') as ContentHubQueryArgs &
+        ContentHubPaginationArgs;
 
       // filter by title
       let filtered = items.filter(

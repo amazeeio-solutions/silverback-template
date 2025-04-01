@@ -3,12 +3,14 @@ import { TermContentHub, useLocation } from '@custom/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z, ZodType } from 'zod';
+
+import { ContentHubQueryArgs } from '../Organisms/ContentHub';
 
 const formValueSchema = z.object({
-  keyword: z.string().optional(),
+  title: z.string().optional(),
   terms: z.string().optional(),
-});
+}) satisfies ZodType<ContentHubQueryArgs>;
 
 export function useSearchParameters() {
   const [location] = useLocation();
@@ -70,7 +72,7 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
               })}
             </label>
             <input
-              {...register('keyword')}
+              {...register('title')}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:border-blue-500 focus:ring-blue-500"
               placeholder={intl.formatMessage({
                 defaultMessage: 'Keyword',
