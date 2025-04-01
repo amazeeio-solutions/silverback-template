@@ -15,7 +15,6 @@ dependencies:
     - content_moderation
     - field_group
     - media_library
-    - field_group
     - metatag
     - path
     - text

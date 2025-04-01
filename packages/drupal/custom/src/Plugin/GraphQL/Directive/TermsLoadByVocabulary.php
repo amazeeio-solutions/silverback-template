@@ -7,7 +7,8 @@ use Drupal\graphql\GraphQL\Resolver\ResolverInterface;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql_directives\DirectiveInterface;
 use Drupal\graphql_directives\Plugin\GraphQL\Directive\ArgumentTrait;
-use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
+use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * @Directive(
@@ -27,7 +28,7 @@ class TermsLoadByVocabulary extends PluginBase implements DirectiveInterface {
    * @throws \Exception
    */
   public function buildResolver(ResolverBuilder $builder, array $arguments): ResolverInterface {
-    return $builder->callback(function ($parent, $args) use ($arguments) {
+    return $builder->callback(function ($parent, $args, $context, $info, RefinableCacheableDependencyInterface $metadata) use ($arguments) {
       if (!isset($arguments['bundle'])) {
         throw new \Exception('A bundle must be provided.');
       }
@@ -35,13 +36,22 @@ class TermsLoadByVocabulary extends PluginBase implements DirectiveInterface {
       $items = [];
       $bundle = $arguments['bundle'];
 
+      // Create cache metadata for this query
+      $cache = new CacheableMetadata();
+      $cache->addCacheTags(['taxonomy_term_list', 'taxonomy_term_list:' . $bundle]);
+
       $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
       $terms = $storage->loadByProperties(['vid' => $bundle]);
       if ($terms) {
         foreach ($terms as $key => $term) {
           $items[$key] = $term;
+          // Add each term's cache tags
+          $cache->addCacheableDependency('taxonomy_term:'.$term->id());
         }
       }
+
+      // Add the cache metadata to the result
+      $metadata->addCacheableDependency($cache);
 
       return $items ?: NULL;
     });

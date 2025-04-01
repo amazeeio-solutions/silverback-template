@@ -1,14 +1,16 @@
 import { useIntl } from '@amazeelabs/react-intl';
 import { TermContentHub, useLocation } from '@custom/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z, ZodType } from 'zod';
+
+import { ContentHubQueryArgs } from '../Organisms/ContentHub';
 
 const formValueSchema = z.object({
-  keyword: z.string().optional(),
+  title: z.string().optional(),
   terms: z.string().optional(),
-});
+}) satisfies ZodType<ContentHubQueryArgs>;
 
 export function useSearchParameters() {
   const [location] = useLocation();
@@ -20,10 +22,19 @@ export function useSearchParameters() {
 export function SearchForm(props: { termOptions?: TermContentHub[] }) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, setValue } = useForm<FormValues>({
     resolver: zodResolver(formValueSchema),
-    values: useSearchParameters(),
   });
+  const params = useSearchParameters();
+  const stringifiedParams = JSON.stringify(params);
+
+  useEffect(() => {
+    const keys = Object.keys(params) as (keyof FormValues)[];
+    for (const key of keys) {
+      setValue(key, params[key]);
+    }
+  }, [stringifiedParams]);
+
   const [location, navigate] = useLocation();
   return (
     <div className="bg-white shadow sm:rounded-lg">
@@ -70,7 +81,7 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
               })}
             </label>
             <input
-              {...register('keyword')}
+              {...register('title')}
               className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:border-blue-500 focus:ring-blue-500"
               placeholder={intl.formatMessage({
                 defaultMessage: 'Keyword',
