@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.1...@amazeelabs/silverback-template@1.4.2) (2025-04-01)
+
+### Bug Fixes
+
+- consider case when 404 page is not defined
+  ([7232e69](https://github.com/AmazeeLabs/silverback-template/commit/7232e69c03c79def78f92109af0920ffb11746c5))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.0...@amazeelabs/silverback-template@1.4.1) (2025-04-01)
 
 ### Bug Fixes
