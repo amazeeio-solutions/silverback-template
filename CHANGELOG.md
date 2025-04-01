@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.2...@amazeelabs/silverback-template@1.5.0) (2025-04-01)
+
+### Features
+
+- process gutenberg media links for cta
+  ([9a0727c](https://github.com/AmazeeLabs/silverback-template/commit/9a0727c6663cd4763095274d919a6eb6383a474e))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.4.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.1...@amazeelabs/silverback-template@1.4.2) (2025-04-01)
 
 ### Bug Fixes
