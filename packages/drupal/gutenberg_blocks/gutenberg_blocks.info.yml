@@ -6,3 +6,4 @@ core_version_requirement: ^9 || ^10
 dependencies:
   - gutenberg:gutenberg
   - silverback_gutenberg:silverback_gutenberg
+  - custom:custom
