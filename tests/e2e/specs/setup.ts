@@ -1,5 +1,6 @@
 import { expect, test as setup } from '@playwright/test';
 
+import { silverback } from '../helpers/drupal';
 import { cmsUrl } from '../helpers/url';
 import {
   netlifyBootTimeout,
@@ -19,4 +20,6 @@ setup('setup', async ({ page }) => {
     page.getByRole('heading', { name: 'admin', exact: true }),
   ).toHaveCount(1);
   await page.context().storageState({ path: '.auth/admin.json' });
+
+  silverback('-y snapshot-create tests-initial');
 });

@@ -3,6 +3,7 @@ _core:
 module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
+  admin_user_language: 0
   block: 0
   block_content: 0
   breakpoint: 0
@@ -82,6 +83,7 @@ module:
   silverback_image_ai: 0
   silverback_preview_link: 0
   silverback_publisher_monitor: 0
+  silverback_search: 0
   silverback_translations: 0
   simple_oauth: 0
   slack: 0

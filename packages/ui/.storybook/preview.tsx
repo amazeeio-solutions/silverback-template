@@ -71,6 +71,10 @@ const SWRCacheDecorator: Decorator = (Story) => {
 export const parameters = {
   chromatic: { viewports: [320, 840, 1440] },
   a11y: {
+    // TODO: Remove once https://github.com/storybookjs/storybook/issues/30385
+    //  is solved. Disable automated accessibility tests for now.
+    manual: true,
+
     // Optional selector to inspect
     element: '#storybook-root',
     config: {

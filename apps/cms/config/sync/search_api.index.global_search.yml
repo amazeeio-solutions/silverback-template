@@ -6,21 +6,17 @@ dependencies:
     - field.storage.media.field_media_image
     - field.storage.media.field_media_video_file
     - search_api.server.database
-    - core.entity_view_mode.config_pages.global_search
-    - core.entity_view_mode.media.global_search
-    - core.entity_view_mode.node.global_search
-    - core.entity_view_mode.user.global_search
   module:
-    - path_alias
-    - menu_link_content
-    - silverback_campaign_urls
-    - user
-    - redirect
-    - search_api
     - config_pages
     - media
+    - menu_link_content
     - node
+    - path_alias
+    - redirect
+    - silverback_campaign_urls
+    - silverback_search
     - taxonomy
+    - user
 id: global_search
 name: 'Global search'
 description: ''
@@ -122,35 +118,33 @@ field_settings:
     dependencies:
       module:
         - redirect
-  rendered_item:
-    label: 'Rendered HTML output'
-    property_path: rendered_item
+  silverback_remote_rendered_item:
+    label: 'Remote rendered HTML output (Silverback)'
+    property_path: silverback_remote_rendered_item
     type: text
     configuration:
-      roles:
-        - editor
-      view_mode:
-        'entity:campaign_url':
-          campaign_url: ''
-        'entity:config_pages':
-          website_settings: global_search
-        'entity:media':
-          document: global_search
-          image: global_search
-          remote_video: global_search
-          video: global_search
-        'entity:menu_link_content':
-          menu_link_content: ''
-        'entity:node':
-          page: global_search
-        'entity:path_alias':
-          path_alias: ''
-        'entity:redirect':
-          redirect: ''
-        'entity:taxonomy_term':
-          taxonomy_term: ''
-        'entity:user':
-          user: global_search
+      root_selector: '#main-content'
+      netlify_password: ''
+      entity_types:
+        node: node
+        block_content: 0
+        config_pages: 0
+        consumer: 0
+        content_moderation_state: 0
+        crop: 0
+        file: 0
+        media: 0
+        menu_link_content: 0
+        path_alias: 0
+        redirect: 0
+        search_api_task: 0
+        shortcut: 0
+        campaign_url: 0
+        silverback_preview_link: 0
+        oauth2_token: 0
+        taxonomy_term: 0
+        user: 0
+        webform_submission: 0
   title:
     label: 'Image » Title'
     datasource_id: 'entity:media'
@@ -247,7 +241,7 @@ processor_settings:
       - menu_name
       - redirect_destination
       - redirect_source
-      - rendered_item
+      - silverback_remote_rendered_item
       - title
       - title_menu_link
     title: true
@@ -276,11 +270,12 @@ processor_settings:
       - menu_name
       - redirect_destination
       - redirect_source
-      - rendered_item
+      - silverback_remote_rendered_item
       - title
       - title_menu_link
   language_with_fallback: {  }
   rendered_item: {  }
+  silverback_remote_rendered_item: {  }
   stopwords:
     weights:
       preprocess_index: -5
@@ -299,7 +294,7 @@ processor_settings:
       - menu_name
       - redirect_destination
       - redirect_source
-      - rendered_item
+      - silverback_remote_rendered_item
       - title
       - title_menu_link
     stopwords:
@@ -356,7 +351,7 @@ processor_settings:
       - menu_name
       - redirect_destination
       - redirect_source
-      - rendered_item
+      - silverback_remote_rendered_item
       - title
       - title_menu_link
     spaces: ''
@@ -381,7 +376,7 @@ processor_settings:
       - menu_name
       - redirect_destination
       - redirect_source
-      - rendered_item
+      - silverback_remote_rendered_item
       - title
       - title_menu_link
   type_boost:
@@ -411,6 +406,7 @@ tracker_settings:
     indexing_order: fifo
 options:
   cron_limit: 50
-  index_directly: true
+  delete_on_fail: true
+  index_directly: false
   track_changes_in_references: true
 server: database

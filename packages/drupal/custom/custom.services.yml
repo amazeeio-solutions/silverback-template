@@ -16,3 +16,8 @@ services:
     arguments: ['@language_manager', '@current_route_match']
     tags:
       - { name: event_subscriber }
+
+  custom.event_subscriber:
+    class: Drupal\custom\EventSubscriber\RobotsSubscriber
+    tags:
+      - { name: event_subscriber }

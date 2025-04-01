@@ -1,6 +1,5 @@
 {
   "name": "@custom/cms",
-  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -29,13 +28,15 @@
     "@amazeelabs/gatsby-source-silverback": "*"
   },
   "dependencies": {
+    "@amazeelabs/silverback-iframe": "workspace:*",
+    "@amazeelabs/silverback-search": "workspace:^",
     "@custom/custom": "workspace:*",
     "@custom/custom_heavy": "workspace:*",
     "@custom/gutenberg_blocks": "workspace:*",
-    "@custom/schema": "workspace:*",
-    "@custom/test_content": "workspace:*",
-    "@custom/ui": "workspace:*",
     "@custom/preview": "workspace:*",
-    "@custom/search_api_global": "workspace:*"
+    "@custom/schema": "workspace:*",
+    "@custom/search_api_global": "workspace:*",
+    "@custom/test_content": "workspace:*",
+    "@custom/ui": "workspace:*"
   }
 }

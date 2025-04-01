@@ -7,7 +7,6 @@ import {
   ToggleControl,
 } from 'wordpress__components';
 
-const { t: __ } = Drupal;
 const { setPlainTextAttribute } = silverbackGutenbergUtils;
 
 registerBlockType<{
@@ -17,7 +16,7 @@ registerBlockType<{
   limit: number;
   titleFilter: string;
 }>('custom/teaser-list', {
-  title: __('Teaser list'),
+  title: Drupal.t('Teaser list', {}, { context: 'gutenberg' }),
   icon: 'slides',
   category: 'layout',
   attributes: {
@@ -48,15 +47,23 @@ registerBlockType<{
 
     return (
       <div className={'container-wrapper !border-stone-500'}>
-        <div className={'container-label'}>{__('Teaser list')}</div>
+        <div className={'container-label'}>
+          {Drupal.t('Teaser list', {}, { context: 'gutenberg' })}
+        </div>
         <InspectorControls>
           <PanelBody>
             <SelectControl
-              label={__('Layout')}
+              label={Drupal.t('Layout', {}, { context: 'gutenberg' })}
               value={layout}
               options={[
-                { label: __('Grid'), value: 'GRID' },
-                { label: __('Carousel'), value: 'CAROUSEL' },
+                {
+                  label: Drupal.t('Grid', {}, { context: 'gutenberg' }),
+                  value: 'GRID',
+                },
+                {
+                  label: Drupal.t('Carousel', {}, { context: 'gutenberg' }),
+                  value: 'CAROUSEL',
+                },
               ]}
               onChange={(layout) => {
                 setAttributes({
@@ -66,17 +73,27 @@ registerBlockType<{
             />
             <TextControl
               value={buttonText}
-              label={__('Button text')}
+              label={Drupal.t('Button text', {}, { context: 'gutenberg' })}
               onChange={(buttonText) => {
                 setPlainTextAttribute(props, 'buttonText', buttonText);
               }}
-              help={__(
+              help={Drupal.t(
                 'A text to show for the read more link. Leave empty to use the default one (Read more).',
+                {},
+                { context: 'gutenberg' },
               )}
             />
             <ToggleControl
-              label={__('Enable content hub')}
-              help={__('Enable pulling dynamic content from the content hub.')}
+              label={Drupal.t(
+                'Enable content hub',
+                {},
+                { context: 'gutenberg' },
+              )}
+              help={Drupal.t(
+                'Enable pulling dynamic content from the content hub.',
+                {},
+                { context: 'gutenberg' },
+              )}
               checked={contentHubEnabled}
               onChange={(contentHubEnabled) => {
                 setAttributes({
@@ -86,8 +103,12 @@ registerBlockType<{
             />
             {typeof contentHubEnabled !== 'undefined' && contentHubEnabled ? (
               <TextControl
-                label={__('Filter: Title')}
-                help={__('Filter results by title / label.')}
+                label={Drupal.t('Filter: Title', {}, { context: 'gutenberg' })}
+                help={Drupal.t(
+                  'Filter results by title / label.',
+                  {},
+                  { context: 'gutenberg' },
+                )}
                 onChange={(titleFilter) => {
                   setAttributes({
                     titleFilter,
@@ -98,9 +119,11 @@ registerBlockType<{
             ) : null}
             {typeof contentHubEnabled !== 'undefined' && contentHubEnabled ? (
               <TextControl
-                label={__('Limit')}
-                help={__(
+                label={Drupal.t('Limit', {}, { context: 'gutenberg' })}
+                help={Drupal.t(
                   'Set a maximum number of results to show from the content hub.',
+                  {},
+                  { context: 'gutenberg' },
                 )}
                 onChange={(limit) => {
                   setAttributes({

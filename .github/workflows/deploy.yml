@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    if:
+    if: >-
       (github.ref == 'refs/heads/prod' && vars.NETLIFY_PROD_ID) || (github.ref
       == 'refs/heads/dev' && vars.NETLIFY_DEV_ID)
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
       - name: Deploy to dev
         run: pnpm netlify deploy --prod --filter "@custom/website"
         working-directory: ../deploy
-        if:
+        if: >-
           github.ref == 'refs/heads/dev' &&
           steps.netlify-check.outputs.available == 'true'
         env:
@@ -71,7 +71,7 @@ jobs:
       - name: Deploy to prod
         run: pnpm netlify deploy --prod --filter "@custom/website"
         working-directory: ../deploy
-        if:
+        if: >-
           github.ref == 'refs/heads/prod' &&
           steps.netlify-check.outputs.available == 'true'
         env:

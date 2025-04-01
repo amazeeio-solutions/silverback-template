@@ -11,9 +11,12 @@ export function isLocale(input: unknown): input is Locale {
  * Extract the current locale from the path prefix.
  */
 export function useLocale() {
-  const [{ pathname }] = useLocation();
+  const [{ pathname, searchParams }] = useLocation();
   const prefix = pathname.split('/')[1];
-  return isLocale(prefix) ? prefix : defaultLocale;
+  // For the preview route, we should get the language code from the "lang"
+  // parameter.
+  const langcode = prefix === '__preview' ? searchParams.get('lang') : prefix;
+  return isLocale(langcode) ? langcode : defaultLocale;
 }
 
 type Localized = { locale: Locale };

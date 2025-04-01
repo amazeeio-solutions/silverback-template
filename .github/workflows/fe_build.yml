@@ -29,13 +29,13 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: TurboRepo local server
-        uses: felixmosh/turborepo-gh-artifacts@v2
+        uses: felixmosh/turborepo-gh-artifacts@v3
         with:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publisher
-        uses: AmazeeLabs/publisher-action@4371b4a90a9fe2c86248e76c0f428e39abf6b610
+        uses: AmazeeLabs/publisher-action@eb035eff2ef4b6bb19d4078e6c11966142f7653d
         with:
           success_env_var_name: BUILD_IS_SUCCESSFUL
           cache_paths: |

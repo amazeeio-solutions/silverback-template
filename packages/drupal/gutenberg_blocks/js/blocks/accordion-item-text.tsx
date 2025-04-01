@@ -8,13 +8,11 @@ import {
 import { registerBlockType } from 'wordpress__blocks';
 import { PanelBody, SelectControl } from 'wordpress__components';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{
   title: string;
   icon?: string;
 }>('custom/accordion-item-text', {
-  title: 'Accordion Item Text',
+  title: Drupal.t('Accordion Item Text', {}, { context: 'gutenberg' }),
   icon: 'text',
   category: 'layout',
   parent: ['custom/accordion'],
@@ -31,10 +29,26 @@ registerBlockType<{
   edit: (props) => {
     const { attributes, setAttributes, context } = props;
     const icons = [
-      { label: __('- Select an optional icon -'), value: '' },
-      { label: __('Checkmark'), value: 'checkmark' },
-      { label: __('Questionmark'), value: 'questionmark' },
-      { label: __('Arrow'), value: 'arrow' },
+      {
+        label: Drupal.t(
+          '- Select an optional icon -',
+          {},
+          { context: 'gutenberg' },
+        ),
+        value: '',
+      },
+      {
+        label: Drupal.t('Checkmark', {}, { context: 'gutenberg' }),
+        value: 'checkmark',
+      },
+      {
+        label: Drupal.t('Questionmark', {}, { context: 'gutenberg' }),
+        value: 'questionmark',
+      },
+      {
+        label: Drupal.t('Arrow', {}, { context: 'gutenberg' }),
+        value: 'arrow',
+      },
     ];
 
     setAttributes({
@@ -46,16 +60,28 @@ registerBlockType<{
     return (
       <Fragment>
         <InspectorControls>
-          <PanelBody title={__('Heading Level')}>
+          <PanelBody
+            title={Drupal.t('Heading Level', {}, { context: 'gutenberg' })}
+          >
             <div>
-              {__('Heading level is defined in the parent accordion block.')}
+              {Drupal.t(
+                'Heading level is defined in the parent accordion block.',
+                {},
+                { context: 'gutenberg' },
+              )}
             </div>
             <div>
-              {__('Currently it is set to:')}{' '}
+              {Drupal.t(
+                'Currently it is set to:',
+                {},
+                { context: 'gutenberg' },
+              )}{' '}
               <strong>{headingLevel as string}</strong>
             </div>
           </PanelBody>
-          <PanelBody title={__('Block settings')}>
+          <PanelBody
+            title={Drupal.t('Block settings', {}, { context: 'gutenberg' })}
+          >
             <SelectControl
               value={attributes.icon}
               options={icons}
@@ -68,7 +94,9 @@ registerBlockType<{
           </PanelBody>
         </InspectorControls>
         <div className={'container-wrapper !border-stone-500'}>
-          <div className={'container-label'}>{__('Accordion Item Text')}</div>
+          <div className={'container-label'}>
+            {Drupal.t('Accordion Item Text', {}, { context: 'gutenberg' })}
+          </div>
           <div
             className={clsx(
               'custom-block-accordion-item-text',
@@ -81,7 +109,7 @@ registerBlockType<{
               value={attributes.title}
               allowedFormats={[]}
               disableLineBreaks={true}
-              placeholder={__('Title')}
+              placeholder={Drupal.t('Title', {}, { context: 'gutenberg' })}
               keepPlaceholderOnFocus={true}
               onChange={(newValue) => {
                 setAttributes({ title: newValue });

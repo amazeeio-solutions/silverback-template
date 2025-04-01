@@ -8,12 +8,10 @@ import {
   limitedIconListOption,
 } from '../utils/icon-list';
 
-const { t: __ } = Drupal;
-
 registerBlockType<{
   icon: string;
 }>('custom/info-grid-item', {
-  title: __('Info Grid Item'),
+  title: Drupal.t('Info Grid Item', {}, { context: 'gutenberg' }),
   icon: 'align-wide',
   category: 'layout',
   parent: ['custom/info-grid'],
@@ -30,7 +28,9 @@ registerBlockType<{
     return (
       <>
         <InspectorControls>
-          <PanelBody title={__('Select an icon')}>
+          <PanelBody
+            title={Drupal.t('Select an icon', {}, { context: 'gutenberg' })}
+          >
             <SelectControl
               value={props.attributes.icon}
               options={limitedIconListOption([
@@ -46,7 +46,9 @@ registerBlockType<{
         </InspectorControls>
 
         <div className={'container-wrapper !border-stone-500'}>
-          <div className={'container-label'}>{__('Info Grid Item')}</div>
+          <div className={'container-label'}>
+            {Drupal.t('Info Grid Item', {}, { context: 'gutenberg' })}
+          </div>
           <div className={'info-grid-icon'} style={{ maxWidth: '50px' }}>
             {iconPreview && (
               <img src={iconPreview} alt={props.attributes.icon} />

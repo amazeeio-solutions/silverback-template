@@ -5,7 +5,11 @@ import {
   Locale,
   NotFoundPageQuery,
 } from '@custom/schema';
+import fs from 'fs';
 import { resolve } from 'path';
+
+// @ts-expect-error Not typed.
+global.netlifyTomlParts ??= [];
 
 /**
  * @type {import('gatsby').GatsbyNode['onCreateWebpackConfig']}
@@ -109,9 +113,56 @@ export const createPages = async ({ actions }) => {
   // Any unhandled requests are handed to strangler, which will try to pass
   // them to all registered legacy systems and return 404 if none of them
   // respond.
-  actions.createRedirect({
-    fromPath: '/*',
-    toPath: `/.netlify/functions/strangler`,
-    statusCode: 200,
-  });
+  // We put it into netlify.toml because it should be really the last one.
+  // See https://docs.netlify.com/routing/redirects/#rule-processing-order
+  // @ts-expect-error Not typed.
+  global.netlifyTomlParts.push(`
+    [[redirects]]
+      from = "/*"
+      to = "/.netlify/functions/strangler"
+      status = 200
+  `);
 };
+
+/**
+ * @type {import('gatsby').GatsbyNode['onPostBuild']}
+ */
+export const onPostBuild = async () => {
+  prepareNetlifyToml();
+};
+
+/**
+ * @returns {void}
+ */
+function prepareNetlifyToml() {
+  const netlifyTomlBase = fs
+    .readFileSync(resolve('./netlify-base.toml'), 'utf8')
+    .trim();
+  /** @type {Array<string>} */
+  const netlifyTomlParts =
+    // @ts-expect-error Not typed.
+    global.netlifyTomlParts;
+  fs.writeFileSync(
+    resolve('./netlify.toml'),
+    [netlifyTomlBase]
+      .concat(netlifyTomlParts.map(removeIndentation))
+      .join('\n\n'),
+  );
+}
+
+/**
+ * @param {string} str
+ * @returns {string}
+ */
+function removeIndentation(str) {
+  const lines = str.split('\n');
+  const minIndent = Math.min(
+    ...lines
+      .filter((line) => line.trim().length > 0)
+      .map((line) => (line.match(/^\s*/) || [''])[0].length),
+  );
+  return lines
+    .map((line) => line.slice(minIndent))
+    .join('\n')
+    .trim();
+}

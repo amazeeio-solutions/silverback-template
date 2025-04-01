@@ -32,6 +32,12 @@ if (isSessionRequired()) {
 // Authentication middleware based on the configuration.
 const authMiddleware = getAuthenticationMiddleware();
 
+// Prevent indexing.
+app.use((_, res, next) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  next();
+});
+
 app.get('/endpoint.js', (_, res) => {
   res.send(
     `window.GRAPHQL_ENDPOINT = "${
