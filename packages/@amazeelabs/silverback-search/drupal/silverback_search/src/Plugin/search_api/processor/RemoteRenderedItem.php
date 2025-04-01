@@ -216,9 +216,8 @@ class RemoteRenderedItem extends ProcessorPluginBase {
           ->entity
           ->uuid();
       }
-      catch (\Exception $e) {
-        $this->logger->error('Error getting 404 page from website_settings: {error}', ['error' => $e->getMessage()]);
-        return FALSE;
+      catch (\Throwable $e) {
+        $this->cached404PageUuid = 'Not defined';
       }
     }
     return $entity->uuid() === $this->cached404PageUuid;
