@@ -27,7 +27,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
     ContentEntityInterface $entity,
     string $expectedResult,
     ?string $previewUrl,
-    ?array $httpResponses,
+    ?array $requests,
     ?array $expectedError
   ): void {
     $externalPreviewLink = $this->prophesize(ExternalPreviewLink::class);
@@ -40,12 +40,11 @@ class RemoteRenderedItemTest extends UnitTestCase {
     }
 
     $httpClient = $this->prophesize(Client::class);
-    if ($httpResponses) {
-      foreach ($httpResponses as $method => $args) {
-        $httpClient->$method(...$args['args'])->willReturn($args['response']);
+    if ($requests) {
+      foreach ($requests as $request) {
+        $httpClient->request(...$request['args'])->willReturn($request['response']);
       }
     } else {
-      $httpClient->get(Argument::any())->shouldNotBeCalled();
       $httpClient->request(Argument::cetera())->shouldNotBeCalled();
     }
 
@@ -136,8 +135,8 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '<main><h1>Test Content</h1></main>',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(200, [], $successHtml),
           ],
         ],
@@ -149,8 +148,8 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '<main><h1>Test Content</h1><div class="content">Content to keep</div></main>',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(200, [], $htmlWithExclude),
           ],
         ],
@@ -178,11 +177,11 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '<main><h1>Test Content</h1></main>',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(401),
           ],
-          'request' => [
+          [
             'args' => [
               'POST',
               $previewUrl,
@@ -199,8 +198,8 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(401),
           ],
         ],
@@ -214,11 +213,11 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(401),
           ],
-          'request' => [
+          [
             'args' => [
               'POST',
               $previewUrl,
@@ -237,8 +236,8 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(500),
           ],
         ],
@@ -252,8 +251,8 @@ class RemoteRenderedItemTest extends UnitTestCase {
         '',
         $previewUrl,
         [
-          'get' => [
-            'args' => [$previewUrl],
+          [
+            'args' => ['GET', $previewUrl, []],
             'response' => new Response(200, [], $successHtml),
           ],
         ],
@@ -279,9 +278,8 @@ class RemoteRenderedItemTest extends UnitTestCase {
 
     $httpClient = $this->prophesize(Client::class);
     if ($buildId !== null) {
-      $httpClient->get('https://example.com/build.json')->willReturn(
-        new Response(200, [], json_encode(['drupalBuildId' => $buildId]))
-      );
+      $httpClient->request('GET', 'https://example.com/build.json', [])
+        ->willReturn(new Response(200, [], json_encode(['drupalBuildId' => $buildId])));
     }
 
     $logger = $this->prophesize(LoggerInterface::class);
@@ -362,9 +360,11 @@ class RemoteRenderedItemTest extends UnitTestCase {
 
     $httpClient = $this->prophesize(Client::class);
     if ($response) {
-      $httpClient->get('https://example.com/build.json')->willReturn($response);
+      $httpClient->request('GET', 'https://example.com/build.json', [])
+        ->willReturn($response);
     } else {
-      $httpClient->get('https://example.com/build.json')->willThrow(new \Exception('Connection error'));
+      $httpClient->request('GET', 'https://example.com/build.json', [])
+        ->willThrow(new \Exception('Connection error'));
     }
 
     $logger = $this->prophesize(LoggerInterface::class);
@@ -399,7 +399,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
     if ($expectedResult !== null) {
       $cachedResult = $method->invoke($processor);
       $this->assertEquals($expectedResult, $cachedResult);
-      $httpClient->get('https://example.com/build.json')->shouldHaveBeenCalledOnce();
+      $httpClient->request('GET', 'https://example.com/build.json', [])->shouldHaveBeenCalledOnce();
     }
   }
 

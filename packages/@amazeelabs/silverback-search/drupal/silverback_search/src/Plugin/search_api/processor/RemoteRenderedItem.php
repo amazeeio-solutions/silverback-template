@@ -12,6 +12,7 @@ use Drupal\silverback_search\Plugin\search_api\processor\Property\RemoteRendered
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -108,6 +109,10 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
   }
 
+  protected function request(string $method, string $url, array $options = []): ResponseInterface {
+    return $this->httpClient->request($method, $url, $options);
+  }
+
   private function getHtml(ContentEntityInterface $entity, array $configuration): string {
     $liveUrl = $this->externalPreviewLink->createPreviewUrlFromEntity($entity, 'live')?->toString();
     if (!$liveUrl) {
@@ -121,10 +126,10 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     
     try {
-      $response = $this->httpClient->get($liveUrl);
+      $response = $this->request('GET', $liveUrl);
       if ($response->getStatusCode() === 401) {
         if ($configuration['netlify_password']) {
-          $response = $this->httpClient->request('POST', $liveUrl, [
+          $response = $this->request('POST', $liveUrl, [
             RequestOptions::FORM_PARAMS => [
               'password' => $configuration['netlify_password'],
             ],
@@ -242,7 +247,7 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
     try {
       $buildJsonUrl = $this->externalPreviewLink->getLiveBaseUrl() . '/build.json';
-      $response = $this->httpClient->get($buildJsonUrl);
+      $response = $this->request('GET', $buildJsonUrl);
       if ($response->getStatusCode() !== 200) {
         $this->logger->error('Could not check if the remote rendered item is outdated because the build.json response status code is {status_code}. URL: {url}', [
           'status_code' => $response->getStatusCode(),
