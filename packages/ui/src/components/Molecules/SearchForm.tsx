@@ -1,7 +1,7 @@
 import { useIntl } from '@amazeelabs/react-intl';
 import { TermContentHub, useLocation } from '@custom/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 
@@ -22,10 +22,19 @@ export function useSearchParameters() {
 export function SearchForm(props: { termOptions?: TermContentHub[] }) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
-  const { register, handleSubmit } = useForm<FormValues>({
+  const { register, handleSubmit, setValue } = useForm<FormValues>({
     resolver: zodResolver(formValueSchema),
-    values: useSearchParameters(),
   });
+  const params = useSearchParameters();
+  const stringifiedParams = JSON.stringify(params);
+
+  useEffect(() => {
+    const keys = Object.keys(params) as (keyof FormValues)[];
+    for (const key of keys) {
+      setValue(key, params[key]);
+    }
+  }, [stringifiedParams]);
+
   const [location, navigate] = useLocation();
   return (
     <div className="bg-white shadow sm:rounded-lg">
