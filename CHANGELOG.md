@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.0...@amazeelabs/silverback-template@1.4.1) (2025-04-01)
+
+### Bug Fixes
+
+- run pnpm run test:static --fix in ui folder
+  ([0073076](https://github.com/AmazeeLabs/silverback-template/commit/007307693defa606307e6f906c38cc1e1e35a04e))
+- sort imports
+  ([d217fc1](https://github.com/AmazeeLabs/silverback-template/commit/d217fc156021708ea805933c85d60eec473d35a2))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.4.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.8...@amazeelabs/silverback-template@1.4.0) (2025-04-01)
 
 ### Features
