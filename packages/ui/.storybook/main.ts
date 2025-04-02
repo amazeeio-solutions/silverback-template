@@ -29,6 +29,10 @@ const config: StorybookConfig = {
         },
       },
       plugins: [imagetools()],
+      // https://github.com/nextauthjs/next-auth/discussions/4566
+      define: {
+        'process.env': process.env,
+      },
     } satisfies UserConfig),
   staticDirs: ['../static/public', '../static/stories'],
   stories: ['../src/**/*.@(mdx|stories.@(ts|tsx))'],

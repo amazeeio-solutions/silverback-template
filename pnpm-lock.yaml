@@ -15,7 +15,7 @@ importers:
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.0
-        version: 19.8.0(@types/node@22.13.16)(typescript@5.8.2)
+        version: 19.8.0(@types/node@20.11.17)(typescript@5.8.2)
       '@commitlint/config-conventional':
         specifier: ^19.8.0
         version: 19.8.0
@@ -688,6 +688,9 @@ importers:
       '@custom/schema':
         specifier: workspace:*
         version: link:../schema
+      '@faker-js/faker':
+        specifier: ^9.6.0
+        version: 9.6.0
       '@headlessui/react':
         specifier: ^2.2.0
         version: 2.2.0(react-dom@18.2.0)(react@18.3.1)
@@ -718,6 +721,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      next-auth:
+        specifier: ^4
+        version: 4.24.11(next@15.2.4)(react-dom@18.2.0)(react@18.3.1)
       query-string:
         specifier: ^9.1.1
         version: 9.1.1
@@ -2818,14 +2824,14 @@ packages:
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
     engines: {node: '>=0.1.90'}
 
-  /@commitlint/cli@19.8.0(@types/node@22.13.16)(typescript@5.8.2):
+  /@commitlint/cli@19.8.0(@types/node@20.11.17)(typescript@5.8.2):
     resolution: {integrity: sha512-t/fCrLVu+Ru01h0DtlgHZXbHV2Y8gKocTR5elDOqIRUzQd0/6hpt2VIWOj9b3NDo7y4/gfxeR2zRtXq/qO6iUg==}
     engines: {node: '>=v18'}
     hasBin: true
     dependencies:
       '@commitlint/format': 19.8.0
       '@commitlint/lint': 19.8.0
-      '@commitlint/load': 19.8.0(@types/node@22.13.16)(typescript@5.8.2)
+      '@commitlint/load': 19.8.0(@types/node@20.11.17)(typescript@5.8.2)
       '@commitlint/read': 19.8.0
       '@commitlint/types': 19.8.0
       tinyexec: 0.3.2
@@ -2894,7 +2900,7 @@ packages:
       '@commitlint/types': 19.8.0
     dev: true
 
-  /@commitlint/load@19.8.0(@types/node@22.13.16)(typescript@5.8.2):
+  /@commitlint/load@19.8.0(@types/node@20.11.17)(typescript@5.8.2):
     resolution: {integrity: sha512-4rvmm3ff81Sfb+mcWT5WKlyOa+Hd33WSbirTVUer0wjS1Hv/Hzr07Uv1ULIV9DkimZKNyOwXn593c+h8lsDQPQ==}
     engines: {node: '>=v18'}
     dependencies:
@@ -2904,7 +2910,7 @@ packages:
       '@commitlint/types': 19.8.0
       chalk: 5.4.1
       cosmiconfig: 9.0.0(typescript@5.8.2)
-      cosmiconfig-typescript-loader: 6.1.0(@types/node@22.13.16)(cosmiconfig@9.0.0)(typescript@5.8.2)
+      cosmiconfig-typescript-loader: 6.1.0(@types/node@20.11.17)(cosmiconfig@9.0.0)(typescript@5.8.2)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -4093,6 +4099,11 @@ packages:
       '@eslint/core': 0.10.0
       levn: 0.4.1
     dev: true
+
+  /@faker-js/faker@9.6.0:
+    resolution: {integrity: sha512-3vm4by+B5lvsFPSyep3ELWmZfE3kicDtmemVpuwl1yH7tqtnHdsA6hG8fbXedMVdkzgtvzWoRgjSB4Q+FHnZiw==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
+    dev: false
 
   /@fastify/accept-negotiator@1.1.0:
     resolution: {integrity: sha512-OIHZrb2ImZ7XG85HXOONLcJWGosv7sIvM2ifAPQVhg9Lv7qdmMBNVaai4QTdyuaqbKM5eO6sLSQOYI7wEQeCJQ==}
@@ -10451,7 +10462,7 @@ packages:
       vite: ^4 || ^5 || ^6
     dependencies:
       '@swc/core': 1.10.11
-      vite: 6.0.11(@types/node@20.11.17)(yaml@2.7.0)
+      vite: 6.0.11(@types/node@20.11.17)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
@@ -10504,7 +10515,7 @@ packages:
       '@vitest/spy': 3.0.4
       estree-walker: 3.0.3
       magic-string: 0.30.17
-      vite: 6.0.11(@types/node@22.13.16)
+      vite: 6.0.11(@types/node@20.11.17)
     dev: true
 
   /@vitest/pretty-format@2.0.5:
@@ -13875,7 +13886,7 @@ packages:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  /cosmiconfig-typescript-loader@6.1.0(@types/node@22.13.16)(cosmiconfig@9.0.0)(typescript@5.8.2):
+  /cosmiconfig-typescript-loader@6.1.0(@types/node@20.11.17)(cosmiconfig@9.0.0)(typescript@5.8.2):
     resolution: {integrity: sha512-tJ1w35ZRUiM5FeTzT7DtYWAFFv37ZLqSRkGi2oeCK1gPhvaWjkAtfXvLmvE1pRfxxp9aQo6ba/Pvg1dKj05D4g==}
     engines: {node: '>=v18'}
     peerDependencies:
@@ -13883,7 +13894,7 @@ packages:
       cosmiconfig: '>=9'
       typescript: '>=5'
     dependencies:
-      '@types/node': 22.13.16
+      '@types/node': 20.11.17
       cosmiconfig: 9.0.0(typescript@5.8.2)
       jiti: 2.4.2
       typescript: 5.8.2
@@ -24710,7 +24721,7 @@ packages:
       '@panva/hkdf': 1.2.1
       cookie: 0.7.2
       jose: 4.15.9
-      next: 15.2.4(@babel/core@7.26.7)(@opentelemetry/api@1.8.0)(react-dom@18.2.0)(react@18.3.1)
+      next: 15.2.4(@babel/core@7.26.7)(react-dom@18.2.0)(react@18.3.1)
       oauth: 0.9.15
       openid-client: 5.7.1
       preact: 10.26.4
@@ -24723,7 +24734,7 @@ packages:
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
 
-  /next@15.2.4(@babel/core@7.26.7)(@opentelemetry/api@1.8.0)(react-dom@18.2.0)(react@18.3.1):
+  /next@15.2.4(@babel/core@7.26.7)(react-dom@18.2.0)(react@18.3.1):
     resolution: {integrity: sha512-VwL+LAaPSxEkd3lU2xWbgEOtrM8oedmyhBqaVNmgKB+GvZlCy9rgaEc+y2on0wv+l0oSFqLtYD6dcC1eAedUaQ==}
     engines: {node: ^18.18.0 || ^19.8.0 || >= 20.0.0}
     hasBin: true
@@ -24745,7 +24756,6 @@ packages:
         optional: true
     dependencies:
       '@next/env': 15.2.4
-      '@opentelemetry/api': 1.8.0
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.15
       busboy: 1.6.0
