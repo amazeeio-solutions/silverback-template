@@ -2,6 +2,10 @@ import '@custom/ui/styles.css';
 
 import { GatsbyBrowser } from 'gatsby';
 
+import { WrapRootElement } from './src/utils/wrapRootElement';
+
+export const wrapRootElement = WrapRootElement;
+
 export const shouldUpdateScroll: GatsbyBrowser['shouldUpdateScroll'] = (
   args,
 ) => {

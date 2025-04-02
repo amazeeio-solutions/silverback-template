@@ -501,6 +501,8 @@ type Query {
   contentHubTerms: [TermContentHub!]
     @gatsbyNodes(type: "TermContentHub")
     @loadByVocabulary(bundle: "content_hub")
+
+  currentUser: User @currentUser
 }
 
 type Mutation {
@@ -575,4 +577,11 @@ type DrupalTranslatableString implements TranslatableString
   source: String!
   language: Locale!
   translation: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  memberFor: String!
 }

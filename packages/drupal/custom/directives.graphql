@@ -43,3 +43,11 @@ Provided by the "custom" module.
 Implemented in "Drupal\custom\Plugin\GraphQL\Directive\DrupalTranslatedStrings".
 """
 directive @drupalTranslatedStrings repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Retrieve the properties of the current user.
+
+Provided by the "custom" module.
+Implemented in "Drupal\custom\User".
+"""
+directive @currentUser repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
