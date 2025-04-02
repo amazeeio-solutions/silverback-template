@@ -27,3 +27,6 @@
   for = "/set-drupal-session"
   [headers.values]
     Content-Security-Policy = "frame-ancestors *"
+
+[[plugins]]
+  package = "@netlify/plugin-gatsby"
