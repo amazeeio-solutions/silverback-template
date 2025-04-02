@@ -5,6 +5,7 @@ _meta:
   bundle: page
   default_langcode: en
   depends:
+    eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3: taxonomy_term
     b998ae5e-8b56-40ca-8f80-fd4404e7e716: media
     50a28359-32f7-48ee-9577-330d79a2b62c: node
 default:
@@ -19,7 +20,7 @@ default:
       target_id: 1
   title:
     -
-      value: 'Page with links'
+      value: 'Page: Page with links'
   created:
     -
       value: 1682702481
@@ -65,3 +66,6 @@ default:
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''
+  field_content_hub_terms:
+    -
+      entity: eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3

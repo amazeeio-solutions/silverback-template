@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.page.body
+    - field.field.node.page.field_content_hub_terms
     - field.field.node.page.field_metatags
     - field.field.node.page.field_seo_description
     - field.field.node.page.field_seo_image
@@ -48,6 +49,7 @@ content:
     weight: 100
     region: content
 hidden:
+  field_content_hub_terms: true
   field_metatags: true
   field_seo_description: true
   field_seo_image: true

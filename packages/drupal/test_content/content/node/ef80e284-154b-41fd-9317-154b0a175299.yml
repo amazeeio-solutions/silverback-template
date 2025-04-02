@@ -5,6 +5,7 @@ _meta:
   bundle: page
   default_langcode: en
   depends:
+    eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3: taxonomy_term
     3a0fe860-a6d6-428a-9474-365bd57509aa: media
     72187a1f-3e48-4b45-a9b7-189c6fd7ee26: media
 default:
@@ -63,6 +64,9 @@ default:
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''
+  field_content_hub_terms:
+    -
+      entity: eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3
 translations:
   de:
     status:

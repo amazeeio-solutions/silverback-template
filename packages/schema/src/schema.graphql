@@ -96,7 +96,12 @@ type ContentHubResult @default @value(json: "{\"total\": 0, \"items\": []}") {
   items: [CardItem]! @prop(key: "rows")
 }
 
+type ContentHubFilters {
+  terms: [TermContentHub!]!
+}
+
 type TeaserListResult @default @value(json: "{\"total\": 0, \"items\": []}") {
+  total: Int!
   items: [CardItem]! @prop(key: "rows")
 }
 
@@ -106,6 +111,41 @@ type WebsiteSettings
   notFoundPage: Page
     @resolveEntityReference(field: "field_404_page")
     @seek(pos: 0)
+}
+
+"""
+Common interface for taxonomy terms.
+"""
+interface Term {
+  """
+  A machine id, used for referencing and filtering. Should be URL-friendly.
+  """
+  termId: String! @resolveProperty(path: "tid.value")
+  """
+  A human readable label. Can be translated.
+  """
+  label: String! @resolveProperty(path: "name.value")
+  """
+  The depth of the term, in the hierarchy.
+  """
+  depth: Int!
+  """
+  The language of this translation.
+  """
+  locale: Locale! @resolveEntityLanguage
+}
+
+"""
+Content Hub Terms
+"""
+type TermContentHub implements Term
+  @entity(type: "taxonomy_term", bundle: "content_hub")
+  @default
+  @value(json: "null") {
+  termId: String! @resolveProperty(path: "tid.value")
+  label: String! @resolveProperty(path: "name.value")
+  depth: Int!
+  locale: Locale! @resolveEntityLanguage
 }
 
 """
@@ -152,6 +192,7 @@ interface Page implements CardItem & Editable @resolveEntityBundle {
   hero: Hero
   content: [PageContent]
   metaTags: [MetaTag]
+  terms: [TermContentHub!]!
 }
 
 type DecapPage implements Page & Editable & CardItem
@@ -166,6 +207,7 @@ type DecapPage implements Page & Editable & CardItem
   hero: Hero
   content: [PageContent]
   metaTags: [MetaTag]
+  terms: [TermContentHub!]!
 }
 
 """
@@ -201,6 +243,8 @@ type DrupalPage implements Page & Editable & CardItem
     @seek(pos: 1)
     @resolveEditorBlockChildren
   metaTags: [MetaTag] @resolveProperty(path: "metatag")
+  terms: [TermContentHub!]!
+    @resolveEntityReference(field: "field_content_hub_terms")
 }
 
 type Hero {
@@ -395,6 +439,7 @@ interface CardItem @resolveEntityBundle {
   title: String!
   hero: Hero
   teaserImage: MediaImage
+  terms: [TermContentHub!]!
 }
 
 type BlockConditional @type(id: "custom/conditional") {
@@ -452,6 +497,10 @@ type Query {
   stringTranslations: [TranslatableString!]
     @gatsbyNodes(type: "TranslatableString")
     @drupalTranslatedStrings
+
+  contentHubTerms: [TermContentHub!]
+    @gatsbyNodes(type: "TermContentHub")
+    @loadByVocabulary(bundle: "content_hub")
 }
 
 type Mutation {

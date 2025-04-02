@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_form_mode.node.split
     - field.field.node.page.body
+    - field.field.node.page.field_content_hub_terms
     - field.field.node.page.field_metatags
     - field.field.node.page.field_seo_description
     - field.field.node.page.field_seo_image
@@ -107,3 +108,4 @@ hidden:
   field_seo_description: true
   field_seo_image: true
   field_seo_title: true
+  field_content_hub_terms: true
