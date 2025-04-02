@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.2...@amazeelabs/silverback-template@1.5.0) (2025-04-01)
+
+### Features
+
+- process gutenberg media links for cta
+  ([9a0727c](https://github.com/AmazeeLabs/silverback-template/commit/9a0727c6663cd4763095274d919a6eb6383a474e))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.4.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.1...@amazeelabs/silverback-template@1.4.2) (2025-04-01)
+
+### Bug Fixes
+
+- consider case when 404 page is not defined
+  ([7232e69](https://github.com/AmazeeLabs/silverback-template/commit/7232e69c03c79def78f92109af0920ffb11746c5))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.4.0...@amazeelabs/silverback-template@1.4.1) (2025-04-01)
+
+### Bug Fixes
+
+- run pnpm run test:static --fix in ui folder
+  ([0073076](https://github.com/AmazeeLabs/silverback-template/commit/007307693defa606307e6f906c38cc1e1e35a04e))
+- sort imports
+  ([d217fc1](https://github.com/AmazeeLabs/silverback-template/commit/d217fc156021708ea805933c85d60eec473d35a2))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.4.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.8...@amazeelabs/silverback-template@1.4.0) (2025-04-01)
+
+### Features
+
+- add exclude_selector to remote rendered item
+  ([91cd352](https://github.com/AmazeeLabs/silverback-template/commit/91cd352459aa62b1325a7e0116e4bb00e14d731f))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.3.8](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.7...@amazeelabs/silverback-template@1.3.8) (2025-04-01)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.3.7](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.6...@amazeelabs/silverback-template@1.3.7) (2025-04-01)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.3.6](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.3.5...@amazeelabs/silverback-template@1.3.6) (2025-03-27)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

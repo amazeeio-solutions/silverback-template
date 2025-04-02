@@ -431,7 +431,7 @@ type BlockTeaserListFilters {
 }
 
 """
-Inteface for anything that can appear as a card (teaser) item
+Interface for anything that can appear as a card (teaser) item
 """
 interface CardItem @resolveEntityBundle {
   id: ID!

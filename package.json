@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-template",
-  "version": "1.3.6",
+  "version": "1.5.0",
   "license": "MIT",
   "author": "Amazee Labs <development@amazeelabs.com>",
   "engines": {
@@ -24,12 +24,12 @@
   },
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "husky": "^9.1.7",
-    "lerna": "^8.2.0",
-    "prettier": "^3.4.2",
-    "turbo": "^2.3.4"
+    "lerna": "^8.2.1",
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4"
   },
   "resolutions": {
     "gatsby-plugin-sharp": "5.13.1",
