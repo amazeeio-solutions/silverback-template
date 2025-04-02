@@ -452,6 +452,8 @@ type Query {
   stringTranslations: [TranslatableString!]
     @gatsbyNodes(type: "TranslatableString")
     @drupalTranslatedStrings
+
+  currentUser: User @currentUser
 }
 
 type Mutation {
@@ -526,4 +528,11 @@ type DrupalTranslatableString implements TranslatableString
   source: String!
   language: Locale!
   translation: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  memberFor: String!
 }
