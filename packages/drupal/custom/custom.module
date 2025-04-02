@@ -138,6 +138,29 @@ function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     }
   }
 
+  // Check if something has been moved to `details_sidebar`
+  $groups = $form['#fieldgroups'] ?? [];
+  foreach ($groups as $group) {
+    if ($group->format_type === 'details_sidebar') {
+      $updated = FALSE;
+      $group_name = $group->group_name ?? 'unknown_group';
+      $children = $group->children ?? [];
+
+      foreach ($children as $child) {
+        if (isset($form[$child])) {
+          if($form[$child]['#group'] === "metabox_fields") {
+            $form[$child]['#group'] = $group_name;
+            $updated = TRUE;
+          }
+        }
+      }
+
+      if ($updated && $group->parent_name === 'metabox_fields') {
+        $group->parent_name = $group_name;
+      }
+    }
+  }
+
   // If the "More settings" fieldset is empty, remove it completely.
   $metaboxHasFields = FALSE;
   foreach (Element::children($form) as $key) {

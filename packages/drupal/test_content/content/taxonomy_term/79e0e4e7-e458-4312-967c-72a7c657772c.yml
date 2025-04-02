@@ -1,0 +1,61 @@
+_meta:
+  version: '1.0'
+  entity_type: taxonomy_term
+  uuid: 79e0e4e7-e458-4312-967c-72a7c657772c
+  bundle: content_hub
+  default_langcode: en
+default:
+  status:
+    -
+      value: true
+  name:
+    -
+      value: Demo
+  weight:
+    -
+      value: 2
+  parent:
+    -
+      target_id: 0
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  content_translation_uid:
+    -
+      target_id: 1
+  content_translation_created:
+    -
+      value: 1735817651
+translations:
+  de:
+    status:
+      -
+        value: true
+    name:
+      -
+        value: Demo
+    path:
+      -
+        alias: ''
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    content_translation_uid:
+      -
+        target_id: 1
+    content_translation_created:
+      -
+        value: 1735817778

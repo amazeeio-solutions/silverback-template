@@ -1,0 +1,9 @@
+uuid: c2b84fb1-39ac-4c9a-81a9-88f5973790aa
+langcode: en
+status: true
+dependencies: {  }
+name: 'Content Hub'
+vid: content_hub
+description: 'Tag content for filtering on the content hub.'
+weight: 0
+new_revision: false

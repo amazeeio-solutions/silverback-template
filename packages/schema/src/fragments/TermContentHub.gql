@@ -1,0 +1,6 @@
+fragment TermContentHub on TermContentHub {
+  termId
+  depth
+  label
+  locale
+}

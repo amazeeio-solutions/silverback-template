@@ -1,0 +1,16 @@
+uuid: 61d33149-ccaf-400e-ab9e-1dc850353772
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.content_hub
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.content_hub
+target_entity_type_id: taxonomy_term
+target_bundle: content_hub
+default_langcode: site_default
+language_alterable: true
