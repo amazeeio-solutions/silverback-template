@@ -1,9 +1,11 @@
 // If your deployment environment supports Gatsby Functions, you won't need the root `api` folder, only this.
 
-import NextAuth from "next-auth"
-import { authConfig } from "../../../nextauth.config"
+import NextAuth from 'next-auth';
 
-export default async function handler(req: any, res: any) {
-  req.query.nextauth = req.params.nextauth.split("/")
-  return await NextAuth(req, res, authConfig)
+import { authConfig } from '../../../nextauth.config';
+
+// @ts-expect-error prevent additional Next import.
+export default async function handler(req, res) {
+  req.query.nextauth = req.params.nextauth.split('/');
+  return await NextAuth(req, res, authConfig);
 }
