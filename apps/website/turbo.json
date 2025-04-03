@@ -1,10 +1,6 @@
 {
   "extends": ["//"],
   "tasks": {
-    "dev": {
-      "persistent": true,
-      "dependsOn": ["prep", "^prep"]
-    },
     "prep": {
       "outputs": ["src/gatsby-fragments.js", "styles.css"]
     },

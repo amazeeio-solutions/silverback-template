@@ -5,7 +5,9 @@
       "dependsOn": ["@custom/cms#prep"]
     },
     "dev": {
-      "persistent": true
+      "persistent": true,
+      "cache": false,
+      "dependsOn": ["@custom/cms#config:import"]
     }
   }
 }

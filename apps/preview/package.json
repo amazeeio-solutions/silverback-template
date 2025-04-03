@@ -8,7 +8,8 @@
     "dev:server": "tsx watch server/index.ts",
     "prep:app": "vite build",
     "prep:server": "swc ./server -d ./build --strip-leading-paths",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "dev": "node build/index.js"
   },
   "dependencies": {
     "@custom/eslint-config": "workspace:*",

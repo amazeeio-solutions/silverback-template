@@ -3,6 +3,9 @@
   "tasks": {
     "test:static": {
       "inputs": ["publisher.config.ts", "tsconfig.json"]
+    },
+    "dev": {
+      "dependsOn": ["@custom/cms#config:import"]
     }
   }
 }

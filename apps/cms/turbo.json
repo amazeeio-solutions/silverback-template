@@ -43,6 +43,11 @@
     "clear": {
       "dependsOn": ["config:import", "^prep"],
       "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["clear"]
     }
   }
 }

@@ -3,7 +3,8 @@
   "extends": ["//"],
   "tasks": {
     "prep": {
-      "outputs": ["dist"]
+      "inputs": ["src/**"],
+      "outputs": ["dist/**"]
     }
   }
 }

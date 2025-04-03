@@ -15,6 +15,11 @@
     },
     "test:static": {
       "inputs": ["src/**", "!src/gatsby-fragments.js"]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false,
+      "dependsOn": ["prep:app", "prep:server"]
     }
   }
 }
