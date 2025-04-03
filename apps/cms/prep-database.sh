@@ -9,10 +9,7 @@ fi
 
 set -e
 
-if ! test -f web/sites/default/files/.sqlite; then
-  pnpm drupal-install
-  pnpm export-webforms
-fi
+pnpm drupal-install
 
 # In any case, re-import translation string.
 pnpm import-translations

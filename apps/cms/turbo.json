@@ -8,11 +8,7 @@
       "dependsOn": ["prep:database"]
     },
     "prep:database": {
-      "dependsOn": [
-        "prep:composer",
-        "^prep",
-        "@custom/webform-export#test:static"
-      ],
+      "dependsOn": ["prep:composer", "^prep"],
       "inputs": [
         "turbo-seed.txt",
         "prep-database.sh",
@@ -22,7 +18,6 @@
       ],
       "outputs": [
         "web/sites/default/files/**",
-        "../../packages/ui/static/stories/webforms/**"
       ],
       "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]
     },
