@@ -22,6 +22,10 @@
       "inputs": ["config/**"],
       "outputs": ["web/sites/default/files/.sqlite"]
     },
+    "import-translations": {
+      "dependsOn": ["config:import", "@custom/ui#prep:i18n"],
+      "outputs": ["web/sites/default/files/.sqlite"]
+    },
     "prep:composer": {
       "inputs": [
         "composer.json",
@@ -41,7 +45,7 @@
       ]
     },
     "clear": {
-      "dependsOn": ["config:import", "^prep"],
+      "dependsOn": ["import-translations", "^prep"],
       "cache": false
     },
     "dev": {
