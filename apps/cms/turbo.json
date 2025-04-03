@@ -10,16 +10,17 @@
     "prep:database": {
       "dependsOn": ["prep:composer", "^prep"],
       "inputs": [
-        "turbo-seed.txt",
         "prep-database.sh",
-        "config/**",
         "web/modules/custom/**",
         "web/themes/custom/**"
       ],
-      "outputs": [
-        "web/sites/default/files/**",
-      ],
+      "outputs": ["web/sites/default/files/**"],
       "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]
+    },
+    "config:import": {
+      "dependsOn": ["prep:database"],
+      "inputs": ["config/**"],
+      "outputs": ["web/sites/default/files/.sqlite"]
     },
     "prep:composer": {
       "inputs": [
@@ -27,7 +28,7 @@
         "composer.lock",
         "scaffold/**",
         "patches/**",
-        "node_modules/@amazeelabs/**/drupal/**"
+        "node_modules/@amazeelabs/**/drupal/*/composer.json"
       ],
       "outputs": [
         "drush/**",
@@ -38,6 +39,10 @@
         "!web/themes/custom/**",
         "!web/sites/default/files/**"
       ]
+    },
+    "clear": {
+      "dependsOn": ["config:import", "^prep"],
+      "cache": false
     }
   }
 }
