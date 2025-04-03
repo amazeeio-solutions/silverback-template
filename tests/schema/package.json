@@ -3,20 +3,22 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "pnpm run --filter @custom/cms start >> /tmp/cms.log 2>&1",
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:integration": "CI=true start-server-and-test 8888 vitest",
-    "test:integration:update": "CI=true start-server-and-test 8888 'vitest -u'",
-    "dev": "vitest --ui # for non phpstorm users"
+    "test:integration": "CI=true vitest",
+    "test:integration:update": "CI=truevitest -u",
+    "dev": "vitest"
   },
   "devDependencies": {
     "@custom/eslint-config": "workspace:*",
     "@types/node": "^20",
+    "@types/wait-on": "^5.3.4",
     "@vitest/ui": "^3.0.4",
+    "get-port": "^7.1.0",
     "got": "^14.4.5",
     "noop-tag": "^2.0.1",
     "start-server-and-test": "^2.0.10",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.4",
+    "wait-on": "^8.0.3"
   }
 }

@@ -3,7 +3,7 @@ import got from 'got';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const fetch = (query: string): Promise<any> =>
   got
-    .post('http://127.0.0.1:8888/graphql', {
+    .post(`${process.env.TEST_URI}/graphql`, {
       headers: {
         'Content-Type': 'application/json',
         'api-key': 'cfdb0555111c0f8924cecab028b53474',
