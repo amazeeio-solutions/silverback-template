@@ -12,7 +12,6 @@ use Drupal\silverback_search\Plugin\search_api\processor\Property\RemoteRendered
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\RequestOptions;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -38,6 +37,7 @@ class RemoteRenderedItem extends ProcessorPluginBase {
   
   private ?int $cachedBuildId = NULL;
   private ?string $cached404PageUuid = NULL;
+  private ?string $netlifyPassword = NULL;
 
   public function __construct(
     array $configuration,
@@ -97,6 +97,7 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       if (!in_array($entity->getEntityTypeId(), $configuration['entity_types'], TRUE)) {
         continue;
       }
+      $this->netlifyPassword = $configuration['netlify_password'];
       if ($this->is404Page($entity)) {
         $html = '';
       } else {
@@ -109,8 +110,39 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
   }
 
-  protected function request(string $method, string $url, array $options = []): ResponseInterface {
-    return $this->httpClient->request($method, $url, $options);
+  protected function getFromRemote(string $url): array {
+    $response = $this->httpClient->request('GET', $url);
+    if ($response->getStatusCode() === 401) {
+      if ($this->netlifyPassword) {
+        $response = $this->httpClient->request('POST', $url, [
+          RequestOptions::FORM_PARAMS => [
+            'password' => $this->netlifyPassword,
+          ],
+        ]);
+        if ($response->getStatusCode() === 401) {
+          return [
+            NULL,
+            'Could not fetch from remote because Netlify password is incorrect.',
+          ];
+        }
+      }
+      else {
+        return [
+          NULL,
+          'Could not fetch from remote because Netlify password is not set.',
+        ];
+      }
+    }
+    if ($response->getStatusCode() !== 200) {
+      return [
+        NULL,
+        'Could not fetch from remote because the response status code is ' . $response->getStatusCode() . '.',
+      ];
+    }
+    return [
+      $response->getBody()->getContents(),
+      NULL,
+    ];
   }
 
   private function getHtml(ContentEntityInterface $entity, array $configuration): string {
@@ -125,82 +157,32 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       'live_url' => $liveUrl,
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     
-    try {
-      $response = $this->request('GET', $liveUrl);
-      if ($response->getStatusCode() === 401) {
-        if ($configuration['netlify_password']) {
-          $response = $this->request('POST', $liveUrl, [
-            RequestOptions::FORM_PARAMS => [
-              'password' => $configuration['netlify_password'],
-            ],
-          ]);
-          if ($response->getStatusCode() === 401) {
-            $this->logger->error(
-              'Could not fetch the remote rendered item because Netlify password is incorrect. Debug:<pre>{debug}</pre>',
-              [
-                'debug' => $debug,
-              ]
-            );
-            return '';
-          }
-        }
-        else {
-          $this->logger->error(
-            'Could not fetch the remote rendered item because Netlify password is not set. Debug:<pre>{debug}</pre>',
-            [
-              'debug' => $debug,
-            ]
-          );
-          return '';
-        }
-      }
-
-      if ($response->getStatusCode() === 200) {
-        $html = $response->getBody()->getContents();
-        $crawler = new Crawler($html);
-        $rootSelector = $configuration['root_selector'] ?: 'body';
-        $filtered = $crawler->filter($rootSelector);
-        if ($filtered->count() > 0) {
-          $result = $filtered->first();
-          if (!empty($configuration['exclude_selector'])) {
-            $result->filter($configuration['exclude_selector'])->each(function ($node) {
-              $node->getNode(0)->parentNode->removeChild($node->getNode(0));
-            });
-          }
-          $html = $result->outerHtml();
-          return $html;
-        } else {
-          $this->logger->error(
-            'Root selector `{root_selector}` did not match any elements on the page. Debug:<pre>{debug}</pre>',
-            [
-              'root_selector' => $rootSelector,
-              'debug' => $debug,
-            ]
-          );
-          return '';
-        }
-      } else {
-        $this->logger->error(
-          'Could not fetch the remote rendered item because the response status code is {status_code}. Debug:<pre>{debug}</pre>',
-          [
-            'status_code' => $response->getStatusCode(),
-            'debug' => $debug,
-          ]
-        );
-        return '';
-      }
+    [$content, $error] = $this->getFromRemote($liveUrl);
+    if ($error) {
+      $this->logger->error('Could not get HTML: {error}. Debug:<pre>{debug}</pre>', ['error' => $error, 'debug' => $debug]);
+      return '';
     }
-    catch (\Throwable $e) {
+    $crawler = new Crawler($content);
+    $rootSelector = $configuration['root_selector'] ?: 'body';
+    $filtered = $crawler->filter($rootSelector);
+    if ($filtered->count() > 0) {
+      $result = $filtered->first();
+      if (!empty($configuration['exclude_selector'])) {
+        $result->filter($configuration['exclude_selector'])->each(function ($node) {
+          $node->getNode(0)->parentNode->removeChild($node->getNode(0));
+        });
+      }
+      $html = $result->outerHtml();
+      return $html;
+    } else {
       $this->logger->error(
-        'Could not fetch the remote rendered item because of an error: {error}. Debug:<pre>{debug}</pre>',
+        'Root selector `{root_selector}` did not match any elements on the page. Debug:<pre>{debug}</pre>',
         [
-          'error' => $e->getMessage(),
+          'root_selector' => $rootSelector,
           'debug' => $debug,
         ]
       );
-      return '';
     }
-
     return '';
   }
 
@@ -247,15 +229,15 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
     try {
       $buildJsonUrl = $this->externalPreviewLink->getLiveBaseUrl() . '/build.json';
-      $response = $this->request('GET', $buildJsonUrl);
-      if ($response->getStatusCode() !== 200) {
-        $this->logger->error('Could not check if the remote rendered item is outdated because the build.json response status code is {status_code}. URL: {url}', [
-          'status_code' => $response->getStatusCode(),
+      [$content, $error] = $this->getFromRemote($buildJsonUrl);
+      if ($error) {
+        $this->logger->error('Could not get build ID: {error}. URL: {url}', [
+          'error' => $error,
           'url' => $buildJsonUrl,
         ]);
         return NULL;
       }
-      $buildInfo = json_decode($response->getBody()->getContents(), TRUE);
+      $buildInfo = json_decode($content, TRUE);
       if (!isset($buildInfo['drupalBuildId'])) {
         return NULL;
       }

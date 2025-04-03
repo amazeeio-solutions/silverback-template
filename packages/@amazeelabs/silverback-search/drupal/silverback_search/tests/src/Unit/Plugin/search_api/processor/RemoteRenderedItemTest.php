@@ -71,6 +71,10 @@ class RemoteRenderedItemTest extends UnitTestCase {
     $property->setAccessible(true);
     $property->setValue($processor, $httpClient->reveal());
 
+    $passwordProperty = $reflection->getProperty('netlifyPassword');
+    $passwordProperty->setAccessible(true);
+    $passwordProperty->setValue($processor, $config['netlify_password']);
+
     $method = $reflection->getMethod('getHtml');
     $method->setAccessible(true);
 
@@ -136,7 +140,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl],
             'response' => new Response(200, [], $successHtml),
           ],
         ],
@@ -149,7 +153,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl],
             'response' => new Response(200, [], $htmlWithExclude),
           ],
         ],
@@ -178,7 +182,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl],
             'response' => new Response(401),
           ],
           [
@@ -199,12 +203,12 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl],
             'response' => new Response(401),
           ],
         ],
         [
-          'message' => 'Could not fetch the remote rendered item because Netlify password is not set. Debug:<pre>{debug}</pre>',
+          'message' => 'Could not get HTML: {error}. Debug:<pre>{debug}</pre>',
         ],
       ],
       '401_wrong_password' => [
@@ -214,7 +218,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl],
             'response' => new Response(401),
           ],
           [
@@ -227,7 +231,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
           ],
         ],
         [
-          'message' => 'Could not fetch the remote rendered item because Netlify password is incorrect. Debug:<pre>{debug}</pre>',
+          'message' => 'Could not get HTML: {error}. Debug:<pre>{debug}</pre>',
         ],
       ],
       'non_200_response' => [
@@ -237,12 +241,12 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl,],
             'response' => new Response(500),
           ],
         ],
         [
-          'message' => 'Could not fetch the remote rendered item because the response status code is {status_code}. Debug:<pre>{debug}</pre>',
+          'message' => 'Could not get HTML: {error}. Debug:<pre>{debug}</pre>',
         ],
       ],
       'selector_not_found' => [
@@ -252,7 +256,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
         $previewUrl,
         [
           [
-            'args' => ['GET', $previewUrl, []],
+            'args' => ['GET', $previewUrl,],
             'response' => new Response(200, [], $successHtml),
           ],
         ],
@@ -278,7 +282,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
 
     $httpClient = $this->prophesize(Client::class);
     if ($buildId !== null) {
-      $httpClient->request('GET', 'https://example.com/build.json', [])
+      $httpClient->request('GET', 'https://example.com/build.json')
         ->willReturn(new Response(200, [], json_encode(['drupalBuildId' => $buildId])));
     }
 
@@ -360,10 +364,10 @@ class RemoteRenderedItemTest extends UnitTestCase {
 
     $httpClient = $this->prophesize(Client::class);
     if ($response) {
-      $httpClient->request('GET', 'https://example.com/build.json', [])
+      $httpClient->request('GET', 'https://example.com/build.json')
         ->willReturn($response);
     } else {
-      $httpClient->request('GET', 'https://example.com/build.json', [])
+      $httpClient->request('GET', 'https://example.com/build.json')
         ->willThrow(new \Exception('Connection error'));
     }
 
@@ -399,7 +403,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
     if ($expectedResult !== null) {
       $cachedResult = $method->invoke($processor);
       $this->assertEquals($expectedResult, $cachedResult);
-      $httpClient->request('GET', 'https://example.com/build.json', [])->shouldHaveBeenCalledOnce();
+      $httpClient->request('GET', 'https://example.com/build.json')->shouldHaveBeenCalledOnce();
     }
   }
 
@@ -414,7 +418,7 @@ class RemoteRenderedItemTest extends UnitTestCase {
         null,
         new Response(500),
         true,
-        'Could not check if the remote rendered item is outdated because the build.json response status code is {status_code}. URL: {url}',
+        'Could not get build ID: {error}. URL: {url}',
       ],
       'missing_build_id' => [
         null,
