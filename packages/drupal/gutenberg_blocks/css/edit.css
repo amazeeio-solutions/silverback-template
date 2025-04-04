@@ -334,3 +334,21 @@ details[open] > summary svg {
   button.block-editor-link-control__search-item:hover {
   background-color: #ddd;
 }
+
+.block-editor-inner-blocks .details-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 15px 0;
+}
+.block-editor-inner-blocks .details-breakdown-label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.block-editor-inner-blocks .details-breakdown-value {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}

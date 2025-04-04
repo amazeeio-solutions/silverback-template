@@ -430,6 +430,12 @@ type BlockTeaserListFilters {
   limit: String @resolveEditorBlockAttribute(key: "limit")
 }
 
+type BlockContentHub @type(id: "custom/content-hub") {
+  showFilters: Boolean @resolveEditorBlockAttribute(key: "showFilters")
+  defaultTerm: String @resolveEditorBlockAttribute(key: "defaultTerm")
+  defaultKeyword: String @resolveEditorBlockAttribute(key: "defaultKeyword")
+}
+
 """
 Interface for anything that can appear as a card (teaser) item
 """
