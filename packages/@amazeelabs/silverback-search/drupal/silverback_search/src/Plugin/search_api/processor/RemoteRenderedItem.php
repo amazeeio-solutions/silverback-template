@@ -65,6 +65,10 @@ class RemoteRenderedItem extends ProcessorPluginBase {
   }
 
   public function addFieldValues(ItemInterface $item) {
+    if (getenv('SB_SETUP')) {
+      // When Drupal is being setup, FE isn't available yet.
+      return;
+    }
     $fields = $this->getFieldsHelper()
       ->filterForPropertyPath($item->getFields(), NULL, 'silverback_remote_rendered_item');
     foreach ($fields as $field) {
