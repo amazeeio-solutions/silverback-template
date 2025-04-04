@@ -66,6 +66,9 @@ function gutenberg_blocks_form_node_form_alter(&$form, FormStateInterface $form_
       'label' => $form->label(),
     ], $webforms);
     $form['#attached']['drupalSettings']['customGutenbergBlocks']['forms'] = array_values($forms);
+
+    // Bind the Gutenberg html edit features to a permission.
+    $form['#attached']['drupalSettings']['gutenberg']['supportsHtml'] = Drupal::currentUser()->hasPermission('edit gutenberg html');
   }
 }
 
