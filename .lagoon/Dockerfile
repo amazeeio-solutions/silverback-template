@@ -46,13 +46,16 @@ RUN --mount=type=cache,target=/tmp/cache pnpm i && \
     #   dependencies
     # - before "pnpm turbo:prep" because some Composer packages may contain 
     #   GraphQL directives required by prep scripts
-    cd /app/apps/cms && composer install --no-dev && cd - && \
+    cd /app/apps/cms && composer install --no-dev --optimize-autoloader && cd - && \
     pnpm turbo:prep && \
     # Remove all node_modules to reduce the size of the image.
     find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
 # Deploy apps.
-RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/cms" /tmp/.deploy/cms --prod
+RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/cms" /tmp/.deploy/cms --prod && \
+    # We need to composer install again as node_modules were removed above and we need these ones
+    # for Drupal packages stored in node_modules.
+    cd /tmp/.deploy/cms && composer install --no-dev --optimize-autoloader
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/publisher" /tmp/.deploy/publisher --prod
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/preview" /tmp/.deploy/preview --prod
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/converter" /tmp/.deploy/converter --prod
