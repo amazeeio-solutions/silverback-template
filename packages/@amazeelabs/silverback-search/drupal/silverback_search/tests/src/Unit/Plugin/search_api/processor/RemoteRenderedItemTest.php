@@ -86,13 +86,6 @@ class RemoteRenderedItemTest extends UnitTestCase {
       'netlify_password' => null,
     ];
 
-    $configWithExclude = [
-      'entity_types' => ['node'],
-      'root_selector' => 'main',
-      'exclude_selector' => 'main > .pre-footer, .exclude',
-      'netlify_password' => null,
-    ];
-
     $contentEntity = $this->prophesize(ContentEntityInterface::class);
     $contentEntity->getEntityTypeId()->willReturn('node');
     $contentEntity->id()->willReturn('1');
@@ -115,19 +108,6 @@ class RemoteRenderedItemTest extends UnitTestCase {
 
     $previewUrl = 'https://example.com/preview/123';
     $successHtml = '<html><body><main><h1>Test Content</h1></main></body></html>';
-    $htmlWithExclude = preg_replace('/>\s+</', '><', '
-      <html>
-        <body>
-          <main>
-            <h1>Test Content</h1>
-            <div class="exclude">First to exclude</div>
-            <div class="exclude">Second to exclude</div>
-            <div class="content">Content to keep</div>
-            <div class="pre-footer">Pre-footer to exclude</div>
-          </main>
-        </body>
-      </html>
-    ');
 
     return [
       'success_case' => [
@@ -139,19 +119,6 @@ class RemoteRenderedItemTest extends UnitTestCase {
           'get' => [
             'args' => [$previewUrl],
             'response' => new Response(200, [], $successHtml),
-          ],
-        ],
-        null,
-      ],
-      'success_with_exclude' => [
-        $configWithExclude,
-        $contentEntity->reveal(),
-        '<main><h1>Test Content</h1><div class="content">Content to keep</div></main>',
-        $previewUrl,
-        [
-          'get' => [
-            'args' => [$previewUrl],
-            'response' => new Response(200, [], $htmlWithExclude),
           ],
         ],
         null,

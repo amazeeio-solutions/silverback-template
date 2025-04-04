@@ -156,13 +156,7 @@ class RemoteRenderedItem extends ProcessorPluginBase {
         $rootSelector = $configuration['root_selector'] ?: 'body';
         $filtered = $crawler->filter($rootSelector);
         if ($filtered->count() > 0) {
-          $result = $filtered->first();
-          if (!empty($configuration['exclude_selector'])) {
-            $result->filter($configuration['exclude_selector'])->each(function ($node) {
-              $node->getNode(0)->parentNode->removeChild($node->getNode(0));
-            });
-          }
-          $html = $result->outerHtml();
+          $html = $filtered->first()->outerHtml();
           return $html;
         } else {
           $this->logger->error(
@@ -216,8 +210,9 @@ class RemoteRenderedItem extends ProcessorPluginBase {
           ->entity
           ->uuid();
       }
-      catch (\Throwable $e) {
-        $this->cached404PageUuid = 'Not defined';
+      catch (\Exception $e) {
+        $this->logger->error('Error getting 404 page from website_settings: {error}', ['error' => $e->getMessage()]);
+        return FALSE;
       }
     }
     return $entity->uuid() === $this->cached404PageUuid;
