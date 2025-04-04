@@ -2,16 +2,12 @@
 
 namespace Drupal\silverback_search\Plugin\search_api\processor;
 
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\search_api\Datasource\DatasourceInterface;
 use Drupal\search_api\Item\ItemInterface;
 use Drupal\search_api\Processor\ProcessorPluginBase;
-use Drupal\silverback_external_preview\ExternalPreviewLink;
 use Drupal\silverback_search\Plugin\search_api\processor\Property\RemoteRenderedItemProperty;
-use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\RequestOptions;
+use Drupal\silverback_search\Service\RemoteFrontend;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -30,32 +26,16 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class RemoteRenderedItem extends ProcessorPluginBase {
 
-  protected ExternalPreviewLink $externalPreviewLink;
-  protected Client $httpClient;
-  protected LoggerInterface $logger;
-  protected Connection $database;
-  
-  private ?int $cachedBuildId = NULL;
   private ?string $cached404PageUuid = NULL;
-  private ?string $netlifyPassword = NULL;
 
   public function __construct(
     array $configuration,
     $plugin_id,
     array $plugin_definition,
-    ExternalPreviewLink $external_preview_link,
-    LoggerInterface $logger,
-    $database
+    protected LoggerInterface $logger,
+    protected RemoteFrontend $remoteFrontend
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->externalPreviewLink = $external_preview_link;
-    $this->logger = $logger;
-    $this->database = $database;
-    $this->httpClient = new Client([
-      RequestOptions::HTTP_ERRORS => FALSE,
-      RequestOptions::COOKIES => new CookieJar(),
-      RequestOptions::TIMEOUT => 5,
-    ]);
   }
 
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -63,9 +43,8 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('silverback_external_preview.external_preview_link'),
       $container->get('logger.factory')->get('silverback_search'),
-      $container->get('database'),
+      $container->get('silverback_search.remote_frontend'),
     );
   }
 
@@ -97,72 +76,31 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       if (!in_array($entity->getEntityTypeId(), $configuration['entity_types'], TRUE)) {
         continue;
       }
-      $this->netlifyPassword = $configuration['netlify_password'];
+      $this->remoteFrontend->setNetlifyPassword($configuration['netlify_password']);
       if ($this->is404Page($entity)) {
         $html = '';
       } else {
         $html = $this->getHtml($entity, $configuration);
       }
       $field->addValue($html);
-      if ($this->isOutdated($entity)) {
+      if ($this->remoteFrontend->isOutdated($entity)) {
         $item->addWarning('The remote rendered item is outdated. Marking the search item as dirty.');
       }
     }
   }
 
-  protected function getFromRemote(string $url): array {
-    $response = $this->httpClient->request('GET', $url);
-    if ($response->getStatusCode() === 401) {
-      if ($this->netlifyPassword) {
-        $response = $this->httpClient->request('POST', $url, [
-          RequestOptions::FORM_PARAMS => [
-            'password' => $this->netlifyPassword,
-          ],
-        ]);
-        if ($response->getStatusCode() === 401) {
-          return [
-            NULL,
-            'Could not fetch from remote because Netlify password is incorrect.',
-          ];
-        }
-      }
-      else {
-        return [
-          NULL,
-          'Could not fetch from remote because Netlify password is not set.',
-        ];
-      }
-    }
-    if ($response->getStatusCode() !== 200) {
-      return [
-        NULL,
-        'Could not fetch from remote because the response status code is ' . $response->getStatusCode() . '.',
-      ];
-    }
-    return [
-      $response->getBody()->getContents(),
-      NULL,
-    ];
-  }
-
   private function getHtml(ContentEntityInterface $entity, array $configuration): string {
-    $liveUrl = $this->externalPreviewLink->createPreviewUrlFromEntity($entity, 'live')?->toString();
-    if (!$liveUrl) {
-      return '';
-    }
-
     $debug = json_encode([
       'entity_type' => $entity->getEntityTypeId(),
       'entity_id' => $entity->id(),
-      'live_url' => $liveUrl,
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     
-    [$content, $error] = $this->getFromRemote($liveUrl);
-    if ($error) {
-      $this->logger->error('Could not get HTML: {error}. Debug:<pre>{debug}</pre>', ['error' => $error, 'debug' => $debug]);
+    $result = $this->remoteFrontend->getEntityHtml($entity);
+    if ($result->error) {
+      $this->logger->error('Could not get HTML: {error}. Debug:<pre>{debug}</pre>', ['error' => $result->error, 'debug' => $debug]);
       return '';
     }
-    $crawler = new Crawler($content);
+    $crawler = new Crawler($result->content);
     $rootSelector = $configuration['root_selector'] ?: 'body';
     $filtered = $crawler->filter($rootSelector);
     if ($filtered->count() > 0) {
@@ -182,19 +120,19 @@ class RemoteRenderedItem extends ProcessorPluginBase {
           'debug' => $debug,
         ]
       );
+      return '';
     }
-    return '';
   }
 
-  private function isOutdated(ContentEntityInterface $entity): bool {
-    $buildId = $this->getBuildId();
-    if (!$buildId) {
-      return FALSE;
-    }
-    $count = $this->getUpdateCount($entity->uuid(), $buildId);
-    return $count > 0;
-  }
-
+  /**
+   * Checks if an entity is the 404 page.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity to check.
+   *
+   * @return bool
+   *   TRUE if the entity is the 404 page, FALSE otherwise.
+   */
   protected function is404Page(ContentEntityInterface $entity): bool {
     if ($this->cached404PageUuid === NULL) {
       try {
@@ -209,49 +147,4 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
     return $entity->uuid() === $this->cached404PageUuid;
   }
-
-  protected function getUpdateCount(string $entityUuid, int $buildId): int {
-    return (int) $this->database->select('gatsby_update_log', 'gul')
-      ->condition(
-        $this->database->condition('OR')
-          ->condition('object_id', $entityUuid)
-          ->condition('object_id', $entityUuid . ':%', 'LIKE')
-      )
-      ->condition('id', $buildId, '>')
-      ->countQuery()
-      ->execute()
-      ->fetchField();
-  }
-
-  private function getBuildId(): ?int {
-    if ($this->cachedBuildId !== NULL) {
-      return $this->cachedBuildId;
-    }
-    try {
-      $buildJsonUrl = $this->externalPreviewLink->getLiveBaseUrl() . '/build.json';
-      [$content, $error] = $this->getFromRemote($buildJsonUrl);
-      if ($error) {
-        $this->logger->error('Could not get build ID: {error}. URL: {url}', [
-          'error' => $error,
-          'url' => $buildJsonUrl,
-        ]);
-        return NULL;
-      }
-      $buildInfo = json_decode($content, TRUE);
-      if (!isset($buildInfo['drupalBuildId'])) {
-        return NULL;
-      }
-      $buildId = (int) $buildInfo['drupalBuildId'];
-      if (!$buildId) {
-        return NULL;
-      }
-      $this->cachedBuildId = $buildId;
-      return $buildId;
-    }
-    catch (\Throwable $e) {
-      $this->logger->error('Could not fetch build ID: {error}', ['error' => $e->getMessage()]);
-      return NULL;
-    }
-  }
-
 }
