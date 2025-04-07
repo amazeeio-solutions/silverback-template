@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.2...@amazeelabs/silverback-template@1.7.3) (2025-04-04)
+
+### Bug Fixes
+
+- don't try to get from remote during setup
+  ([638ec67](https://github.com/AmazeeLabs/silverback-template/commit/638ec6748aeafb09700434bdafbda4d8f60eb39d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.7.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.1...@amazeelabs/silverback-template@1.7.2) (2025-04-04)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.7.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.0...@amazeelabs/silverback-template@1.7.1) (2025-04-04)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.7.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.6.0...@amazeelabs/silverback-template@1.7.0) (2025-04-04)
+
+### Features
+
+- bind html edit to administer content
+  ([7d13dfe](https://github.com/AmazeeLabs/silverback-template/commit/7d13dfe518c3b29372e08a193c0d1940abf09df2))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.6.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.5.0...@amazeelabs/silverback-template@1.6.0) (2025-04-02)
 
 ### Bug Fixes
