@@ -54,9 +54,7 @@ default:
         <!-- wp:custom/hero {"mediaEntityIds":["3a0fe860-a6d6-428a-9474-365bd57509aa"],"headline":"Content Hub","lead":"This is all the content found on our site."} /-->
 
         <!-- wp:custom/content -->
-        <!-- wp:paragraph -->
-        <p></p>
-        <!-- /wp:paragraph -->
+        <!-- wp:custom/content-hub {"defaultTerm":""} /-->
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''
