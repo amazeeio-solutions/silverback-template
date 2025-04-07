@@ -2,13 +2,24 @@
   "extends": ["//"],
   "tasks": {
     "prep": {
+      "dependsOn": ["^prep"],
       "outputs": ["src/gatsby-fragments.js", "styles.css"]
     },
     "test:static": {
       "inputs": ["src/**", "!src/gatsby-fragments.js"]
     },
+    "clean": {
+      "cache": false,
+      "outputs": [
+        ".cache/**",
+        ".netlify/**",
+        "public/**",
+        ".env",
+        "netlify.toml"
+      ]
+    },
     "build": {
-      "dependsOn": ["prep", "^prep"],
+      "dependsOn": ["prep", "@custom/cms#start"],
       "inputs": [
         "netlify/**",
         "src/**",

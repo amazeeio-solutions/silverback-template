@@ -2,12 +2,12 @@
   "extends": ["//"],
   "tasks": {
     "test:integration": {
-      "dependsOn": ["@custom/cms#prep"]
+      "dependsOn": ["@custom/cms#start"]
     },
     "dev": {
       "persistent": true,
       "cache": false,
-      "dependsOn": ["@custom/cms#config:import"]
+      "dependsOn": ["@custom/cms#start"]
     }
   }
 }

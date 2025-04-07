@@ -7,10 +7,12 @@
   },
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "dev": "cd ../website && pnpm clean && cd - && publisher",
+    "start": "pnpm launch-service start 'pnpm publisher' 8000",
+    "stop": "pnpm launch-service stop 8000",
     "open": "open http://127.0.0.1:8000/___status/"
   },
   "devDependencies": {
+    "@amazeelabs/launch-service": "workspace:*",
     "@custom/eslint-config": "workspace:*",
     "@types/node": "^20"
   }

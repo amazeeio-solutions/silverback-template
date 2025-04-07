@@ -4,6 +4,24 @@
     "prep": {
       "dependsOn": ["prep:schema"]
     },
+    "prep:composer": {
+      "inputs": [
+        "composer.json",
+        "composer.lock",
+        "scaffold/**",
+        "patches/**",
+        "node_modules/@amazeelabs/**/drupal/*/composer.json"
+      ],
+      "outputs": [
+        "drush/**",
+        "vendor/**",
+        "!*/**/.git/**",
+        "web/**",
+        "!web/modules/custom/**",
+        "!web/themes/custom/**",
+        "!web/sites/default/files/**"
+      ]
+    },
     "prep:schema": {
       "dependsOn": ["prep:database"]
     },
@@ -26,32 +44,16 @@
       "dependsOn": ["config:import", "@custom/ui#prep:i18n"],
       "outputs": ["web/sites/default/files/.sqlite"]
     },
-    "prep:composer": {
-      "inputs": [
-        "composer.json",
-        "composer.lock",
-        "scaffold/**",
-        "patches/**",
-        "node_modules/@amazeelabs/**/drupal/*/composer.json"
-      ],
-      "outputs": [
-        "drush/**",
-        "vendor/**",
-        "!*/**/.git/**",
-        "web/**",
-        "!web/modules/custom/**",
-        "!web/themes/custom/**",
-        "!web/sites/default/files/**"
-      ]
-    },
     "clear": {
       "dependsOn": ["import-translations", "^prep"],
       "cache": false
     },
-    "dev": {
+    "start": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["clear"]
+      "dependsOn": ["import-translations", "@custom/preview#start"]
+    },
+    "stop": {
+      "cache": false
     }
   }
 }

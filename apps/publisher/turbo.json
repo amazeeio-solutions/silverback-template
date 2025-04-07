@@ -4,8 +4,12 @@
     "test:static": {
       "inputs": ["publisher.config.ts", "tsconfig.json"]
     },
-    "dev": {
-      "dependsOn": ["@custom/cms#config:import"]
+    "start": {
+      "cache": false,
+      "dependsOn": ["@custom/cms#start"]
+    },
+    "stop": {
+      "cache": false
     }
   }
 }

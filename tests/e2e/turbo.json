@@ -2,7 +2,11 @@
   "extends": ["//"],
   "tasks": {
     "test:integration": {
-      "dependsOn": ["@custom/website#build"],
+      "dependsOn": [
+        "@custom/website#build",
+        "@custom/cms#start",
+        "@custom/publisher#start"
+      ],
       "env": ["PLAYWRIGHT_WEBSITE_URL", "PLAYWRIGHT_CMS_URL"],
       "inputs": ["helpers/**", "specs/**", "playwright.config.ts"]
     }

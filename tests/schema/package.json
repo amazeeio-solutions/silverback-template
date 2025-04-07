@@ -10,15 +10,13 @@
   },
   "devDependencies": {
     "@custom/eslint-config": "workspace:*",
+    "@custom/cms": "workspace:*",
     "@types/node": "^20",
-    "@types/wait-on": "^5.3.4",
     "@vitest/ui": "^3.0.4",
-    "get-port": "^7.1.0",
     "got": "^14.4.5",
     "noop-tag": "^2.0.1",
     "start-server-and-test": "^2.0.10",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.4",
-    "wait-on": "^8.0.3"
+    "vitest": "^3.0.4"
   }
 }

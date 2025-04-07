@@ -8,10 +8,12 @@
     "dev:server": "tsx watch server/index.ts",
     "prep:app": "vite build",
     "prep:server": "swc ./server -d ./build --strip-leading-paths",
-    "start": "node build/index.js",
+    "start": "launch-service start 'node build/index.js' 8001",
+    "stop": "launch-service stop 8001",
     "dev": "node build/index.js"
   },
   "dependencies": {
+    "@amazeelabs/launch-service": "workspace:*",
     "@custom/eslint-config": "workspace:*",
     "@custom/schema": "workspace:*",
     "@custom/ui": "workspace:*",

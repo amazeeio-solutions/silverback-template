@@ -5,7 +5,7 @@
       "inputs": ["specs/**", "playwright.config.ts"]
     },
     "test:integration": {
-      "dependsOn": ["^prep"],
+      "dependsOn": ["^prep", "@custom/cms#start", "@custom/publisher#start"],
       "inputs": ["specs/**", "playwright.config.ts"]
     }
   }
