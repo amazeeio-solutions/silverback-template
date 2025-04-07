@@ -17,7 +17,7 @@
   "scripts": {
     "prep": "rm -rf dist && tsc -p tsconfig.json",
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:integration": "npm run prep && vitest run integration.test.ts"
+    "test:unit": "vitest run"
   },
   "dependencies": {
     "@types/commander": "^2.12.5",
