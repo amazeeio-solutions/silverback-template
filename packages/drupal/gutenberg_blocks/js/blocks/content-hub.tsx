@@ -1,9 +1,14 @@
 import React, { Fragment } from 'react';
-import { InspectorControls, RichText } from 'wordpress__block-editor';
+import { InspectorControls } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
-import { PanelBody } from 'wordpress__components';
+import {
+  PanelBody,
+  SelectControl,
+  TextControl,
+  ToggleControl,
+} from 'wordpress__components';
 
-const { t: __ } = Drupal;
+const { setPlainTextAttribute } = silverbackGutenbergUtils;
 
 registerBlockType<{
   showFilters: boolean;
@@ -27,24 +32,89 @@ registerBlockType<{
   },
   edit: (props) => {
     const { attributes, setAttributes } = props;
+    const { showFilters, defaultTerm, defaultKeyword } = attributes;
 
-    // Set default values this way so that values get saved in the block's attributes.
-    //props.setAttributes({
-    //  isQuote:
-    //    props.attributes.isQuote === undefined
-    //      ? false
-    //      : props.attributes.isQuote,
-    //});
+    /**
+     * Convert Term Id to Term Label
+     * @param domainId
+     */
+    const hubTermIdToTermLabel = (termId: string) => {
+      const hubTerms = drupalSettings.customGutenbergBlocks.termsContentHub;
+      const term = hubTerms.find((term) => term.id === termId);
+      return term
+        ? term.label
+        : Drupal.t('Unknown term', {}, { context: 'gutenberg' });
+    };
 
     return (
       <Fragment>
         <InspectorControls>
-          <PanelBody title={__('Block settings')}>
-            <p>Block settings</p>
+          <PanelBody
+            title={Drupal.t(
+              'Content Hub Settings',
+              {},
+              { context: 'gutenberg' },
+            )}
+          >
+            <ToggleControl
+              label={Drupal.t('Show Filters', {}, { context: 'gutenberg' })}
+              help={Drupal.t(
+                'When enabled the filters will be displayed.',
+                {},
+                { context: 'gutenberg' },
+              )}
+              checked={showFilters}
+              onChange={(showFilters) => {
+                setAttributes({
+                  showFilters,
+                });
+              }}
+            />
+
+            <SelectControl
+              label={Drupal.t('Default Term', {}, { context: 'gutenberg' })}
+              value={defaultTerm}
+              options={[
+                {
+                  label: Drupal.t('--- None ---', {}, { context: 'gutenberg' }),
+                  value: '',
+                },
+                ...drupalSettings.customGutenbergBlocks.termsContentHub.map(
+                  (term) => ({
+                    label: term.label,
+                    value: term.id,
+                  }),
+                ),
+              ]}
+              disabled={
+                drupalSettings.customGutenbergBlocks.termsContentHub.length ===
+                0
+              }
+              onChange={(defaultTerm) => {
+                setAttributes({
+                  defaultTerm,
+                });
+              }}
+            />
+
+            <TextControl
+              value={defaultKeyword}
+              label={Drupal.t('Default keyword', {}, { context: 'gutenberg' })}
+              onChange={(defaultKeyword) => {
+                setPlainTextAttribute(props, 'defaultKeyword', defaultKeyword);
+              }}
+              help={Drupal.t(
+                'When set this keyword will be used to filter the content hub and will be applied automatically to the search field.',
+                {},
+                { context: 'gutenberg' },
+              )}
+            />
           </PanelBody>
         </InspectorControls>
-        <div className={'container-wrapper'}>
-          <div className={'container-label'}>{__('Content Hub')}</div>
+        <div className={'container-wrapper !border-stone-500'}>
+          <div className={'container-label'}>
+            {Drupal.t('Content Hub', {}, { context: 'gutenberg' })}
+          </div>
           <div className="custom-block-content-hub">
             <div className={'details-breakdown'}>
               <div className={'details-breakdown-item'}>
@@ -68,7 +138,7 @@ registerBlockType<{
                   {!props.attributes.defaultTerm ? (
                     <em>{Drupal.t('No default term set')}</em>
                   ) : (
-                    <>{props.attributes.defaultTerm}</>
+                    <>{hubTermIdToTermLabel(props.attributes.defaultTerm)}</>
                   )}
                 </div>
               </div>

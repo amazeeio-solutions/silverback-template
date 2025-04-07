@@ -66,7 +66,34 @@ function gutenberg_blocks_form_node_form_alter(&$form, FormStateInterface $form_
       'label' => $form->label(),
     ], $webforms);
     $form['#attached']['drupalSettings']['customGutenbergBlocks']['forms'] = array_values($forms);
+
+    // Load all the taxonomy terms for the content_hub vocabulary
+    $form['#attached']['drupalSettings']['customGutenbergBlocks']['termsContentHub'] = _gutenberg_load_taxonomy_terms('content_hub', $langcode);
   }
+}
+
+
+/**
+ * Load taxonomy terms for a given vocabulary and language code.
+ */
+function _gutenberg_load_taxonomy_terms($vid, $langcode): array {
+  /** @var \Drupal\taxonomy\TermStorageInterface $termStorage */
+  $termStorage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  $mapTerms = function ($term) use ($langcode) {
+    if ($term->hasTranslation($langcode)) {
+      $term = $term->getTranslation($langcode);
+    }
+    return [
+      'id' => $term->id(),
+      'label' => $term->label(),
+    ];
+  };
+
+  return array_map(
+    $mapTerms,
+    $termStorage->loadTree($vid, 0, NULL, TRUE),
+  );
 }
 
 /**

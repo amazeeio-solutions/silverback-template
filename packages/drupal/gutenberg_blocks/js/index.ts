@@ -54,6 +54,10 @@ declare global {
         url: string;
         label: string;
       }>;
+      termsContentHub: Array<{
+        id: string;
+        label: string;
+      }>;
     };
   };
 
