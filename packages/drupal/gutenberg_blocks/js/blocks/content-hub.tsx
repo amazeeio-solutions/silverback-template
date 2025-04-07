@@ -95,6 +95,11 @@ registerBlockType<{
                   defaultTerm,
                 });
               }}
+              help={Drupal.t(
+                'When set this term will be used to filter the content hub and will be applied automatically to the term select field.',
+                {},
+                { context: 'gutenberg' },
+              )}
             />
 
             <TextControl
