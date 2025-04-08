@@ -58,6 +58,7 @@ export async function startService(
     stdio: 'pipe',
     shell: true,
     cwd: cwd || process.cwd(),
+    reject: false,
   });
 
   const childProcess = $`${command}`;
