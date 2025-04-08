@@ -14,19 +14,19 @@ export default defineConfig({
     {
       command: 'pnpm run --filter "@custom/cms" start >> /tmp/cms.log 2>&1',
       port: 8888,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
     },
     {
       command:
         'pnpm run --filter "@custom/website" serve >> /tmp/website.log 2>&1',
       port: 8000,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
     },
     {
       command:
         'pnpm run --filter "@custom/preview" start >> /tmp/preview.log 2>&1',
       port: 8001,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
     },
   ],
   projects: [
