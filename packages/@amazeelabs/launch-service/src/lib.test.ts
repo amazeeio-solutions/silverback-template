@@ -1,5 +1,3 @@
-import getPort from 'get-port';
-import { createServer, Server } from 'http';
 import path from 'path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
@@ -7,45 +5,33 @@ import { findProcessByPort, killProcess, startService } from './lib';
 
 const cwd = path.join(__dirname, '..');
 
-const server = () =>
-  createServer((req, res) => {
-    if (req.url === '/') {
-      res.statusCode = 200;
-      res.end('Hello, world!');
-    } else if (req.url === '/home') {
-      res.statusCode = 200;
-      res.end('Hello, world!');
-    } else {
-      res.statusCode = 404;
-      res.end('Not found');
-    }
-  });
-
 describe('findProcessByPort', () => {
-  beforeEach<{ port: number; server: Server }>(async (context) => {
-    context.server = server();
-    context.port = await getPort();
-    context.server.listen(context.port, 'localhost');
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  });
-
-  afterEach<{ server: Server }>(async (context) => {
-    context.server.close();
-  });
-
-  it<{
-    port: number;
-  }>('should return undefined if the port is not in use', async (ctx) => {
-    expect(await findProcessByPort(ctx.port + 1)).toBeUndefined();
+  beforeEach(async () => {
+    const result = await startService(
+      'node ./src/test-server.js 3000',
+      ['tcp:localhost:3000'],
+      2000, // Increased timeout for reliability
+      cwd,
+    );
+    expect(result).toBeUndefined();
   });
 
   it<{
     port: number;
-  }>('should return the pid and working directory', async (ctx) => {
-    const result = await findProcessByPort(ctx.port);
+  }>('should return undefined if the port is not in use', async () => {
+    expect(await findProcessByPort(3001)).toBeUndefined();
+  });
+
+  it<{
+    port: number;
+  }>('should return the pid and working directory', async () => {
+    const result = await findProcessByPort(3000);
     expect(result).toBeDefined();
     expect(result?.dir).toBe(process.cwd());
-    expect(result?.pid).toBe(process.pid);
+    expect(result?.pid).toBeGreaterThan(0);
+    if (result) {
+      killProcess(result.pid!, 3000);
+    }
   });
 });
 
