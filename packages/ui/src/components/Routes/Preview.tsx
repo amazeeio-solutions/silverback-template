@@ -1,16 +1,19 @@
 'use client';
+import '@custom/seo/style.css';
 import { useIntl } from '@amazeelabs/react-intl';
 import {
   OperationVariables,
   PreviewDrupalPageQuery,
   useLocation,
 } from '@custom/schema';
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import { clear, useOperation } from '../../utils/operation';
 import { Loading } from '../Molecules/Loading';
 import { Messages } from '../Molecules/Messages';
 import { PageDisplay } from '../Organisms/PageDisplay';
+import { SeoAnalysis } from '@custom/seo';
+
 
 function usePreviewParameters(): OperationVariables<
   typeof PreviewDrupalPageQuery
@@ -45,6 +48,9 @@ function PreviewContent({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
 }) {
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [previewContent, setPreviewContent] = useState<string | null>(null);
+  const interfaceLocale = data?.currentUser?.preferredLanguage || 'en';
   const intl = useIntl();
   // @todo forward error from the backend.
   // @todo 403 status code.
@@ -55,6 +61,14 @@ function PreviewContent({
       id: 'iAZszQ',
     }),
   ];
+
+  // Update preview content after render
+  useEffect(() => {
+    if (previewRef.current) {
+      setPreviewContent(previewRef.current.innerHTML);
+    }
+  }, [data?.preview]);
+
   return (
     <>
       {error ? (
@@ -69,10 +83,20 @@ function PreviewContent({
             <Loading />
           ) : (
             <>
-              {data?.preview ? (
-                <PageDisplay {...data.preview} />
-              ) : (
-                <Messages messages={errorMessages} />
+              <div ref={previewRef}>
+                {data?.preview ? (
+                  <PageDisplay {...data.preview} />
+                ) : (
+                  <Messages messages={errorMessages} />
+                )}
+              </div>
+              {data?.preview && previewContent && (
+                <SeoAnalysis
+                  content={previewContent}
+                  locale={interfaceLocale}
+                  metaTags={data?.preview?.metaTags || undefined}
+                  url={data.preview?.path || ''}
+                />
               )}
             </>
           )}

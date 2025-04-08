@@ -22,7 +22,7 @@
   },
   "scripts": {
     "prep:types": "tsc --emitDeclarationOnly",
-    "prep:scripts": "swc ./src -d ./build --strip-leading-paths",
+    "prep:scripts": "swc -w ./src -d ./build --strip-leading-paths",
     "prep:fonts": "mkdir -p build && node preloaded-fonts.js",
     "prep:styles": "NODE_ENV=production pnpm postcss src/tailwind.css -o build/styles.css",
     "prep:iframe": "NODE_ENV=production pnpm postcss src/iframe.css -o build/iframe.css",
@@ -70,6 +70,7 @@
     "@amazeelabs/bridge-storybook": "workspace:*",
     "@amazeelabs/cloudinary-responsive-image": "^1.6.26",
     "@custom/eslint-config": "workspace:*",
+    "@custom/seo": "workspace:*",
     "@formatjs/cli": "^6.5.1",
     "@storybook/addon-a11y": "^8.5.2",
     "@storybook/addon-actions": "^8.5.2",

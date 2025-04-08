@@ -1,0 +1,48 @@
+{
+  "name": "@custom/seo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "build/index.js",
+  "module": "./build/index.js",
+  "types": "build/index.d.ts",
+  "style": "./build/index.css",
+  "files": [
+    "build"
+  ],
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "types": "./build/index.d.ts"
+    },
+    "./style.css": "./build/index.css"
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "tsc --watch & vite build --watch",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@amazeelabs/react-intl": "^1.1.1",
+    "@wordpress/i18n": "^5.18.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "yoastseo": "3.0.0"
+  },
+  "devDependencies": {
+    "@custom/eslint-config": "workspace:*",
+    "@types/react": "^18.2.46",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

@@ -9,7 +9,7 @@
     "test:static": "tsc --noEmit && eslint . --quiet",
     "dev:app": "vite",
     "dev:server": "tsx watch server/index.ts",
-    "prep:app": "vite build",
+    "prep:app": "vite build --watch",
     "prep:server": "swc ./server -d ./build --strip-leading-paths",
     "start": "node build/index.js"
   },
