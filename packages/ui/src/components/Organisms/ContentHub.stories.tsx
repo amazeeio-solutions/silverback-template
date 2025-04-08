@@ -26,7 +26,7 @@ type ContentHubExecutor = (
   vars: OperationVariables<typeof ContentHubQuery>,
 ) => Promise<OperationResult<typeof ContentHubQuery>>;
 
-const pageSize = 6;
+const itemsPerPage = 6;
 
 export default {
   title: 'Components/Organisms/ContentHub',
@@ -38,18 +38,38 @@ export default {
           { executor: args.execTerms, id: ContentHubTermsQuery },
         ]}
       >
-        <ContentHub pageSize={pageSize} />
+        <ContentHub
+          itemsPerPage={args.itemsPerPage || itemsPerPage}
+          showFilters={args.showFilters}
+          defaultTerm={args.defaultTerm}
+          defaultKeyword={args.defaultKeyword}
+        />
       </OperationExecutorsProvider>
     );
+  },
+  argTypes: {
+    showFilters: {
+      control: 'boolean',
+      description: 'Toggle search filters visibility',
+    },
   },
 } satisfies Meta<{
   execQuery: ContentHubExecutor;
   execTerms: ContentHubTermsQuery;
+  itemsPerPage: number;
+  showFilters: boolean;
+  defaultKeyword: string;
+  defaultTerm: string;
 }>;
 
+// Update the ContentHubStory type
 type ContentHubStory = StoryObj<{
   execQuery: ContentHubExecutor;
   execTerms: ContentHubTermsQuery;
+  itemsPerPage: number;
+  showFilters: boolean;
+  defaultKeyword: string;
+  defaultTerm: string;
 }>;
 
 const termOptions = {
@@ -119,13 +139,20 @@ export const WithResults: ContentHubStory = {
 
       // filter by title
       let filtered = items.filter(
-        (item) => !args.title || item.title.includes(args.title),
+        (item) =>
+          !args.title ||
+          item.title.toLowerCase().includes(args.title.toLowerCase()),
       );
       // filter by terms
       filtered = filtered.filter(
         (item) =>
           !args.terms || item.terms.some((term) => term.termId === args.terms),
       );
+
+      // Use pageSize from args if available, otherwise use default itemsPerPage
+      const pageSize = args.pageSize
+        ? parseInt(args.pageSize) || itemsPerPage
+        : itemsPerPage;
 
       const offset = args.page
         ? ((parseInt(args.page) || 1) - 1) * pageSize
@@ -152,5 +179,33 @@ export const Paged: ContentHubStory = {
   ...WithResults,
   parameters: {
     location: new URL('local:/content-hub?page=2'),
+  },
+};
+
+export const HiddenFilters: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    showFilters: false,
+  },
+};
+
+export const DefaultKeyword: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    defaultKeyword: 'Story',
+  },
+};
+
+export const DefaultTerm: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    defaultTerm: '3',
+  },
+};
+
+export const LimitedPerPage: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    itemsPerPage: 3,
   },
 };

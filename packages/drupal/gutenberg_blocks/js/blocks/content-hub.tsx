@@ -14,6 +14,7 @@ registerBlockType<{
   showFilters: boolean;
   defaultTerm: string;
   defaultKeyword: string;
+  itemsPerPage: number;
 }>('custom/content-hub', {
   title: 'Content Hub',
   icon: 'grid-view',
@@ -29,10 +30,15 @@ registerBlockType<{
     defaultKeyword: {
       type: 'string',
     },
+    itemsPerPage: {
+      type: 'number',
+      default: 6,
+    },
   },
   edit: (props) => {
     const { attributes, setAttributes } = props;
-    const { showFilters, defaultTerm, defaultKeyword } = attributes;
+    const { showFilters, defaultTerm, defaultKeyword, itemsPerPage } =
+      attributes;
 
     /**
      * Convert Term Id to Term Label
@@ -69,6 +75,26 @@ registerBlockType<{
                   showFilters,
                 });
               }}
+            />
+
+            <SelectControl
+              label={Drupal.t('Items Per Page', {}, { context: 'gutenberg' })}
+              value={itemsPerPage as unknown as string}
+              // make an array of numbers from 1 to 25
+              options={Array.from({ length: 25 }, (_, i) => ({
+                label: `${i + 1}`,
+                value: `${i + 1}`,
+              }))}
+              onChange={(itemsPerPage) => {
+                setAttributes({
+                  itemsPerPage: parseInt(itemsPerPage, 10),
+                });
+              }}
+              help={Drupal.t(
+                'When set this term will be used to filter the content hub and will be applied automatically to the term select field.',
+                {},
+                { context: 'gutenberg' },
+              )}
             />
 
             <SelectControl
@@ -131,6 +157,19 @@ registerBlockType<{
                     <em>{Drupal.t('Yes')}</em>
                   ) : (
                     <>{Drupal.t('No')}</>
+                  )}
+                </div>
+              </div>
+
+              <div className={'details-breakdown-item'}>
+                <div className={'details-breakdown-label'}>
+                  {Drupal.t('Items Per Page')}
+                </div>
+                <div className={'details-breakdown-value'}>
+                  {!props.attributes.itemsPerPage ? (
+                    <em>{Drupal.t('6')}</em>
+                  ) : (
+                    <>{props.attributes.itemsPerPage as unknown as string}</>
                   )}
                 </div>
               </div>

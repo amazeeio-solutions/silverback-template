@@ -259,30 +259,32 @@ type Hero {
 }
 
 union CommonContent @resolveEditorBlockType =
+  | BlockAccordion
+  | BlockContentHub
+  | BlockCta
+  | BlockForm
+  | BlockHorizontalSeparator
+  | BlockImageTeasers
+  | BlockImageWithText
+  | BlockInfoGrid
   | BlockMarkup
   | BlockMedia
-  | BlockForm
-  | BlockImageTeasers
-  | BlockCta
-  | BlockImageWithText
   | BlockQuote
-  | BlockHorizontalSeparator
-  | BlockAccordion
-  | BlockInfoGrid
 
 union PageContent @resolveEditorBlockType =
+  | BlockAccordion
+  | BlockConditional
+  | BlockContentHub
+  | BlockCta
+  | BlockForm
+  | BlockHorizontalSeparator
+  | BlockImageTeasers
+  | BlockImageWithText
+  | BlockInfoGrid
   | BlockMarkup
   | BlockMedia
-  | BlockForm
-  | BlockImageTeasers
-  | BlockCta
-  | BlockImageWithText
   | BlockQuote
-  | BlockHorizontalSeparator
-  | BlockAccordion
-  | BlockInfoGrid
   | BlockTeaserList
-  | BlockConditional
 
 type BlockForm @type(id: "custom/form") {
   url: Url @resolveEditorBlockAttribute(key: "formId") @webformIdToUrl(id: "$")
@@ -434,6 +436,7 @@ type BlockContentHub @type(id: "custom/content-hub") {
   showFilters: Boolean @resolveEditorBlockAttribute(key: "showFilters")
   defaultTerm: String @resolveEditorBlockAttribute(key: "defaultTerm")
   defaultKeyword: String @resolveEditorBlockAttribute(key: "defaultKeyword")
+  itemsPerPage: Int @resolveEditorBlockAttribute(key: "itemsPerPage")
 }
 
 """
