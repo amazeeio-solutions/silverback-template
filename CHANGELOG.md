@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.2...@amazeelabs/silverback-template@1.7.3) (2025-04-04)
+
+### Bug Fixes
+
+- don't try to get from remote during setup
+  ([638ec67](https://github.com/AmazeeLabs/silverback-template/commit/638ec6748aeafb09700434bdafbda4d8f60eb39d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.7.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.1...@amazeelabs/silverback-template@1.7.2) (2025-04-04)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
