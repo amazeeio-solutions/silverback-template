@@ -1,44 +1,24 @@
 _meta:
   version: '1.0'
   entity_type: menu_link_content
-  uuid: 0ce5ad04-008b-415e-96f5-e246e5111c82
+  uuid: 97786c1f-be42-4b75-b4aa-36e75087edba
   bundle: menu_link_content
-  default_langcode: de
+  default_langcode: en
   depends:
-    0b45a665-286a-414e-a091-c13fa4e20eb2: node
-translations:
-  en:
-    title:
-      -
-        value: Architecture
-    content_translation_source:
-      -
-        value: und
-    content_translation_outdated:
-      -
-        value: false
-    content_translation_uid:
-      -
-        target_id: 1
-    content_translation_status:
-      -
-        value: true
-    content_translation_created:
-      -
-        value: 1682001687
+    5a0f8055-1993-42cf-aae3-fa2e81a87417: node
 default:
   enabled:
     -
       value: true
   title:
     -
-      value: Architektur
+      value: 'Content Hub'
   menu_name:
     -
       value: main
   link:
     -
-      target_uuid: 0b45a665-286a-414e-a091-c13fa4e20eb2
+      target_uuid: 5a0f8055-1993-42cf-aae3-fa2e81a87417
       title: ''
       options: {  }
   external:
@@ -49,7 +29,7 @@ default:
       value: false
   weight:
     -
-      value: -50
+      value: -47
   expanded:
     -
       value: false
@@ -67,4 +47,4 @@ default:
       value: true
   content_translation_created:
     -
-      value: 1682001687
+      value: 1744643878
