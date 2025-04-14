@@ -44,7 +44,12 @@ export function ContentHub(props: BlockContentHubFragment) {
           ? undefined
           : urlSearch.terms || props.defaultTerm || undefined,
     };
-  }, [urlSearch, props.defaultKeyword, props.defaultTerm]);
+  }, [
+    urlSearch.title,
+    urlSearch.terms,
+    props.defaultKeyword,
+    props.defaultTerm,
+  ]);
 
   const { data, isLoading, error } = useOperation(ContentHubQuery, {
     locale: intl.locale as Locale,
