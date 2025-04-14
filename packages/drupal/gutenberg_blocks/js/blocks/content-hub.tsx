@@ -47,9 +47,11 @@ registerBlockType<{
     const hubTermIdToTermLabel = (termId: string) => {
       const hubTerms = drupalSettings.customGutenbergBlocks.termsContentHub;
       const term = hubTerms.find((term) => term.id === termId);
-      return term
-        ? term.label
-        : Drupal.t('Unknown term', {}, { context: 'gutenberg' });
+      if (!term) {
+        console.error(`Term with ID ${termId} not found`);
+        return Drupal.t('Term not available', {}, { context: 'gutenberg' });
+      }
+      return term.label;
     };
 
     return (
