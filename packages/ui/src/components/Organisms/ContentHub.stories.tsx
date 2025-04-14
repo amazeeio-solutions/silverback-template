@@ -26,7 +26,7 @@ type ContentHubExecutor = (
   vars: OperationVariables<typeof ContentHubQuery>,
 ) => Promise<OperationResult<typeof ContentHubQuery>>;
 
-const itemsPerPage = 6;
+const defaultItemsPerPage = 6;
 
 export default {
   title: 'Components/Organisms/ContentHub',
@@ -39,7 +39,7 @@ export default {
         ]}
       >
         <ContentHub
-          itemsPerPage={args.itemsPerPage || itemsPerPage}
+          itemsPerPage={args.itemsPerPage || defaultItemsPerPage}
           showFilters={args.showFilters}
           defaultTerm={args.defaultTerm}
           defaultKeyword={args.defaultKeyword}
@@ -150,17 +150,17 @@ export const WithResults: ContentHubStory = {
       );
 
       // Use pageSize from args if available, otherwise use default itemsPerPage
-      const pageSize = args.pageSize
-        ? parseInt(args.pageSize) || itemsPerPage
-        : itemsPerPage;
+      const itemsPerPage = args.pageSize
+        ? parseInt(args.pageSize) || defaultItemsPerPage
+        : defaultItemsPerPage;
 
       const offset = args.page
-        ? ((parseInt(args.page) || 1) - 1) * pageSize
+        ? ((parseInt(args.page) || 1) - 1) * itemsPerPage
         : 0;
       return {
         contentHub: {
           total: filtered.length,
-          items: filtered.slice(offset, offset + pageSize),
+          items: filtered.slice(offset, offset + itemsPerPage),
         },
       };
     },
