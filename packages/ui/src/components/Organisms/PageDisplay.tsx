@@ -9,6 +9,7 @@ import { ContentEditLink } from '../Molecules/ContentEditLink';
 import { PageTransition } from '../Molecules/PageTransition';
 import { BlockAccordion } from './PageContent/BlockAccordion';
 import { BlockConditional } from './PageContent/BlockConditional';
+import { BlockContentHub } from './PageContent/BlockContentHub';
 import { BlockCta } from './PageContent/BlockCta';
 import { BlockForm } from './PageContent/BlockForm';
 import { BlockHorizontalSeparator } from './PageContent/BlockHorizontalSeparator';
@@ -35,7 +36,7 @@ export function PageDisplay(page: PageFragment) {
             case 'BlockConditional':
               return <BlockConditional key={index} {...block} />;
             case 'BlockContentHub':
-              return <p>Content Hub</p>;
+              return <BlockContentHub key={index} {...block} />;
             case 'BlockCta':
               return <BlockCta key={index} {...block} />;
             case 'BlockForm':
@@ -74,7 +75,7 @@ export function CommonContent(props: CommonContentBlock) {
     case 'BlockAccordion':
       return <BlockAccordion {...props} />;
     case 'BlockContentHub':
-      return <p>Content Hub</p>;
+      return <BlockContentHub {...props} />;
     case 'BlockCta':
       return <BlockCta {...props} />;
     case 'BlockForm':
