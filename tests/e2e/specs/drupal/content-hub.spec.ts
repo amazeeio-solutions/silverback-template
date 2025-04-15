@@ -132,3 +132,37 @@ test('results have been limited', async ({ page }) => {
   const articleCount = await content.locator('article').count();
   expect(articleCount).toBe(3);
 });
+
+test('default term filter has been applied', async ({ page }) => {
+  await page.goto(websiteUrl('/en/content-hub-term-set'));
+  const content = page.getByRole('main');
+
+  // Get the filter dropdown element
+  const termFilter = content.getByRole('combobox', { name: 'Filter by terms' });
+
+  // Check that the dropdown is set to "List" by default
+  const selectedOptionLabel = await termFilter.evaluate((select) => {
+    const selectElement = select as HTMLSelectElement;
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    return selectedOption.text;
+  });
+  expect(selectedOptionLabel).toBe('List');
+
+  // Check that the dropdown is disabled
+  const isDisabled = await termFilter.isDisabled();
+  expect(isDisabled).toBe(true);
+
+  await content.locator('article').first().waitFor();
+
+  const articles = content.locator('article');
+  const count = await articles.count();
+
+  expect(count).toBeGreaterThan(0);
+
+  for (let i = 0; i < count; i++) {
+    const article = articles.nth(i);
+    await expect(
+      article.locator('span.rounded').filter({ hasText: 'List' }),
+    ).toBeVisible();
+  }
+});
