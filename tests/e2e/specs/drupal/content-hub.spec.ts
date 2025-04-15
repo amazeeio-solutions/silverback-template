@@ -186,7 +186,7 @@ test('default keyword filter has been applied', async ({ page }) => {
 
   for (let i = 0; i < count; i++) {
     const article = articles.nth(i);
-    const articleText = await article.textContent();
+    const articleText = (await article.textContent()) || '';
     expect(articleText.toLowerCase()).toContain('imprint');
   }
 });
