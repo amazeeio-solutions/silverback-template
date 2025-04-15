@@ -123,3 +123,12 @@ test('no filters are being displayed', async ({ page }) => {
     content.getByRole('button', { name: 'Search' }),
   ).not.toBeVisible();
 });
+
+test('results have been limited', async ({ page }) => {
+  await page.goto(websiteUrl('/en/content-hub-limited'));
+  const content = page.getByRole('main');
+
+  await content.locator('article').first().waitFor();
+  const articleCount = await content.locator('article').count();
+  expect(articleCount).toBe(3);
+});
