@@ -39,7 +39,7 @@ default:
       value: false
   path:
     -
-      alias: /block-contenthub
+      alias: /content-hub
       langcode: en
       pathauto: 0
   content_translation_source:
