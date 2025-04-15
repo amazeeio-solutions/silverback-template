@@ -137,7 +137,6 @@ test('default term filter has been applied', async ({ page }) => {
   await page.goto(websiteUrl('/en/content-hub-term-set'));
   const content = page.getByRole('main');
 
-  // Get the filter dropdown element
   const termFilter = content.getByRole('combobox', { name: 'Filter by terms' });
 
   // Check that the dropdown is set to "List" by default
@@ -148,7 +147,6 @@ test('default term filter has been applied', async ({ page }) => {
   });
   expect(selectedOptionLabel).toBe('List');
 
-  // Check that the dropdown is disabled
   const isDisabled = await termFilter.isDisabled();
   expect(isDisabled).toBe(true);
 
@@ -164,5 +162,31 @@ test('default term filter has been applied', async ({ page }) => {
     await expect(
       article.locator('span.rounded').filter({ hasText: 'List' }),
     ).toBeVisible();
+  }
+});
+
+test('default keyword filter has been applied', async ({ page }) => {
+  await page.goto(websiteUrl('/en/content-hub-keyword-set'));
+  const content = page.getByRole('main');
+
+  const keywordInput = content.getByPlaceholder('Keyword');
+
+  const inputValue = await keywordInput.inputValue();
+  expect(inputValue).toBe('imprint');
+
+  const isDisabled = await keywordInput.isDisabled();
+  expect(isDisabled).toBe(true);
+
+  await content.locator('article').first().waitFor();
+
+  const articles = content.locator('article');
+  const count = await articles.count();
+
+  expect(count).toBeGreaterThan(0);
+
+  for (let i = 0; i < count; i++) {
+    const article = articles.nth(i);
+    const articleText = await article.textContent();
+    expect(articleText.toLowerCase()).toContain('imprint');
   }
 });
