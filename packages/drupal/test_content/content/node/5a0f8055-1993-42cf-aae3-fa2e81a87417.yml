@@ -58,3 +58,47 @@ default:
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''
+translations:
+  de:
+    status:
+      -
+        value: true
+    uid:
+      -
+        target_id: 1
+    title:
+      -
+        value: 'Block: ContentHub DE'
+    created:
+      -
+        value: 1744706533
+    promote:
+      -
+        value: false
+    sticky:
+      -
+        value: false
+    moderation_state:
+      -
+        value: published
+    path:
+      -
+        alias: /content-hub
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    body:
+      -
+        value: |-
+          <!-- wp:custom/hero {"mediaEntityIds":["3a0fe860-a6d6-428a-9474-365bd57509aa"],"headline":"Content Hub DE","lead":"Dies sind alle Inhalte unserer Site."} /-->
+
+          <!-- wp:custom/content -->
+          <!-- wp:custom/content-hub {"defaultTerm":""} /-->
+          <!-- /wp:custom/content -->
+        format: gutenberg
+        summary: ''
