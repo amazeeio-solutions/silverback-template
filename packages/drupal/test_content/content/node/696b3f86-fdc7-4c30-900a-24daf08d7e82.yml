@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 696b3f86-fdc7-4c30-900a-24daf08d7e82
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Remote rendered items test'
+  created:
+    -
+      value: 1742886922
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /remote-rendered-items-test
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero /-->
+        <!-- wp:custom/content -->
+        <!-- wp:paragraph -->
+        <p>The next paragraph is CTA. All its texts are stored in Gutenberg attributes. The only way to index the link label is to fetch it from the frontend.</p>
+        <!-- /wp:paragraph -->
+        <!-- wp:custom/cta {"text":"Trytofindme"} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
