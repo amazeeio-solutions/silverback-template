@@ -171,6 +171,8 @@ test('default keyword filter has been applied', async ({ page }) => {
 
   const keywordInput = content.getByPlaceholder('Keyword');
 
+  await expect(keywordInput).toHaveValue('imprint', { timeout: 5000 });
+
   const inputValue = await keywordInput.inputValue();
   expect(inputValue).toBe('imprint');
 
