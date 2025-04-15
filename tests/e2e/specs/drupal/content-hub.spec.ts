@@ -110,3 +110,16 @@ test.describe('content hub', () => {
     ).not.toBeVisible();
   });
 });
+
+test('no filters are being displayed', async ({ page }) => {
+  await page.goto(websiteUrl('/en/content-hub-no-filters'));
+  const content = page.getByRole('main');
+
+  await expect(
+    content.getByRole('combobox', { name: 'Filter by terms' }),
+  ).not.toBeVisible();
+  await expect(content.getByPlaceholder('Keyword')).not.toBeVisible();
+  await expect(
+    content.getByRole('button', { name: 'Search' }),
+  ).not.toBeVisible();
+});
