@@ -34,18 +34,19 @@ fragment Page on Page {
   }
   content {
     __typename
+    ...BlockAccordion
+    ...BlockConditional
+    ...BlockContentHub
+    ...BlockCta
+    ...BlockForm
+    ...BlockHorizontalSeparator
+    ...BlockImageTeasers
+    ...BlockImageWithText
+    ...BlockInfoGrid
     ...BlockMarkup
     ...BlockMedia
-    ...BlockForm
-    ...BlockImageTeasers
-    ...BlockCta
-    ...BlockImageWithText
     ...BlockQuote
-    ...BlockHorizontalSeparator
-    ...BlockAccordion
-    ...BlockInfoGrid
     ...BlockTeaserList
-    ...BlockConditional
   }
   metaTags {
     tag

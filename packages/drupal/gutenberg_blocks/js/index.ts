@@ -19,6 +19,7 @@ import './blocks/info-grid';
 import './blocks/info-grid-item';
 import './blocks/teaser-list';
 import './blocks/teaser-item';
+import './blocks/content-hub';
 
 import { ComponentType } from 'react';
 
@@ -57,6 +58,10 @@ declare global {
       forms: Array<{
         id: string;
         url: string;
+        label: string;
+      }>;
+      termsContentHub: Array<{
+        id: string;
         label: string;
       }>;
     };
