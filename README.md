@@ -146,6 +146,7 @@ variables.
   environment for security reasons.
 - **PUBLISHER_URL** (lagoon): If publisher is set to a custom domain, this
   variable has to be defined.
+- **GH_TOKEN** (lagoon): To run publisher builds.
 - **NETLIFY**: To publish the project to netlify, provide the following
   environment variables:
   - **NETLIFY_SITE_ID** (lagoon): The ID of the netlify project the
