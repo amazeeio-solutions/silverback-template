@@ -63,6 +63,27 @@ test.describe('content hub', () => {
     ).toBeVisible();
   });
 
+  test('allows to filter by term', async ({ page }) => {
+    await page.goto(websiteUrl('/en/content-hub'));
+    const content = page.getByRole('main');
+
+    await content
+      .getByRole('combobox', { name: 'Filter by terms' })
+      .selectOption('Block');
+
+    await content.getByRole('button', { name: 'Search' }).click();
+
+    await expect(
+      content.getByRole('heading', { name: 'Block: Accordion', level: 5 }),
+    ).toBeVisible();
+    await expect(
+      content.getByRole('heading', {
+        name: 'Block: Conditional content',
+        level: 5,
+      }),
+    ).toBeVisible();
+  });
+
   test('returns language specific results', async ({ page }) => {
     const quickActions = new QuickActions(page);
     await page.goto(websiteUrl('/en/content-hub'));
