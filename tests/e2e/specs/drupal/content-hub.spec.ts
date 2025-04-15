@@ -137,6 +137,8 @@ test('default term filter has been applied', async ({ page }) => {
   await page.goto(websiteUrl('/en/content-hub-term-set'));
   const content = page.getByRole('main');
 
+  const setTerm = 'Page';
+
   const termFilter = content.getByRole('combobox', { name: 'Filter by terms' });
 
   // Check that the dropdown is set to "List" by default
@@ -145,7 +147,7 @@ test('default term filter has been applied', async ({ page }) => {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     return selectedOption.text;
   });
-  expect(selectedOptionLabel).toBe('List');
+  expect(selectedOptionLabel).toBe(setTerm);
 
   const isDisabled = await termFilter.isDisabled();
   expect(isDisabled).toBe(true);
@@ -160,7 +162,7 @@ test('default term filter has been applied', async ({ page }) => {
   for (let i = 0; i < count; i++) {
     const article = articles.nth(i);
     await expect(
-      article.locator('span.rounded').filter({ hasText: 'List' }),
+      article.locator('span.rounded').filter({ hasText: setTerm }),
     ).toBeVisible();
   }
 });
