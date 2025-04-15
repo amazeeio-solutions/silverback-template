@@ -1,0 +1,58 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 714f3cc0-1bb6-4670-a2c5-e2c2aa2e0d3e
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: ContentHub [Keyword Set]'
+  created:
+    -
+      value: 1744714125
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /content-hub-keyword-set
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Content Hub [Keyword Set]"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/content-hub {"defaultKeyword":"imprint"} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

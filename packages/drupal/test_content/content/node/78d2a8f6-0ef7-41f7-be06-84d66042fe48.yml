@@ -1,0 +1,58 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 78d2a8f6-0ef7-41f7-be06-84d66042fe48
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Block: ContentHub [No Filters]'
+  created:
+    -
+      value: 1744714125
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /content-hub-no-filters
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Content Hub [No Filters]"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/content-hub {"showFilters":false} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''
