@@ -2,12 +2,13 @@
 
 namespace Drupal\Tests\silverback_search\Unit;
 
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Logger\LoggerChannel;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\silverback_external_preview\ExternalPreviewLink;
 use Drupal\silverback_search\FetchResult;
 use Drupal\silverback_search\Service\RemoteFrontend;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\Core\Logger\LoggerChannel;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
@@ -135,11 +136,13 @@ class RemoteFrontendTest extends TestCase {
     $loggerFactory = $this->prophesize(LoggerChannelFactoryInterface::class);
     $loggerFactory->get(Argument::any())->willReturn($loggerChannel->reveal());
     $database = $this->prophesize(Connection::class);
+    $moduleHandler = $this->prophesize(ModuleHandlerInterface::class);
     
     $remoteFrontend = new RemoteFrontend(
       $externalPreviewLink->reveal(),
       $loggerFactory->reveal(),
-      $database->reveal()
+      $database->reveal(),
+      $moduleHandler->reveal(),
     );
     
     $reflection = new \ReflectionClass($remoteFrontend);

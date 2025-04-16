@@ -4,6 +4,7 @@ namespace Drupal\silverback_search\Service;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\silverback_external_preview\ExternalPreviewLink;
 use Drupal\silverback_search\FetchResult;
@@ -19,6 +20,7 @@ class RemoteFrontend {
   protected LoggerInterface $logger;
   protected Connection $database;
   protected Client $httpClient;
+  protected ModuleHandlerInterface $moduleHandler;
   
   protected ?string $netlifyPassword = NULL;
   private ?int $cachedBuildId = NULL;
@@ -26,11 +28,13 @@ class RemoteFrontend {
   public function __construct(
     ExternalPreviewLink $external_preview_link,
     LoggerChannelFactoryInterface $logger_factory,
-    Connection $database
+    Connection $database,
+    ModuleHandlerInterface $module_handler,
   ) {
     $this->externalPreviewLink = $external_preview_link;
     $this->logger = $logger_factory->get('silverback_search');
     $this->database = $database;
+    $this->moduleHandler = $module_handler;
     $this->httpClient = new Client([
       RequestOptions::HTTP_ERRORS => FALSE,
       RequestOptions::COOKIES => new CookieJar(),
@@ -56,6 +60,10 @@ class RemoteFrontend {
         NULL,
         'Could not get live URL for entity ' . $entity->getEntityTypeId() . ':' . $entity->id(),
       );
+    }
+    $this->moduleHandler->alter('silverback_search_live_url', $liveUrl, $entity);
+    if ($liveUrl === 'skip') {
+      return new FetchResult('', NULL);
     }
     return $this->getFromRemote($liveUrl);
   }
