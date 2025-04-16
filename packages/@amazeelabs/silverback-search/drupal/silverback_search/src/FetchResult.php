@@ -7,6 +7,7 @@ class FetchResult {
   public function __construct(
     public ?string $content,
     public ?string $error,
+    public ?string $remoteUrl,
     public bool $isSkipped = FALSE,
   ) {
     if (

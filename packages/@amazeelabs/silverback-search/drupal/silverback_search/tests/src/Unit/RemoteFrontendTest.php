@@ -38,7 +38,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => '',
         'url' => $url,
-        'expected' => new FetchResult("Test content", NULL),
+        'expected' => new FetchResult("Test content", NULL, $url),
       ],
       '401 response with no password' => [
         'requests' => [
@@ -49,7 +49,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => NULL,
         'url' => $url,
-        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is not set.'),
+        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is not set.', $url),
       ],
       '401 response with incorrect password' => [
         'requests' => [
@@ -68,7 +68,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => 'wrong-password',
         'url' => $url,
-        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is incorrect.'),
+        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is incorrect.', $url),
       ],
       '401 response with successful auth' => [
         'requests' => [
@@ -87,7 +87,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => 'correct-password',
         'url' => $url,
-        'expected' => new FetchResult("Test content after authentication", NULL),
+        'expected' => new FetchResult("Test content after authentication", NULL, $url),
       ],
       'non-success response (404)' => [
         'requests' => [
@@ -98,7 +98,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => '',
         'url' => $url,
-        'expected' => new FetchResult(NULL, 'Could not fetch from remote because the response status code is 404.'),
+        'expected' => new FetchResult(NULL, 'Could not fetch from remote because the response status code is 404.', $url),
       ],
       'request exception' => [
         'requests' => [
@@ -109,7 +109,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => '',
         'url' => $url,
-        'expected' => new FetchResult(NULL, 'Could not fetch from remote: Network error'),
+        'expected' => new FetchResult(NULL, 'Could not fetch from remote: Network error', $url),
       ],
     ];
   }
