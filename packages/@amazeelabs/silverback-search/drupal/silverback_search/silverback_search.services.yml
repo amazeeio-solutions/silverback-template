@@ -5,3 +5,4 @@ services:
       - '@silverback_external_preview.external_preview_link'
       - '@logger.factory'
       - '@database'
+      - '@module_handler'
