@@ -104,6 +104,9 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       $this->logger->error('Could not get HTML: {error}. Debug:<pre>{debug}</pre>', ['error' => $result->error, 'debug' => $debug]);
       return '';
     }
+    if ($result->isSkipped) {
+      return '';
+    }
     $crawler = new Crawler($result->content);
     $rootSelector = $configuration['root_selector'] ?: 'body';
     $filtered = $crawler->filter($rootSelector);

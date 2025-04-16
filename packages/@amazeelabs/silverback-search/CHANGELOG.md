@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.2.3...@amazeelabs/silverback-search@1.3.0) (2025-04-16)
+
+### Features
+
+- add hook to alter live url
+  ([662bf3d](https://github.com/AmazeeLabs/silverback-template/commit/662bf3d7699db8ef0ec70e6b10b49eab4e307d47))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.2.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.2.2...@amazeelabs/silverback-search@1.2.3) (2025-04-04)
 
 ### Bug Fixes
