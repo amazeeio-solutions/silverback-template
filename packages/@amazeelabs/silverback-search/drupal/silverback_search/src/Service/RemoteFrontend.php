@@ -63,7 +63,7 @@ class RemoteFrontend {
     }
     $this->moduleHandler->alter('silverback_search_live_url', $liveUrl, $entity);
     if ($liveUrl === 'skip') {
-      return new FetchResult('', NULL);
+      return new FetchResult('', NULL, TRUE);
     }
     return $this->getFromRemote($liveUrl);
   }
