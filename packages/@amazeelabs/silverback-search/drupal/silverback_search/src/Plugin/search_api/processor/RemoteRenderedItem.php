@@ -94,12 +94,15 @@ class RemoteRenderedItem extends ProcessorPluginBase {
   }
 
   private function getHtml(ContentEntityInterface $entity, array $configuration): string {
+    $result = $this->remoteFrontend->getEntityHtml($entity);
+
     $debug = json_encode([
       'entity_type' => $entity->getEntityTypeId(),
       'entity_id' => $entity->id(),
+      'langcode' => $entity->language()->getId(),
+      'remoteUrl' => $result->remoteUrl,
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    
-    $result = $this->remoteFrontend->getEntityHtml($entity);
+
     if ($result->error) {
       $this->logger->error('Could not get HTML: {error}. Debug:<pre>{debug}</pre>', ['error' => $result->error, 'debug' => $debug]);
       return '';
@@ -107,6 +110,7 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     if ($result->isSkipped) {
       return '';
     }
+    
     $crawler = new Crawler($result->content);
     $rootSelector = $configuration['root_selector'] ?: 'body';
     $filtered = $crawler->filter($rootSelector);

@@ -59,11 +59,13 @@ class RemoteFrontend {
       return new FetchResult(
         NULL,
         'Could not get live URL for entity ' . $entity->getEntityTypeId() . ':' . $entity->id(),
+        $liveUrl,
       );
     }
+    $liveUrlOriginal = $liveUrl;
     $this->moduleHandler->alter('silverback_search_live_url', $liveUrl, $entity);
     if ($liveUrl === 'skip') {
-      return new FetchResult('', NULL, TRUE);
+      return new FetchResult('', NULL, $liveUrlOriginal, TRUE);
     }
     return $this->getFromRemote($liveUrl);
   }
@@ -95,6 +97,7 @@ class RemoteFrontend {
             return new FetchResult(
               NULL,
               'Could not fetch from remote because Netlify password is incorrect.',
+              $url,
             );
           }
         }
@@ -102,6 +105,7 @@ class RemoteFrontend {
           return new FetchResult(
             NULL,
             'Could not fetch from remote because Netlify password is not set.',
+            $url,
           );
         }
       }
@@ -109,17 +113,20 @@ class RemoteFrontend {
         return new FetchResult(
           NULL,
           'Could not fetch from remote because the response status code is ' . $response->getStatusCode() . '.',
+          $url,
         );
       }
       return new FetchResult(
         $response->getBody()->getContents(),
         NULL,
+        $url,
       );
     }
     catch (GuzzleException $e) {
       return new FetchResult(
         NULL,
         'Could not fetch from remote: ' . $e->getMessage(),
+        $url,
       );
     }
   }
