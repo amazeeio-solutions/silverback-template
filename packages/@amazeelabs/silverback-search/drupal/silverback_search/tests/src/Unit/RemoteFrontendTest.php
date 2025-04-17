@@ -111,6 +111,17 @@ class RemoteFrontendTest extends TestCase {
         'url' => $url,
         'expected' => new FetchResult(NULL, 'Could not fetch from remote: Network error', $url),
       ],
+      'host changed after redirect' => [
+        'requests' => [
+          [
+            'args' => ['GET', $url],
+            'response' => new RequestException('Host changed after redirect', new Request('GET', $url)),
+          ],
+        ],
+        'password' => '',
+        'url' => $url,
+        'expected' => new FetchResult('', NULL, $url, TRUE),
+      ],
     ];
   }
 
@@ -121,10 +132,25 @@ class RemoteFrontendTest extends TestCase {
     $httpClient = $this->prophesize(Client::class);
     if ($requests) {
       foreach ($requests as $request) {
+        $args = $request['args'];
+        if (count($args) === 2) {
+          $args[] = Argument::type('array');
+        } 
+        elseif (count($args) === 3 && is_array($args[2])) {
+          $options = $args[2];
+          $args[2] = Argument::that(function ($arg) use ($options) {
+            foreach ($options as $key => $value) {
+              if (!isset($arg[$key]) || $arg[$key] !== $value) {
+                return false;
+              }
+            }
+            return true;
+          });
+        }
         if ($request['response'] instanceof \Exception) {
-          $httpClient->request(...$request['args'])->willThrow($request['response']);
+          $httpClient->request(...$args)->willThrow($request['response']);
         } else {
-          $httpClient->request(...$request['args'])->willReturn($request['response']);
+          $httpClient->request(...$args)->willReturn($request['response']);
         }
       }
     } else {
@@ -160,5 +186,6 @@ class RemoteFrontendTest extends TestCase {
     $this->assertInstanceOf(FetchResult::class, $result);
     $this->assertEquals($expected->content, $result->content);
     $this->assertEquals($expected->error, $result->error);
+    $this->assertEquals($expected->isSkipped, $result->isSkipped);
   }
 } 
