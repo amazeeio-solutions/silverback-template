@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.3.2...@amazeelabs/silverback-search@1.3.3) (2025-04-17)
+
+### Bug Fixes
+
+- do not fetch from external hosts
+  ([ec1a5e4](https://github.com/AmazeeLabs/silverback-template/commit/ec1a5e4efcb5e2ba91f6be54afcaff14debd93a0))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.3.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.3.1...@amazeelabs/silverback-search@1.3.2) (2025-04-16)
 
 **Note:** Version bump only for package @amazeelabs/silverback-search
