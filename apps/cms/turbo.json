@@ -4,35 +4,13 @@
     "prep": {
       "dependsOn": ["prep:schema"]
     },
-    "prep:schema": {
-      "dependsOn": ["prep:database"]
-    },
-    "prep:database": {
-      "dependsOn": [
-        "prep:composer",
-        "^prep",
-        "@custom/webform-export#test:static"
-      ],
-      "inputs": [
-        "turbo-seed.txt",
-        "prep-database.sh",
-        "config/**",
-        "web/modules/custom/**",
-        "web/themes/custom/**"
-      ],
-      "outputs": [
-        "web/sites/default/files/**",
-        "../../packages/ui/static/stories/webforms/**"
-      ],
-      "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]
-    },
     "prep:composer": {
       "inputs": [
         "composer.json",
         "composer.lock",
         "scaffold/**",
         "patches/**",
-        "node_modules/@amazeelabs/**/drupal/**"
+        "node_modules/@amazeelabs/**/drupal/*/composer.json"
       ],
       "outputs": [
         "drush/**",
@@ -43,6 +21,39 @@
         "!web/themes/custom/**",
         "!web/sites/default/files/**"
       ]
+    },
+    "prep:schema": {
+      "dependsOn": ["prep:database"]
+    },
+    "prep:database": {
+      "dependsOn": ["prep:composer", "^prep"],
+      "inputs": [
+        "prep-database.sh",
+        "web/modules/custom/**",
+        "web/themes/custom/**"
+      ],
+      "outputs": ["web/sites/default/files/**"],
+      "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]
+    },
+    "config:import": {
+      "dependsOn": ["prep:database"],
+      "inputs": ["config/**"],
+      "outputs": ["web/sites/default/files/.sqlite"]
+    },
+    "import-translations": {
+      "dependsOn": ["config:import", "@custom/ui#prep:i18n"],
+      "outputs": ["web/sites/default/files/.sqlite"]
+    },
+    "clear": {
+      "dependsOn": ["import-translations", "^prep"],
+      "cache": false
+    },
+    "start": {
+      "cache": false,
+      "dependsOn": ["import-translations", "@custom/preview#start"]
+    },
+    "stop": {
+      "cache": false
     }
   }
 }

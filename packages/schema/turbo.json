@@ -36,7 +36,12 @@
       "outputs": ["build/**/*.d.ts"]
     },
     "prep": {
-      "dependsOn": ["prep:scripts", "prep:types"]
+      "dependsOn": [
+        "prep:directives",
+        "prep:codegen",
+        "prep:scripts",
+        "prep:types"
+      ]
     }
   }
 }

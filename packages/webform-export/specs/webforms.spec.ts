@@ -10,7 +10,7 @@ test('Export webforms for styling', async ({ page }) => {
   execSync(`rm -rf ${baseDir}`);
 
   const baseUrl =
-    'http://127.0.0.1:8888/en/form/styling?iframe=true&no_css=true';
+    'http://127.0.0.1:9888/en/form/styling?iframe=true&no_css=true';
   await page.setViewportSize({
     // In the frontend the form is wrapped into a div with max-w-3xl class,
     // which translates to 48 rem, which is 768 px. Roughly.

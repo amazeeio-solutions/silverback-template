@@ -3,6 +3,11 @@
   "tasks": {
     "test:static": {
       "inputs": ["specs/**", "playwright.config.ts"]
+    },
+    "webform-snapshots": {
+      "dependsOn": ["test:static", "@custom/cms#config:import"],
+      "inputs": ["../../apps/cms/config/**"],
+      "outputs": ["../ui/static/stories/webforms/**"]
     }
   }
 }

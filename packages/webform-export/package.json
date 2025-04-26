@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "webform-snapshots": "playwright install chromium && playwright test",
+    "webform-snapshots": "playwright install chromium && CI=true playwright test",
     "webform-snapshots:headed": "playwright install chromium && playwright test --headed"
   },
   "devDependencies": {

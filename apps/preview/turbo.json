@@ -15,6 +15,13 @@
     },
     "test:static": {
       "inputs": ["src/**", "!src/gatsby-fragments.js"]
+    },
+    "start": {
+      "cache": false,
+      "dependsOn": ["prep:app", "prep:server"]
+    },
+    "stop": {
+      "cache": false
     }
   }
 }

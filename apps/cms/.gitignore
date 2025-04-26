@@ -35,6 +35,3 @@ autoload.json
 # Stylesheet symlinks into the ui package
 !/web/gutenberg.css
 !/web/iframe.css
-
-# A workaround to avoid turbo caching locally.
-turbo-seed.txt

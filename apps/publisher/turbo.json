@@ -3,6 +3,13 @@
   "tasks": {
     "test:static": {
       "inputs": ["publisher.config.ts", "tsconfig.json"]
+    },
+    "start": {
+      "cache": false,
+      "dependsOn": ["@custom/cms#start"]
+    },
+    "stop": {
+      "cache": false
     }
   }
 }

@@ -62,6 +62,7 @@
       ]
     },
     "build": {
+      "dependsOn": ["@custom/webform-export#webform-snapshots"],
       "inputs": [
         ".storybook/**",
         "postcss.config.cjs",
@@ -77,6 +78,11 @@
     "test:integration": {
       "dependsOn": ["build"],
       "outputs": ["coverage/**"]
+    },
+    "dev": {
+      "dependsOn": ["^prep", "@custom/webform-export#webform-snapshots"],
+      "cache": false,
+      "persistent": true
     }
   }
 }

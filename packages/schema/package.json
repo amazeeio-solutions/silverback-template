@@ -39,7 +39,6 @@
     "watch:codegen": "graphql-codegen --verbose --watch",
     "watch:swc": "swc ./src -d ./build --strip-leading-paths --watch",
     "watch:tsc": "tsc --emitDeclarationOnly --watch",
-    "prep": "npm run prep:directives && npm run prep:codegen && npm run prep:scripts && npm run prep:types",
     "prep:directives": "graphql-codegen -c codegen.directives.ts --verbose",
     "prep:codegen": "graphql-codegen",
     "prep:scripts": "swc ./src -d ./build --strip-leading-paths",
