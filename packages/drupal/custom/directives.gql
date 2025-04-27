@@ -1,0 +1,40 @@
+"""
+Loads a given entity by its uuid.
+
+implementation(drupal): \Drupal\custom\Directives::loadByUuid
+"""
+directive @loadByUUID(
+  type: String!
+  uuid: String!
+  operation: String
+) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Resolves the parent value
+
+implementation(drupal): \Drupal\custom\Directives::parentValue
+"""
+directive @resolveParent repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Resolves the edit link of an entity.
+
+implementation(drupal): \Drupal\custom\Directives::entityEditLink
+"""
+directive @entityEditLink repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Loads terms by vocabulary.
+
+implementation(drupal): \Drupal\custom\Directives::loadByVocabulary
+"""
+directive @loadByVocabulary(
+  bundle: String
+) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Resolves the translated strings.
+
+implementation(drupal): \Drupal\custom\Directives::translatedStrings
+"""
+directive @drupalTranslatedStrings repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
