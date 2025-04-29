@@ -4,6 +4,16 @@ scalar ImageSource @default @value(string: "")
 scalar JSONString @default @value(string: "{}")
 
 """
+Alias of @property in graphql_directives for backwards compatiblity.
+Required for `silverback_campaign_url` extension.
+
+implementation(drupal): \Drupal\graphql_directives\Directives\Entities::property
+"""
+directive @resolveProperty(
+  path: String!
+) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
 implementation(drupal): custom.menus::getMenuTranslations
 """
 directive @menuTranslations(menu_id: String!) on FIELD_DEFINITION
@@ -22,38 +32,32 @@ directive @createWebformSubmission(
 ) on FIELD_DEFINITION
 
 """
-Retrieve the properties of an image.
-TODO: Move to a shared "image" package.
-
-implementation(gatsby): ./image.js#imageProps
-"""
-directive @imageProps repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
-
-"""
-Override the image saving to add focal point info
-
-implementation(gatsby): ./image.js#responsiveImage
-"""
-directive @responsiveImage(
-  height: String
-  sizes: String
-  transform: String
-  width: String
-) repeatable on ENUM | FIELD_DEFINITION | INTERFACE | OBJECT | SCALAR | UNION
-
-"""
 Retrieve an entity from the Gatsby datastore.
-For Drupal, this is implicitly implemented in the "graphql_directives" module.
 
+implementation(drupal): \Drupal\graphql_directives\Directives\Entities::loadEntity
 implementation(gatsby): ./page.js#loadEntity
 """
 directive @loadEntity(
+  route: String
   id: String
   operation: String
-  route: String
   type: String
   uuid: String
 ) repeatable on ENUM | FIELD_DEFINITION | INTERFACE | OBJECT | SCALAR | UNION
+
+"""
+Directive for the responsive_image data producer.
+
+implementation(gatsby): ./image.js#responsiveImage
+implementation(drupal): graphql_directives.plugin_compat::responsive_image
+"""
+directive @responsiveImage(
+  image: String
+  width: String
+  height: String
+  sizes: String
+  transform: String
+) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
 
 """
 Retrieve all translations of a decap page.
@@ -64,9 +68,9 @@ directive @decapPageTranslations on FIELD_DEFINITION
 
 """
 Parse a given Url.
-For Drupal, this is implicitly implemented in the "graphql_directives" module.
 
 implementation(gatsby): ./page.js#route
+implementation(drupal): \Drupal\graphql_directives\Directives\Utilities::route
 """
 directive @route(
   path: String!
@@ -87,7 +91,7 @@ interface Editable {
 }
 
 type EditLink {
-  url: Url! @resolveEntityEditLink
+  url: Url! @entityEditLink
   type: Backend! @value(string: "drupal")
 }
 
@@ -107,10 +111,8 @@ type TeaserListResult @default @value(json: "{\"total\": 0, \"items\": []}") {
 
 type WebsiteSettings
   @entity(type: "config_pages", bundle: "website_settings", access: false) {
-  homePage: Page @resolveEntityReference(field: "field_home_page") @seek(pos: 0)
-  notFoundPage: Page
-    @resolveEntityReference(field: "field_404_page")
-    @seek(pos: 0)
+  homePage: Page @entityReference(field: "field_home_page") @seek(pos: 0)
+  notFoundPage: Page @entityReference(field: "field_404_page") @seek(pos: 0)
 }
 
 """
@@ -142,10 +144,10 @@ type TermContentHub implements Term
   @entity(type: "taxonomy_term", bundle: "content_hub")
   @default
   @value(json: "null") {
-  termId: String! @resolveProperty(path: "tid.value")
-  label: String! @resolveProperty(path: "name.value")
+  termId: String! @property(path: "tid.value")
+  label: String! @property(path: "name.value")
   depth: Int!
-  locale: Locale! @resolveEntityLanguage
+  locale: Locale! @entityLanguage
 }
 
 """
@@ -155,10 +157,10 @@ in the GraphQL schema since it does not allow recursive fragments. Instead
 the consumer should use the `parent` field to traverse the tree.
 """
 type NavigationItem {
-  id: ID! @resolveMenuItemId
-  parent: ID @resolveMenuItemParentId
-  title: String! @resolveMenuItemLabel
-  target: Url! @resolveMenuItemUrl
+  id: ID! @menuItemId
+  parent: ID @menuItemParentId
+  title: String! @menuItemLabel
+  target: Url! @menuItemUrl
 }
 
 interface Navigation {
@@ -167,21 +169,21 @@ interface Navigation {
 }
 
 type MetaNavigation implements Navigation @menu(menu_id: "meta") {
-  locale: Locale! @resolveEntityLanguage
-  items: [NavigationItem]! @lang @resolveMenuItems(max_level: 1)
+  locale: Locale! @entityLanguage
+  items: [NavigationItem]! @lang @menuItems(max_level: 1)
 }
 
 type MainNavigation implements Navigation @menu(menu_id: "main") {
-  locale: Locale! @resolveEntityLanguage
-  items: [NavigationItem]! @lang @resolveMenuItems
+  locale: Locale! @entityLanguage
+  items: [NavigationItem]! @lang @menuItems
 }
 
 type FooterNavigation implements Navigation @menu(menu_id: "footer") {
-  locale: Locale! @resolveEntityLanguage
-  items: [NavigationItem]! @lang @resolveMenuItems
+  locale: Locale! @entityLanguage
+  items: [NavigationItem]! @lang @menuItems
 }
 
-interface Page implements CardItem & Editable @resolveEntityBundle {
+interface Page implements CardItem & Editable @entityBundle {
   id: ID!
   translations: [Page]
   locale: Locale!
@@ -216,12 +218,12 @@ A generic page.
 type DrupalPage implements Page & Editable & CardItem
   @entity(type: "node", bundle: "page")
   @type(id: "page") {
-  id: ID! @resolveEntityUuid
-  locale: Locale! @resolveEntityLanguage
-  translations: [Page] @resolveEntityTranslations
-  path: Url! @resolveEntityPath
+  id: ID! @entityUuid
+  locale: Locale! @entityLanguage
+  translations: [Page] @entityTranslations
+  path: Url! @entityPath
   editLink: EditLink @resolveParent
-  title: String! @resolveProperty(path: "title.value")
+  title: String! @property(path: "title.value")
   teaserImage: MediaImage
     @resolveEditorBlocks(path: "body.value")
     @seek(pos: 0)
@@ -242,9 +244,8 @@ type DrupalPage implements Page & Editable & CardItem
     )
     @seek(pos: 1)
     @resolveEditorBlockChildren
-  metaTags: [MetaTag] @resolveProperty(path: "metatag")
-  terms: [TermContentHub!]!
-    @resolveEntityReference(field: "field_content_hub_terms")
+  metaTags: [MetaTag] @property(path: "metatag")
+  terms: [TermContentHub!]! @entityReference(field: "field_content_hub_terms")
 }
 
 type Hero {
@@ -292,7 +293,7 @@ type BlockMarkup @type(id: "core/paragraph") {
   markup: Markup! @resolveEditorBlockMarkup
 }
 
-union Media @resolveEntityBundle = MediaImage | MediaVideo
+union Media @entityBundle = MediaImage | MediaVideo
 
 type MediaImage @type(id: "image") @entity(type: "media", bundle: "image") {
   source(
@@ -301,7 +302,7 @@ type MediaImage @type(id: "image") @entity(type: "media", bundle: "image") {
     sizes: [[Int!]!]
     transform: String
   ): ImageSource!
-    @resolveProperty(path: "field_media_image.entity")
+    @property(path: "field_media_image.entity")
     @imageProps
     @focalPoint
     @responsiveImage(
@@ -310,12 +311,12 @@ type MediaImage @type(id: "image") @entity(type: "media", bundle: "image") {
       sizes: "$sizes"
       transform: "$transform"
     )
-  id: ID! @resolveEntityUuid
-  alt: String! @resolveProperty(path: "field_media_image.alt")
+  id: ID! @entityUuid
+  alt: String! @property(path: "field_media_image.alt")
 }
 
 type MediaVideo @type(id: "video") @entity(type: "media", bundle: "video") {
-  url: Url! @resolveProperty(path: "field_media_video_file.entity") @imageUrl
+  url: Url! @property(path: "field_media_video_file.entity") @imageUrl
 }
 
 type BlockMedia @type(id: "drupalmedia/drupal-media-entity") {
@@ -433,7 +434,7 @@ type BlockTeaserListFilters {
 """
 Interface for anything that can appear as a card (teaser) item
 """
-interface CardItem @resolveEntityBundle {
+interface CardItem @entityBundle {
   id: ID!
   path: Url!
   title: String!
