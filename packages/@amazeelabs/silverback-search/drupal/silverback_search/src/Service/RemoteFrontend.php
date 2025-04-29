@@ -4,13 +4,18 @@ namespace Drupal\silverback_search\Service;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\silverback_external_preview\ExternalPreviewLink;
 use Drupal\silverback_search\FetchResult;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\TransferStats;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 class RemoteFrontend {
@@ -19,6 +24,7 @@ class RemoteFrontend {
   protected LoggerInterface $logger;
   protected Connection $database;
   protected Client $httpClient;
+  protected ModuleHandlerInterface $moduleHandler;
   
   protected ?string $netlifyPassword = NULL;
   private ?int $cachedBuildId = NULL;
@@ -26,11 +32,13 @@ class RemoteFrontend {
   public function __construct(
     ExternalPreviewLink $external_preview_link,
     LoggerChannelFactoryInterface $logger_factory,
-    Connection $database
+    Connection $database,
+    ModuleHandlerInterface $module_handler,
   ) {
     $this->externalPreviewLink = $external_preview_link;
     $this->logger = $logger_factory->get('silverback_search');
     $this->database = $database;
+    $this->moduleHandler = $module_handler;
     $this->httpClient = new Client([
       RequestOptions::HTTP_ERRORS => FALSE,
       RequestOptions::COOKIES => new CookieJar(),
@@ -55,7 +63,13 @@ class RemoteFrontend {
       return new FetchResult(
         NULL,
         'Could not get live URL for entity ' . $entity->getEntityTypeId() . ':' . $entity->id(),
+        $liveUrl,
       );
+    }
+    $liveUrlOriginal = $liveUrl;
+    $this->moduleHandler->alter('silverback_search_live_url', $liveUrl, $entity);
+    if ($liveUrl === 'skip') {
+      return new FetchResult('', NULL, $liveUrlOriginal, TRUE);
     }
     return $this->getFromRemote($liveUrl);
   }
@@ -75,10 +89,10 @@ class RemoteFrontend {
 
   private function getFromRemote(string $url): FetchResult {
     try {
-      $response = $this->httpClient->request('GET', $url);
+      $response = $this->makeRequest('GET', $url);
       if ($response->getStatusCode() === 401) {
         if ($this->netlifyPassword) {
-          $response = $this->httpClient->request('POST', $url, [
+          $response = $this->makeRequest('POST', $url, [
             RequestOptions::FORM_PARAMS => [
               'password' => $this->netlifyPassword,
             ],
@@ -87,6 +101,7 @@ class RemoteFrontend {
             return new FetchResult(
               NULL,
               'Could not fetch from remote because Netlify password is incorrect.',
+              $url,
             );
           }
         }
@@ -94,6 +109,7 @@ class RemoteFrontend {
           return new FetchResult(
             NULL,
             'Could not fetch from remote because Netlify password is not set.',
+            $url,
           );
         }
       }
@@ -101,19 +117,48 @@ class RemoteFrontend {
         return new FetchResult(
           NULL,
           'Could not fetch from remote because the response status code is ' . $response->getStatusCode() . '.',
+          $url,
         );
       }
       return new FetchResult(
         $response->getBody()->getContents(),
         NULL,
+        $url,
       );
     }
     catch (GuzzleException $e) {
+      if ($e->getMessage() === 'Host changed after redirect') {
+        return new FetchResult('', NULL, $url, TRUE);
+      }
       return new FetchResult(
         NULL,
         'Could not fetch from remote: ' . $e->getMessage(),
+        $url,
       );
     }
+  }
+
+  private function makeRequest(string $method, string $url, array $options = []): ResponseInterface {
+    $originalHost = parse_url($url, PHP_URL_HOST);
+    $effectiveUrl = null;
+
+    $options[RequestOptions::ON_STATS] = function (TransferStats $stats) use (&$effectiveUrl) {
+      $effectiveUrl = $stats->getEffectiveUri()->__toString();
+    };
+
+    $response = $this->httpClient->request($method, $url, $options);
+
+    // Make sure we don't fetch from an external host.
+    if ($effectiveUrl) {
+      $effectiveHost = parse_url($effectiveUrl, PHP_URL_HOST);
+      $normalizedOriginal = preg_replace('/^www\./i', '', $originalHost);
+      $normalizedEffective = preg_replace('/^www\./i', '', $effectiveHost);
+      if ($normalizedOriginal !== $normalizedEffective) {
+        throw new RequestException('Host changed after redirect', new Request($method, $url));
+      }
+    }
+
+    return $response;
   }
 
   private function getUpdateCount(string $entityUuid, int $buildId): int {

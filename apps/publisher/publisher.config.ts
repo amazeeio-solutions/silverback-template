@@ -80,12 +80,14 @@ function githubEnvVars(): Record<string, string> {
       'PUBLISHER_URL',
       'LAGOON_PROJECT',
       'LAGOON_ENVIRONMENT',
-    ].map((name) => {
-      if (name === 'DRUPAL_INTERNAL_URL') {
-        // No internal URLs when building on Github.
-        return ['DRUPAL_INTERNAL_URL', process.env.DRUPAL_EXTERNAL_URL || ''];
-      }
-      return [name, process.env[name] || ''];
-    }),
+    ]
+      .map((name) => {
+        if (name === 'DRUPAL_INTERNAL_URL') {
+          // No internal URLs when building on Github.
+          return ['DRUPAL_INTERNAL_URL', process.env.DRUPAL_EXTERNAL_URL || ''];
+        }
+        return process.env[name] ? [name, process.env[name]] : null;
+      })
+      .filter((entry) => !!entry),
   );
 }

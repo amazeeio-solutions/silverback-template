@@ -122,11 +122,11 @@ interface Term {
   """
   A machine id, used for referencing and filtering. Should be URL-friendly.
   """
-  termId: String! @property(path: "tid.value")
+  termId: String!
   """
   A human readable label. Can be translated.
   """
-  label: String! @property(path: "name.value")
+  label: String!
   """
   The depth of the term, in the hierarchy.
   """
@@ -134,7 +134,7 @@ interface Term {
   """
   The language of this translation.
   """
-  locale: Locale! @entityLanguage
+  locale: Locale!
 }
 
 """
