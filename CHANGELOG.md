@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.7](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.6...@amazeelabs/silverback-template@1.8.7) (2025-04-29)
+
+### Bug Fixes
+
+- **SLB-544:** add alias for [@property](https://github.com/property) directive
+  to keep compatibility with silverback_campaign_url
+  ([16d6cd4](https://github.com/AmazeeLabs/silverback-template/commit/16d6cd43ab3e9445a74e388c103d2ccd405185fb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.8.6](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.5...@amazeelabs/silverback-template@1.8.6) (2025-04-29)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
