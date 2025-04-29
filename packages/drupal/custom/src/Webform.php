@@ -5,7 +5,7 @@ namespace Drupal\custom;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\RenderContext;
 use Drupal\Core\Render\RendererInterface;
-use Drupal\graphql_directives\DirectiveArguments;
+use Drupal\graphql_directives\Api;
 use Drupal\webform\WebformSubmissionForm;
 use Drupal\webform\WebformSubmissionInterface;
 use Symfony\Component\Serializer\Serializer;
@@ -41,7 +41,7 @@ class Webform {
   public function __construct(
     RendererInterface $renderer,
     EntityTypeManagerInterface $entityTypeManager,
-    SerializerInterface $serializer
+    SerializerInterface $serializer,
   ) {
     $this->entityTypeManager = $entityTypeManager;
     $this->renderer = $renderer;
@@ -51,8 +51,8 @@ class Webform {
   /**
    * Generate the public url of a webform, based on its ID.
    */
-  public function url(DirectiveArguments $args) : ?string {
-    $webformId = $args->args['id'];
+  public function url(Api $api) : ?string {
+    $webformId = $api->args['id'];
     if (!$webformId) {
       return NULL;
     }
@@ -64,18 +64,18 @@ class Webform {
 
     $result = $this->renderer->executeInRenderContext(
         $renderContext,
-        function () use ($args, $webformId, $webFormStorage) {
+        function () use ($api, $webformId, $webFormStorage) {
           $webform = $webFormStorage->load($webformId);
           if (!$webform || !$webform->isOpen()) {
             return NULL;
           }
-          $args->context->addCacheableDependency($webform);
+          $api->context->addCacheableDependency($webform);
           return $webform->toUrl()->setAbsolute()->toString();
         },
       );
 
     if (!$renderContext->isEmpty()) {
-      $args->context->addCacheableDependency($renderContext->pop());
+      $api->context->addCacheableDependency($renderContext->pop());
     }
 
     return $result;
@@ -84,9 +84,9 @@ class Webform {
   /**
    * Directive to create a webform submission.
    */
-  public function createSubmission(DirectiveArguments $args) : array {
+  public function createSubmission(Api $api) : array {
     try {
-      $webformId = $args->args['webformId'];
+      $webformId = $api->args['webformId'];
       $webform = $this->entityTypeManager->getStorage('webform')
         ->load($webformId);
       if (!$webform) {
@@ -96,7 +96,7 @@ class Webform {
       if ($isOpen !== TRUE) {
         throw new \Exception($isOpen);
       }
-      $submittedData = $args->args['submittedData'];
+      $submittedData = $api->args['submittedData'];
       $values = [
         'webform_id' => $webformId,
         'entity_type' => NULL,
@@ -128,25 +128,27 @@ class Webform {
           ], $webformSubmissionData), 'json'),
         ];
       }
-    } catch (\InvalidArgumentException $e) {
+    }
+    catch (\InvalidArgumentException $e) {
       return [
         'submission' => NULL,
         'errors' => [
           [
             'message' => $e->getMessage(),
-            'key' => 'invalid_webform'
-          ]
-        ]
+            'key' => 'invalid_webform',
+          ],
+        ],
       ];
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       return [
         'submission' => NULL,
         'errors' => [
           [
             'message' => $e->getMessage(),
-            'key' => 'invalid_input'
-          ]
-        ]
+            'key' => 'invalid_input',
+          ],
+        ],
       ];
     }
 
@@ -158,8 +160,8 @@ class Webform {
         [
           'message' => 'Unknown error',
           'key' => 'unknown_error',
-        ]
-      ]
+        ],
+      ],
     ];
 
   }

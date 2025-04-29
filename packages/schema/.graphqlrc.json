@@ -1,5 +1,9 @@
 {
   "$schema": "https://unpkg.com/graphql-config@5.0.3/config-schema.json",
-  "schema": ["src/directives.graphql", "src/schema.graphql"],
+  "schema": [
+    "../../apps/cms/web/modules/contrib/*/directives.gql",
+    "../../apps/cms/web/modules/custom/*/directives.gql",
+    "src/schema.graphql"
+  ],
   "documents": ["src/**/*.gql"]
 }
