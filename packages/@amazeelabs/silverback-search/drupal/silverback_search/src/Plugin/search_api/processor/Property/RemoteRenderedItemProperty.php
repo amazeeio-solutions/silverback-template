@@ -15,7 +15,7 @@ class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
   public function defaultConfiguration() {
     return [
       'root_selector' => '#main-content',
-      'exclude_selector' => '',
+      'exclude_selector' => '.visuallyhidden',
       'netlify_password' => '',
       'entity_types' => [],
     ];
@@ -66,4 +66,4 @@ class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
     return $form;
   }
 
-} 
+}
