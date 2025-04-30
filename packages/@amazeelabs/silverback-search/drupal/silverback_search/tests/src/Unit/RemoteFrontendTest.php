@@ -49,7 +49,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => NULL,
         'url' => $url,
-        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is not set.', $url, NULL),
+        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is not set.', $url, 401),
       ],
       '401 response with incorrect password' => [
         'requests' => [
@@ -68,7 +68,7 @@ class RemoteFrontendTest extends TestCase {
         ],
         'password' => 'wrong-password',
         'url' => $url,
-        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is incorrect.', $url, NULL),
+        'expected' => new FetchResult(NULL, 'Could not fetch from remote because Netlify password is incorrect.', $url, 401),
       ],
       '401 response with successful auth' => [
         'requests' => [
@@ -187,5 +187,6 @@ class RemoteFrontendTest extends TestCase {
     $this->assertEquals($expected->content, $result->content);
     $this->assertEquals($expected->error, $result->error);
     $this->assertEquals($expected->isSkipped, $result->isSkipped);
+    $this->assertEquals($expected->statusCode, $result->statusCode);
   }
 }
