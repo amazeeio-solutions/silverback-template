@@ -25,7 +25,7 @@ class RemoteFrontend {
   protected Connection $database;
   protected Client $httpClient;
   protected ModuleHandlerInterface $moduleHandler;
-  
+
   protected ?string $netlifyPassword = NULL;
   private ?int $cachedBuildId = NULL;
 
@@ -64,12 +64,13 @@ class RemoteFrontend {
         NULL,
         'Could not get live URL for entity ' . $entity->getEntityTypeId() . ':' . $entity->id(),
         $liveUrl,
+        NULL,
       );
     }
     $liveUrlOriginal = $liveUrl;
     $this->moduleHandler->alter('silverback_search_live_url', $liveUrl, $entity);
     if ($liveUrl === 'skip') {
-      return new FetchResult('', NULL, $liveUrlOriginal, TRUE);
+      return new FetchResult('', NULL, $liveUrlOriginal, NULL, TRUE);
     }
     return $this->getFromRemote($liveUrl);
   }
@@ -102,6 +103,7 @@ class RemoteFrontend {
               NULL,
               'Could not fetch from remote because Netlify password is incorrect.',
               $url,
+              $response->getStatusCode(),
             );
           }
         }
@@ -110,6 +112,7 @@ class RemoteFrontend {
             NULL,
             'Could not fetch from remote because Netlify password is not set.',
             $url,
+            $response->getStatusCode(),
           );
         }
       }
@@ -118,22 +121,25 @@ class RemoteFrontend {
           NULL,
           'Could not fetch from remote because the response status code is ' . $response->getStatusCode() . '.',
           $url,
+          $response->getStatusCode(),
         );
       }
       return new FetchResult(
         $response->getBody()->getContents(),
         NULL,
         $url,
+        $response->getStatusCode(),
       );
     }
     catch (GuzzleException $e) {
       if ($e->getMessage() === 'Host changed after redirect') {
-        return new FetchResult('', NULL, $url, TRUE);
+        return new FetchResult('', NULL, $url, NULL, TRUE);
       }
       return new FetchResult(
         NULL,
         'Could not fetch from remote: ' . $e->getMessage(),
         $url,
+        NULL,
       );
     }
   }
@@ -211,4 +217,4 @@ class RemoteFrontend {
     }
   }
 
-} 
+}
