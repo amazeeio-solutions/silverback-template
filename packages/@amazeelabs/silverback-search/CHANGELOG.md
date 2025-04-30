@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.3.3...@amazeelabs/silverback-search@1.3.4) (2025-04-30)
+
+### Bug Fixes
+
+- treat 5xx errors as temporary
+  ([ef9fda1](https://github.com/AmazeeLabs/silverback-template/commit/ef9fda183851606586a4619a55e9420ae6ff8d21))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.3.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-search@1.3.2...@amazeelabs/silverback-search@1.3.3) (2025-04-17)
 
 ### Bug Fixes
