@@ -4,6 +4,8 @@ _meta:
   uuid: 02c43b4c-1e20-4f36-99c4-0fb9e0a4fe51
   bundle: page
   default_langcode: en
+  depends:
+    eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3: taxonomy_term
 default:
   revision_uid:
     -
@@ -52,7 +54,7 @@ default:
         <!-- wp:custom/hero {"headline":"Content Hub [Term Set]"} /-->
 
         <!-- wp:custom/content -->
-        <!-- wp:custom/content-hub {"defaultTerm":"4","defaultKeyword":""} /-->
+        <!-- wp:custom/content-hub {"defaultTerm":"eaf59593-b244-4dfa-b8c9-afbe1bf6fcf3","defaultKeyword":""} /-->
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''
