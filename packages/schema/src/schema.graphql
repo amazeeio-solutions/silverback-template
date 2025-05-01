@@ -369,18 +369,6 @@ enum CTAIconPosition {
 
 type BlockImageWithText @type(id: "custom/image-with-text") {
   image: MediaImage @resolveEditorBlockMedia
-  textContent: BlockMarkup @resolveEditorBlockChildren @seek(pos: 0)
-}
-
-type BlockQuote @type(id: "custom/quote") {
-  quote: Markup @resolveEditorBlockAttribute(key: "quote")
-  author: String @resolveEditorBlockAttribute(key: "author")
-  role: String @resolveEditorBlockAttribute(key: "role")
-  image: MediaImage @resolveEditorBlockMedia
-}
-
-type BlockImageWithText @type(id: "custom/image-with-text") {
-  image: MediaImage @resolveEditorBlockMedia
   imagePosition: ImagePosition!
     @resolveEditorBlockAttribute(key: "imagePosition")
   textContent: BlockMarkup @resolveEditorBlockChildren @seek(pos: 0)
