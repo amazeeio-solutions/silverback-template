@@ -15,6 +15,7 @@ class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
   public function defaultConfiguration() {
     return [
       'root_selector' => '#main-content',
+      'exclude_selector' => '.visuallyhidden',
       'netlify_password' => '',
       'entity_types' => [],
     ];
@@ -29,6 +30,14 @@ class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
       '#description' => $this->t('CSS selector to define the root of the indexed content (e.g. "#main-content" to exclude menus)'),
       '#default_value' => $config['root_selector'],
       '#required' => TRUE,
+    ];
+
+    $form['exclude_selector'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Exclude CSS Selector'),
+      '#description' => $this->t('CSS selector to exclude specific elements from the indexed content (e.g. ".page-actions, #main-content > .pre-footer")'),
+      '#default_value' => $config['exclude_selector'],
+      '#required' => FALSE,
     ];
 
     $form['netlify_password'] = [
@@ -57,4 +66,4 @@ class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
     return $form;
   }
 
-} 
+}

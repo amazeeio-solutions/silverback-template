@@ -3,52 +3,52 @@
   "tasks": [
     {
       "label": "_root: install",
-      "command": "devbox run 'pnpm i'",
+      "command": "direnv exec . pnpm i",
       "type": "shell"
     },
     {
       "label": "_root: turbo:prep",
-      "command": "devbox run 'pnpm run turbo:prep'",
+      "command": "direnv exec . pnpm run turbo:prep",
       "type": "shell"
     },
     {
       "label": "_root: turbo:prep:force",
-      "command": "devbox run 'pnpm run turbo:prep:force'",
+      "command": "direnv exec . pnpm run turbo:prep:force",
       "type": "shell"
     },
     {
       "label": "cms: dev",
-      "command": "devbox run 'cd apps/cms && pnpm run dev'",
+      "command": "direnv exec apps/cms pnpm --filter @custom/cms run dev",
       "type": "shell"
     },
     {
       "label": "cms: login",
-      "command": "devbox run 'cd apps/cms && pnpm run login'",
+      "command": "direnv exec apps/cms pnpm --filter @custom/cms run login",
       "type": "shell"
     },
     {
       "label": "preview: dev",
-      "command": "devbox run 'cd apps/preview && pnpm run start'",
+      "command": "direnv exec . pnpm --filter @custom/preview run start",
       "type": "shell"
     },
     {
       "label": "publisher: dev",
-      "command": "devbox run 'cd apps/publisher && pnpm run dev'",
+      "command": "direnv exec . pnpm --filter @custom/publisher run dev",
       "type": "shell"
     },
     {
       "label": "publisher: open",
-      "command": "devbox run 'cd apps/publisher && pnpm run open'",
+      "command": "direnv exec . pnpm --filter @custom/publisher run open",
       "type": "shell"
     },
     {
       "label": "ui: dev",
-      "command": "devbox run 'cd packages/ui && pnpm run dev'",
+      "command": "direnv exec . pnpm --filter @custom/ui run dev",
       "type": "shell"
     },
     {
       "label": "e2e: dev",
-      "command": "devbox run 'cd tests/e2e && pnpm run dev'",
+      "command": "direnv exec . pnpm --filter @custom-tests/e2e run dev",
       "type": "shell"
     }
   ]
