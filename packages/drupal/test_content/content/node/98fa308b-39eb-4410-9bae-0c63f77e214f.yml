@@ -1,0 +1,58 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 98fa308b-39eb-4410-9bae-0c63f77e214f
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Submission Limit Form - Locked'
+  created:
+    -
+      value: 1745320330
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  moderation_state:
+    -
+      value: published
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /submission/locked
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: |-
+        <!-- wp:custom/hero {"headline":"Submission Limit Form - Locked"} /-->
+
+        <!-- wp:custom/content -->
+        <!-- wp:custom/form {"formId":"submission_limit"} /-->
+        <!-- /wp:custom/content -->
+      format: gutenberg
+      summary: ''

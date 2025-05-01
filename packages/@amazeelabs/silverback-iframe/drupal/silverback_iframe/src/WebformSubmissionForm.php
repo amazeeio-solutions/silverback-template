@@ -11,6 +11,9 @@ use Drupal\webform\WebformSubmissionForm as Original;
 
 class WebformSubmissionForm extends Original {
 
+ /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $form = parent::buildForm($form, $form_state);
 
@@ -121,6 +124,14 @@ class WebformSubmissionForm extends Original {
     }
   }
 
+  /**
+   * Respond with a command.
+   *
+   * @param array $command
+   *   The command to respond with.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
   private function respondWithCommand(array $command, FormStateInterface $form_state): void {
     $content = [
       '#type' => 'page',
@@ -137,12 +148,24 @@ class WebformSubmissionForm extends Original {
     $form_state->setResponse($response);
   }
 
+  /**
+   * Get the message.
+   *
+   * @return string
+   *   The message.
+   */
   private function getMessage(): string {
     $message = $this->getMessageManager()
       ->render(WebformMessageManagerInterface::SUBMISSION_CONFIRMATION_MESSAGE);
     return $message;
   }
 
+  /**
+   * Get the redirect URL.
+   *
+   * @return string
+   *   The redirect URL.
+   */
   private function getRedirectPath(): string {
     // Don't use $this->getConfirmationUrl() because it returns absolute URL.
     $url = trim($this->getWebformSetting('confirmation_url', ''));
