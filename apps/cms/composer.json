@@ -130,6 +130,9 @@
       },
       "drupal/field_group": {
         "#2969051 - Fix HTML5 validation prevents submission in tabs": "https://www.drupal.org/files/issues/2024-08-07/field-group-tabs-8.x-3.x.patch"
+      },
+      "amazeelabs/silverback_gutenberg": {
+        "Convert tids to uuids for export/import": "./patches/contrib/silverback_gutenberg/tid_to_uuid.patch"
       }
     },
     "patchLevel": {
