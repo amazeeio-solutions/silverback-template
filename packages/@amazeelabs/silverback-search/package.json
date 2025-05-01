@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-search",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "scripts": {
     "test:unit": "cd ../../../apps/cms && vendor/phpunit/phpunit/phpunit web/modules/contrib/silverback_search"
   },
