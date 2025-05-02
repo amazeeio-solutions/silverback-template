@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.9](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.8...@amazeelabs/silverback-template@1.8.9) (2025-05-01)
+
+### Bug Fixes
+
+- add lang context to hero block
+  ([941a4a3](https://github.com/AmazeeLabs/silverback-template/commit/941a4a3ff9a5c5f5d06faf15a8e9150cfae1dedf))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.8.8](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.7...@amazeelabs/silverback-template@1.8.8) (2025-04-30)
 
 ### Bug Fixes
