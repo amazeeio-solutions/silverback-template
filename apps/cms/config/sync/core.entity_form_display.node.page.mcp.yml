@@ -1,0 +1,95 @@
+uuid: c5be0fec-363f-4e9b-a942-a21a408c70fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.mcp
+    - field.field.node.page.body
+    - field.field.node.page.field_content_hub_terms
+    - field.field.node.page.field_metatags
+    - field.field.node.page.field_seo_description
+    - field.field.node.page.field_seo_image
+    - field.field.node.page.field_seo_title
+    - node.type.page
+  module:
+    - field_group
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_seo:
+      children: {  }
+      label: 'SEO Information'
+      region: hidden
+      parent_name: ''
+      weight: 0
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+        open: false
+    group_taxonomy:
+      children: {  }
+      label: Taxonomy
+      region: hidden
+      parent_name: ''
+      weight: 0
+      format_type: details_sidebar
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: false
+        description: ''
+        required_fields: true
+        weight: 0
+id: node.page.mcp
+targetEntityType: node
+bundle: page
+mode: mcp
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 0
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_content_hub_terms: true
+  field_metatags: true
+  field_seo_description: true
+  field_seo_image: true
+  field_seo_title: true
+  langcode: true
+  moderation_state: true
+  promote: true
+  status: true
+  sticky: true
+  translation: true
+  uid: true
+  url_redirects: true

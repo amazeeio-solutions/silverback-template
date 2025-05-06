@@ -1,4 +1,9 @@
 """
+implementation(drupal): custom.mcp::createPage
+"""
+directive @createPage(input: String!) on FIELD_DEFINITION
+
+"""
 The path segment of a url, with a leading slash.
 """
 scalar Path @default @value(string: "/")
@@ -22,6 +27,17 @@ type Query {
   listPages(args: String): [Page]!
     @drupalView(id: "mcp_pages:default", args: "$args")
     @prop(key: "rows")
+}
+
+type Mutation {
+  createPage(input: PageInput!): PageOperationResult!
+    @createPage(input: "$input")
+}
+
+type PageOperationResult @default @value {
+  success: Boolean!
+  page: Page @prop(key: "entity")
+  errors: [String!]
 }
 
 """
@@ -52,14 +68,35 @@ type Page @default @value {
     @resolveEditorBlockChildren
 }
 
+input PageInput {
+  path: Path!
+  title: String!
+  """
+  A list of blocks that make up the page content.
+  Each block should contain only one block level element.
+  For multiple paragraphs, there should be multiple instances in this field.
+  """
+  content: [ContentInput]
+}
+
 union Content @resolveEditorBlockType = FormattedText
+
+input ContentInput {
+  FormattedText: FormattedTextInput
+}
 
 """
 A single paragraph of formatted text.
+Each block should only contain one block level element.
 """
 type FormattedText @type(id: "core/paragraph") {
   """
   The paragraph's content as HTML markup.
+  It has to consist of a single root block level element.
   """
   html: Markup! @resolveEditorBlockMarkup
+}
+
+input FormattedTextInput {
+  html: Markup!
 }

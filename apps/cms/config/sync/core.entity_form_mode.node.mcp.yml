@@ -1,0 +1,11 @@
+uuid: d382f49d-8953-46e2-804a-417c50d38e27
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.mcp
+label: MCP
+description: ''
+targetEntityType: node
+cache: true

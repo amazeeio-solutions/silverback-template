@@ -356,3 +356,10 @@ function custom_tokens_alter(array &$replacements, array $context, \Drupal\Core\
     }
   }
 }
+
+/**
+ *
+ */
+function custom_entity_type_build(array &$types) {
+  $types['node']->setFormClass('mcp', '\Drupal\node\NodeForm');
+}

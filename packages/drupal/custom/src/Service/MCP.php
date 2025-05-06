@@ -6,6 +6,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\graphql_directives\Api;
+use Drupal\silverback_gutenberg\BlockSerializer;
 
 /**
  * Master Control Program service.
@@ -48,7 +49,43 @@ class MCP {
    * Create a new Page.
    */
   public function createPage(Api $api) : NodeFormResult {
-    return $this->submitNodeForm(form_values: ['title[0][value]' => $api->args['title']], node_type: 'page');
+    $content = [];
+    $innerContent = [];
+    foreach ($api->args['input']['content'] as $block) {
+      if ($block['FormattedText']) {
+        $content[] = [
+          'blockName' => 'paragraph',
+          'innerContent' => [$block['FormattedText']['html']],
+        ];
+        $innerContent[] = NULL;
+      }
+    }
+    $blocks = [
+      [
+        'blockName' => 'custom/hero',
+        'attrs' => ['headline' => $api->args['input']['title']],
+      ],
+      [
+        'blockName' => 'custom/content',
+        'innerBlocks' => $content,
+        'innerContent' => $innerContent,
+      ],
+    ];
+    $html = (new BlockSerializer())->serialize_blocks($blocks);
+    return $this->submitNodeForm(form_values: [
+      'title' => [
+        0 => ['value' => $api->args['input']['title']],
+      ],
+      'path' => [
+        0 => [
+          'pathauto' => 0,
+          'alias' => $api->args['input']['path'],
+        ],
+      ],
+      'body' => [
+        0 => ['value' => $html],
+      ],
+    ], node_type: 'page');
   }
 
   /**
@@ -83,16 +120,18 @@ class MCP {
 
     // Create a form state with the provided values.
     $form_state = new FormState();
-    $form_state->setValues($form_values);
     $form_state->set('node', $node);
 
     // Get the node form.
+    /** @var \Drupal\node\NodeForm $form_object */
     $form_object = $this->entityTypeManager->getFormObject('node', 'mcp');
     $form_object->setEntity($node);
 
     // Build and submit the form.
     $form = $this->formBuilder->buildForm($form_object, $form_state);
+    $form_state->setValues($form_values);
     $this->formBuilder->submitForm($form_object, $form_state);
+    $form_object->save($form, $form_state);
 
     // Check for errors.
     if ($form_state->hasAnyErrors()) {
@@ -104,7 +143,7 @@ class MCP {
     }
 
     // Return the result with the saved node.
-    $savedNode = $node_id ? $node : ($node->id() ? $node : NULL);
+    $savedNode = $form_object->getEntity();
     return new NodeFormResult(
       $savedNode !== NULL,
       $savedNode,
