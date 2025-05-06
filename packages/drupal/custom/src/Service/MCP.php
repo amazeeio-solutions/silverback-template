@@ -54,18 +54,18 @@ class MCP {
    * @param int|null $node_id
    *   Optional node ID if updating an existing node.
    *
-   * @return \Drupal\node\NodeInterface|null
-   *   The created or updated node, or NULL if the operation failed.
+   * @return \Drupal\custom\Service\NodeFormResult
+   *   An object containing the success status, any errors, and the entity if successful.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function submitNodeForm(string $node_type, array $form_values, ?int $node_id = NULL): ?NodeInterface {
+  public function submitNodeForm(string $node_type, array $form_values, ?int $node_id = NULL): NodeFormResult {
     // Load existing node or create a new one.
     if ($node_id) {
       $node = $this->entityTypeManager->getStorage('node')->load($node_id);
       if (!$node) {
-        return NULL;
+        return new NodeFormResult(FALSE, NULL, ['Node not found']);
       }
     }
     else {
@@ -89,12 +89,20 @@ class MCP {
 
     // Check for errors.
     if ($form_state->hasAnyErrors()) {
-      return NULL;
+      return new NodeFormResult(
+        FALSE,
+        NULL,
+        $form_state->getErrors()
+      );
     }
 
-    // ai! it should return an object that has a success flag, an optional array of errors and the entity.
-    // Return the saved node.
-    return $node_id ? $node : $node->id() ? $node : NULL;
+    // Return the result with the saved node.
+    $savedNode = $node_id ? $node : ($node->id() ? $node : NULL);
+    return new NodeFormResult(
+      $savedNode !== NULL,
+      $savedNode,
+      []
+    );
   }
 
 }
