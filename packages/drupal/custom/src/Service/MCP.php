@@ -92,10 +92,21 @@ class MCP {
    * Update an existing page.
    */
   public function updatePage(Api $api) : NodeFormResult {
-    // ai! load the node based on the path in $api->args['input']['path']
+    // Load the node based on the path
+    $path = $api->args['input']['path'];
+    $alias = ltrim($path, '/');
+    $path_alias = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $alias);
+    $path_parts = explode('/', $path_alias);
+    $node_id = end($path_parts);
+    
+    if (is_numeric($node_id)) {
+      $node = $this->entityTypeManager->getStorage('node')->load($node_id);
+    } else {
+      $node = $api->parent;
+    }
+    
     $content = [];
     $innerContent = [];
-    $node = $api->parent;
     foreach ($api->args['input']['content'] as $block) {
       if ($block['FormattedText']) {
         $content[] = [
