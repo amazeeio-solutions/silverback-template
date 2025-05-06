@@ -1,0 +1,65 @@
+"""
+The path segment of a url, with a leading slash.
+"""
+scalar Path @default @value(string: "/")
+
+"""
+HTML-formatted text
+"""
+scalar Markup @default @value(string: "")
+
+type Query {
+  """
+  Retrieve the currently logged in user.
+  """
+  currentUser: User @currentUser
+
+  """
+  Search for pages. The "args" parameter accepts url-encoded arguments.
+  The only valid argument is "search", which will perform a text search.
+  Example: `search=Drupal`
+  """
+  listPages(args: String): [Page]!
+    @drupalView(id: "mcp_pages:default", args: "$args")
+    @prop(key: "rows")
+}
+
+"""
+A system user.
+"""
+type User {
+  name: String! @entityLabel
+}
+
+type Page @default @value {
+  """
+  The path a page is accessible at.
+  """
+  path: Path! @entityPath
+
+  """
+  The pages title.
+  """
+  title: String! @entityLabel
+
+  """
+  A list of content segments this page consists of.
+  """
+  content: [Content]!
+    @lang
+    @resolveEditorBlocks(path: "body.value", ignored: ["core/group"])
+    @seek(pos: 1)
+    @resolveEditorBlockChildren
+}
+
+union Content @resolveEditorBlockType = FormattedText
+
+"""
+A single paragraph of formatted text.
+"""
+type FormattedText @type(id: "core/paragraph") {
+  """
+  The paragraph's content as HTML markup.
+  """
+  html: Markup! @resolveEditorBlockMarkup
+}

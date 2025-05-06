@@ -1,0 +1,22 @@
+uuid: ac14be3b-b1ac-478a-bf47-53f616874842
+langcode: en
+status: true
+dependencies: {  }
+name: mcp
+label: MCP
+endpoint: /mcp
+debug_flag: 1
+schema: directable
+caching: false
+batching: false
+disable_introspection: false
+query_depth: null
+query_complexity: null
+schema_configuration:
+  directable:
+    schema_definition: ../../../packages/mcp/src/mcp.gql
+    extensions:
+      silverback_campaign_urls: '0'
+      silverback_gatsby: '0'
+    autoload_contexts: ''
+persisted_queries_settings: {  }
