@@ -38,7 +38,7 @@ class MCP {
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    FormBuilderInterface $form_builder
+    FormBuilderInterface $form_builder,
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->formBuilder = $form_builder;
@@ -78,21 +78,23 @@ class MCP {
     $form_state = new FormState();
     $form_state->setValues($form_values);
     $form_state->set('node', $node);
-    
+
     // Get the node form.
     $form_object = $this->entityTypeManager->getFormObject('node', 'default');
     $form_object->setEntity($node);
-    
+
     // Build and submit the form.
     $form = $this->formBuilder->buildForm($form_object, $form_state);
     $this->formBuilder->submitForm($form_object, $form_state);
-    
+
     // Check for errors.
     if ($form_state->hasAnyErrors()) {
       return NULL;
     }
-    
+
+    // ai! it should return an object that has a success flag, an optional array of errors and the entity.
     // Return the saved node.
     return $node_id ? $node : $node->id() ? $node : NULL;
   }
+
 }
