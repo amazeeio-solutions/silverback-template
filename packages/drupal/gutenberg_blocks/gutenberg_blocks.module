@@ -26,7 +26,6 @@ function gutenberg_blocks_library_info_alter(&$libraries, $extension) {
 function gutenberg_blocks_form_node_form_alter(&$form, FormStateInterface $form_state) {
   /** @var \Drupal\node\NodeInterface $node */
   $node = $form_state->getFormObject()->getEntity();
-  if (Utils::getGutenbergFields($node)) {
   // @todo properly skip mcp forms
   if (Utils::getGutenbergFields($node) && strpos(haystack: $form['#id'], needle: 'mcp') === FALSE) {
     // Perhaps move in Silverback preview link module.

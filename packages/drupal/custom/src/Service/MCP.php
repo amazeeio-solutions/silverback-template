@@ -46,12 +46,12 @@ class MCP {
   }
 
   /**
-   * Create a new Page.
+   *
    */
-  public function createPage(Api $api) : NodeFormResult {
+  protected function buildPageContent(string $title, array $blocks) {
     $content = [];
     $innerContent = [];
-    foreach ($api->args['input']['content'] as $block) {
+    foreach ($blocks as $block) {
       if ($block['FormattedText']) {
         $content[] = [
           'blockName' => 'paragraph',
@@ -59,11 +59,23 @@ class MCP {
         ];
         $innerContent[] = NULL;
       }
+      if ($block['Heading']) {
+        $level = $block['Heading']['level'];
+        $content[] = [
+          'blockName' => 'custom/heading',
+          'attrs' => [
+            'level' => $block['Heading']['level'],
+            'text' => $block['Heading']['text'],
+          ],
+          'innerContent' => ["<h{$level} class=\"wp-block-custom-heading\">{$block['Heading']['text']}</h{$level}>"],
+        ];
+        $innerContent[] = NULL;
+      }
     }
     $blocks = [
       [
         'blockName' => 'custom/hero',
-        'attrs' => ['headline' => $api->args['input']['title']],
+        'attrs' => ['headline' => $title],
       ],
       [
         'blockName' => 'custom/content',
@@ -71,8 +83,15 @@ class MCP {
         'innerContent' => $innerContent,
       ],
     ];
-    $html = (new BlockSerializer())->serialize_blocks($blocks);
+    return (new BlockSerializer())->serialize_blocks($blocks);
+  }
+
+  /**
+   * Create a new Page.
+   */
+  public function createPage(Api $api) : NodeFormResult {
     return $this->submitNodeForm(form_values: [
+      'langcode' => [0 => ['value' => 'en']],
       'title' => [
         0 => ['value' => $api->args['input']['title']],
       ],
@@ -83,7 +102,7 @@ class MCP {
         ],
       ],
       'body' => [
-        0 => ['value' => $html],
+        0 => ['value' => $this->buildPageContent($api->args['input']['title'], $api->args['input']['content'])],
       ],
     ], node_type: 'page');
   }
@@ -92,44 +111,21 @@ class MCP {
    * Update an existing page.
    */
   public function updatePage(Api $api) : NodeFormResult {
-    // Load the node based on the path
     $path = $api->args['input']['path'];
     $alias = ltrim($path, '/');
     $path_alias = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $alias);
     $path_parts = explode('/', $path_alias);
     $node_id = end($path_parts);
-    
+
     if (is_numeric($node_id)) {
       $node = $this->entityTypeManager->getStorage('node')->load($node_id);
-    } else {
+    }
+    else {
       $node = $api->parent;
     }
-    
-    $content = [];
-    $innerContent = [];
-    foreach ($api->args['input']['content'] as $block) {
-      if ($block['FormattedText']) {
-        $content[] = [
-          'blockName' => 'paragraph',
-          'innerContent' => [$block['FormattedText']['html']],
-        ];
-        $innerContent[] = NULL;
-      }
-    }
-    $blocks = [
-      [
-        'blockName' => 'custom/hero',
-        'attrs' => ['headline' => $api->args['input']['title']],
-      ],
-      [
-        'blockName' => 'custom/content',
-        'innerBlocks' => $content,
-        'innerContent' => $innerContent,
-      ],
-    ];
-    $html = (new BlockSerializer())->serialize_blocks($blocks);
-    $values = [];
+
     return $this->submitNodeForm(form_values: [
+      'langcode' => [0 => ['value' => 'en']],
       'title' => [
         0 => ['value' => $api->args['input']['title']],
       ],
@@ -140,9 +136,9 @@ class MCP {
         ],
       ],
       'body' => [
-        0 => ['value' => $html],
+        0 => ['value' => $this->buildPageContent($api->args['input']['title'], $api->args['input']['content'])],
       ],
-    ], node_type: 'page', node_id: $node->id);
+    ], node_type: 'page', node_id: $node->id());
   }
 
   /**

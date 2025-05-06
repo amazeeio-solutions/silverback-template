@@ -4,6 +4,11 @@ implementation(drupal): custom.mcp::createPage
 directive @createPage(input: String!) on FIELD_DEFINITION
 
 """
+implementation(drupal): custom.mcp::updatePage
+"""
+directive @updatePage(input: String!) on FIELD_DEFINITION
+
+"""
 The path segment of a url, with a leading slash.
 """
 scalar Path @default @value(string: "/")
@@ -30,8 +35,21 @@ type Query {
 }
 
 type Mutation {
+  """
+  Create a new page at a given path.
+  """
   createPage(input: PageInput!): PageOperationResult!
     @createPage(input: "$input")
+
+  """
+  Update the page at a given path.
+  The path argument is used to identify the page to update.
+  """
+  updatePage(input: PageInput!): PageOperationResult!
+    @arg(name: "input")
+    @prop(key: "path")
+    @route(path: "$")
+    @updatePage(input: "$input")
 }
 
 type PageOperationResult @default @value {
@@ -79,15 +97,16 @@ input PageInput {
   content: [ContentInput]
 }
 
-union Content @resolveEditorBlockType = FormattedText
+union Content @resolveEditorBlockType = FormattedText | Heading
 
 input ContentInput {
   FormattedText: FormattedTextInput
+  Heading: HeadingInput
 }
 
 """
 A single paragraph of formatted text.
-Each block should only contain one block level element.
+Each block should only contain one block level element like <h2>, <p>, <ul> or <ol>.
 """
 type FormattedText @type(id: "core/paragraph") {
   """
@@ -99,4 +118,18 @@ type FormattedText @type(id: "core/paragraph") {
 
 input FormattedTextInput {
   html: Markup!
+}
+
+"""
+Block type displaying a heading of a given level.
+Levels 2, 3 and 4 are allowed.
+"""
+type Heading @type(id: "custom/heading") {
+  level: Int
+  text: String
+}
+
+input HeadingInput {
+  level: Int!
+  text: String!
 }
