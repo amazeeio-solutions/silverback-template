@@ -87,9 +87,7 @@ class MCP {
     $form_state->set('node', $node);
 
     // Get the node form.
-    // ai! use the "mcp" form display mode here.
-    //
-    $form_object = $this->entityTypeManager->getFormObject('node', 'default');
+    $form_object = $this->entityTypeManager->getFormObject('node', 'mcp');
     $form_object->setEntity($node);
 
     // Build and submit the form.
