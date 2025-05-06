@@ -1,4 +1,5 @@
 services:
+  # ai! register the MCP class here
   custom.route_subscriber:
     class: Drupal\custom\Routing\RouteSubscriber
     tags:
