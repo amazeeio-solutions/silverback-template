@@ -1,5 +1,8 @@
 services:
-  # ai! register the MCP class here
+  custom.mcp:
+    class: Drupal\custom\Service\MCP
+    arguments: ['@entity_type.manager', '@form_builder']
+
   custom.route_subscriber:
     class: Drupal\custom\Routing\RouteSubscriber
     tags:
