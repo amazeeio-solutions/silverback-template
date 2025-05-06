@@ -5,7 +5,7 @@ namespace Drupal\custom\Service;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormState;
-use Drupal\node\NodeInterface;
+use Drupal\graphql_directives\Api;
 
 /**
  * Master Control Program service.
@@ -45,6 +45,13 @@ class MCP {
   }
 
   /**
+   * Create a new Page.
+   */
+  public function createPage(Api $api) : NodeFormResult {
+    return $this->submitNodeForm(form_values: ['title[0][value]' => $api->args['title']], node_type: 'page');
+  }
+
+  /**
    * Submits a node form with the provided input values.
    *
    * @param string $node_type
@@ -80,6 +87,8 @@ class MCP {
     $form_state->set('node', $node);
 
     // Get the node form.
+    // ai! use the "mcp" form display mode here.
+    //
     $form_object = $this->entityTypeManager->getFormObject('node', 'default');
     $form_object->setEntity($node);
 
