@@ -89,6 +89,52 @@ class MCP {
   }
 
   /**
+   * Update an existing page.
+   */
+  public function updatePage(Api $api) : NodeFormResult {
+    // ai! load the node based on the path in $api->args['input']['path']
+    $content = [];
+    $innerContent = [];
+    $node = $api->parent;
+    foreach ($api->args['input']['content'] as $block) {
+      if ($block['FormattedText']) {
+        $content[] = [
+          'blockName' => 'paragraph',
+          'innerContent' => [$block['FormattedText']['html']],
+        ];
+        $innerContent[] = NULL;
+      }
+    }
+    $blocks = [
+      [
+        'blockName' => 'custom/hero',
+        'attrs' => ['headline' => $api->args['input']['title']],
+      ],
+      [
+        'blockName' => 'custom/content',
+        'innerBlocks' => $content,
+        'innerContent' => $innerContent,
+      ],
+    ];
+    $html = (new BlockSerializer())->serialize_blocks($blocks);
+    $values = [];
+    return $this->submitNodeForm(form_values: [
+      'title' => [
+        0 => ['value' => $api->args['input']['title']],
+      ],
+      'path' => [
+        0 => [
+          'pathauto' => 0,
+          'alias' => $api->args['input']['path'],
+        ],
+      ],
+      'body' => [
+        0 => ['value' => $html],
+      ],
+    ], node_type: 'page', node_id: $node->id);
+  }
+
+  /**
    * Submits a node form with the provided input values.
    *
    * @param string $node_type
