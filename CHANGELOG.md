@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.11](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.10...@amazeelabs/silverback-template@1.8.11) (2025-05-07)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.10](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.9...@amazeelabs/silverback-template@1.8.10) (2025-05-02)
+
+### Bug Fixes
+
+- **ci:** export DEVBOX_USE_VERSION variable so it actually has an effect
+  ([98d9937](https://github.com/AmazeeLabs/silverback-template/commit/98d99378ccba621240d01c487f45114f5f6393cd))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.9](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.8...@amazeelabs/silverback-template@1.8.9) (2025-05-01)
+
+### Bug Fixes
+
+- add lang context to hero block
+  ([941a4a3](https://github.com/AmazeeLabs/silverback-template/commit/941a4a3ff9a5c5f5d06faf15a8e9150cfae1dedf))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.8.8](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.7...@amazeelabs/silverback-template@1.8.8) (2025-04-30)
 
 ### Bug Fixes

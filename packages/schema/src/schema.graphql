@@ -228,7 +228,7 @@ type DrupalPage implements Page & Editable & CardItem
     @resolveEditorBlocks(path: "body.value")
     @seek(pos: 0)
     @resolveEditorBlockMedia
-  hero: Hero @resolveEditorBlocks(path: "body.value") @seek(pos: 0)
+  hero: Hero @lang @resolveEditorBlocks(path: "body.value") @seek(pos: 0)
   content: [PageContent]
     @lang
     @resolveEditorBlocks(
@@ -465,20 +465,12 @@ input PaginationInput {
 
 type Query {
   previewDecapPage: DecapPage
-  previewDrupalPage(
-    id: ID!
-    rid: ID
-    locale: String!
-    preview_user_id: ID
-    preview_access_token: String
-  ): DrupalPage
+  previewDrupalPage(path: String!, rid: ID): DrupalPage
     @fetchEntity(
       type: "node"
-      id: "$id"
+      id: "$path"
       rid: "$rid"
-      language: "$locale"
-      preview_user_id: "$preview_user_id"
-      preview_access_token: "$preview_access_token"
+      loadLatestRevision: true
     )
 
   metaNavigations: [MetaNavigation]

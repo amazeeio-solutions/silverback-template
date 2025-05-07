@@ -1,17 +1,5 @@
-query PreviewDrupalPage(
-  $id: ID!
-  $rid: ID
-  $locale: String!
-  $preview_user_id: ID
-  $preview_access_token: String
-) {
-  preview: previewDrupalPage(
-    id: $id
-    rid: $rid
-    locale: $locale
-    preview_user_id: $preview_user_id
-    preview_access_token: $preview_access_token
-  ) {
+query PreviewDrupalPage($path: String!, $rid: ID) {
+  preview: previewDrupalPage(path: $path, rid: $rid) {
     ...Page
   }
 }

@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "3c1e220dfb05f0b55f738f977ee205af",
+  "content-hash": "bb7e28ef3efd6effc8118415c9a4173f",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -194,16 +194,16 @@
     },
     {
       "name": "amazeelabs/silverback_autosave",
-      "version": "1.3.2",
+      "version": "1.3.3",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_autosave.git",
-        "reference": "545a80a62b15ae9280d3b1addd6242cc9a7ff2d3"
+        "reference": "0f6c5ef8a1d7c5b37fb27f35989092de5bbe43e8"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_autosave/zipball/545a80a62b15ae9280d3b1addd6242cc9a7ff2d3",
-        "reference": "545a80a62b15ae9280d3b1addd6242cc9a7ff2d3",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_autosave/zipball/0f6c5ef8a1d7c5b37fb27f35989092de5bbe43e8",
+        "reference": "0f6c5ef8a1d7c5b37fb27f35989092de5bbe43e8",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -214,9 +214,9 @@
       "description": "Adds autosave feature on forms.",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_autosave/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_autosave/tree/1.3.2"
+        "source": "https://github.com/AmazeeLabs/silverback_autosave/tree/1.3.3"
       },
-      "time": "2025-02-14T15:16:24+00:00"
+      "time": "2025-03-18T07:41:13+00:00"
     },
     {
       "name": "amazeelabs/silverback_campaign_urls",
@@ -284,16 +284,16 @@
     },
     {
       "name": "amazeelabs/silverback_external_preview",
-      "version": "2.0.8",
+      "version": "3.0.1",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_external_preview.git",
-        "reference": "26ab74d8cd9771b504c8163b7ec5d9e5b1c393bf"
+        "reference": "b3a1b3c19764e50d24f0545deeabde69a4169b6e"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_external_preview/zipball/26ab74d8cd9771b504c8163b7ec5d9e5b1c393bf",
-        "reference": "26ab74d8cd9771b504c8163b7ec5d9e5b1c393bf",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_external_preview/zipball/b3a1b3c19764e50d24f0545deeabde69a4169b6e",
+        "reference": "b3a1b3c19764e50d24f0545deeabde69a4169b6e",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -305,22 +305,22 @@
       "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_external_preview#readme",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_external_preview/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_external_preview/tree/2.0.8"
+        "source": "https://github.com/AmazeeLabs/silverback_external_preview/tree/3.0.1"
       },
-      "time": "2025-01-17T13:27:13+00:00"
+      "time": "2025-03-18T07:41:13+00:00"
     },
     {
       "name": "amazeelabs/silverback_gatsby",
-      "version": "3.7.9",
+      "version": "3.7.11",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_gatsby.git",
-        "reference": "5bcc1a83dce295f276956b60243c26ebbe098233"
+        "reference": "e80f325e2e686e3b9291c60b0b69b53cbfb06d3b"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/5bcc1a83dce295f276956b60243c26ebbe098233",
-        "reference": "5bcc1a83dce295f276956b60243c26ebbe098233",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/e80f325e2e686e3b9291c60b0b69b53cbfb06d3b",
+        "reference": "e80f325e2e686e3b9291c60b0b69b53cbfb06d3b",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -339,9 +339,9 @@
       "homepage": "https://silverback.netlify.app",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_gatsby/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.9"
+        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.11"
       },
-      "time": "2025-04-26T04:56:20+00:00"
+      "time": "2025-05-07T11:59:24+00:00"
     },
     {
       "name": "amazeelabs/silverback_graphql_persisted",
@@ -402,49 +402,77 @@
     {
       "name": "amazeelabs/silverback_iframe",
       "version": "dev-main",
-      "dist": {
-        "type": "path",
-        "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe",
-        "reference": "38622f916396456786c21c40e1bbf22bd08a7137"
+      "source": {
+        "type": "git",
+        "url": "https://github.com/AmazeeLabs/silverback_iframe.git",
+        "reference": "0b77af85c28e7a5d779374b3ee0e654f005c15c8"
       },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_iframe/zipball/0b77af85c28e7a5d779374b3ee0e654f005c15c8",
+        "reference": "0b77af85c28e7a5d779374b3ee0e654f005c15c8",
+        "shasum": ""
+      },
+      "default-branch": true,
       "type": "drupal-module",
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "GPL-2.0+"
+      ],
       "description": "Provides a way for displaying Drupal content/forms in iframes.",
-      "transport-options": {
-        "relative": true
-      }
+      "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_iframe#readme",
+      "support": {
+        "issues": "https://github.com/AmazeeLabs/silverback_iframe/issues",
+        "source": "https://github.com/AmazeeLabs/silverback_iframe/tree/1.4.3"
+      },
+      "time": "2024-09-09T12:01:03+00:00"
     },
     {
       "name": "amazeelabs/silverback_iframe_theme",
       "version": "dev-main",
-      "dist": {
-        "type": "path",
-        "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme",
-        "reference": "c9274834748ed9abc203379002d491cc7ef0ee6d"
-      },
-      "type": "drupal-theme",
-      "description": "Theme for amazeelabs/silverback_iframe module.",
-      "transport-options": {
-        "relative": true
-      }
-    },
-    {
-      "name": "amazeelabs/silverback_preview_link",
-      "version": "1.6.4",
       "source": {
         "type": "git",
-        "url": "https://github.com/AmazeeLabs/silverback_preview_link.git",
-        "reference": "0087294dd4764a2cbb027f5a5a89008d53cf600d"
+        "url": "https://github.com/AmazeeLabs/silverback_iframe_theme.git",
+        "reference": "c7e4cae9a7725a1a7198ec3171737de3e3e9904e"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_preview_link/zipball/0087294dd4764a2cbb027f5a5a89008d53cf600d",
-        "reference": "0087294dd4764a2cbb027f5a5a89008d53cf600d",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_iframe_theme/zipball/c7e4cae9a7725a1a7198ec3171737de3e3e9904e",
+        "reference": "c7e4cae9a7725a1a7198ec3171737de3e3e9904e",
+        "shasum": ""
+      },
+      "default-branch": true,
+      "type": "drupal-theme",
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "GPL-2.0+"
+      ],
+      "description": "Theme for amazeelabs/silverback_iframe module.",
+      "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_iframe_theme#readme",
+      "support": {
+        "issues": "https://github.com/AmazeeLabs/silverback_iframe_theme/issues",
+        "source": "https://github.com/AmazeeLabs/silverback_iframe_theme/tree/1.4.3"
+      },
+      "time": "2024-09-09T12:01:03+00:00"
+    },
+    {
+      "name": "amazeelabs/silverback_preview_link",
+      "version": "1.6.10",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/AmazeeLabs/silverback_preview_link.git",
+        "reference": "346f946780aa3c44f2ab18d711b796710b0d0b71"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_preview_link/zipball/346f946780aa3c44f2ab18d711b796710b0d0b71",
+        "reference": "346f946780aa3c44f2ab18d711b796710b0d0b71",
         "shasum": ""
       },
       "require": {
         "chillerlan/php-qrcode": "^5",
         "drupal/dynamic_entity_reference": "^3 || ^4",
-        "php": ">=8.2"
+        "php": ">=8.3"
       },
       "type": "drupal-module",
       "notification-url": "https://packagist.org/downloads/",
@@ -455,9 +483,9 @@
       "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_preview_link#readme",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_preview_link/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_preview_link/tree/1.6.4"
+        "source": "https://github.com/AmazeeLabs/silverback_preview_link/tree/1.6.10"
       },
-      "time": "2024-08-20T20:05:58+00:00"
+      "time": "2025-05-06T07:51:05+00:00"
     },
     {
       "name": "amazeelabs/silverback_publisher_monitor",
