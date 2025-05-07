@@ -40,12 +40,12 @@ importers:
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-iframe
-      '@custom/content_preview':
-        specifier: workspace:*
-        version: link:../../packages/drupal/content_preview
       '@amazeelabs/silverback-search':
         specifier: workspace:^
         version: link:../../packages/@amazeelabs/silverback-search
+      '@custom/content_preview':
+        specifier: workspace:*
+        version: link:../../packages/drupal/content_preview
       '@custom/custom':
         specifier: workspace:*
         version: link:../../packages/drupal/custom
@@ -209,6 +209,9 @@ importers:
       simple-oauth2:
         specifier: ^5.1.0
         version: 5.1.0
+      typescript-cookie:
+        specifier: ^1.0.6
+        version: 1.0.6
     devDependencies:
       '@swc/cli':
         specifier: ^0.6.0
@@ -31346,6 +31349,11 @@ packages:
 
   /typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
+
+  /typescript-cookie@1.0.6:
+    resolution: {integrity: sha512-s+BZr7/9BUG6Kg7jGGcOY/4XJcP+iZRFdF3q4FPTfRSP83ivLWF94OcH8PrzGmnS8Ab9qP7ENu/ikLwNFsIafA==}
+    engines: {node: '>=14'}
+    dev: false
 
   /typescript-eslint@8.22.0(eslint@9.19.0)(typescript@5.7.3):
     resolution: {integrity: sha512-Y2rj210FW1Wb6TWXzQc5+P+EWI9/zdS57hLEc0gnyuvdzWo8+Y8brKlbj0muejonhMI/xAZCnZZwjbIfv1CkOw==}

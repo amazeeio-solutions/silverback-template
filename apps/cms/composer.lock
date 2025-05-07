@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "3c1e220dfb05f0b55f738f977ee205af",
+  "content-hash": "bb7e28ef3efd6effc8118415c9a4173f",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -311,16 +311,16 @@
     },
     {
       "name": "amazeelabs/silverback_gatsby",
-      "version": "3.7.9",
+      "version": "3.7.11",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_gatsby.git",
-        "reference": "5bcc1a83dce295f276956b60243c26ebbe098233"
+        "reference": "e80f325e2e686e3b9291c60b0b69b53cbfb06d3b"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/5bcc1a83dce295f276956b60243c26ebbe098233",
-        "reference": "5bcc1a83dce295f276956b60243c26ebbe098233",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/e80f325e2e686e3b9291c60b0b69b53cbfb06d3b",
+        "reference": "e80f325e2e686e3b9291c60b0b69b53cbfb06d3b",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -339,9 +339,9 @@
       "homepage": "https://silverback.netlify.app",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_gatsby/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.9"
+        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.11"
       },
-      "time": "2025-04-26T04:56:20+00:00"
+      "time": "2025-05-07T11:59:24+00:00"
     },
     {
       "name": "amazeelabs/silverback_graphql_persisted",
@@ -457,16 +457,16 @@
     },
     {
       "name": "amazeelabs/silverback_preview_link",
-      "version": "1.6.8",
+      "version": "1.6.10",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_preview_link.git",
-        "reference": "311a820b35e3f0ff59fe9f57560808805a2bc6c6"
+        "reference": "346f946780aa3c44f2ab18d711b796710b0d0b71"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_preview_link/zipball/311a820b35e3f0ff59fe9f57560808805a2bc6c6",
-        "reference": "311a820b35e3f0ff59fe9f57560808805a2bc6c6",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_preview_link/zipball/346f946780aa3c44f2ab18d711b796710b0d0b71",
+        "reference": "346f946780aa3c44f2ab18d711b796710b0d0b71",
         "shasum": ""
       },
       "require": {
@@ -483,9 +483,9 @@
       "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_preview_link#readme",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_preview_link/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_preview_link/tree/1.6.8"
+        "source": "https://github.com/AmazeeLabs/silverback_preview_link/tree/1.6.10"
       },
-      "time": "2025-03-18T07:41:13+00:00"
+      "time": "2025-05-06T07:51:05+00:00"
     },
     {
       "name": "amazeelabs/silverback_publisher_monitor",
