@@ -5,8 +5,6 @@ import { PanelBody, SelectControl } from 'wordpress__components';
 import { createHigherOrderComponent } from 'wordpress__compose';
 import { addFilter } from 'wordpress__hooks';
 
-const { t: __ } = Drupal;
-
 addFilter(
   'blocks.registerBlockType',
   'custom/list',
@@ -41,14 +39,17 @@ addFilter<ComponentType>(
           <BlockEdit {...props} />
           {isSelected && name === 'core/list' && !ordered ? (
             <InspectorControls>
-              <PanelBody title={__('List style')}>
+              <PanelBody title={Drupal.t('List style')}>
                 <SelectControl
                   value={props.attributes.customListStyle}
                   options={[
-                    { label: __('Bullets'), value: '' },
-                    { label: __('Arrows'), value: 'arrows' },
-                    { label: __('Checkmarks'), value: 'checkmarks' },
-                    { label: __('Question marks'), value: 'question-marks' },
+                    { label: Drupal.t('Bullets'), value: '' },
+                    { label: Drupal.t('Arrows'), value: 'arrows' },
+                    { label: Drupal.t('Checkmarks'), value: 'checkmarks' },
+                    {
+                      label: Drupal.t('Question marks'),
+                      value: 'question-marks',
+                    },
                   ]}
                   onChange={(customListStyle: string) => {
                     setAttributes({

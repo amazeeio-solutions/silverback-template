@@ -135,44 +135,42 @@ export function Footer() {
               aria-label="Footer Primary"
             >
               {items.map((item, key) => (
-                <>
-                  <li
-                    key={key + 'header'}
-                    className={
-                      'mb-3 block w-1/2 max-w-44 pr-5 last:pr-0 md:mb-0 md:text-left lg:w-44 lg:pr-8'
-                    }
-                  >
-                    {item.target ? (
-                      <Link
-                        href={item.target!}
-                        className={
-                          'mb-4 block text-[0.875rem] font-semibold uppercase leading-[1.313rem] text-gray-900 transition-all hover:underline'
-                        }
-                      >
-                        {item.title}
-                      </Link>
-                    ) : (
-                      <span
-                        className={
-                          'mb-4 block text-[0.875rem] font-semibold uppercase leading-[1.313rem] transition-all'
-                        }
-                      >
-                        {item.title}
-                      </span>
-                    )}
-                    {item.children.length > 0
-                      ? item.children.map((child) => (
-                          <Link
-                            key={child.target}
-                            href={child.target}
-                            className="mb-4 block text-base font-normal text-gray-500 transition-all hover:underline"
-                          >
-                            {child.title}
-                          </Link>
-                        ))
-                      : null}
-                  </li>
-                </>
+                <li
+                  key={key + 'header'}
+                  className={
+                    'mb-3 block w-1/2 max-w-44 pr-5 last:pr-0 md:mb-0 md:text-left lg:w-44 lg:pr-8'
+                  }
+                >
+                  {item.target ? (
+                    <Link
+                      href={item.target!}
+                      className={
+                        'mb-4 block text-[0.875rem] font-semibold uppercase leading-[1.313rem] text-gray-900 transition-all hover:underline'
+                      }
+                    >
+                      {item.title}
+                    </Link>
+                  ) : (
+                    <span
+                      className={
+                        'mb-4 block text-[0.875rem] font-semibold uppercase leading-[1.313rem] transition-all'
+                      }
+                    >
+                      {item.title}
+                    </span>
+                  )}
+                  {item.children.length > 0
+                    ? item.children.map((child) => (
+                        <Link
+                          key={child.target}
+                          href={child.target}
+                          className="mb-4 block text-base font-normal text-gray-500 transition-all hover:underline"
+                        >
+                          {child.title}
+                        </Link>
+                      ))
+                    : null}
+                </li>
               ))}
             </ul>
           </nav>

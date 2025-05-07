@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "d08745ccb838958ddf29752c98d66bf1",
+  "content-hash": "3c1e220dfb05f0b55f738f977ee205af",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -104,43 +104,6 @@
         "source": "https://github.com/AmazeeLabs/default-content/tree/1.2.18"
       },
       "time": "2024-09-26T09:35:59+00:00"
-    },
-    {
-      "name": "amazeelabs/graphql_directives",
-      "version": "2.6.2",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/AmazeeLabs/graphql_directives.git",
-        "reference": "d77a276c9559e15c81e6c37cc05eedf499f7d339"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/graphql_directives/zipball/d77a276c9559e15c81e6c37cc05eedf499f7d339",
-        "reference": "d77a276c9559e15c81e6c37cc05eedf499f7d339",
-        "shasum": ""
-      },
-      "require": {
-        "webmozart/glob": "^4.7.0"
-      },
-      "type": "drupal-module",
-      "extra": {
-        "drush": {
-          "services": {
-            "drush.services.yml": "^10"
-          }
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "GPL-2.0+"
-      ],
-      "description": "Directive based GraphQL schemas for Drupal.",
-      "homepage": "https://silverback.netlify.app",
-      "support": {
-        "issues": "https://github.com/AmazeeLabs/graphql_directives/issues",
-        "source": "https://github.com/AmazeeLabs/graphql_directives/tree/2.6.2"
-      },
-      "time": "2025-01-17T13:27:13+00:00"
     },
     {
       "name": "amazeelabs/silverback-cli",
@@ -284,16 +247,16 @@
     },
     {
       "name": "amazeelabs/silverback_cloudinary",
-      "version": "1.4.5",
+      "version": "1.4.6",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_cloudinary.git",
-        "reference": "b46fc889eb29197bb55c8a4ffc459855584333d6"
+        "reference": "313c179d5e932838f1820cc91695f14534ff3e25"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_cloudinary/zipball/b46fc889eb29197bb55c8a4ffc459855584333d6",
-        "reference": "b46fc889eb29197bb55c8a4ffc459855584333d6",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_cloudinary/zipball/313c179d5e932838f1820cc91695f14534ff3e25",
+        "reference": "313c179d5e932838f1820cc91695f14534ff3e25",
         "shasum": ""
       },
       "require": {
@@ -315,9 +278,9 @@
       "homepage": "https://silverback.netlify.app",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_cloudinary/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_cloudinary/tree/1.4.5"
+        "source": "https://github.com/AmazeeLabs/silverback_cloudinary/tree/1.4.6"
       },
-      "time": "2024-09-09T12:00:59+00:00"
+      "time": "2025-04-26T04:56:20+00:00"
     },
     {
       "name": "amazeelabs/silverback_external_preview",
@@ -348,16 +311,16 @@
     },
     {
       "name": "amazeelabs/silverback_gatsby",
-      "version": "3.7.6",
+      "version": "3.7.9",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_gatsby.git",
-        "reference": "72c4d1d2b6c041e5af83df556922fa4a6c2dcabf"
+        "reference": "5bcc1a83dce295f276956b60243c26ebbe098233"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/72c4d1d2b6c041e5af83df556922fa4a6c2dcabf",
-        "reference": "72c4d1d2b6c041e5af83df556922fa4a6c2dcabf",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/5bcc1a83dce295f276956b60243c26ebbe098233",
+        "reference": "5bcc1a83dce295f276956b60243c26ebbe098233",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -376,9 +339,9 @@
       "homepage": "https://silverback.netlify.app",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_gatsby/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.6"
+        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.9"
       },
-      "time": "2025-03-18T15:39:16+00:00"
+      "time": "2025-04-26T04:56:20+00:00"
     },
     {
       "name": "amazeelabs/silverback_graphql_persisted",
@@ -408,16 +371,16 @@
     },
     {
       "name": "amazeelabs/silverback_gutenberg",
-      "version": "2.5.25",
+      "version": "2.5.26",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_gutenberg.git",
-        "reference": "a9d4a262175f30a22da7271432a5a8a08bc13e68"
+        "reference": "1864bd05a58c75102b0d1f2a4a02485edb7cae5e"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gutenberg/zipball/a9d4a262175f30a22da7271432a5a8a08bc13e68",
-        "reference": "a9d4a262175f30a22da7271432a5a8a08bc13e68",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gutenberg/zipball/1864bd05a58c75102b0d1f2a4a02485edb7cae5e",
+        "reference": "1864bd05a58c75102b0d1f2a4a02485edb7cae5e",
         "shasum": ""
       },
       "require": {
@@ -432,9 +395,9 @@
       "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_gutenberg#readme",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_gutenberg/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gutenberg/tree/2.5.25"
+        "source": "https://github.com/AmazeeLabs/silverback_gutenberg/tree/2.5.26"
       },
-      "time": "2025-02-21T15:41:12+00:00"
+      "time": "2025-04-26T04:56:20+00:00"
     },
     {
       "name": "amazeelabs/silverback_iframe",
@@ -550,6 +513,23 @@
         "source": "https://github.com/AmazeeLabs/silverback_publisher_monitor/tree/2.3.15"
       },
       "time": "2024-09-09T12:01:03+00:00"
+    },
+    {
+      "name": "amazeelabs/silverback_search",
+      "version": "dev-main",
+      "dist": {
+        "type": "path",
+        "url": "node_modules/@amazeelabs/silverback-search/drupal/silverback_search",
+        "reference": "b48d13098258bb98bea81ef0e0fc87a9bc3226a9"
+      },
+      "require": {
+        "symfony/dom-crawler": "^6 || ^7"
+      },
+      "type": "drupal-module",
+      "description": "Search functionality for Silverback.",
+      "transport-options": {
+        "relative": true
+      }
     },
     {
       "name": "amazeelabs/silverback_translations",
@@ -3230,6 +3210,70 @@
       }
     },
     {
+      "name": "drupal/entity_reference_revisions",
+      "version": "1.12.0",
+      "source": {
+        "type": "git",
+        "url": "https://git.drupalcode.org/project/entity_reference_revisions.git",
+        "reference": "8.x-1.12"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://ftp.drupal.org/files/projects/entity_reference_revisions-8.x-1.12.zip",
+        "reference": "8.x-1.12",
+        "shasum": "2a2ff8617c7ce01b56df1caaf0a563da04948e26"
+      },
+      "require": {
+        "drupal/core": "^9 || ^10 || ^11"
+      },
+      "require-dev": {
+        "drupal/diff": "^1 || ^2"
+      },
+      "type": "drupal-module",
+      "extra": {
+        "drupal": {
+          "version": "8.x-1.12",
+          "datestamp": "1722804497",
+          "security-coverage": {
+            "status": "covered",
+            "message": "Covered by Drupal's security advisory policy"
+          }
+        },
+        "drush": {
+          "services": {
+            "drush.services.yml": "^9 || ^10 || ^11"
+          }
+        }
+      },
+      "notification-url": "https://packages.drupal.org/8/downloads",
+      "license": [
+        "GPL-2.0-or-later"
+      ],
+      "authors": [
+        {
+          "name": "berdir",
+          "homepage": "https://www.drupal.org/user/214652"
+        },
+        {
+          "name": "Frans",
+          "homepage": "https://www.drupal.org/user/514222"
+        },
+        {
+          "name": "jeroen.b",
+          "homepage": "https://www.drupal.org/user/1853532"
+        },
+        {
+          "name": "miro_dietiker",
+          "homepage": "https://www.drupal.org/user/227761"
+        }
+      ],
+      "description": "Entity Reference Revisions",
+      "homepage": "https://www.drupal.org/project/entity_reference_revisions",
+      "support": {
+        "source": "https://git.drupalcode.org/project/entity_reference_revisions"
+      }
+    },
+    {
       "name": "drupal/entity_usage",
       "version": "2.0.0-beta19",
       "source": {
@@ -3572,6 +3616,52 @@
       "homepage": "http://drupal.org/project/graphql",
       "support": {
         "source": "https://git.drupalcode.org/project/graphql"
+      }
+    },
+    {
+      "name": "drupal/graphql_directives",
+      "version": "dev-1.0.x",
+      "source": {
+        "type": "git",
+        "url": "https://git.drupalcode.org/project/graphql_directives.git",
+        "reference": "b3ff1a8696c091f4e3a9a76fe28b68e434f52530"
+      },
+      "require": {
+        "drupal/core": "^8.8 || ^9 || ^10 || ^11",
+        "drupal/graphql": "^4.10",
+        "webmozart/glob": "^4.7.0"
+      },
+      "require-dev": {
+        "drupal/entity_reference_revisions": "^1.12"
+      },
+      "type": "drupal-module",
+      "extra": {
+        "branch-alias": {
+          "dev-1.0.x": "1.0.x-dev"
+        },
+        "drupal": {
+          "version": "1.0.x-dev",
+          "datestamp": "1745651525",
+          "security-coverage": {
+            "status": "not-covered",
+            "message": "Project has not opted into security advisory coverage!"
+          }
+        }
+      },
+      "notification-url": "https://packages.drupal.org/8/downloads",
+      "license": [
+        "GPL-2.0+"
+      ],
+      "authors": [
+        {
+          "name": "pmelab",
+          "homepage": "https://www.drupal.org/user/555322"
+        }
+      ],
+      "description": "Directive based GraphQL schemas for Drupal.",
+      "homepage": "https://drupal.org/project/graphql_directives",
+      "support": {
+        "source": "https://git.drupalcode.org/project/graphql_directives"
       }
     },
     {
@@ -8116,6 +8206,73 @@
         }
       ],
       "time": "2024-09-25T14:20:29+00:00"
+    },
+    {
+      "name": "symfony/dom-crawler",
+      "version": "v6.4.18",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/dom-crawler.git",
+        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/fd07959d3e8992795029bdab3605c2e8e895034e",
+        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e",
+        "shasum": ""
+      },
+      "require": {
+        "masterminds/html5": "^2.6",
+        "php": ">=8.1",
+        "symfony/polyfill-ctype": "~1.8",
+        "symfony/polyfill-mbstring": "~1.0"
+      },
+      "require-dev": {
+        "symfony/css-selector": "^5.4|^6.0|^7.0"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\DomCrawler\\": ""
+        },
+        "exclude-from-classmap": [
+          "/Tests/"
+        ]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Eases DOM navigation for HTML and XML documents",
+      "homepage": "https://symfony.com",
+      "support": {
+        "source": "https://github.com/symfony/dom-crawler/tree/v6.4.18"
+      },
+      "funding": [
+        {
+          "url": "https://symfony.com/sponsor",
+          "type": "custom"
+        },
+        {
+          "url": "https://github.com/fabpot",
+          "type": "github"
+        },
+        {
+          "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+          "type": "tidelift"
+        }
+      ],
+      "time": "2025-01-09T15:35:00+00:00"
     },
     {
       "name": "symfony/error-handler",
@@ -16169,73 +16326,6 @@
       "time": "2024-09-25T14:18:03+00:00"
     },
     {
-      "name": "symfony/dom-crawler",
-      "version": "v6.4.18",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/symfony/dom-crawler.git",
-        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/fd07959d3e8992795029bdab3605c2e8e895034e",
-        "reference": "fd07959d3e8992795029bdab3605c2e8e895034e",
-        "shasum": ""
-      },
-      "require": {
-        "masterminds/html5": "^2.6",
-        "php": ">=8.1",
-        "symfony/polyfill-ctype": "~1.8",
-        "symfony/polyfill-mbstring": "~1.0"
-      },
-      "require-dev": {
-        "symfony/css-selector": "^5.4|^6.0|^7.0"
-      },
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "Symfony\\Component\\DomCrawler\\": ""
-        },
-        "exclude-from-classmap": [
-          "/Tests/"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Fabien Potencier",
-          "email": "fabien@symfony.com"
-        },
-        {
-          "name": "Symfony Community",
-          "homepage": "https://symfony.com/contributors"
-        }
-      ],
-      "description": "Eases DOM navigation for HTML and XML documents",
-      "homepage": "https://symfony.com",
-      "support": {
-        "source": "https://github.com/symfony/dom-crawler/tree/v6.4.18"
-      },
-      "funding": [
-        {
-          "url": "https://symfony.com/sponsor",
-          "type": "custom"
-        },
-        {
-          "url": "https://github.com/fabpot",
-          "type": "github"
-        },
-        {
-          "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-          "type": "tidelift"
-        }
-      ],
-      "time": "2025-01-09T15:35:00+00:00"
-    },
-    {
       "name": "symfony/lock",
       "version": "v6.4.13",
       "source": {
@@ -16713,6 +16803,7 @@
   "minimum-stability": "dev",
   "stability-flags": {
     "drupal/entity_usage": 10,
+    "drupal/graphql_directives": 20,
     "drupal/linkit": 10,
     "drupal/masquerade": 5
   },

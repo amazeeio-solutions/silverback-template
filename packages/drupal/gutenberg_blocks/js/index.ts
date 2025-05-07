@@ -7,6 +7,7 @@ import './blocks/form';
 import './blocks/image-teaser';
 import './blocks/image-teasers';
 import './blocks/image-with-text';
+import './filters/html-edit';
 import './filters/list';
 import './blocks/cta';
 import './blocks/quote';
@@ -24,6 +25,10 @@ import { ComponentType } from 'react';
 /* eslint-disable */
 
 declare global {
+  interface Window {
+    DrupalGutenberg: any;
+  }
+
   const Drupal: {
     behaviors: any;
     t: (s: string, t?: object, c?: object) => string;
@@ -43,6 +48,7 @@ declare global {
   const drupalSettings: {
     gutenberg: any;
     preview: any;
+    supportsHtml: boolean;
     path: {
       baseUrl: string;
       pathPrefix: string;

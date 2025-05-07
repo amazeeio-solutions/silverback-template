@@ -81,7 +81,7 @@ export function relinkSharedPackages(sharedPackagesDir: string): void {
       ]) {
         if (targetPkg[depType]) {
           for (const pkg of sharedPackages) {
-            if (targetPkg[depType][pkg.name] === 'workspace:*') {
+            if (targetPkg[depType][pkg.name]?.startsWith('workspace:')) {
               targetPkg[depType][pkg.name] = `^${pkg.version}`;
               updated = true;
             }

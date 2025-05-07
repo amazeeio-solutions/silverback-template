@@ -1,19 +1,25 @@
-name: Publish to NPM
+name: Release
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - Test
+    types:
+      - completed
     branches:
       - release
 
 # Only one workflow run at a time.
 concurrency:
-  group: publish_to_npm
+  group: release
 
 jobs:
   publish:
     name: Publish
-    if:
-      "! contains(github.event.head_commit.message, 'chore(release): release')"
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      !contains(github.event.workflow_run.head_commit.message, 'chore(release):
+      release')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,15 +37,12 @@ jobs:
           server-token: 'local'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Test
-        run: pnpm turbo:test
+      - name: Prepare packages
+        run: pnpm turbo:prep
         env:
           TURBO_API: 'http://127.0.0.1:9080'
           TURBO_TOKEN: 'local'
           TURBO_TEAM: 'local'
-
-      - name: Prepare packages
-        run: pnpm turbo:prep
 
       - name: Check for git changes
         run: git diff --exit-code
@@ -57,21 +60,3 @@ jobs:
 
       - name: Publish
         run: pnpm lerna publish -y --loglevel verbose
-
-      - name: 'Logs: cms'
-        run: cat /tmp/cms.log || true
-        if: always()
-      - name: 'Logs: website'
-        run: cat /tmp/website.log || true
-        if: always()
-      - name: 'Logs: preview'
-        run: cat /tmp/preview.log || true
-        if: always()
-
-      - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: playwright-report
-          path: tests/e2e/playwright-report/
-          retention-days: 3

@@ -1,3 +1,8 @@
+(() => {
+  window.DrupalGutenberg.defaultSettings.codeEditingEnabled =
+    drupalSettings.gutenberg.supportsHtml;
+})();
+
 drupalSettings.gutenberg._listeners.init.push(
   // Remove some of the formatting options
   function () {

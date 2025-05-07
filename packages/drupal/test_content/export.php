@@ -16,6 +16,7 @@ $excluded = [
   'redirect',
   'webform_submission',
   'consumer',
+  'search_api_task',
 ];
 
 Export::run('test_content', $excluded);

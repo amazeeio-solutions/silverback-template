@@ -1,0 +1,8 @@
+name: Silverback Search
+type: module
+description: 'Search functionality for Silverback.'
+package: Silverback
+core_version_requirement: ^10 || ^11
+
+dependencies:
+  - silverback_external_preview:silverback_external_preview

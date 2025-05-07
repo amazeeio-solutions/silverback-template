@@ -14,11 +14,11 @@ query_depth: null
 query_complexity: null
 schema_configuration:
   directable:
-    schema_definition: ../node_modules/@custom/schema/build/schema.graphql
-    autoload_registry: ../node_modules/@custom/schema/build/drupal-autoload.json
+    schema_definition: ../node_modules/@custom/schema/src/schema.graphql
     extensions:
       silverback_campaign_urls: silverback_campaign_urls
       silverback_gatsby: silverback_gatsby
+    autoload_contexts: drupal
     build_trigger_on_save: 0
 persisted_queries_settings:
   silverback_graphql_persisted:

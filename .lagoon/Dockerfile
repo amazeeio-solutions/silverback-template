@@ -1,8 +1,8 @@
 # ====================================================================================================
 # BUILDER IMAGE
 # ====================================================================================================
-FROM uselagoon/node-20-builder as node
-FROM uselagoon/php-8.3-cli-drupal as builder
+FROM uselagoon/node-20-builder AS node
+FROM uselagoon/php-8.3-cli-drupal AS builder
 
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
@@ -42,24 +42,27 @@ ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 COPY . /app
 RUN --mount=type=cache,target=/tmp/cache pnpm i && \
     # "composer install" needs to be executed
-    # - after "pnpm i" because some Composer packages are stored inside NPM 
+    # - after "pnpm i" because some Composer packages are stored inside NPM
     #   dependencies
-    # - before "pnpm turbo:prep" because some Composer packages may contain 
+    # - before "pnpm turbo:prep" because some Composer packages may contain
     #   GraphQL directives required by prep scripts
-    cd /app/apps/cms && composer install --no-dev && cd - && \
+    cd /app/apps/cms && composer install --no-dev --optimize-autoloader && cd - && \
     pnpm turbo:prep && \
     # Remove all node_modules to reduce the size of the image.
     find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
 
 # Deploy apps.
-RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/cms" /tmp/.deploy/cms --prod
+RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/cms" /tmp/.deploy/cms --prod && \
+    # We need to composer install again as node_modules were removed above and we need these ones
+    # for Drupal packages stored in node_modules.
+    cd /tmp/.deploy/cms && composer install --no-dev --optimize-autoloader
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/publisher" /tmp/.deploy/publisher --prod
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/preview" /tmp/.deploy/preview --prod
 
 # ====================================================================================================
 # CLI IMAGE
 # ====================================================================================================
-FROM uselagoon/php-8.3-cli-drupal as cli
+FROM uselagoon/php-8.3-cli-drupal AS cli
 
 RUN apk add --no-cache git qpdf imagemagick icu-dev && \
   docker-php-ext-install intl && \
@@ -75,7 +78,7 @@ ENV PHP_MEMORY_LIMIT=2048M
 # ====================================================================================================
 # PHP IMAGE
 # ====================================================================================================
-FROM uselagoon/php-8.3-fpm as php
+FROM uselagoon/php-8.3-fpm AS php
 RUN apk add --no-cache imagemagick qpdf icu-dev && \
   docker-php-ext-install intl && \
   docker-php-ext-enable intl
@@ -90,7 +93,7 @@ ENV PHP_MEMORY_LIMIT=2048M
 # ====================================================================================================
 # NGINX IMAGE
 # ====================================================================================================
-FROM uselagoon/nginx-drupal as nginx
+FROM uselagoon/nginx-drupal AS nginx
 
 COPY --from=cli /app /app
 RUN cd /app/web && cp ../node_modules/@custom/ui/build/gutenberg.css .
@@ -104,7 +107,7 @@ ENV WEBROOT=web
 # PREVIEW IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 as preview
+FROM uselagoon/node-20 AS preview
 
 RUN npm install -g pnpm@8.15.9
 COPY --from=builder /tmp/.deploy/preview /app
@@ -114,7 +117,7 @@ CMD pnpm start
 # PUBLISHER IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 as publisher
+FROM uselagoon/node-20 AS publisher
 
 RUN apk add --no-cache sqlite curl github-cli
 

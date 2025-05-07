@@ -187,12 +187,20 @@ replace(
   '  docker_build:',
 );
 
-// Remove publish_to_npm workflow.
-const publishToNpmWorkflow = '.github/workflows/publish_to_npm.yml';
+// Remove Release workflow.
+const publishToNpmWorkflow = '.github/workflows/release.yml';
 if (!fs.existsSync(publishToNpmWorkflow)) {
-  console.error('Publish to NPM workflow already removed.');
+  console.error('Release workflow already removed.');
   process.exit(1);
 }
 fs.rmSync(publishToNpmWorkflow, { force: true });
+
+// Remove Merge Release to Prod workflow.
+const mergeReleaseWorkflow = '.github/workflows/merge_release_to_prod.yml';
+if (!fs.existsSync(mergeReleaseWorkflow)) {
+  console.error('Merge Release to Prod workflow already removed.');
+  process.exit(1);
+}
+fs.rmSync(mergeReleaseWorkflow, { force: true });
 
 console.log('👉 Run `pnpm i` to update the lock file.');
