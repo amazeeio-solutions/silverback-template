@@ -457,7 +457,12 @@ input PaginationInput {
 type Query {
   previewDecapPage: DecapPage
   previewDrupalPage(path: String!, rid: ID): DrupalPage
-    @fetchEntity(type: "node", id: "$path", rid: "$rid", loadLatestRevision: true)
+    @fetchEntity(
+      type: "node"
+      id: "$path"
+      rid: "$rid"
+      loadLatestRevision: true
+    )
 
   metaNavigations: [MetaNavigation]
     @gatsbyNodes(type: "MetaNavigation")
