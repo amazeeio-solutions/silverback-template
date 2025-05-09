@@ -1,0 +1,29 @@
+ai_provider_amazeeai.settings:
+  type: config_object
+  label: 'Amazee.io AI Settings'
+  mapping:
+    api_key:
+      type: string
+      label: 'The API key for Amazee.io AI via Key module'
+    moderation:
+      type: boolean
+      label: 'Enable moderation requests before each request.'
+    host:
+      type: string
+      label: 'The host to use for the API requests.'
+    postgres_host:
+      type: string
+      label: 'The host to use for the Postgres database.'
+    postgres_port:
+      type: integer
+      label: 'The port to use for the Postgres database.'
+    postgres_default_database:
+      type: string
+      label: 'The database to use for the Postgres database.'
+    postgres_username:
+      type: string
+      label: 'The user to use for the Postgres database.'
+    postgres_password:
+      type: string
+      label:
+        'The password to use for the Postgres database, loaded via Key module.'

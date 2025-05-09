@@ -4,6 +4,13 @@ module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
   admin_user_language: 0
+  ai: 0
+  ai_api_explorer: 0
+  ai_provider_amazeeai: 0
+  ai_provider_litellm: 0
+  ai_provider_openai: 0
+  ai_search: 0
+  ai_vdb_provider_postgres: 0
   block: 0
   block_content: 0
   breakpoint: 0
@@ -40,6 +47,7 @@ module:
   gutenberg_blocks: 0
   honeypot: 0
   image: 0
+  key: 0
   key_auth: 0
   lagoon_logs: 0
   language: 0
