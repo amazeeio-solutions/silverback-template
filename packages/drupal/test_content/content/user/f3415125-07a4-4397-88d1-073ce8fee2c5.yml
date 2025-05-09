@@ -1,0 +1,49 @@
+_meta:
+  version: '1.0'
+  entity_type: user
+  uuid: f3415125-07a4-4397-88d1-073ce8fee2c5
+  default_langcode: en
+default:
+  preferred_langcode:
+    -
+      value: en
+  preferred_admin_langcode:
+    -
+      value: en
+  name:
+    -
+      value: MCP
+  pass:
+    -
+      value: $2y$10$VICbdljH.7UQU0.Ea0T9aO8XIcRon8SEN24Hxd0M9uAMBrcSd0idm
+      existing: ''
+      pre_hashed: true
+  mail:
+    -
+      value: development+mcp@amazeelabs.com
+  timezone:
+    -
+      value: UTC
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1746787667
+  login:
+    -
+      value: 0
+  init:
+    -
+      value: development+mcp@amazeelabs.com
+  roles:
+    -
+      target_id: editor
+  api_key:
+    -
+      value: 59c48f13b18e9883c4ea95a2dac1e35d
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
