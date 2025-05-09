@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: OWEkhbR597k4EL6f9pKT52RwGIcMDFCRzGSF93oJeug
+api_key: amazeeio_ai
+moderation: false
+host: 'https://litellm.amazeeai-us1.amazeeio.review'
+postgres_host: amazeeai-us1-vectordb1.cluster-cb2o4aei2d15.us-east-1.rds.amazonaws.com
+postgres_port: 5432
+postgres_default_database: db_4649807e
+postgres_username: user_306f3db9
+postgres_password: amazeeio_ai_database
+amazee_host: 'https://backend.main.amazeeai.us2.amazee.io'
