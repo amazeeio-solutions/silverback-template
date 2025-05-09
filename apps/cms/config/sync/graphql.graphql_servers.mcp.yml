@@ -14,7 +14,7 @@ query_depth: null
 query_complexity: null
 schema_configuration:
   directable:
-    schema_definition: ../../../packages/mcp/src/mcp.gql
+    schema_definition: ../mcp/src/mcp.gql
     extensions:
       silverback_campaign_urls: '0'
       silverback_gatsby: '0'
