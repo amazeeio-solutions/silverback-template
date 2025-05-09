@@ -126,8 +126,8 @@ mcpServers:
     command: mcp-graphql
     args: []
     env:
-      ENDPOINT: 'http://nginx:8080'
-      HEADERS: '{"api-key": "59c48f13b18e9883c4ea95a2dac1e35d"}'
+      ENDPOINT: 'http://nginx:8080/mcp'
+      HEADERS: '{"api-key": "8fad39495df277f06a0eb58c1f101029"}'
       ALLOW_MUTATIONS: 'true'
 #   everything:
 #     # type: sse # type can optionally be omitted
