@@ -8,6 +8,7 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/api/logs \
     && fix-permissions /app/uploads \
     && fix-permissions /app/client/public/images
+RUN npm install -g mcp-graphql
 
 ENV MONGO_URI=mongodb://mongodb:27017/LibreChat \
     RAG_API_URL=http://rag-api:8800 \
