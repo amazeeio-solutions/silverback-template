@@ -7,9 +7,11 @@ url:
   prefixes:
     en: en
     de: de
+    gsw-berne: de-CH
     fr: french
   domains:
     en: ''
     de: ''
+    gsw-berne: ''
     fr: ''
 selected_langcode: site_default

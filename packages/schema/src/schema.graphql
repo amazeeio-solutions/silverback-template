@@ -79,6 +79,7 @@ directive @route(
 enum Locale @default @value(string: "en") {
   en
   de
+  gsw_berne
   fr
 }
 
