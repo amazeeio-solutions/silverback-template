@@ -41,6 +41,7 @@ export default {
   decorators: [TranslationsDecorator],
   parameters: {
     location: new URL('local:/en/english-version'),
+    layout: 'centered',
   },
 } satisfies Meta<TranslationPaths>;
 
