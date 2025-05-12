@@ -194,16 +194,16 @@
     },
     {
       "name": "amazeelabs/silverback_autosave",
-      "version": "1.3.3",
+      "version": "1.3.4",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_autosave.git",
-        "reference": "0f6c5ef8a1d7c5b37fb27f35989092de5bbe43e8"
+        "reference": "4304e68737f6f8bcdf0afd81b99e80341c2ded97"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_autosave/zipball/0f6c5ef8a1d7c5b37fb27f35989092de5bbe43e8",
-        "reference": "0f6c5ef8a1d7c5b37fb27f35989092de5bbe43e8",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_autosave/zipball/4304e68737f6f8bcdf0afd81b99e80341c2ded97",
+        "reference": "4304e68737f6f8bcdf0afd81b99e80341c2ded97",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -214,9 +214,9 @@
       "description": "Adds autosave feature on forms.",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_autosave/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_autosave/tree/1.3.3"
+        "source": "https://github.com/AmazeeLabs/silverback_autosave/tree/1.3.4"
       },
-      "time": "2025-03-18T07:41:13+00:00"
+      "time": "2025-05-12T14:11:18+00:00"
     },
     {
       "name": "amazeelabs/silverback_campaign_urls",
@@ -311,16 +311,16 @@
     },
     {
       "name": "amazeelabs/silverback_gatsby",
-      "version": "3.7.11",
+      "version": "3.7.12",
       "source": {
         "type": "git",
         "url": "https://github.com/AmazeeLabs/silverback_gatsby.git",
-        "reference": "e80f325e2e686e3b9291c60b0b69b53cbfb06d3b"
+        "reference": "760b803a519cd36a6e57b07ecebdfb8d01809c76"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/e80f325e2e686e3b9291c60b0b69b53cbfb06d3b",
-        "reference": "e80f325e2e686e3b9291c60b0b69b53cbfb06d3b",
+        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/760b803a519cd36a6e57b07ecebdfb8d01809c76",
+        "reference": "760b803a519cd36a6e57b07ecebdfb8d01809c76",
         "shasum": ""
       },
       "type": "drupal-module",
@@ -339,9 +339,9 @@
       "homepage": "https://silverback.netlify.app",
       "support": {
         "issues": "https://github.com/AmazeeLabs/silverback_gatsby/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.11"
+        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.12"
       },
-      "time": "2025-05-07T11:59:24+00:00"
+      "time": "2025-05-12T14:11:18+00:00"
     },
     {
       "name": "amazeelabs/silverback_graphql_persisted",
