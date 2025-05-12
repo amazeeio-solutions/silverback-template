@@ -34,21 +34,20 @@ const ENCRYPTION_KEY =
  */
 export const oAuth2AuthCodeMiddleware: RequestHandler = ((): RequestHandler => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // Drupal's OAuth can be skipped if there is
-    // a valid preview link token for the entity.
-    const { preview_access_token, nid, entity_type_id, lang } = req.query;
-    if (preview_access_token && nid) {
+    // Drupal's OAuth can be skipped if there is a valid preview link token. The
+    // preview link token can either be sent as a query parameter or be stored
+    // in a cookie.
+    const { preview_access_token: preview_access_token_query } = req.query;
+    const { preview_access_token: preview_access_token_cookie } = req.cookies;
+    const preview_access_token =
+      preview_access_token_query || preview_access_token_cookie;
+    if (preview_access_token) {
       const config = getConfig();
       const previewAccess = await fetch(
         `${config.drupalHost}/preview/link-access`,
         {
           method: 'POST',
           body: JSON.stringify({
-            entity_id: nid,
-            // @todo we need to pass the entity type ID for other entity types.
-            //   But then also need to change the nid parameter to entity_id.
-            entity_type_id: entity_type_id || 'node',
-            langcode: lang || 'en',
             preview_access_token: preview_access_token,
           }),
           headers: {
