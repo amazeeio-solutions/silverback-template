@@ -5,10 +5,12 @@ dependencies:
   module:
     - content_preview
     - node
+    - silverback_gatsby
 id: preview
 label: Preview
 weight: -4
 is_admin: null
 permissions:
   - 'access any content revision'
+  - 'fetch any autosaved entity'
   - 'view all revisions'
