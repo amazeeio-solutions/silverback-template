@@ -1,4 +1,9 @@
-import { FrameQuery, OperationExecutorsProvider, Url } from '@custom/schema';
+import {
+  FrameQuery,
+  OperationExecutorsProvider,
+  Locale,
+  Url,
+} from '@custom/schema';
 import { Decorator, Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -19,9 +24,9 @@ const TranslationsDecorator = ((Story, ctx) => {
             websiteSettings: {
               homePage: {
                 translations: [
-                  { locale: 'en', path: '/en/home' as Url },
-                  { locale: 'de', path: '/de/home' as Url },
-                  { locale: 'fr', path: '/french/home' as Url },
+                  { locale: Locale.En, path: '/en/home' as Url },
+                  { locale: Locale.De, path: '/de/home' as Url },
+                  { locale: Locale.Fr, path: '/french/home' as Url },
                 ],
               },
             },
