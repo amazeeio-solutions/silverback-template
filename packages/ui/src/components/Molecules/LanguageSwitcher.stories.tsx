@@ -21,6 +21,7 @@ const TranslationsDecorator = ((Story, ctx) => {
                 translations: [
                   { locale: 'en', path: '/en/home' as Url },
                   { locale: 'de', path: '/de/home' as Url },
+                  { locale: 'fr', path: '/french/home' as Url },
                 ],
               },
             },
@@ -59,6 +60,7 @@ export const Full = {
   args: {
     de: '/de/german-version' as Url,
     en: '/en/english-version' as Url,
+    fr: '/french/french-version' as Url,
   },
 } satisfies Story;
 
@@ -66,6 +68,7 @@ export const Homepage = {
   args: {
     de: '/de/home' as Url,
     en: '/en/home' as Url,
+    fr: '/french/home' as Url,
   },
   parameters: {
     location: new URL('local:/de'),
