@@ -45,6 +45,14 @@ test('Meta', async () => {
             ],
             "locale": "de",
           },
+          {
+            "items": [],
+            "locale": "de_CH",
+          },
+          {
+            "items": [],
+            "locale": "french",
+          },
         ],
       },
     }
