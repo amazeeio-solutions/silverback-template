@@ -26,7 +26,7 @@ index 0000000000000000000000000000000000000000..d84047b9e9a7d8f422f8bf6260679d5a
 +    arguments: ['@ai_provider_amazeeio_test.http_client.inner']
 diff --git a/modules/ai_provider_amazeeio_test/src/MockHttpClient.php b/modules/ai_provider_amazeeio_test/src/MockHttpClient.php
 new file mode 100644
-index 0000000000000000000000000000000000000000..67ab4d28e531dd5f02ae0050272f27e9ec31ebf8
+index 0000000000000000000000000000000000000000..18e48d1f8061e5bb9c3ee797d65d4994384ec566
 --- /dev/null
 +++ b/modules/ai_provider_amazeeio_test/src/MockHttpClient.php
 @@ -0,0 +1,286 @@
@@ -92,7 +92,7 @@ index 0000000000000000000000000000000000000000..67ab4d28e531dd5f02ae0050272f27e9
 +   * Mock requests for code-based sign-in.
 +   */
 +  protected function mockSignIn(ParameterBag $body, ParameterBag $header): ResponseInterface {
-+    if (!($body->get('username') === 'john@doe.com' && $body->get('code') === '42')) {
++    if (!($body->get('username') === 'john@doe.com' && $body->get('verification_code') === '42')) {
 +      $this->error(401, 'Invalid code.');
 +    }
 +    return $this->success([
@@ -317,7 +317,7 @@ index 0000000000000000000000000000000000000000..67ab4d28e531dd5f02ae0050272f27e9
 +
 +}
 diff --git a/src/AmazeeIoApi/AmazeeClient.php b/src/AmazeeIoApi/AmazeeClient.php
-index 1969f9a1327766a3ad468b59bef866f5932ab6a0..4e00001b6a88ced5a687d83b5b19ab06bf9e400f 100644
+index 1969f9a1327766a3ad468b59bef866f5932ab6a0..4f92a92efced68d5732d5013c4aeebd5dea9d076 100644
 --- a/src/AmazeeIoApi/AmazeeClient.php
 +++ b/src/AmazeeIoApi/AmazeeClient.php
 @@ -5,6 +5,7 @@ namespace Drupal\ai_provider_amazeeio\AmazeeIoApi;
@@ -352,7 +352,7 @@ index 1969f9a1327766a3ad468b59bef866f5932ab6a0..4e00001b6a88ced5a687d83b5b19ab06
 +   */
 +  public function validateCode(string $email, string $code): ?string {
 +    try {
-+      $result = $this->makeRequest('POST', '/auth/sign-in', ['username' => $email, 'code' => $code]);
++      $result = $this->makeRequest('POST', '/auth/sign-in', ['username' => $email, 'verification_code' => $code]);
 +      $data = Utils::jsonDecode($result->getBody()->getContents(), TRUE);
 +      return $data['access_token'];
 +    }
@@ -1620,4 +1620,3 @@ index 0000000000000000000000000000000000000000..0b8faf3800f682779e10ea5eba0393e9
 +  }
 +
 +}
-
