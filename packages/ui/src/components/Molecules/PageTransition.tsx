@@ -77,12 +77,12 @@ function getLanguageMessage(url: string): ReactNode {
             'Diese Seite ist nicht in der angeforderten Sprache verfügbar.',
           goBack: 'Zurück',
         },
-        gsw_berne: {
+        de_CH: {
           message:
             'Diese Seite ist nicht in der angeforderten Sprache verfügbar.',
           goBack: 'Zurück',
         },
-        fr: {
+        french: {
           message: "Cette page n'est pas disponible dans la langue demandée",
           goBack: 'Retour',
         },

@@ -25,9 +25,9 @@ const TranslationsDecorator = ((Story, ctx) => {
               homePage: {
                 translations: [
                   { locale: Locale.En, path: '/en/home' as Url },
-                  { locale: Locale.GswBerne, path: '/de-CH/home' as Url },
                   { locale: Locale.De, path: '/de/home' as Url },
-                  { locale: Locale.Fr, path: '/french/home' as Url },
+                  { locale: Locale.DeCh, path: '/de-CH/home' as Url },
+                  { locale: Locale.French, path: '/french/home' as Url },
                 ],
               },
             },
@@ -64,19 +64,19 @@ export const Partial = {
 
 export const Full = {
   args: {
-    de: '/de/german-version' as Url,
-    gsw_berne: '/de-CH/swiss-german-version' as Url,
     en: '/en/english-version' as Url,
-    fr: '/french/french-version' as Url,
+    de: '/de/german-version' as Url,
+    de_CH: '/de-CH/swiss-german-version' as Url,
+    french: '/french/french-version' as Url,
   },
 } satisfies Story;
 
 export const Homepage = {
   args: {
-    de: '/de/home' as Url,
-    gsw_berne: '/de-CH/home' as Url,
     en: '/en/home' as Url,
-    fr: '/french/home' as Url,
+    de: '/de/home' as Url,
+    de_CH: '/de-CH/home' as Url,
+    french: '/french/home' as Url,
   },
   parameters: {
     location: new URL('local:/de'),

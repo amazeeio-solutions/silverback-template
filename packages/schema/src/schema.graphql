@@ -77,10 +77,10 @@ directive @route(
 ) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
 
 enum Locale @default @value(string: "en") {
-  de
   en
-  fr
-  gsw_berne
+  de
+  de_CH
+  french
 }
 
 enum Backend @default @value(string: "drupal") {
