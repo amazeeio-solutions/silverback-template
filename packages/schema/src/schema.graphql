@@ -79,6 +79,8 @@ directive @route(
 enum Locale @default @value(string: "en") {
   en
   de
+  de_CH
+  french
 }
 
 enum Backend @default @value(string: "drupal") {

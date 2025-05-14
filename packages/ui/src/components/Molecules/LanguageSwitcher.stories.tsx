@@ -1,4 +1,9 @@
-import { FrameQuery, OperationExecutorsProvider, Url } from '@custom/schema';
+import {
+  FrameQuery,
+  Locale,
+  OperationExecutorsProvider,
+  Url,
+} from '@custom/schema';
 import { Decorator, Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -19,8 +24,10 @@ const TranslationsDecorator = ((Story, ctx) => {
             websiteSettings: {
               homePage: {
                 translations: [
-                  { locale: 'en', path: '/en/home' as Url },
-                  { locale: 'de', path: '/de/home' as Url },
+                  { locale: Locale.En, path: '/en/home' as Url },
+                  { locale: Locale.De, path: '/de/home' as Url },
+                  { locale: Locale.DeCh, path: '/de-CH/home' as Url },
+                  { locale: Locale.French, path: '/french/home' as Url },
                 ],
               },
             },
@@ -41,6 +48,7 @@ export default {
   decorators: [TranslationsDecorator],
   parameters: {
     location: new URL('local:/en/english-version'),
+    layout: 'centered',
   },
 } satisfies Meta<TranslationPaths>;
 
@@ -56,15 +64,19 @@ export const Partial = {
 
 export const Full = {
   args: {
-    de: '/de/german-version' as Url,
     en: '/en/english-version' as Url,
+    de: '/de/german-version' as Url,
+    de_CH: '/de-CH/swiss-german-version' as Url,
+    french: '/french/french-version' as Url,
   },
 } satisfies Story;
 
 export const Homepage = {
   args: {
-    de: '/de/home' as Url,
     en: '/en/home' as Url,
+    de: '/de/home' as Url,
+    de_CH: '/de-CH/home' as Url,
+    french: '/french/home' as Url,
   },
   parameters: {
     location: new URL('local:/de'),
