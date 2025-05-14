@@ -5,9 +5,9 @@
   "author": "Amazee Labs <development@amazeelabs.com>",
   "engines": {
     "node": "20",
-    "pnpm": "9.15.9"
+    "pnpm": "10.11.0"
   },
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@10.11.0",
   "scripts": {
     "postinstall": "pnpm generate:prettierignore && husky install || true",
     "commit": "git-cz",
@@ -37,6 +37,23 @@
     "graphql": "16.8.1"
   },
   "pnpm": {
-    "patchedDependencies": {}
+    "patchedDependencies": {},
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "core-js",
+      "core-js-pure",
+      "es5-ext",
+      "esbuild",
+      "gatsby",
+      "gatsby-cli",
+      "iframe-resizer",
+      "lmdb",
+      "msgpackr-extract",
+      "netlify-cli",
+      "nx",
+      "sharp",
+      "sqlite3",
+      "unix-dgram"
+    ]
   }
 }

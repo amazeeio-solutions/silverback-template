@@ -9,7 +9,7 @@ COPY --from=node /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Install pnpm
-RUN npm install -g pnpm@8.15.9 && pnpm config set store-dir /tmp/cache/pnpm
+RUN npm install -g pnpm@10.11.0 && pnpm config set store-dir /tmp/cache/pnpm
 
 # Copy pnpm lockfile and install dependencies.
 COPY pnpm-lock.yaml .npmrc /app/
@@ -109,7 +109,7 @@ ENV WEBROOT=web
 
 FROM uselagoon/node-20 AS preview
 
-RUN npm install -g pnpm@8.15.9
+RUN npm install -g pnpm@10.11.0
 COPY --from=builder /tmp/.deploy/preview /app
 CMD pnpm start
 
@@ -121,7 +121,7 @@ FROM uselagoon/node-20 AS publisher
 
 RUN apk add --no-cache sqlite curl github-cli
 
-RUN npm install -g pnpm@8.15.9
+RUN npm install -g pnpm@10.11.0
 
 COPY --from=builder /tmp/.deploy/publisher /app
 
