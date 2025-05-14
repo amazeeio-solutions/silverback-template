@@ -85,14 +85,6 @@ export const createPages = async ({ actions }) => {
       });
     });
 
-  // Create the content hub page in each language.
-  Object.values(Locale).forEach((locale) => {
-    actions.createPage({
-      path: `/${formatLocalePath(locale)}/content-hub`,
-      component: resolve(`./src/templates/content-hub.tsx`),
-    });
-  });
-
   // Create a inquiry page in each language.
   Object.values(Locale).forEach((locale) => {
     actions.createPage({
