@@ -362,3 +362,35 @@ Refer to the
 blog post if you wonder where the name comes from, to
 [Edge functions documentation](https://docs.netlify.com/edge-functions/overview/)
 for technical details and to `strangler.ts` for how to add new legacy systems.
+
+## Website preview
+
+There is a preview app available which is basically an almost identical copy of
+the public website, but it displays the most up to date content (even real time
+changes done in the content edit forms). The access to the preview app is done
+based on a special token that is generated, for the moment, on the content edit
+form, in the CMS.
+
+The entire preview system works like this:
+
+- Make sure you have at least the following versions for these modules:
+  - silverback_autosave: 1.3.4
+  - silverback_preview_link: 1.6.12
+  - silverback_gatsby: 3.7.11
+  - custom content_preview module copied from this repository.
+- Make sure you have defined in `settings.php` the
+  `silverback_external_preview.settings.preview_host` which shuld point to the
+  domain (and optionally port) of the preview app, for example:
+  `http://127.0.0.1:8001`
+- There should be a `preview` role which should have at least the
+  `Aaccess any content revision` and the `Fetch any autosaved entity`
+  permissions. Make sure you also have the custom `content_preview` module
+  enabled.
+- There should be a user created, having the `preview` role, that will be set as
+  `Default preview user` at `/admin/config/content/silverback_preview_link`
+- To create a shareable preview link:
+  - Open a content edit form
+  - Click on the previw button which should open the preview iframe in the left
+    sidebar
+  - Click on the `Share preview` link. This should open a popup from where you
+    can copy the preview link (or access it via the QR code).

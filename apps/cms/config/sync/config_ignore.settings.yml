@@ -4,5 +4,4 @@ mode: simple
 ignored_config_entities:
   - 'language.*|*'
   - 'webform.webform*'
-  - 'silverback_preview_link.settings:default_preview_user'
 enable_export_filtering: true
