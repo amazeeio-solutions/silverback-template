@@ -35,6 +35,7 @@ export function usePreviewAccessToken() {
       expires: 1,
       sameSite: 'Strict',
       secure: true,
+      path: '/',
     });
   }
 
