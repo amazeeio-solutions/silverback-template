@@ -25,6 +25,7 @@ const TranslationsDecorator = ((Story, ctx) => {
               homePage: {
                 translations: [
                   { locale: Locale.En, path: '/en/home' as Url },
+                  { locale: Locale.GswBerne, path: '/de-CH/home' as Url },
                   { locale: Locale.De, path: '/de/home' as Url },
                   { locale: Locale.Fr, path: '/french/home' as Url },
                 ],
@@ -64,6 +65,7 @@ export const Partial = {
 export const Full = {
   args: {
     de: '/de/german-version' as Url,
+    gsw_berne: '/de-CH/swiss-german-version' as Url,
     en: '/en/english-version' as Url,
     fr: '/french/french-version' as Url,
   },
@@ -72,6 +74,7 @@ export const Full = {
 export const Homepage = {
   args: {
     de: '/de/home' as Url,
+    gsw_berne: '/de-CH/home' as Url,
     en: '/en/home' as Url,
     fr: '/french/home' as Url,
   },
