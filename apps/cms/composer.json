@@ -133,7 +133,7 @@
         "#2969051 - Fix HTML5 validation prevents submission in tabs": "https://www.drupal.org/files/issues/2024-08-07/field-group-tabs-8.x-3.x.patch"
       },
       "drupal/ai_provider_amazeeio": {
-        "#3524181 - AI provider login flow": "https://git.drupalcode.org/project/ai_provider_amazeeio/-/merge_requests/6.diff"
+        "#3524181 - AI provider login flow": "./patches/contrib/ai_provider_amazeeio/signup-flow.patch"
       }
     },
     "patchLevel": {
