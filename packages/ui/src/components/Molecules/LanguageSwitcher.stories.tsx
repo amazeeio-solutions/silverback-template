@@ -1,7 +1,7 @@
 import {
   FrameQuery,
-  OperationExecutorsProvider,
   Locale,
+  OperationExecutorsProvider,
   Url,
 } from '@custom/schema';
 import { Decorator, Meta, StoryObj } from '@storybook/react';
