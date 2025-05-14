@@ -5,9 +5,9 @@
   "author": "Amazee Labs <development@amazeelabs.com>",
   "engines": {
     "node": "20",
-    "pnpm": "8.15.9"
+    "pnpm": "9.15.9"
   },
-  "packageManager": "pnpm@8.15.9",
+  "packageManager": "pnpm@9.15.9",
   "scripts": {
     "postinstall": "pnpm generate:prettierignore && husky install || true",
     "commit": "git-cz",
