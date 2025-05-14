@@ -4,4 +4,3 @@ enabled_entity_types:
   node: {  }
 expiry_seconds: 86400
 multiple_entities: false
-default_preview_user: '5'
