@@ -122,9 +122,6 @@ actions:
 
 # Example MCP Servers Object Structure
 mcpServers:
-  drupalMcp:
-    url: http://mcp:8001
-    timeout: 60000
   drupal:
     command: mcp-graphql
     args: []
@@ -132,6 +129,9 @@ mcpServers:
       ENDPOINT: 'http://nginx:8080/mcp'
       HEADERS: '{"api-key": "8fad39495df277f06a0eb58c1f101029"}'
       ALLOW_MUTATIONS: 'true'
+  drupalSilverback:
+    type: sse
+    url: http://mcp:8001
 #   everything:
 #     # type: sse # type can optionally be omitted
 #     url: http://localhost:3001/sse
