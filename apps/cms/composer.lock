@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "f647de1496be154ee5fd86f743f8d876",
+  "content-hash": "3141accf3bbe41c4d4b10c6eff7333dd",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -2302,7 +2302,7 @@
       "source": {
         "type": "git",
         "url": "https://git.drupalcode.org/project/ai_provider_amazeeio.git",
-        "reference": "ad98a7e08d59961eb3bd3b002b7f6a5f569fd197"
+        "reference": "eed08ec3dd0562aae5f33c6abf384500843ea9c8"
       },
       "require": {
         "drupal/ai": "1.1.x-dev@dev",
@@ -2319,8 +2319,8 @@
           "dev-1.0.x": "1.0.x-dev"
         },
         "drupal": {
-          "version": "1.0.0-beta5+2-dev",
-          "datestamp": "1744653938",
+          "version": "1.0.0-beta5+5-dev",
+          "datestamp": "1747293443",
           "security-coverage": {
             "status": "not-covered",
             "message": "Project has not opted into security advisory coverage!"
@@ -2351,6 +2351,14 @@
         {
           "name": "marcus_johansson",
           "homepage": "https://www.drupal.org/user/385947"
+        },
+        {
+          "name": "matthews",
+          "homepage": "https://www.drupal.org/user/114486"
+        },
+        {
+          "name": "pmelab",
+          "homepage": "https://www.drupal.org/user/555322"
         },
         {
           "name": "schnitzel",
