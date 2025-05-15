@@ -9,17 +9,8 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/uploads \
     && fix-permissions /app/client/public/images
 
-# Install Deno using Alpine's package manager
-RUN apk add --no-cache deno
-
 # Create deno.json to enable node_modules
 RUN echo '{"nodeModulesDir": "auto"}' > /app/deno.json
-
-# Install npm dependencies
-RUN npm install @modelcontextprotocol/sdk@^1.10.2
-
-# Pre-download the Drupal MCP server package
-RUN deno cache jsr:@omedia/mcp-server-drupal
 
 RUN npm install -g mcp-graphql
 

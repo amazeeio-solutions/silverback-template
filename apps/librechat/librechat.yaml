@@ -130,8 +130,10 @@ mcpServers:
       HEADERS: '{"api-key": "8fad39495df277f06a0eb58c1f101029"}'
       ALLOW_MUTATIONS: 'true'
   drupalSilverback:
-    command: deno
+    command: npx
     args:
+      - -y
+      - deno
       - run
       - -A
       - jsr:@omedia/mcp-server-drupal
