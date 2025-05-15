@@ -123,11 +123,8 @@ actions:
 # Example MCP Servers Object Structure
 mcpServers:
   drupalMcp:
-    command: /app/bin/mcp-server-drupal
-    args:
-      [
-        '--drupal-url=https://nginx.lagoon-chat.silverback-template.ch4.amazee.io',
-      ]
+    url: http://mcp:8001
+    timeout: 60000
   drupal:
     command: mcp-graphql
     args: []
