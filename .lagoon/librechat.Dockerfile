@@ -10,6 +10,10 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/client/public/images
 RUN npm install -g mcp-graphql
 
+
+RUN wget https://github.com/Omedia/mcp-server-drupal/releases/download/v1.0.0/mcp-server-drupal_linux_x86 -O /app/bin/mcp-server-drupal \
+    && chmod +x /app/bin/mcp-server-drupal
+
 ENV MONGO_URI=mongodb://mongodb:27017/LibreChat \
     RAG_API_URL=http://rag-api:8800 \
     HOST=0.0.0.0 \
