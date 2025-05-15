@@ -458,12 +458,7 @@ type Query {
   previewDecapPage: DecapPage
   previewDrupalPage(path: String!, rid: ID): DrupalPage
     @homeRoute(path: "$path")
-    @fetchEntity(
-      type: "node"
-      id: "$"
-      rid: "$rid"
-      loadLatestRevision: true
-    )
+    @fetchEntity(type: "node", id: "$", rid: "$rid", loadLatestRevision: true)
 
   metaNavigations: [MetaNavigation]
     @gatsbyNodes(type: "MetaNavigation")

@@ -379,18 +379,18 @@ The entire preview system works like this:
   - silverback_gatsby: 3.7.11
   - custom content_preview module copied from this repository.
 - Make sure you have defined in `settings.php` the
-  `silverback_external_preview.settings.preview_host` which shuld point to the
+  `silverback_external_preview.settings.preview_host` which should point to the
   domain (and optionally port) of the preview app, for example:
   `http://127.0.0.1:8001`
 - There should be a `preview` role which should have at least the
-  `Aaccess any content revision` and the `Fetch any autosaved entity`
+  `Access any content revision` and the `Fetch any autosaved entity`
   permissions. Make sure you also have the custom `content_preview` module
   enabled.
 - There should be a user created, having the `preview` role, that will be set as
   `Default preview user` at `/admin/config/content/silverback_preview_link`
 - To create a shareable preview link:
   - Open a content edit form
-  - Click on the previw button which should open the preview iframe in the left
+  - Click on the preview button which should open the preview iframe in the left
     sidebar
   - Click on the `Share preview` link. This should open a popup from where you
     can copy the preview link (or access it via the QR code).
