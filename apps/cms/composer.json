@@ -76,6 +76,7 @@
     "drupal/lagoon_logs": "^2.1.1",
     "drupal/linkit": "^6.0@beta",
     "drupal/masquerade": "^2.0@RC",
+    "drupal/mcp": "^1.0",
     "drupal/menu_admin_per_menu": "^1.5",
     "drupal/metatag": "^2.0",
     "drupal/pate": "^1.2",
