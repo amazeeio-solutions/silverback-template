@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "3141accf3bbe41c4d4b10c6eff7333dd",
+  "content-hash": "f9d4cda5b36379a4012fec6ca22de55c",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -4182,6 +4182,65 @@
       }
     },
     {
+      "name": "drupal/jsonrpc",
+      "version": "2.1.2",
+      "source": {
+        "type": "git",
+        "url": "https://git.drupalcode.org/project/jsonrpc.git",
+        "reference": "2.1.2"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://ftp.drupal.org/files/projects/jsonrpc-2.1.2.zip",
+        "reference": "2.1.2",
+        "shasum": "a1b282cff6e6d8f58b881246baeb9bee31ac29e9"
+      },
+      "require": {
+        "drupal/core": "^9 || ^10 || ^11",
+        "e0ipso/shaper": "^1.2.1"
+      },
+      "type": "drupal-module",
+      "extra": {
+        "drupal": {
+          "version": "2.1.2",
+          "datestamp": "1726276215",
+          "security-coverage": {
+            "status": "covered",
+            "message": "Covered by Drupal's security advisory policy"
+          }
+        }
+      },
+      "notification-url": "https://packages.drupal.org/8/downloads",
+      "license": [
+        "GPL-2.0+"
+      ],
+      "authors": [
+        {
+          "name": "Mateu Aguiló Bosch",
+          "homepage": "https://www.drupal.org/user/3616626",
+          "email": "mateu.aguilo.bosch@gmail.com"
+        },
+        {
+          "name": "Gabriel Sullice",
+          "homepage": "https://www.drupal.org/user/550110",
+          "email": "gabriel@sullice.com"
+        },
+        {
+          "name": "gabesullice",
+          "homepage": "https://www.drupal.org/user/2287430"
+        },
+        {
+          "name": "ptmkenny",
+          "homepage": "https://www.drupal.org/user/97885"
+        }
+      ],
+      "description": "Infrastructure for JSON-RPC 2.0 compliant web services.",
+      "homepage": "https://www.drupal.org/project/jsonrpc",
+      "support": {
+        "source": "https://git.drupalcode.org/project/jsonrpc"
+      }
+    },
+    {
       "name": "drupal/key",
       "version": "1.20.0",
       "source": {
@@ -4495,6 +4554,65 @@
         "source": "https://git.drupal.org/project/masquerade.git",
         "issues": "https://www.drupal.org/project/issues/masquerade",
         "irc": "irc://irc.freenode.org/drupal-contribute"
+      }
+    },
+    {
+      "name": "drupal/mcp",
+      "version": "1.0.1",
+      "source": {
+        "type": "git",
+        "url": "https://git.drupalcode.org/project/mcp.git",
+        "reference": "1.0.1"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://ftp.drupal.org/files/projects/mcp-1.0.1.zip",
+        "reference": "1.0.1",
+        "shasum": "b669e38b49dcaf6ea62bb65da11f405bd59c3e1f"
+      },
+      "require": {
+        "drupal/core": "^10 || ^11",
+        "drupal/jsonrpc": "^2.1",
+        "drupal/key": "^1.19",
+        "php": ">=8.1"
+      },
+      "require-dev": {
+        "drupal/ai": "1.1.x-dev@dev",
+        "drupal/ai_agents": "1.1.x-dev@dev"
+      },
+      "type": "drupal-module",
+      "extra": {
+        "drupal": {
+          "version": "1.0.1",
+          "datestamp": "1744891537",
+          "security-coverage": {
+            "status": "not-covered",
+            "message": "Project has not opted into security advisory coverage!"
+          }
+        }
+      },
+      "notification-url": "https://packages.drupal.org/8/downloads",
+      "license": [
+        "GPL-2.0-or-later"
+      ],
+      "authors": [
+        {
+          "name": "ggagosh",
+          "homepage": "https://www.drupal.org/user/3506581"
+        },
+        {
+          "name": "jibla",
+          "homepage": "https://www.drupal.org/user/1013184"
+        },
+        {
+          "name": "marcus_johansson",
+          "homepage": "https://www.drupal.org/user/385947"
+        }
+      ],
+      "description": "The MCP Drupal module implements the Model Context Protocol (MCP)",
+      "homepage": "https://www.drupal.org/project/mcp",
+      "support": {
+        "source": "https://git.drupalcode.org/project/mcp"
       }
     },
     {
@@ -5781,6 +5899,52 @@
       "time": "2024-08-02T11:57:29+00:00"
     },
     {
+      "name": "e0ipso/shaper",
+      "version": "1.2.7",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/e0ipso/shaper.git",
+        "reference": "1d9e726c98d3168d30c1180cd836d13267744fb7"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/e0ipso/shaper/zipball/1d9e726c98d3168d30c1180cd836d13267744fb7",
+        "reference": "1d9e726c98d3168d30c1180cd836d13267744fb7",
+        "shasum": ""
+      },
+      "require": {
+        "justinrainbow/json-schema": "^5.2 || ^6.3"
+      },
+      "require-dev": {
+        "php-coveralls/php-coveralls": "^2.4",
+        "phpunit/phpcov": "^8.2",
+        "phpunit/phpunit": "^9.5"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Shaper\\": "src",
+          "Shaper\\Tests\\": "tests/src"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "GPL-2.0"
+      ],
+      "authors": [
+        {
+          "name": "Mateu Aguiló Bosch",
+          "email": "mateu.aguilo.bosch@gmail.com"
+        }
+      ],
+      "description": "Lightweight library to handle in and out transformations in PHP.",
+      "support": {
+        "issues": "https://github.com/e0ipso/shaper/issues",
+        "source": "https://github.com/e0ipso/shaper/tree/1.2.7"
+      },
+      "time": "2025-04-04T08:14:01+00:00"
+    },
+    {
       "name": "egulias/email-validator",
       "version": "4.0.4",
       "source": {
@@ -6350,6 +6514,71 @@
         }
       ],
       "time": "2025-03-27T12:30:47+00:00"
+    },
+    {
+      "name": "justinrainbow/json-schema",
+      "version": "5.3.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/jsonrainbow/json-schema.git",
+        "reference": "feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8",
+        "reference": "feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=7.1"
+      },
+      "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
+        "json-schema/json-schema-test-suite": "1.2.0",
+        "phpunit/phpunit": "^4.8.35"
+      },
+      "bin": [
+        "bin/validate-json"
+      ],
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "JsonSchema\\": "src/JsonSchema/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Bruno Prieto Reis",
+          "email": "bruno.p.reis@gmail.com"
+        },
+        {
+          "name": "Justin Rainbow",
+          "email": "justin.rainbow@gmail.com"
+        },
+        {
+          "name": "Igor Wiedler",
+          "email": "igor@wiedler.ch"
+        },
+        {
+          "name": "Robert Schönthal",
+          "email": "seroscho@googlemail.com"
+        }
+      ],
+      "description": "A library to validate a json schema.",
+      "homepage": "https://github.com/justinrainbow/json-schema",
+      "keywords": [
+        "json",
+        "schema"
+      ],
+      "support": {
+        "issues": "https://github.com/jsonrainbow/json-schema/issues",
+        "source": "https://github.com/jsonrainbow/json-schema/tree/5.3.0"
+      },
+      "time": "2024-07-06T21:00:26+00:00"
     },
     {
       "name": "lcobucci/clock",
@@ -13191,71 +13420,6 @@
         "source": "https://github.com/protocolbuffers/protobuf-php/tree/v4.29.3"
       },
       "time": "2025-01-08T21:00:13+00:00"
-    },
-    {
-      "name": "justinrainbow/json-schema",
-      "version": "5.3.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/jsonrainbow/json-schema.git",
-        "reference": "feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8",
-        "reference": "feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=7.1"
-      },
-      "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
-        "json-schema/json-schema-test-suite": "1.2.0",
-        "phpunit/phpunit": "^4.8.35"
-      },
-      "bin": [
-        "bin/validate-json"
-      ],
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "JsonSchema\\": "src/JsonSchema/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Bruno Prieto Reis",
-          "email": "bruno.p.reis@gmail.com"
-        },
-        {
-          "name": "Justin Rainbow",
-          "email": "justin.rainbow@gmail.com"
-        },
-        {
-          "name": "Igor Wiedler",
-          "email": "igor@wiedler.ch"
-        },
-        {
-          "name": "Robert Schönthal",
-          "email": "seroscho@googlemail.com"
-        }
-      ],
-      "description": "A library to validate a json schema.",
-      "homepage": "https://github.com/justinrainbow/json-schema",
-      "keywords": [
-        "json",
-        "schema"
-      ],
-      "support": {
-        "issues": "https://github.com/jsonrainbow/json-schema/issues",
-        "source": "https://github.com/jsonrainbow/json-schema/tree/5.3.0"
-      },
-      "time": "2024-07-06T21:00:26+00:00"
     },
     {
       "name": "lullabot/mink-selenium2-driver",
