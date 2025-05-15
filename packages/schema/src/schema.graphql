@@ -468,9 +468,10 @@ input PaginationInput {
 type Query {
   previewDecapPage: DecapPage
   previewDrupalPage(path: String!, rid: ID): DrupalPage
+    @homeRoute(path: "$path")
     @fetchEntity(
       type: "node"
-      id: "$path"
+      id: "$"
       rid: "$rid"
       loadLatestRevision: true
     )

@@ -17,28 +17,8 @@ function usePreviewParameters(): OperationVariables<
 > {
   const [location] = useLocation();
 
-  // @todo: the homepage in preview mode is an edge case because in the CMS
-  // there is a separate settings (in the Website settings) where the homepage
-  // is set. We'd have a few options here:
-  // 1. Make the CMS fetchEntity data producer check for the homepage settings
-  // in the Website settings.
-  // 2. Update the PreviewDrupalPageQuery so that it inlcudes the website
-  // settings (right now, if we run the try to get the websiteSetting field it
-  // will just return null).
-  // This would need a follow-up, and until then we just have this hardcoded
-  // mapping for the homepage paths.
-  const hompagePaths = new Map<string, string>();
-  hompagePaths.set('/', '/en/architecture');
-  hompagePaths.set('', '/en/architecture');
-  hompagePaths.set('/en', '/en/architecture');
-  hompagePaths.set('/de', '/de/architektur');
-
-  const pathName = hompagePaths.has(location.pathname)
-    ? hompagePaths.get(location.pathname)
-    : location.pathname;
-
   return {
-    path: pathName || '',
+    path: location.pathname || '',
     rid: location.searchParams.get('rid') || '',
   };
 }
