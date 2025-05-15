@@ -1,6 +1,31 @@
 <?php
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\user\Entity\User;
+
+function custom_deploy_set_default_preview_user(array &$sandbox): string {
+  $defaultPreviewUser = \Drupal::state()->get('silverback_preview_link.default_preview_user');
+  // If there is no preview user set, then we want to just search for the first
+  // user having the `preview` role.
+  if (empty($defaultPreviewUser)) {
+    $query = \Drupal::entityQuery('user')
+      ->condition('roles', 'preview')
+      ->accessCheck(FALSE)
+      ->range(0, 1);
+    $defaultPreviewUser = $query->execute();
+    if (!empty($defaultPreviewUser)) {
+      $defaultPreviewUser = reset($defaultPreviewUser);
+    }
+    if (empty($defaultPreviewUser)) {
+      return t('No preview user found. For the preview links to work properly, you need to create a user having the `preview` role and set it as the default preview user at /admin/config/content/silverback_preview_link');
+    }
+    \Drupal::state()->set('silverback_preview_link.default_preview_user', $defaultPreviewUser);
+
+    $previewUser = User::load($defaultPreviewUser);
+    return t('Default preview user set to @user', ['@user' => $previewUser->getAccountName()]);
+  }
+  return t('Default preview user already set.');
+}
 
 /**
  * Create the Publisher OAuth Consumer.
