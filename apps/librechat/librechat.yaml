@@ -136,9 +136,9 @@ mcpServers:
       - deno
       - run
       - -A
-      - jsr:@omedia/mcp-server-drupal
+      - 'jsr:@omedia/mcp-server-drupal'
       - --drupal-url
-      - http://nginx:8080
+      - https://nginx.lagoon-chat.silverback-template.ch4.amazee.io
     env: {}
 #   everything:
 #     # type: sse # type can optionally be omitted
