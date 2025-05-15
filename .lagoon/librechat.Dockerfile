@@ -8,6 +8,13 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/api/logs \
     && fix-permissions /app/uploads \
     && fix-permissions /app/client/public/images
+
+# Install Deno using Alpine's package manager
+RUN apk add --no-cache deno
+
+# Pre-download the Drupal MCP server package
+RUN deno cache jsr:@omedia/mcp-server-drupal
+
 RUN npm install -g mcp-graphql
 
 ENV MONGO_URI=mongodb://mongodb:27017/LibreChat \
