@@ -19,20 +19,20 @@ x-user:
   user: '1000'
 
 services:
-  mcp:
-    image: ghcr.io/omedia/mcp-server-drupal:1.0.0
-    command: ['--drupal-url=${LAGOON_ROUTE}']
-    ports:
-      - '8001:8001' # Adjust port as needed; MCP typically uses 8000
-    environment:
-      <<: *default-environment
-    depends_on:
-      - nginx
-    networks:
-      - amazeeio-network
-      - default
-    labels:
-      lagoon.type: none
+  # mcp:
+  #   image: ghcr.io/omedia/mcp-server-drupal:1.0.0
+  #   command: ['--drupal-url=${LAGOON_ROUTE}']
+  #   ports:
+  #     - '8001:8001' # Adjust port as needed; MCP typically uses 8000
+  #   environment:
+  #     <<: *default-environment
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - amazeeio-network
+  #     - default
+  #   labels:
+  #     lagoon.type: none
 
   cli: # cli container, will be used for executing composer and any local commands (drush, drupal, etc.)
     build:
