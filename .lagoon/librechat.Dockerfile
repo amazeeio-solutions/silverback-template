@@ -9,6 +9,14 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/uploads \
     && fix-permissions /app/client/public/images
 
+# Install Deno for Alpine
+RUN apk add --no-cache curl unzip \
+    && curl -fsSL https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -o deno.zip \
+    && unzip deno.zip \
+    && mv deno /usr/local/bin/ \
+    && chmod +x /usr/local/bin/deno \
+    && rm deno.zip
+
 # Create deno.json to enable node_modules
 RUN echo '{"nodeModulesDir": "auto"}' > /app/deno.json
 
