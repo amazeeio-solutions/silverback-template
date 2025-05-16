@@ -15,12 +15,14 @@ RUN apk add --no-cache curl unzip \
     && unzip deno.zip \
     && mv deno /usr/local/bin/ \
     && chmod +x /usr/local/bin/deno \
-    && rm deno.zip
+    && rm deno.zip \
+    && ln -s /usr/local/bin/deno /usr/bin/deno
 
 # Create and configure writable Deno cache directory
 RUN mkdir -p /app/api/logs/.deno/cache \
     && fix-permissions /app/api/logs/.deno/cache
 ENV DENO_DIR=/app/api/logs/.deno/cache
+ENV PATH="/usr/local/bin:${PATH}"
 
 # Install MCP server JSR package
 RUN deno cache --reload jsr:@omedia/mcp-server-drupal
