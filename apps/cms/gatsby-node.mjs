@@ -23,7 +23,7 @@ export const createPages = async ({ actions }) => {
   // Create the content hub page in each language.
   Object.values(Locale).forEach((locale) => {
     actions.createPage({
-      path: `/${locale}/content-hub`,
+      path: `/${formatLocalePath(locale)}/content-hub`,
       component: resolve(`./src/templates/content-hub.tsx`),
     });
   });
@@ -65,3 +65,13 @@ export const createPages = async ({ actions }) => {
     });
   });
 };
+
+/**
+ * Format locale containing the country code,
+ * so it's ISO 639-1 compliant in the path.
+ * This is needed as GraphQL enums are not supporting dashes (-).
+ * @param {string} locale
+ */
+function formatLocalePath(locale) {
+  return locale.replace('_', '-');
+}
