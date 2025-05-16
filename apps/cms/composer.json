@@ -122,9 +122,6 @@
       "drupal/graphql": {
         "Check if translation exists when loading an entity by its uuid": "./patches/graphql_load_by_uuid_translation_check.patch"
       },
-      "drupal/graphql_directives": {
-        "#3524387 Resolve entity language path if url.prefixes is configured": "https://git.drupalcode.org/project/graphql_directives/-/merge_requests/1.patch"
-      },
       "drupal/coffee": {
         "On the fly ajax search POC": "./patches/contrib/coffee/on_the_fly_ajax_search_poc.patch"
       },
