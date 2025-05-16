@@ -9,13 +9,12 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/uploads \
     && fix-permissions /app/client/public/images
 
-# Install Deno for Alpine
-RUN apk add --no-cache curl unzip \
-    && curl -fsSL https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-musl.zip -o deno.zip \
-    && unzip deno.zip -d /usr/local/bin \
+# Install Deno for Alpine using official install script
+RUN apk add --no-cache curl \
+    && curl -fsSL https://deno.land/install.sh | sh \
+    && mv /root/.deno/bin/deno /usr/local/bin/deno \
     && chmod +x /usr/local/bin/deno \
-    && rm deno.zip \
-    && apk del curl unzip
+    && apk del curl
 
 # Create and configure writable Deno cache directory
 RUN mkdir -p /app/api/logs/.deno/cache \
