@@ -14,7 +14,8 @@ export function isLocale(input: any): input is Locale {
  */
 export function useLocale() {
   const [{ pathname }] = useLocation();
-  const prefix = pathname.split('/')[1];
+  // GraphQL enums are not supporting dashes (-).
+  const prefix = pathname.split('/')[1].replace('-', '_');
   return isLocale(prefix) ? prefix : defaultLocale;
 }
 

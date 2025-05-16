@@ -1,0 +1,9 @@
+uuid: c924dbf4-0223-4d86-8d5a-03649ecccff8
+langcode: en
+status: true
+dependencies: {  }
+id: gsw-berne
+label: 'Swiss German'
+direction: ltr
+weight: -8
+locked: false

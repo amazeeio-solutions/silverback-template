@@ -35,7 +35,7 @@ test.describe('content-editing', () => {
     await page.getByText('Save', { exact: true }).click();
     await page.getByRole('link', { name: 'Translate' }).click();
     const translateUrl = page.url();
-    await page.getByRole('link', { name: 'Add', exact: true }).click();
+    await page.getByRole('link', { name: 'Add', exact: true }).first().click();
     await page.locator("[name='title[0][value]']").fill('A draft translation');
     await page.getByLabel('Ändern in').selectOption('draft');
     await page.getByLabel('Headline').fill('A draft translation');
