@@ -129,17 +129,17 @@ mcpServers:
       ENDPOINT: 'http://nginx:8080/mcp'
       HEADERS: '{"api-key": "8fad39495df277f06a0eb58c1f101029"}'
       ALLOW_MUTATIONS: 'true'
-  drupalSilverback:
-    command: npx
-    args:
-      - -y
-      - deno
-      - run
-      - -A
-      - 'jsr:@omedia/mcp-server-drupal'
-      - --drupal-url
-      - https://nginx.lagoon-chat.silverback-template.ch4.amazee.io
-    env: {}
+  # drupalSilverback:
+  #   command: npx
+  #   args:
+  #     - -y
+  #     - deno
+  #     - run
+  #     - -A
+  #     - 'jsr:@omedia/mcp-server-drupal'
+  #     - --drupal-url
+  #     - https://nginx.lagoon-chat.silverback-template.ch4.amazee.io
+  #   env: {}
 #   everything:
 #     # type: sse # type can optionally be omitted
 #     url: http://localhost:3001/sse
