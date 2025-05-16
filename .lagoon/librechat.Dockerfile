@@ -10,23 +10,23 @@ RUN mkdir -p /app/api/logs /app/uploads /app/client/public/images \
     && fix-permissions /app/client/public/images
 
 # Install Deno for Alpine using official install script
-RUN apk add --no-cache curl \
-    && curl -fsSL https://deno.land/install.sh | sh \
-    && mv /root/.deno/bin/deno /usr/local/bin/deno \
-    && chmod +x /usr/local/bin/deno \
-    && apk del curl
+# RUN apk add --no-cache curl \
+#     && curl -fsSL https://deno.land/install.sh | sh \
+#     && mv /root/.deno/bin/deno /usr/local/bin/deno \
+#     && chmod +x /usr/local/bin/deno \
+#     && apk del curl
 
-# Create and configure writable Deno cache directory
-RUN mkdir -p /app/api/logs/.deno/cache \
-    && fix-permissions /app/api/logs/.deno/cache
-ENV DENO_DIR=/app/api/logs/.deno/cache
-ENV PATH="/usr/local/bin:$PATH"
+# # Create and configure writable Deno cache directory
+# RUN mkdir -p /app/api/logs/.deno/cache \
+#     && fix-permissions /app/api/logs/.deno/cache
+# ENV DENO_DIR=/app/api/logs/.deno/cache
+# ENV PATH="/usr/local/bin:$PATH"
 
-# Install MCP server JSR package
-RUN deno cache --reload jsr:@omedia/mcp-server-drupal
+# # Install MCP server JSR package
+# RUN deno cache --reload jsr:@omedia/mcp-server-drupal
 
-# Create deno.json to enable node_modules
-RUN echo '{"nodeModulesDir": "auto"}' > /app/deno.json
+# # Create deno.json to enable node_modules
+# RUN echo '{"nodeModulesDir": "auto"}' > /app/deno.json
 
 RUN npm install -g mcp-graphql
 
