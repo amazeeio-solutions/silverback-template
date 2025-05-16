@@ -129,15 +129,15 @@ mcpServers:
       ENDPOINT: 'http://nginx:8080/mcp'
       HEADERS: '{"api-key": "8fad39495df277f06a0eb58c1f101029"}'
       ALLOW_MUTATIONS: 'true'
-  drupalSilverback:
-    command: deno
-    args:
-      - run
-      - -A
-      - 'jsr:@omedia/mcp-server-drupal'
-      - --drupal-url
-      - http://nginx:8080
-    env: {}
+  # drupalSilverback:
+  #   command: deno
+  #   args:
+  #     - run
+  #     - -A
+  #     - 'jsr:@omedia/mcp-server-drupal'
+  #     - --drupal-url
+  #     - http://nginx:8080
+  #   env: {}
 #   everything:
 #     # type: sse # type can optionally be omitted
 #     url: http://localhost:3001/sse
