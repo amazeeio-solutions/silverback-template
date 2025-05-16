@@ -130,17 +130,14 @@ mcpServers:
       HEADERS: '{"api-key": "8fad39495df277f06a0eb58c1f101029"}'
       ALLOW_MUTATIONS: 'true'
   drupalSilverback:
-    url: http://mcp:8001
-    timeout: 60000
-  # drupalSilverback:
-  #   command: deno
-  #   args:
-  #     - run
-  #     - -A
-  #     - 'jsr:@omedia/mcp-server-drupal'
-  #     - --drupal-url
-  #     - http://nginx:8080
-  #   env: {}
+    command: deno
+    args:
+      - run
+      - -A
+      - 'jsr:@omedia/mcp-server-drupal'
+      - --drupal-url
+      - http://nginx:8080
+    env: {}
 #   everything:
 #     # type: sse # type can optionally be omitted
 #     url: http://localhost:3001/sse
