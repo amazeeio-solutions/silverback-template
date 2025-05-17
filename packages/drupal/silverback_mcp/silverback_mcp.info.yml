@@ -1,0 +1,8 @@
+name: 'Silverback MCP'
+type: module
+description: 'Allows users to interact with a Silverback Drupal instance using MCP'
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - ai:ai
+  - mcp:mcp

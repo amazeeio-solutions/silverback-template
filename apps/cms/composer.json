@@ -92,7 +92,8 @@
     "drupal/userprotect": "^1.2",
     "drupal/webform": "^6.1.5",
     "drush/drush": "^12.5",
-    "enyo/dropzone": "^5.7.1"
+    "enyo/dropzone": "^5.7.1",
+    "fivefilters/readability.php": "^3.3"
   },
   "conflict": {
     "drupal/drupal": "*"

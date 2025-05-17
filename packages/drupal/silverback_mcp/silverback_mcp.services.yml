@@ -1,0 +1,4 @@
+services:
+  silverback_mcp.mcp:
+    class: Drupal\silverback_mcp\SilverbackMcp
+    arguments: ['@entity_type.manager', '@current_route_match', '@current_user', '@logger.factory', '@config.factory']
