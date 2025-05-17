@@ -109,3 +109,4 @@ RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["/tini", "--", "docker-entrypoint.sh"]
 CMD ["eval", "console.log('Welcome to Deno!')"]
+RUN deno cache --reload jsr:@omedia/mcp-server-drupal
