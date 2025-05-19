@@ -44,7 +44,6 @@ class QueryStringWebformSourceEntity extends Original {
       return NULL;
     }
 
-
     // Check for preserved source entity ID from form submission
     if ($this->request->request->get('silverback_iframe_source_entity_id')) {
       $node_id = $this->request->request->get('silverback_iframe_source_entity_id');
@@ -58,14 +57,16 @@ class QueryStringWebformSourceEntity extends Original {
     $referrer = NULL;
     if ($this->request->query->has('ref')) {
       $encoded_url = $this->request->query->get('ref');
-      try {
-        $decoded_url = base64_decode($encoded_url);
-        if ($decoded_url !== FALSE) {
-          $referrer = urldecode($decoded_url);
+      $decoded_url = base64_decode($encoded_url, true);
+      if ($decoded_url === false) {
+        \Drupal::logger('silverback_iframe')->warning('Failed to base64 decode ref parameter: @value', ['@value' => $encoded_url]);
+      }
+      else {
+        $referrer = urldecode($decoded_url);
+        // If urldecode did not change the string, it may not have been encoded.
+        if ($referrer === $decoded_url && preg_match('/%[0-9A-Fa-f]{2}/', $decoded_url)) {
+          \Drupal::logger('silverback_iframe')->warning('Failed to urldecode ref parameter: @value', ['@value' => $decoded_url]);
         }
-      } catch (\Exception $e) {
-        // Log the error but continue with the normal referrer
-        \Drupal::logger('silverback_iframe')->warning('Failed to decode ref parameter: @error', ['@error' => $e->getMessage()]);
       }
     }
 
