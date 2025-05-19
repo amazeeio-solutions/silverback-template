@@ -79,6 +79,8 @@ directive @route(
 enum Locale @default @value(string: "en") {
   en
   de
+  de_CH
+  french
 }
 
 enum Backend @default @value(string: "drupal") {
@@ -228,7 +230,7 @@ type DrupalPage implements Page & Editable & CardItem
     @resolveEditorBlocks(path: "body.value")
     @seek(pos: 0)
     @resolveEditorBlockMedia
-  hero: Hero @resolveEditorBlocks(path: "body.value") @seek(pos: 0)
+  hero: Hero @lang @resolveEditorBlocks(path: "body.value") @seek(pos: 0)
   content: [PageContent]
     @lang
     @resolveEditorBlocks(
