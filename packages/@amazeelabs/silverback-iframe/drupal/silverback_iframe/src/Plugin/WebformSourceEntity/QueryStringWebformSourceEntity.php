@@ -55,12 +55,12 @@ class QueryStringWebformSourceEntity extends Original {
     }
 
     // Check for ref parameter and decode it
-    $referrer = null;
+    $referrer = NULL;
     if ($this->request->query->has('ref')) {
       $encoded_url = $this->request->query->get('ref');
       try {
         $decoded_url = base64_decode($encoded_url);
-        if ($decoded_url !== false) {
+        if ($decoded_url !== FALSE) {
           $referrer = urldecode($decoded_url);
         }
       } catch (\Exception $e) {
