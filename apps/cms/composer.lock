@@ -2302,7 +2302,7 @@
       "source": {
         "type": "git",
         "url": "https://git.drupalcode.org/project/ai_provider_amazeeio.git",
-        "reference": "3f854a0d65310d82388431d18f7f877f877a4d18"
+        "reference": "d15caee7cd4519a49c9096f9044bc7ef259b35c7"
       },
       "require": {
         "drupal/ai": "^1.1",
@@ -2321,8 +2321,8 @@
           "dev-1.0.x": "1.0.x-dev"
         },
         "drupal": {
-          "version": "1.0.0-beta5+8-dev",
-          "datestamp": "1747635779",
+          "version": "1.0.0-beta5+9-dev",
+          "datestamp": "1747647228",
           "security-coverage": {
             "status": "not-covered",
             "message": "Project has not opted into security advisory coverage!"
