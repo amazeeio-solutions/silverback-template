@@ -2302,16 +2302,18 @@
       "source": {
         "type": "git",
         "url": "https://git.drupalcode.org/project/ai_provider_amazeeio.git",
-        "reference": "eed08ec3dd0562aae5f33c6abf384500843ea9c8"
+        "reference": "3f854a0d65310d82388431d18f7f877f877a4d18"
       },
       "require": {
-        "drupal/ai": "1.1.x-dev@dev",
+        "drupal/ai": "^1.1",
         "drupal/ai_provider_litellm": "^1.0@beta",
         "drupal/ai_search": "*",
-        "drupal/ai_vdb_provider_postgres": "1.0.x-dev",
+        "drupal/ai_vdb_provider_postgres": "^1.0@alpha",
         "drupal/core": "^10.2 || ^11",
-        "drupal/key": "*",
-        "drupal/search_api": "^1.x-dev"
+        "drupal/key": "*"
+      },
+      "require-dev": {
+        "drupal/search_api": ">1.20"
       },
       "type": "drupal-module",
       "extra": {
@@ -2319,8 +2321,8 @@
           "dev-1.0.x": "1.0.x-dev"
         },
         "drupal": {
-          "version": "1.0.0-beta5+5-dev",
-          "datestamp": "1747293443",
+          "version": "1.0.0-beta5+8-dev",
+          "datestamp": "1747635779",
           "security-coverage": {
             "status": "not-covered",
             "message": "Project has not opted into security advisory coverage!"
