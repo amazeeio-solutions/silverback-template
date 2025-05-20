@@ -6,6 +6,9 @@ x-volumes:
     - ./packages/drupal:/app/web/modules/custom:delegated
     - ./apps/cms:/app:delegated
 
+volumes:
+  db:
+
 x-environment: &default-environment
   LAGOON_PROJECT: &lagoon-project ${COMPOSE_PROJECT_NAME:-slbtemplate}
   # Route that should be used locally, if you are using pygmy, this route *must* end with .docker.amazee.io
@@ -141,7 +144,7 @@ services:
     labels:
       lagoon.type: postgres
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     restart: 'no'
     ports:
       - '5432'
