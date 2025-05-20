@@ -1,4 +1,6 @@
 FROM uselagoon/python-3.13
+ENV PYTHONUNBUFFERED 1
+ENV LAGOON=python
 
 # Install build dependencies (including clang, lld, and curl)
 RUN apk add --no-cache clang lld curl
@@ -17,4 +19,4 @@ RUN ls $HOME/.cargo/bin
 COPY apps/chat/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY apps/chat/app.py .
-CMD ['chainlit', 'run', '--host', '0.0.0.0', '--port', '8800']
+CMD ["chainlit", "run", "--host", "0.0.0.0", "--port", "8800"]
