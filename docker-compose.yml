@@ -132,7 +132,9 @@ services:
     ports:
       - '8800'
     labels:
-      lagoon.type: python
+      lagoon.type: python-persistent
+      lagoon.persistent: /app/files
+      lagoon.name: chainlit
     depends_on:
       - postgres
     networks:
