@@ -124,23 +124,12 @@ services:
   chat:
     build:
       context: .
-      dockerfile: .lagoon/librechat.Dockerfile
+      dockerfile: .lagoon/chainlit.Dockerfile
     restart: always
     ports:
-      - '3000:3000'
-    user: '10000'
-    env_file:
-      - .env
-    volumes:
-      - ./images:/app/client/public/images
-      - ./uploads:/app/uploads
-      - ./logs:/app/api/logs
+      - '8800:8800'
     labels:
-      lagoon.type: node
-  mongodb:
-    image: uselagoon/mongo:latest
-    labels:
-      lagoon.type: mongodb
+      lagoon.type: python
 
   # rag-api:
   #   build:
