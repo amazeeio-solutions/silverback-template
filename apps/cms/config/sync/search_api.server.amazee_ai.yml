@@ -1,0 +1,27 @@
+uuid: f0418ef0-6abe-4a2b-bf84-3d3ee42ff296
+langcode: en
+status: true
+dependencies:
+  module:
+    - ai_search
+id: amazee_ai
+name: 'Amazee AI'
+description: ''
+backend: search_api_ai_search
+backend_config:
+  chat_model: amazeeio__claude-3-5-sonnet
+  database: amazeeio_vector_db
+  database_settings:
+    database_name: db_93be21e6
+    collection: drupal_content
+    metric: cosine_similarity
+  embeddings_engine: 'amazeeio__titan-embed-text-v2:0'
+  embeddings_engine_configuration:
+    set_dimensions: false
+    dimensions: 1024
+  embedding_strategy: contextual_chunks
+  embedding_strategy_configuration:
+    chunk_size: '500'
+    chunk_min_overlap: '100'
+    contextual_content_max_percentage: '30'
+  embedding_strategy_details: ''

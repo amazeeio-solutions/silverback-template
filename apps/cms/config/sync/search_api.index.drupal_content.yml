@@ -1,0 +1,67 @@
+uuid: b4918431-8883-4a63-9597-5f341cdb7ab3
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.server.amazee_ai
+  module:
+    - node
+    - silverback_search
+id: drupal_content
+name: 'Drupal Content'
+description: ''
+read_only: false
+field_settings:
+  silverback_remote_rendered_item:
+    label: 'Remote rendered HTML output (Silverback)'
+    property_path: silverback_remote_rendered_item
+    type: text
+    configuration:
+      root_selector: '#main-content'
+      exclude_selector: .visuallyhidden
+      netlify_password: ''
+      entity_types:
+        node: node
+        block_content: 0
+        config_pages: 0
+        consumer: 0
+        content_moderation_state: 0
+        crop: 0
+        file: 0
+        media: 0
+        menu_link_content: 0
+        path_alias: 0
+        redirect: 0
+        search_api_task: 0
+        shortcut: 0
+        campaign_url: 0
+        silverback_preview_link: 0
+        oauth2_token: 0
+        taxonomy_term: 0
+        user: 0
+        webform_submission: 0
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  custom_value: {  }
+  entity_type: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
+  silverback_remote_rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  delete_on_fail: true
+  index_directly: true
+  track_changes_in_references: true
+server: amazee_ai
