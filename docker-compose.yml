@@ -134,7 +134,7 @@ services:
     labels:
       lagoon.type: python-persistent
       lagoon.persistent: /app/files
-      lagoon.name: chainlit
+      lagoon.name: gpt
     depends_on:
       - postgres
     networks:
