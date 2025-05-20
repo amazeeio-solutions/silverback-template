@@ -124,7 +124,7 @@ services:
       lagoon.type: node
       lagoon.name: preview
 
-  chainlit:
+  gpt:
     build:
       context: .
       dockerfile: .lagoon/chainlit.Dockerfile
