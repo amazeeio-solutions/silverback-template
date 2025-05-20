@@ -127,9 +127,24 @@ services:
       dockerfile: .lagoon/chainlit.Dockerfile
     restart: always
     ports:
-      - '8800:8800'
+      - '8800'
     labels:
       lagoon.type: python
+    depends_on:
+      - postgres
+    networks:
+      - amazeeio-network
+      - default
+
+  postgres:
+    image: uselagoon/postgres-16:latest
+    labels:
+      lagoon.type: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: 'no'
+    ports:
+      - '5432'
 
   # rag-api:
   #   build:
