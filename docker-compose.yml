@@ -124,32 +124,32 @@ services:
       lagoon.type: node
       lagoon.name: preview
 
-  gpt:
-    build:
-      context: .
-      dockerfile: .lagoon/chainlit.Dockerfile
-    restart: always
-    ports:
-      - '8800'
-    labels:
-      lagoon.type: python-persistent
-      lagoon.persistent: /app/files
-      lagoon.name: gpt
-    depends_on:
-      - postgres
-    networks:
-      - amazeeio-network
-      - default
-
-  postgres:
-    image: uselagoon/postgres-16:latest
-    labels:
-      lagoon.type: postgres
-    volumes:
-      - db:/var/lib/postgresql/data
-    restart: 'no'
-    ports:
-      - '5432'
+  # gpt:
+  #   build:
+  #     context: .
+  #     dockerfile: .lagoon/chainlit.Dockerfile
+  #   restart: always
+  #   ports:
+  #     - '8800'
+  #   labels:
+  #     lagoon.type: python-persistent
+  #     lagoon.persistent: /app/files
+  #     lagoon.name: gpt
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - amazeeio-network
+  #     - default
+  #
+  # postgres:
+  #   image: uselagoon/postgres-16:latest
+  #   labels:
+  #     lagoon.type: postgres
+  #   volumes:
+  #     - db:/var/lib/postgresql/data
+  #   restart: 'no'
+  #   ports:
+  #     - '5432'
 
   # rag-api:
   #   build:
