@@ -17,6 +17,7 @@ ENV PATH="$HOME/.cargo/bin:${PATH}"
 RUN ls $HOME/.cargo/bin
 ENV CHAINLIT_APP_ROOT=/app
 
+WORKDIR /app
 COPY apps/chat/requirements.txt .
 COPY apps/chat/.chainlit .chainlit
 RUN pip install --no-cache-dir -r requirements.txt
