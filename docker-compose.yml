@@ -136,6 +136,7 @@ services:
       - '8800'
     environment:
       <<: *default-environment
+      AMAZEEAI_API_KEY: 'sk-JXpphNe9KKrvY_22mRKHaw'
       LAGOON_LOCALDEV_URL: chat-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
     depends_on:
       - chatstorage
