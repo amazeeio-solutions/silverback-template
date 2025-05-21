@@ -7,7 +7,7 @@ x-volumes:
     - ./apps/cms:/app:delegated
 
 volumes:
-  db:
+  chat-storage:
 
 x-environment: &default-environment
   LAGOON_PROJECT: &lagoon-project ${COMPOSE_PROJECT_NAME:-slbtemplate}
@@ -124,32 +124,32 @@ services:
       lagoon.type: node
       lagoon.name: preview
 
-  # gpt:
-  #   build:
-  #     context: .
-  #     dockerfile: .lagoon/chainlit.Dockerfile
-  #   restart: always
-  #   ports:
-  #     - '8800'
-  #   labels:
-  #     lagoon.type: python-persistent
-  #     lagoon.persistent: /app/files
-  #     lagoon.name: gpt
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - amazeeio-network
-  #     - default
-  #
-  # postgres:
-  #   image: uselagoon/postgres-16:latest
-  #   labels:
-  #     lagoon.type: postgres
-  #   volumes:
-  #     - db:/var/lib/postgresql/data
-  #   restart: 'no'
-  #   ports:
-  #     - '5432'
+  chat:
+    build:
+      context: .
+      dockerfile: .lagoon/chainlit.Dockerfile
+    labels:
+      lagoon.type: python-persistent
+      lagoon.persistent: /app/persisted-store
+      lagoon.name: chat
+    ports:
+      - '8800'
+    environment:
+      <<: *default-environment
+      LAGOON_LOCALDEV_URL: chat-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+    depends_on:
+      - chatstorage
+    networks:
+      - amazeeio-network
+      - default
+
+  chatstorage:
+    image: uselagoon/postgres-15:latest
+    labels:
+      lagoon.type: postgres
+    restart: 'no'
+    ports:
+      - '5432'
 
   # rag-api:
   #   build:
