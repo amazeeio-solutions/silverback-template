@@ -9,6 +9,7 @@ x-volumes:
 
 volumes:
   chat-storage:
+  db:
 
 x-environment: &default-environment
   LAGOON_PROJECT: &lagoon-project ${COMPOSE_PROJECT_NAME:-slbtemplate}
@@ -93,6 +94,19 @@ services:
     <<: *default-user # uses the defined user from top
     environment:
       <<: *default-environment
+
+  pgvector:
+    build:
+      context: .
+      dockerfile: .lagoon/pgvector/Dockerfile
+    labels:
+      lagoon.type: postgres
+    ports:
+      - '5432'
+    environment:
+      <<: *default-environment
+    volumes:
+      - db:/var/lib/postgresql/data
 
   build:
     build:
