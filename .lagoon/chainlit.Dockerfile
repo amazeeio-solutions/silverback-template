@@ -19,4 +19,4 @@ RUN ls $HOME/.cargo/bin
 COPY apps/chat/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY apps/chat/app.py .
-CMD ["chainlit", "run", "--host", "0.0.0.0", "--port", "8800"]
+CMD ["/bin/sh", "-c", "chainlit run app.py --host 0.0.0.0 --port 8800"]
