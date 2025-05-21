@@ -79,3 +79,9 @@ if (file_exists(__DIR__ . '/services.local.yml')) {
 }
 
 $config['silverback_ai.settings']['open_ai_api_key'] = getenv('OPEN_AI_API_KEY');
+
+$config['ai_vdb_provider_postgres.settings']['host'] = 'pgvector';
+$config['ai_vdb_provider_postgres.settings']['port'] = 5432;
+$config['ai_vdb_provider_postgres.settings']['username'] = 'lagoon';
+$config['ai_vdb_provider_postgres.settings']['password'] = 'pgvector_password_key';
+$config['ai_vdb_provider_postgres.settings']['default_database'] = 'lagoon';
