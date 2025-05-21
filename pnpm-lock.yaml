@@ -58,6 +58,9 @@ importers:
       '@custom/schema':
         specifier: workspace:*
         version: link:../../packages/schema
+      '@custom/search_api_external':
+        specifier: workspace:*
+        version: link:../../packages/drupal/search_api_external
       '@custom/search_api_global':
         specifier: workspace:*
         version: link:../../packages/drupal/search_api_global
@@ -484,6 +487,8 @@ importers:
       vite:
         specifier: ^6.0.11
         version: 6.0.11(@types/node@20.11.17)
+
+  packages/drupal/search_api_external: {}
 
   packages/drupal/search_api_global: {}
 
