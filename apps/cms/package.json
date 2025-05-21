@@ -35,6 +35,7 @@
     "@custom/preview": "workspace:*",
     "@custom/schema": "workspace:*",
     "@custom/search_api_global": "workspace:*",
+    "@custom/search_api_external": "workspace:*",
     "@custom/test_content": "workspace:*",
     "@custom/ui": "workspace:*"
   }
