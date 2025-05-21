@@ -15,6 +15,7 @@ ENV PATH="$HOME/.cargo/bin:${PATH}"
 # RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # ENV PATH="/root/.cargo/bin:${PATH}"
 RUN ls $HOME/.cargo/bin
+ENV CHAINLIT_APP_ROOT=/app
 
 COPY apps/chat/requirements.txt .
 COPY apps/chat/.chainlit .chainlit

@@ -130,7 +130,7 @@ services:
       dockerfile: .lagoon/chainlit.Dockerfile
     labels:
       lagoon.type: python-persistent
-      lagoon.persistent: /app/persisted-store
+      lagoon.persistent: /app/.files
       lagoon.name: chat
     ports:
       - '8800'
