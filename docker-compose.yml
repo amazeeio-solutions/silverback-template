@@ -3,7 +3,8 @@ version: '2.3'
 x-volumes:
   &default-volumes # Define all volumes you would like to have real-time mounted into the docker containers
   volumes:
-    - ./packages/drupal:/app/web/modules/custom:delegated
+    # This makes all symlinks work: Drupal modules/themes, local packages in node_modules.
+    - ./packages:/packages:delegated
     - ./apps/cms:/app:delegated
 
 volumes:
