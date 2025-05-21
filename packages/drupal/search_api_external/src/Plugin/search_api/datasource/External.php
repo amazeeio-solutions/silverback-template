@@ -27,11 +27,12 @@ class External extends DatasourcePluginBase implements PluginFormInterface {
   }
 
   public function getItemIds($page = NULL) {
-    // @todo: implement pagination (basically one page would be one xmlsitemap)
+    // We don't need any pagination for now as we directly parse the sitemap.
     if ($page > 0) {
       return NULL;
     }
     $urls = explode("\n", $this->configuration['xmlsitemap_urls']);
+    $sitemapUrls = [];
     foreach ($urls as $url) {
       $url = trim($url);
       if (empty($url)) {
@@ -39,14 +40,23 @@ class External extends DatasourcePluginBase implements PluginFormInterface {
       }
       $xmlContent = file_get_contents($url);
       $xml = simplexml_load_string($xmlContent);
-      $index = 1;
-      foreach ($xml->url as $url) {
-        // Temporary limit to 10 items.
-        if ($index > 10) {
-          break;
+      // If the sitemap is a sitemap index, we need to get the URLs of each
+      // individual sitemaps and add them to the list of sitemap URLs.
+      if (!empty($xml->sitemap)) {
+        foreach ($xml->sitemap as $sitemap) {
+          $sitemapUrls[] = $sitemap->loc;
         }
+      } else {
+        // This case is when the url points directly to the sitemap.
+        $sitemapUrls[] = $url;
+      }
+    }
+
+    foreach ($sitemapUrls as $sitemapUrl) {
+      $xmlContent = file_get_contents($sitemapUrl);
+      $xml = simplexml_load_string($xmlContent);
+      foreach ($xml->url as $url) {
         $itemIds[] = $url->loc;
-        $index++;
       }
     }
     return $itemIds;

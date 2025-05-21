@@ -18,7 +18,7 @@ field_settings:
     type: text
 datasource_settings:
   external:
-    xmlsitemap_urls: 'https://www.caritas.ch/sitemap-0.xml'
+    xmlsitemap_urls: 'https://www.caritas.ch/sitemap-index.xml'
     urls: null
 processor_settings:
   add_url: {  }
@@ -127,8 +127,8 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  cron_limit: 50
+  cron_limit: 20
   delete_on_fail: true
-  index_directly: true
+  index_directly: false
   track_changes_in_references: true
 server: database
