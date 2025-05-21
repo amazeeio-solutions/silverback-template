@@ -19,6 +19,7 @@ ENV CHAINLIT_APP_ROOT=/app
 
 WORKDIR /app
 COPY apps/chat/requirements.txt .
+COPY apps/chat/chainlit.md .
 COPY apps/chat/.chainlit .chainlit
 RUN pip install --no-cache-dir -r requirements.txt
 COPY apps/chat/app.py .
