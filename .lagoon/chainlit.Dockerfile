@@ -23,6 +23,4 @@ COPY apps/chat/chainlit.md .
 COPY apps/chat/.chainlit .chainlit
 RUN pip install --no-cache-dir -r requirements.txt
 COPY apps/chat/app.py .
-COPY apps/chat/dummy.py .
-# CMD ["/bin/sh", "-c", "chainlit run app.py --host 0.0.0.0 --port 8800"]
-CMD ["python", "dummy.py"]
+CMD ["/bin/sh", "-c", "chainlit run app.py --host 0.0.0.0 --port 8800"]
