@@ -57,3 +57,13 @@ export const createPages = async ({ actions }) => {
     });
   });
 };
+
+/**
+ * Format locale containing the country code,
+ * so it's ISO 639-1 compliant in the path.
+ * This is needed as GraphQL enums are not supporting dashes (-).
+ * @param {string} locale
+ */
+function formatLocalePath(locale) {
+  return locale.replace('_', '-');
+}

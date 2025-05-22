@@ -82,29 +82,47 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       }
       $this->remoteFrontend->setNetlifyPassword($configuration['netlify_password']);
       if ($this->is404Page($entity)) {
-        $html = '';
+        $field->addValue('');
       } else {
-        $html = $this->getHtml($entity, $configuration);
-      }
-      $field->addValue($html);
-      if ($this->remoteFrontend->isOutdated($entity)) {
-        $item->addWarning('The remote rendered item is outdated. Marking the search item as dirty.');
+        $result = $this->remoteFrontend->getEntityHtml($entity);
+        $debug = json_encode([
+          'entity_type' => $entity->getEntityTypeId(),
+          'entity_id' => $entity->id(),
+          'langcode' => $entity->language()->getId(),
+          'remoteUrl' => $result->remoteUrl,
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        if ($result->error) {
+          if ($result->statusCode >= 500 && $result->statusCode < 600) {
+            $item->addWarning(
+              'The remote item could not be fetched. Response status code: {status_code}. Debug:<pre>{debug}</pre>',
+              ['status_code' => $result->statusCode, 'debug' => $debug],
+            );
+            $field->addValue('');
+          } else {
+            $this->logger->error(
+              'Could not get HTML: {error}. Debug:<pre>{debug}</pre>',
+              ['error' => $result->error, 'debug' => $debug],
+            );
+            $field->addValue('');
+          }
+        } elseif ($result->isSkipped) {
+          $field->addValue('');
+        } else {
+          $html = $this->filterHtml($result->content, $configuration, $debug);
+          $field->addValue($html);
+          if ($html && $this->remoteFrontend->isOutdated($entity)) {
+            $item->addWarning(
+              'The remote rendered item is outdated. Marking the search item as dirty. Debug:<pre>{debug}</pre>',
+              ['debug' => $debug],
+            );
+          }
+        }
       }
     }
   }
 
-  private function getHtml(ContentEntityInterface $entity, array $configuration): string {
-    $debug = json_encode([
-      'entity_type' => $entity->getEntityTypeId(),
-      'entity_id' => $entity->id(),
-    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    
-    $result = $this->remoteFrontend->getEntityHtml($entity);
-    if ($result->error) {
-      $this->logger->error('Could not get HTML: {error}. Debug:<pre>{debug}</pre>', ['error' => $result->error, 'debug' => $debug]);
-      return '';
-    }
-    $crawler = new Crawler($result->content);
+  private function filterHtml(string $html, array $configuration, string $debug): string {
+    $crawler = new Crawler($html);
     $rootSelector = $configuration['root_selector'] ?: 'body';
     $filtered = $crawler->filter($rootSelector);
     if ($filtered->count() > 0) {

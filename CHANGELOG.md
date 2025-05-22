@@ -3,6 +3,183 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.11...@amazeelabs/silverback-template@1.9.0) (2025-05-16)
+
+### Features
+
+- **SLB-542:** add fr language
+  ([2f7253e](https://github.com/AmazeeLabs/silverback-template/commit/2f7253e80730998fc5b99025bac1a0618a493b0f))
+- **SLB-542:** add fr locale
+  ([034c41f](https://github.com/AmazeeLabs/silverback-template/commit/034c41f849b377b322160f1cd0d282abe936a906))
+- **SLB-542:** add french language message
+  ([31c0150](https://github.com/AmazeeLabs/silverback-template/commit/31c01507a9f9c9832c99edb0059f633d594a6fb5))
+- **SLB-542:** add language with "-" delimiter
+  ([db12cdb](https://github.com/AmazeeLabs/silverback-template/commit/db12cdb051f8e2bde632ab5bf42d0563e37cbf27))
+- **SLB-542:** add swiss german
+  ([18982d0](https://github.com/AmazeeLabs/silverback-template/commit/18982d0bccedcd55ac3bd1e3e17f949eff3af8c3))
+- **SLB-542:** configure language not matching the path prefix
+  ([8cf12e7](https://github.com/AmazeeLabs/silverback-template/commit/8cf12e7a53165128cf3ff9b138b3e85b5a1931cd))
+- **SLB-542:** update story with locale not matching the path prefix
+  ([163b889](https://github.com/AmazeeLabs/silverback-template/commit/163b8895c23455c05691de77f15985deaf152276))
+
+### Reverts
+
+- Revert "chore(SLB-542): use a temporary patch to run tests"
+  ([a7ead78](https://github.com/AmazeeLabs/silverback-template/commit/a7ead789927321eca58b470109873d80fb6e36b8))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.11](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.10...@amazeelabs/silverback-template@1.8.11) (2025-05-07)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.10](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.9...@amazeelabs/silverback-template@1.8.10) (2025-05-02)
+
+### Bug Fixes
+
+- **ci:** export DEVBOX_USE_VERSION variable so it actually has an effect
+  ([98d9937](https://github.com/AmazeeLabs/silverback-template/commit/98d99378ccba621240d01c487f45114f5f6393cd))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.9](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.8...@amazeelabs/silverback-template@1.8.9) (2025-05-01)
+
+### Bug Fixes
+
+- add lang context to hero block
+  ([941a4a3](https://github.com/AmazeeLabs/silverback-template/commit/941a4a3ff9a5c5f5d06faf15a8e9150cfae1dedf))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.8](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.7...@amazeelabs/silverback-template@1.8.8) (2025-04-30)
+
+### Bug Fixes
+
+- treat 5xx errors as temporary
+  ([ef9fda1](https://github.com/AmazeeLabs/silverback-template/commit/ef9fda183851606586a4619a55e9420ae6ff8d21))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.7](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.6...@amazeelabs/silverback-template@1.8.7) (2025-04-29)
+
+### Bug Fixes
+
+- **SLB-544:** add alias for [@property](https://github.com/property) directive
+  to keep compatibility with silverback_campaign_url
+  ([16d6cd4](https://github.com/AmazeeLabs/silverback-template/commit/16d6cd43ab3e9445a74e388c103d2ccd405185fb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.6](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.5...@amazeelabs/silverback-template@1.8.6) (2025-04-29)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.5](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.4...@amazeelabs/silverback-template@1.8.5) (2025-04-21)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.3...@amazeelabs/silverback-template@1.8.4) (2025-04-18)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.2...@amazeelabs/silverback-template@1.8.3) (2025-04-17)
+
+### Bug Fixes
+
+- do not fetch from external hosts
+  ([ec1a5e4](https://github.com/AmazeeLabs/silverback-template/commit/ec1a5e4efcb5e2ba91f6be54afcaff14debd93a0))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.1...@amazeelabs/silverback-template@1.8.2) (2025-04-16)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.8.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.0...@amazeelabs/silverback-template@1.8.1) (2025-04-16)
+
+### Bug Fixes
+
+- consider skipped urls
+  ([7cf1730](https://github.com/AmazeeLabs/silverback-template/commit/7cf173092d9c2f3df176bd1e2740cdf2eccf10df))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.8.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.7...@amazeelabs/silverback-template@1.8.0) (2025-04-16)
+
+### Features
+
+- add hook to alter live url
+  ([662bf3d](https://github.com/AmazeeLabs/silverback-template/commit/662bf3d7699db8ef0ec70e6b10b49eab4e307d47))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.7.7](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.6...@amazeelabs/silverback-template@1.7.7) (2025-04-16)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.7.6](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.5...@amazeelabs/silverback-template@1.7.6) (2025-04-15)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.7.5](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.7.4...@amazeelabs/silverback-template@1.7.5) (2025-04-14)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

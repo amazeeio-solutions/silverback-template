@@ -51,14 +51,14 @@ export const createPages = async ({ actions }) => {
   // Create pages and root-redirects for home-pages.
   homePages.forEach((page) => {
     actions.createPage({
-      path: `/${page.locale}`,
+      path: `/${formatLocalePath(page.locale)}`,
       component: resolve('./src/templates/home.tsx'),
     });
     // If a menu link points to the drupal-path of a home page,
     // it should redirect to the root path with the language prefix.
     actions.createRedirect({
       fromPath: page.path,
-      toPath: `/${page.locale}`,
+      toPath: `/${formatLocalePath(page.locale)}`,
       statusCode: 301,
     });
   });
@@ -88,7 +88,7 @@ export const createPages = async ({ actions }) => {
   // Create a inquiry page in each language.
   Object.values(Locale).forEach((locale) => {
     actions.createPage({
-      path: `/${locale}/inquiry`,
+      path: `/${formatLocalePath(locale)}/inquiry`,
       component: resolve(`./src/templates/inquiry.tsx`),
     });
   });
@@ -157,4 +157,14 @@ function removeIndentation(str) {
     .map((line) => line.slice(minIndent))
     .join('\n')
     .trim();
+}
+
+/**
+ * Format locale containing the country code,
+ * so it's ISO 639-1 compliant in the path.
+ * This is needed as GraphQL enums are not supporting dashes (-).
+ * @param {string} locale
+ */
+function formatLocalePath(locale) {
+  return locale.replace('_', '-');
 }
