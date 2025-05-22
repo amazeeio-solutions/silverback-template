@@ -402,58 +402,30 @@
     {
       "name": "amazeelabs/silverback_iframe",
       "version": "dev-main",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/AmazeeLabs/silverback_iframe.git",
-        "reference": "0b77af85c28e7a5d779374b3ee0e654f005c15c8"
-      },
       "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_iframe/zipball/0b77af85c28e7a5d779374b3ee0e654f005c15c8",
-        "reference": "0b77af85c28e7a5d779374b3ee0e654f005c15c8",
-        "shasum": ""
+        "type": "path",
+        "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe",
+        "reference": "38622f916396456786c21c40e1bbf22bd08a7137"
       },
-      "default-branch": true,
       "type": "drupal-module",
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "GPL-2.0+"
-      ],
       "description": "Provides a way for displaying Drupal content/forms in iframes.",
-      "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_iframe#readme",
-      "support": {
-        "issues": "https://github.com/AmazeeLabs/silverback_iframe/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_iframe/tree/1.4.3"
-      },
-      "time": "2024-09-09T12:01:03+00:00"
+      "transport-options": {
+        "relative": true
+      }
     },
     {
       "name": "amazeelabs/silverback_iframe_theme",
       "version": "dev-main",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/AmazeeLabs/silverback_iframe_theme.git",
-        "reference": "c7e4cae9a7725a1a7198ec3171737de3e3e9904e"
-      },
       "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_iframe_theme/zipball/c7e4cae9a7725a1a7198ec3171737de3e3e9904e",
-        "reference": "c7e4cae9a7725a1a7198ec3171737de3e3e9904e",
-        "shasum": ""
+        "type": "path",
+        "url": "node_modules/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme",
+        "reference": "c9274834748ed9abc203379002d491cc7ef0ee6d"
       },
-      "default-branch": true,
       "type": "drupal-theme",
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "GPL-2.0+"
-      ],
       "description": "Theme for amazeelabs/silverback_iframe module.",
-      "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_iframe_theme#readme",
-      "support": {
-        "issues": "https://github.com/AmazeeLabs/silverback_iframe_theme/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_iframe_theme/tree/1.4.3"
-      },
-      "time": "2024-09-09T12:01:03+00:00"
+      "transport-options": {
+        "relative": true
+      }
     },
     {
       "name": "amazeelabs/silverback_preview_link",
