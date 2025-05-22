@@ -1,0 +1,7 @@
+_core:
+  default_config_hash: FjkIOX3c9gs1XdGvHgYbose2Iq5NcgVI9YaXsL8-sqk
+api_key: ''
+api_org: ''
+supabase_key: ''
+supabase_url: ''
+include: '{"block_content__basic_include":0,"block_content__basic_view_mode":"default","comment__comment_include":0,"comment__comment_view_mode":"default","node__article_include":0,"node__article_view_mode":"default","node__page_include":1,"node__page_view_mode":"default","user__user_include":0,"user__user_view_mode":"default"}'

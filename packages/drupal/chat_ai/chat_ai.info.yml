@@ -1,0 +1,9 @@
+name: Chat AI
+type: module
+description:
+  'Provide a chatbot that can answer questions based on your website content.'
+package: Custom
+configure: chat_ai.keys
+core_version_requirement: ^9 || ^10
+dependencies:
+  - ai:ai
