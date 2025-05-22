@@ -2,3 +2,5 @@ chainlit
 openai
 langchain
 langchain_openai
+langgraph
+langchain-mcp-adapters

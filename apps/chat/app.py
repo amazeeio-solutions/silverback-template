@@ -1,58 +1,69 @@
-from langchain.memory.chat_memory import BaseChatMemory
-from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema import StrOutputParser
-from langchain.chains.conversation.memory import ConversationBufferMemory
 import os
-from langchain.schema.runnable import Runnable, RunnablePassthrough
+from langchain_openai import ChatOpenAI
+from langgraph.graph.state import CompiledStateGraph
+from langgraph.prebuilt import ToolNode, create_react_agent
 from langchain.schema.runnable.config import RunnableConfig
-from typing import cast
+from langchain_core.messages import AIMessageChunk, HumanMessage
+from langchain_mcp_adapters.client import MultiServerMCPClient, StdioConnection
+from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import MemorySaver
 
 import chainlit as cl
 from pydantic import SecretStr
+from typing import cast
+
+from langchain_core.messages import HumanMessage
 
 
 @cl.on_chat_start
-async def start_chat():
-    model = ChatOpenAI(
-        streaming=True,
-        api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
-        model="claude-3-5-sonnet",
-        base_url="https://llm.de103.amazee.ai",
+async def on_chat_start():
+    memory = MemorySaver()
+
+    client = MultiServerMCPClient(
+        {
+            "drupal": cast(
+                StdioConnection,
+                {
+                    "command": "mcp-graphql",
+                    "args": [],
+                    "env": {
+                        "ENDPOINT": "http://localhost:8888/mcp",
+                        "HEADERS": '{"api-key": "8fad39495df277f06a0eb58c1f101029"}',
+                        "ALLOW_MUTATIONS": "true",
+                    },
+                    "transport": "stdio",
+                },
+            )
+        }
     )
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            (
-                "system",
-                "You are a helpful chatbot.",
-            ),
-            MessagesPlaceholder(variable_name="history"),
-            ("human", "{question}"),
-        ]
+
+    graph = create_react_agent(
+        ChatOpenAI(
+            model="claude-3-5-haiku",
+            temperature=0,
+            base_url=os.environ.get("AMAZEEAI_BASE_URL"),
+            api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
+        ),
+        tools=ToolNode(await client.get_tools()),
+        checkpointer=memory,
     )
-    history = ConversationBufferMemory(return_messages=True)
-    runnable = (
-        RunnablePassthrough.assign(
-            history=lambda _: history.load_memory_variables({})["history"]
-        )
-        | prompt
-        | model
-        | StrOutputParser()
-    )
-    cl.user_session.set("history", history)
-    cl.user_session.set("runnable", runnable)
+
+    cl.user_session.set("graph", graph)
 
 
 @cl.on_message
-async def on_message(message: cl.Message):
-    runnable = cast(Runnable, cl.user_session.get("runnable"))
-    history = cast(BaseChatMemory, cl.user_session.get("history"))
-    msg = cl.Message(content="")
-    async for chunk in runnable.astream(
-        {"question": message.content},
-        config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
-    ):
-        await msg.stream_token(chunk)
+async def on_message(msg: cl.Message):
+    graph = cast(CompiledStateGraph, cl.user_session.get("graph"))
+    cb = cl.LangchainCallbackHandler()
+    final_answer = cl.Message(content="")
 
-    history.save_context({"input": message.content}, {"output": msg.content})
-    await msg.send()
+    async for m, _ in graph.astream(
+        {"messages": [HumanMessage(content=msg.content)]},
+        stream_mode="messages",
+        config=RunnableConfig(
+            callbacks=[cb], configurable={"thread_id": cl.context.session.id}
+        ),
+    ):
+        if isinstance(m, AIMessageChunk) and m.content:
+            await final_answer.stream_token(cast(str, cast(AIMessageChunk, m).content))
+    await final_answer.send()
