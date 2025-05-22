@@ -27,7 +27,7 @@ async def on_chat_start():
                     "command": "mcp-graphql",
                     "args": [],
                     "env": {
-                        "ENDPOINT": "http://localhost:8888/mcp",
+                        "ENDPOINT": "http://nginx:8080/mcp",
                         "HEADERS": '{"api-key": "8fad39495df277f06a0eb58c1f101029"}',
                         "ALLOW_MUTATIONS": "true",
                     },
