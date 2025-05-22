@@ -95,3 +95,4 @@ if (getenv('PGVECTOR_PASSWORD')) {
     'strip_line_breaks' => TRUE,
   ];
 }
+$config['search_api.server.pgvector']['backend_config']['database_settings']['database_name'] = getenv('PGVECTOR_DATABASE') ?: 'lagoon';
