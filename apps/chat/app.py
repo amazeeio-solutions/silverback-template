@@ -61,7 +61,8 @@ async def on_message(msg: cl.Message):
         {"messages": [HumanMessage(content=msg.content)]},
         stream_mode="messages",
         config=RunnableConfig(
-            callbacks=[cb], configurable={"thread_id": cl.context.session.id}
+            callbacks=[cb] if os.environ.get("DEBUG") else [],
+            configurable={"thread_id": cl.context.session.id},
         ),
     ):
         if isinstance(m, AIMessageChunk) and m.content:
