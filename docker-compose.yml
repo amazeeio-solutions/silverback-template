@@ -3,11 +3,13 @@ version: '2.3'
 x-volumes:
   &default-volumes # Define all volumes you would like to have real-time mounted into the docker containers
   volumes:
-    - ./packages/drupal:/app/web/modules/custom:delegated
+    # This makes all symlinks work: Drupal modules/themes, local packages in node_modules.
+    - ./packages:/packages:delegated
     - ./apps/cms:/app:delegated
 
 volumes:
   chat-storage:
+  db:
 
 x-environment: &default-environment
   LAGOON_PROJECT: &lagoon-project ${COMPOSE_PROJECT_NAME:-slbtemplate}
@@ -92,6 +94,19 @@ services:
     <<: *default-user # uses the defined user from top
     environment:
       <<: *default-environment
+
+  pgvector:
+    build:
+      context: .
+      dockerfile: .lagoon/pgvector/Dockerfile
+    labels:
+      lagoon.type: postgres
+    ports:
+      - '5432'
+    environment:
+      <<: *default-environment
+    volumes:
+      - db:/var/lib/postgresql/data
 
   build:
     build:
