@@ -3,7 +3,8 @@ ENV PYTHONUNBUFFERED 1
 ENV LAGOON=python
 
 # Install build dependencies (including clang, lld, and curl)
-RUN apk add --no-cache clang lld curl
+RUN apk add --no-cache clang lld curl nodejs npm
+RUN npm install -g mcp-graphql
 
 # Download and install the Rust toolchain
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
