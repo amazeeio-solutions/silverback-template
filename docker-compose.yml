@@ -95,10 +95,10 @@ services:
     environment:
       <<: *default-environment
 
-  postgres_pgvector:
+  postgrespgvector:
     build:
       context: .
-      dockerfile: .lagoon/postgres_pgvector/Dockerfile
+      dockerfile: .lagoon/postgrespgvector/Dockerfile
     labels:
       lagoon.type: postgres-single
     ports:
