@@ -1,0 +1,28 @@
+From e1b403070f8eeff12bd1bcf6867bcc2bf4a87519 Mon Sep 17 00:00:00 2001
+From: Philipp Melab <philipp.melab@gmail.com>
+Date: Fri, 23 May 2025 10:33:24 +0200
+Subject: [PATCH] fix
+
+---
+ src/Plugin/VdbProvider/PostgresProvider.php | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/Plugin/VdbProvider/PostgresProvider.php b/src/Plugin/VdbProvider/PostgresProvider.php
+index 8270d79..c2cd096 100644
+--- a/src/Plugin/VdbProvider/PostgresProvider.php
++++ b/src/Plugin/VdbProvider/PostgresProvider.php
+@@ -99,7 +99,10 @@ class PostgresProvider extends AiVdbProviderClientBase implements ContainerFacto
+     $token = $config->get(key: 'password');
+     $output['password'] = '';
+     if ($token) {
+-      $output['password'] = $this->keyRepository->getKey(key_id: $token)->getKeyValue();
++      $key = $this->keyRepository->getKey(key_id: $token);
++      if ($key) {
++        $output['password'] = $key->getKeyValue();
++      }
+     }
+     if (!empty($this->configuration['password'])) {
+       $output['password'] = $this->configuration['password'];
+-- 
+2.49.0
+
