@@ -11,4 +11,4 @@ RUN make
 RUN make install
 
 # Init script.
-COPY .lagoon/pgvector/init.sql /docker-entrypoint-initdb.d/01_pgvector.sql
+COPY .lagoon/postgres_pgvector/init.sql /docker-entrypoint-initdb.d/01_pgvector.sql
