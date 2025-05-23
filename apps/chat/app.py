@@ -39,7 +39,7 @@ async def on_chat_start():
 
     graph = create_react_agent(
         ChatOpenAI(
-            model="claude-3-5-haiku",
+            model="claude-3-5-sonnet",
             temperature=0,
             base_url=os.environ.get("AMAZEEAI_BASE_URL"),
             api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
