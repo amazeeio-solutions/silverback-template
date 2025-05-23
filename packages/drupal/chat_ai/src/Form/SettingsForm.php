@@ -174,6 +174,7 @@ class SettingsForm extends ConfigFormBase {
    */
   private function getGptModels() {
 
+    /*
     try {
       $models = $this->client->models()->list();
     } catch (\Exception $e) {
@@ -181,6 +182,9 @@ class SettingsForm extends ConfigFormBase {
       $this->messenger()->addError($this->t('Please configure your Open AI API key.'));
       return [];
     }
+    */
+
+    return [];
 
     $options = [];
     foreach ($models['data'] as $model) {

@@ -12,6 +12,10 @@ use Drupal\Core\StringTranslation\ByteSizeMarkup;
 use Drupal\Core\Url;
 use Drupal\ai\OperationType\Embeddings\EmbeddingsInput;
 use Drupal\file\Entity\File;
+use League\HTMLToMarkdown\HtmlConverter;
+
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
 
 /**
  * Provides a Chat AI form.
@@ -31,10 +35,6 @@ final class FileEmbeddingsForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-
-    $embeddings = \Drupal::service('chat_ai.vdb.embeddings');
-    $embeddings->getConfig();
-
 
     $form['container'] = [
       '#type' => 'details',
@@ -120,16 +120,6 @@ final class FileEmbeddingsForm extends FormBase {
           '#markup' => Markup::create('✅'),
         ],
         'operations' => [$link_modal],
-        // 'operations' => [
-        //   '#type' => 'submit',
-        //   '#value' => $this->t('Remove'),
-        //   '#name' => 'remove_' . $file->id(),
-        //   '#submit' => ['::removeFileSubmit'],
-        //   '#attributes' => [
-        //     'class' => ['button', 'button--danger', 'button--small'],
-        //   ],
-        //   '#file_id' => $file->id(),
-        // ],
       ];
     }
 
@@ -142,20 +132,6 @@ final class FileEmbeddingsForm extends FormBase {
     ];
 
     return $form;
-  }
-
-  /**
-   * Custom submit handler for remove buttons.
-   */
-  public function removeFileSubmit(array &$form, FormStateInterface $form_state) {
-    $triggering_element = $form_state->getTriggeringElement();
-    $file_id = $triggering_element['#file_id'];
-
-    if ($file = File::load($file_id)) {
-      \Drupal::service('chat_ai.supabase')->clearEntityIndexedData($file);
-      $file->delete();
-      $this->messenger()->addMessage($this->t('File %name has been removed.', ['%name' => $file->getFilename()]));
-    }
   }
 
   /**
@@ -187,7 +163,7 @@ final class FileEmbeddingsForm extends FormBase {
       foreach ($fids as $fid) {
         if ($file = File::load($fid)) {
           $file->setPermanent();
-          // $file->set('ai_indexed', TRUE);
+          $file->set('ai_indexed', TRUE);
           $file->save();
         }
 
@@ -211,8 +187,10 @@ final class FileEmbeddingsForm extends FormBase {
     }
 
     if ($file = File::load($fid)) {
-      $embeddings = \Drupal::service('chat_ai.embeddings');
-      $embeddings->createSingleChunkEmbedding($file, $chunk);
+      $converter = new HtmlConverter();
+      $embeddings = \Drupal::service('chat_ai.vdb.embeddings');
+      $markdown = $converter->convert($chunk->content);
+      $embeddings->createEntityEmbedding($file, $markdown);
       $context['results']['processed']++;
       $context['message'] = t('Processed file: @filename', ['@filename' => $file->getFilename()]);
     }
@@ -246,7 +224,7 @@ final class FileEmbeddingsForm extends FormBase {
     $files = [];
     $query = \Drupal::entityQuery('file')
       ->condition('filemime', '^application/pdf|text/plain|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document$', 'REGEXP')
-      // ->condition('ai_indexed', TRUE)
+      ->condition('ai_indexed', TRUE)
       ->accessCheck(FALSE);
 
     $fids = $query->execute();

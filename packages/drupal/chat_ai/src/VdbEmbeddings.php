@@ -37,44 +37,31 @@ final class VdbEmbeddings {
     private readonly ConfigFactoryInterface $configFactory,
   ) {
     $config = $this->configFactory->get('ai_vdb_provider_postgres.settings');
-    // @todo
     $this->connection = $this->aiVdbProviderPostgresClient->getConnection(
-      'localhost',
-      5432,
-      'dimitris.spachos',
-      'dimitris',
-      'postgres'
+      $config->get('host'),
+      $config->get('port') ?? 5432,
+      $config->get('username'),
+      $config->get('password'),
+      $config->get('default_database')
     );
-  }
-
-
-  public function getConfig() {
-    dpm($this->connection);
   }
 
   /**
    * @todo Add method description.
    */
-  public function createEntityEmbedding(EntityInterface $entity, array $chunks) {
+  public function createEntityEmbedding(EntityInterface $entity, string $chunk) {
 
-    // @todo Fix this
-    $vdb = \Drupal::service('ai_vdb_provider_postgres.client');
-    // @todo
-    $this->removeEmbedding($entity);
-
-    foreach ($chunks as $chunk) {
-      $vdb->insertIntoCollection(
-        'embeddings',
-        ['value' => $entity->id(), 'is_multiple' => FALSE],
-        ['value' => $entity->id(), 'is_multiple' => FALSE],
-        ['value' => $chunk, 'is_multiple' => FALSE],
-        ['value' => $this->createVector($chunk), 'is_multiple' => FALSE],
-        ['value' => 'chat_ai', 'is_multiple' => FALSE],
-        ['value' => 'chat_ai_index', 'is_multiple' => FALSE],
-        [],
-        $this->connection,
-      );
-    }
+    $this->aiVdbProviderPostgresClient->insertIntoCollection(
+      'embeddings',
+      ['value' => $entity->id(), 'is_multiple' => FALSE],
+      ['value' => $entity->id(), 'is_multiple' => FALSE],
+      ['value' => $chunk, 'is_multiple' => FALSE],
+      ['value' => $this->createVector($chunk), 'is_multiple' => FALSE],
+      ['value' => 'chat_ai', 'is_multiple' => FALSE],
+      ['value' => 'chat_ai_index', 'is_multiple' => FALSE],
+      [],
+      $this->connection,
+    );
   }
 
   /**
@@ -102,9 +89,7 @@ final class VdbEmbeddings {
 
 
   public function removeEntityEmbedding(EntityInterface $entity) {
-    // @todo Fix this
-    $vdb = \Drupal::service('ai_vdb_provider_postgres.client');
-    $vdb->deleteFromCollection(
+    $this->aiVdbProviderPostgresClient->deleteFromCollection(
       'embeddings',
       [$entity->id()],
       $this->connection,

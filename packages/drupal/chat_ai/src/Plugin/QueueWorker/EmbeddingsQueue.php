@@ -8,7 +8,6 @@ use LLPhant\Embeddings\Document;
 use LLPhant\Embeddings\DocumentSplitter\DocumentSplitter;
 use League\HTMLToMarkdown\HtmlConverter;
 
-
 /**
  * Defines 'embeddings_queue' queue worker.
  *
@@ -52,10 +51,11 @@ class EmbeddingsQueue extends QueueWorkerBase {
     $chunks  = DocumentSplitter::splitDocuments([$document], 800, '.', 0);
     $converter = new HtmlConverter();
 
+    $embeddings->removeEmbedding($entity);
     foreach ($chunks as $chunk) {
-      $markdown[] = $converter->convert($chunk->content);
+      $markdown = $converter->convert($chunk->content);
+      $embeddings->createEntityEmbedding($entity, $markdown);
     }
-    $embeddings->createEntityEmbedding($entity, $markdown);
 
     if (PHP_SAPI === 'cli') {
       print "Indexing finished ✅" . PHP_EOL;

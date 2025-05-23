@@ -149,6 +149,10 @@ final class ExternalPage extends ContentEntityBase {
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the external page was last edited.'));
 
+    $fields['next_update'] = BaseFieldDefinition::create('changed')
+      ->setLabel(t('Next update'))
+      ->setDescription(t('The timestamp of the estimated next update.'));
+
     $fields['url'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Url'))
       ->setRequired(TRUE)

@@ -2,15 +2,17 @@
 
 namespace Drupal\chat_ai\Drush\Commands;
 
+use DateInterval;
+use DateTime;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\node\Entity\Node;
 use Drupal\chat_ai\Entity\ExternalPage;
+use Drupal\node\Entity\Node;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Drush command to process sitemap URLs.
@@ -264,47 +266,116 @@ final class ChatAiCommands extends DrushCommands {
    *   Command options.
    */
   protected function processIndividualUrl(array $url_data, array $options): void {
-    // TODO: Add your custom processing logic here
-    // Examples of what you might do:
-    // - Validate the URL is accessible
-    // - Extract content from the page
-    // - Update Drupal entities
-    // - Generate reports
-    // - Cache warming
 
     if ($options['dry-run']) {
       $this->logger()->info("DRY RUN: Would process URL: {$url_data['loc']}");
       return;
     }
 
-    // Placeholder for actual processing
-    // Remove this when you add real functionality
     $this->output()->writeln("Processing: {$url_data['loc']}");
+
+    $next_update = $this->predictNextUpdate($url_data['lastmod'], $url_data['changefreq']);
 
     $existing = \Drupal::entityTypeManager()->getStorage('external_page')->loadByProperties([
       'label' => hash('md5', $url_data['loc']),
     ]);
 
     if (empty($existing)) {
-      $node = ExternalPage::create([
+      $entity = ExternalPage::create([
         'type' => 'external_page',
         'label' => hash('md5', $url_data['loc']),
         'url' => $url_data['loc'],
+        'next_update' => $next_update,
       ]);
-      $node->save();
-      $this->output()->writeln("Created : {$node->label()}");
+      $entity->save();
+      $this->output()->writeln("Created : {$entity->label()}");
+      // @todo Extract this to method
       $item = new \stdClass();
-      $item->entity = $node;
+      $item->entity = $entity;
       $queue = \Drupal::service('queue')->get('embeddings_queue');
       $queue->createItem($item);
     } else {
-      $this->output()->writeln("External page exists");
+      $this->output()->writeln("External page exists. Checking next update.");
+      $entity = reset($existing);
+      if ($entity && $this->shouldUpdate($entity)) {
+        // @todo Extract this to method
+        $item = new \stdClass();
+        $item->entity = $entity;
+        $queue = \Drupal::service('queue')->get('embeddings_queue');
+        $queue->createItem($item);
+      }
     }
+  }
 
-    // $fetcher = \Drupal::service('chat_ai.content_fetcher');
-    // $content = $fetcher->fetchUrl($url_data['loc']);
-    // $node->set('body', $content);
-    // $node->save();
-    // @todo Insert to queue
+
+  /**
+   * Checks if the entity's next_update timestamp is in the past.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity to check.
+   *
+   * @return bool
+   *   TRUE if next_update is in the past, FALSE otherwise.
+   */
+  private function shouldUpdate(EntityInterface $entity) {
+    /** @var Drupal\Core\Entity\EntityInterface $entity */
+    $next_update = $entity->hasField('next_update') ? $entity->get('next_update')->value : NULL;
+    return $next_update && is_numeric($next_update) && $next_update < time();
+  }
+
+  /**
+   * Predict next update based on lastmod and changefreq as timestamp.
+   *
+   * @param string $lastmod
+   *   Last modification date.
+   * @param string $changefreq
+   *   Change frequency.
+   *
+   * @return int|null
+   *   Predicted next update timestamp, or null if prediction is not possible.
+   */
+  private function predictNextUpdate($lastmod, $changefreq) {
+    try {
+      $lastmod_date = !empty($lastmod) ? new DateTime($lastmod) : new DateTime();
+      $interval = $this->getUpdateInterval($changefreq);
+
+      if ($interval) {
+        $lastmod_date->add($interval);
+        return $lastmod_date->getTimestamp();
+      }
+
+      return NULL;
+    } catch (\Exception $e) {
+      \Drupal::logger('sitemap_parser')->warning('Failed to predict next update for lastmod @lastmod: @message', [
+        '@lastmod' => $lastmod,
+        '@message' => $e->getMessage(),
+      ]);
+      return NULL;
+    }
+  }
+
+  /**
+   * Get DateInterval based on changefreq.
+   *
+   * @param string $changefreq
+   *   The change frequency value.
+   *
+   * @return \DateInterval|null
+   *   The corresponding DateInterval, or null for 'never'.
+   */
+  private function getUpdateInterval($changefreq) {
+    $intervals = [
+      'always' => 'PT1H',  // 1 hour
+      'hourly' => 'PT1H',  // 1 hour
+      'daily' => 'P1D',    // 1 day
+      'weekly' => 'P7D',   // 1 week
+      'monthly' => 'P1M',  // 1 month
+      'yearly' => 'P1Y',   // 1 year
+      'never' => NULL,
+    ];
+
+    return isset($intervals[$changefreq])
+      ? ($intervals[$changefreq] ? new DateInterval($intervals[$changefreq]) : NULL)
+      : new DateInterval('P7D');
   }
 }

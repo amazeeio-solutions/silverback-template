@@ -58,7 +58,8 @@ class RemoveFileEmbeddingConfirmForm extends ConfirmFormBase {
 
     // @todo Add DI
     if ($file instanceof ContentEntityInterface) {
-      // \Drupal::service('chat_ai.supabase')->clearEntityIndexedData($file);
+      $embeddings = \Drupal::service('chat_ai.vdb.embeddings');
+      $embeddings->removeEntityEmbedding($file);
       $file->delete();
     }
 

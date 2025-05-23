@@ -9,12 +9,12 @@ chat_ai.settings_form:
   parent: chat_ai.admin_config_system
   route_name: chat_ai.settings
   weight: 13
-chat_ai.embeddings_form:
-  title: 'Indexing'
-  description: 'Configure embeddings for Chat AI.'
-  parent: chat_ai.admin_config_system
-  route_name: chat_ai.embeddings
-  weight: 14
+# chat_ai.embeddings_form:
+#   title: 'Indexing'
+#   description: 'Configure embeddings for Chat AI.'
+#   parent: chat_ai.admin_config_system
+#   route_name: chat_ai.embeddings
+#   weight: 14
 chat_ai.file_embeddings_form:
   title: 'Custom knowledge'
   description: 'Add custom knowledge to your chatbot'
