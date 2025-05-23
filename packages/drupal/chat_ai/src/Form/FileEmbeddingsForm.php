@@ -10,12 +10,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\StringTranslation\ByteSizeMarkup;
 use Drupal\Core\Url;
-use Drupal\ai\OperationType\Embeddings\EmbeddingsInput;
 use Drupal\file\Entity\File;
 use League\HTMLToMarkdown\HtmlConverter;
-
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\field\Entity\FieldConfig;
 
 /**
  * Provides a Chat AI form.
@@ -110,7 +106,6 @@ final class FileEmbeddingsForm extends FormBase {
         ],
       ];
       // \Drupal::service('renderer')->renderRoot($form['actions']['open_modal']);
-
       $form['files_table'][$file->id()] = [
         'name' => $link,
         'size' => [

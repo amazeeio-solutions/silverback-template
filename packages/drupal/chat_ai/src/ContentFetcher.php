@@ -7,8 +7,6 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use GuzzleHttp\ClientInterface;
-use Masterminds\HTML5;
-use Stevebauman\Hypertext\Transformer;
 use fivefilters\Readability\Readability;
 use fivefilters\Readability\Configuration;
 use fivefilters\Readability\ParseException;
@@ -72,7 +70,6 @@ class ContentFetcher {
     return $file_path ?: NULL;
   }
 
-
   /**
    * Fetches URL content and converts it to Markdown.
    *
@@ -93,7 +90,6 @@ class ContentFetcher {
     ]);
 
     // Perhaps try this as well.
-
     // $response = $this->httpClient->request('GET', $url, [
     //   'headers' => [
     //     'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -102,8 +98,7 @@ class ContentFetcher {
     //     'Accept-Encoding' => 'gzip, deflate',
     //     'Media-Type' => 'print',
     //   ],
-    // ]);
-
+    // ]);.
     if ($response->getStatusCode() == 404) {
       return NULL;
     }
@@ -113,7 +108,8 @@ class ContentFetcher {
     try {
       $readability->parse($html);
       return $readability;
-    } catch (ParseException $e) {
+    }
+    catch (ParseException $e) {
       // @todo
     }
     return NULL;
@@ -157,7 +153,8 @@ class ContentFetcher {
       if ($child instanceof \DOMElement) {
         if (in_array(strtolower($child->tagName), $remove_tags)) {
           $nodes_to_remove[] = $child;
-        } else {
+        }
+        else {
           // Remove class attributes.
           if ($child->hasAttribute('class')) {
             $child->removeAttribute('class');
@@ -182,9 +179,11 @@ class ContentFetcher {
     // Handle basic selectors (excluding 'body' which is handled separately)
     if (strpos($selector, '#') === 0) {
       return "//*[@id='" . substr($selector, 1) . "']";
-    } elseif (strpos($selector, '.') === 0) {
+    }
+    elseif (strpos($selector, '.') === 0) {
       return "//*[contains(@class, '" . substr($selector, 1) . "')]";
     }
     return "//" . $selector;
   }
+
 }

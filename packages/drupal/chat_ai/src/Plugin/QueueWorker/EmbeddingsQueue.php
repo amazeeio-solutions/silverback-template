@@ -48,7 +48,7 @@ class EmbeddingsQueue extends QueueWorkerBase {
     $document->content = $content;
     $document->sourceName = $entity->url->value;
     $document->hash = \hash('sha256', $content);
-    $chunks  = DocumentSplitter::splitDocuments([$document], 800, '.', 0);
+    $chunks = DocumentSplitter::splitDocuments([$document], 800, '.', 0);
     $converter = new HtmlConverter();
 
     $embeddings->removeEmbedding($entity);
@@ -65,4 +65,5 @@ class EmbeddingsQueue extends QueueWorkerBase {
       '@url' => $entity->url->value,
     ]));
   }
+
 }

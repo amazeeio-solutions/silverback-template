@@ -2,7 +2,6 @@
 
 namespace Drupal\chat_ai\Form;
 
-use Drupal\node\Entity\Node;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\chat_ai\Http\OpenAiClientFactory;
@@ -63,6 +62,8 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    $this->messenger()->addWarning($this->t('These settings apply exclusively to the provided Chat UI and do not extend to third-party integrations (e.g., Chainlit).'));
+
     $form["container"] = [
       '#title' => $this->t('Chat settings'),
       '#type' => 'details',
@@ -119,7 +120,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Special prompt instructions define custom guidelines or behaviors for the chatbot, influencing how it responds to user queries. These instructions help tailor the chatbot’s tone, style, and approach to better align with specific use cases or preferences.'),
     ];
 
-    // Add appearance settings fieldset
+    // Add appearance settings fieldset.
     $form['chat_ui_origin'] = [
       '#type' => 'details',
       '#title' => $this->t('Allowed origins'),
@@ -176,13 +177,13 @@ class SettingsForm extends ConfigFormBase {
 
     /*
     try {
-      $models = $this->client->models()->list();
+    $models = $this->client->models()->list();
     } catch (\Exception $e) {
-      // @todo
-      $this->messenger()->addError($this->t('Please configure your Open AI API key.'));
-      return [];
+    // @todo
+    $this->messenger()->addError($this->t('Please configure your Open AI API key.'));
+    return [];
     }
-    */
+     */
 
     return [];
 
@@ -219,7 +220,6 @@ class SettingsForm extends ConfigFormBase {
     return $this->getAiContributedDefaultModel() ?? $default_model;
   }
 
-
   /**
    * Gets the default model for chat AI.
    *
@@ -238,4 +238,5 @@ class SettingsForm extends ConfigFormBase {
       ? $chat_provider['model_id']
       : NULL;
   }
+
 }

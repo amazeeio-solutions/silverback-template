@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\chat_ai;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\ai\AiProviderPluginManager;
@@ -24,7 +23,6 @@ final class VdbEmbeddings {
    * @var \PgSql\Connection
    */
   protected Connection $connection;
-
 
   /**
    * Constructs a VdbEmbeddings object.
@@ -69,7 +67,7 @@ final class VdbEmbeddings {
    */
   public function createVector(string $chunk) {
     /** @var \Drupal\ai\OperationType\Embeddings\EmbeddingsOutput $vector_object */
-    $vector_object =  $this->aiProvider->createInstance('amazeeio')->Embeddings($chunk, 'embeddings', ['chat-ai']);
+    $vector_object = $this->aiProvider->createInstance('amazeeio')->Embeddings($chunk, 'embeddings', ['chat-ai']);
     return $vector_object->getNormalized();
   }
 
@@ -87,11 +85,21 @@ final class VdbEmbeddings {
     // @todo Place your code here.
   }
 
-
+  /**
+   *
+   */
   public function removeEntityEmbedding(EntityInterface $entity) {
     $this->aiVdbProviderPostgresClient->deleteFromCollection(
       'embeddings',
       [$entity->id()],
+      $this->connection,
+    );
+  }
+
+  public function createCollection(string $collection_name) {
+    $this->aiVdbProviderPostgresClient->createCollection(
+      $collection_name,
+      1024,
       $this->connection,
     );
   }

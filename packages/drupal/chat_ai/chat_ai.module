@@ -5,10 +5,7 @@
  * Primary module hooks for Chat AI module.
  */
 
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
@@ -33,13 +30,8 @@ function chat_ai_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_entity_insert().
  */
 function chat_ai_entity_insert(EntityInterface $entity) {
-  $embeddings = \Drupal::service('chat_ai.embeddings');
-  $shouldIndex = $entity instanceof ContentEntityInterface
-    ? $embeddings->shouldIndex($entity) : NULL;
-
-  if ($shouldIndex) {
-    $embeddings->insertDatabaseEmbedding($entity);
-    $embeddings->insertToQueue($entity);
+  if ($entity->getEntityTypeId() == 'external_page') {
+    // @todo
   }
 }
 
@@ -47,11 +39,8 @@ function chat_ai_entity_insert(EntityInterface $entity) {
  * Implements hook_entity_update().
  */
 function chat_ai_entity_update(EntityInterface $entity) {
-  $embeddings = \Drupal::service('chat_ai.embeddings');
-  $shouldIndex = $entity instanceof ContentEntityInterface && $embeddings->shouldIndex($entity);
-  if ($shouldIndex) {
-    $embeddings->insertDatabaseEmbedding($entity);
-    $embeddings->insertToQueue($entity);
+  if ($entity->getEntityTypeId() == 'external_page') {
+    // @todo
   }
 }
 
@@ -59,10 +48,8 @@ function chat_ai_entity_update(EntityInterface $entity) {
  * Implements hook_entity_delete().
  */
 function chat_ai_entity_delete(EntityInterface $entity) {
-  $embeddings = \Drupal::service('chat_ai.embeddings');
-  $shouldIndex = $entity instanceof ContentEntityInterface
-    ? $embeddings->shouldIndex($entity) : NULL;
-  if ($shouldIndex) {
-    $embeddings->clearIndexedDataByEntity($entity);
+  if ($entity->getEntityTypeId() == 'external_page') {
+    $embeddings = \Drupal::service('chat_ai.vdb.embeddings');
+    $embeddings->removeEntityEmbedding($entity);
   }
 }

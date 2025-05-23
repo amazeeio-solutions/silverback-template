@@ -34,14 +34,15 @@ final class ChatUiJs extends ControllerBase {
 
     // Replace a placeholder or static URL in the JavaScript.
     // Assuming the JS has a placeholder like `{{BASE_URL}}` or a static URL to replace.
-    // $modified_js = str_replace('{{BASE_URL}}', $base_url, $js_content);
+    // $modified_js = str_replace('{{BASE_URL}}', $base_url, $js_content);.
     $modified_js = str_replace('/chat/completion', "{$base_url}/chat/completion", $js_content);
 
     // Minify the JavaScript.
     try {
       $minifier = new JS($modified_js);
       $minified_js = $minifier->minify();
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       // Log minification error and serve unminified content as fallback.
       \Drupal::logger('chat_ui_example')->error('JS minification failed: @message', ['@message' => $e->getMessage()]);
       $minified_js = $modified_js;
@@ -53,10 +54,12 @@ final class ChatUiJs extends ControllerBase {
 
     // Optional: Cache the response to reduce fetching.
     $response->setCache([
-      'max_age' => 3600, // Cache for 1 hour.
+    // Cache for 1 hour.
+      'max_age' => 3600,
       'public' => TRUE,
     ]);
 
     return $response;
   }
+
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\chat_ai\Entity;
 
-use Drupal\chat_ai\ExternalPageInterface;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -169,7 +168,7 @@ final class ExternalPage extends ContentEntityBase {
       ])
       ->setDisplayConfigurable('view', TRUE);
 
-
     return $fields;
   }
+
 }

@@ -5,13 +5,11 @@
  * Install, update and uninstall functions for the Chat AI module.
  */
 
-use Drupal\Core\Field\BaseFieldDefinition;
-
 /**
  * Implements hook_install().
  */
 function chat_ai_install() {
-  // @todo
+  \Drupal::service('ai_vdb_provider_postgres.client')->createCollection('embeddings');
 }
 
 /**

@@ -71,7 +71,7 @@ class ChatUISettingsForm extends ConfigFormBase {
       '#description' => $this->t('Select the theme mode for the chat interface.'),
     ];
 
-    // Add appearance settings fieldset
+    // Add appearance settings fieldset.
     $form['embed'] = [
       '#type' => 'details',
       '#title' => $this->t('Code to embed'),
@@ -111,4 +111,5 @@ class ChatUISettingsForm extends ConfigFormBase {
       ->save();
     parent::submitForm($form, $form_state);
   }
+
 }

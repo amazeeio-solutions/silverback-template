@@ -2,11 +2,8 @@
 
 namespace Drupal\chat_ai\Drush\Commands;
 
-use DateInterval;
-use DateTime;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\chat_ai\Entity\ExternalPage;
-use Drupal\node\Entity\Node;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
 use GuzzleHttp\ClientInterface;
@@ -69,14 +66,17 @@ final class ChatAiCommands extends DrushCommands {
   #[CLI\Usage(name: 'drush sitemap:process https://example.com/sitemap.xml', description: 'Process a sitemap')]
   #[CLI\Usage(name: 'drush sp https://example.com/sitemap.xml --limit=10', description: 'Process only first 10 URLs')]
   #[CLI\Usage(name: 'drush sp https://example.com/sitemap.xml --dry-run', description: 'Preview what would be processed')]
-  public function processSitemap(string $sitemap_url, array $options = [
-    'timeout' => 30,
-    'limit' => NULL,
-    'dry-run' => FALSE,
-  ]): void {
+  public function processSitemap(
+    string $sitemap_url,
+    array $options = [
+      'timeout' => 30,
+      'limit' => NULL,
+      'dry-run' => FALSE,
+    ],
+  ): void {
     $logger = $this->loggerFactory->get('sitemap_processor');
 
-    // Validate the sitemap URL
+    // Validate the sitemap URL.
     if (!filter_var($sitemap_url, FILTER_VALIDATE_URL)) {
       $this->logger()->error('Invalid sitemap URL provided: ' . $sitemap_url);
       return;
@@ -89,7 +89,7 @@ final class ChatAiCommands extends DrushCommands {
     }
 
     try {
-      // Fetch the sitemap
+      // Fetch the sitemap.
       $sitemap_data = $this->fetchSitemap($sitemap_url, (int) $options['timeout']);
 
       if (!$sitemap_data) {
@@ -97,7 +97,7 @@ final class ChatAiCommands extends DrushCommands {
         return;
       }
 
-      // Parse the sitemap
+      // Parse the sitemap.
       $urls = $this->parseSitemap($sitemap_data);
 
       if (empty($urls)) {
@@ -108,16 +108,17 @@ final class ChatAiCommands extends DrushCommands {
       $total_urls = count($urls);
       $this->logger()->info("Found {$total_urls} URLs in sitemap");
 
-      // Apply limit if specified
+      // Apply limit if specified.
       if ($options['limit'] && is_numeric($options['limit'])) {
         $limit = (int) $options['limit'];
         $urls = array_slice($urls, 0, $limit);
         $this->logger()->info("Processing limited to {$limit} URLs");
       }
 
-      // Process each URL
+      // Process each URL.
       $this->processUrls($urls, $options);
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $this->logger()->error('Error processing sitemap: ' . $e->getMessage());
       $logger->error('Sitemap processing error', ['exception' => $e]);
     }
@@ -151,7 +152,8 @@ final class ChatAiCommands extends DrushCommands {
 
       $this->logger()->error('HTTP error: ' . $response->getStatusCode());
       return NULL;
-    } catch (RequestException $e) {
+    }
+    catch (RequestException $e) {
       $this->logger()->error('Failed to fetch sitemap: ' . $e->getMessage());
       return NULL;
     }
@@ -170,20 +172,20 @@ final class ChatAiCommands extends DrushCommands {
     $urls = [];
 
     try {
-      // Handle gzipped content
+      // Handle gzipped content.
       if (substr($xml_data, 0, 2) === "\x1f\x8b") {
         $xml_data = gzinflate(substr($xml_data, 10, -8));
       }
 
       $xml = new \SimpleXMLElement($xml_data);
 
-      // Check if this is a sitemap index
+      // Check if this is a sitemap index.
       if (isset($xml->sitemap)) {
         $this->logger()->info('Detected sitemap index, processing sub-sitemaps');
         return $this->processSitemapIndex($xml);
       }
 
-      // Process regular sitemap
+      // Process regular sitemap.
       foreach ($xml->url as $url_element) {
         $url_data = [
           'loc' => (string) $url_element->loc,
@@ -194,7 +196,8 @@ final class ChatAiCommands extends DrushCommands {
 
         $urls[] = $url_data;
       }
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       $this->logger()->error('Failed to parse sitemap XML: ' . $e->getMessage());
     }
 
@@ -245,12 +248,12 @@ final class ChatAiCommands extends DrushCommands {
     foreach ($urls as $url_data) {
       $processed++;
 
-      // Log progress every 10 items or for small batches
+      // Log progress every 10 items or for small batches.
       if ($processed % 10 === 0 || $total < 50) {
         $this->logger()->info("Processing URL {$processed}/{$total}: {$url_data['loc']}");
       }
 
-      // This is where you'll add your custom processing logic
+      // This is where you'll add your custom processing logic.
       $this->processIndividualUrl($url_data, $options);
     }
 
@@ -294,7 +297,8 @@ final class ChatAiCommands extends DrushCommands {
       $item->entity = $entity;
       $queue = \Drupal::service('queue')->get('embeddings_queue');
       $queue->createItem($item);
-    } else {
+    }
+    else {
       $this->output()->writeln("External page exists. Checking next update.");
       $entity = reset($existing);
       if ($entity && $this->shouldUpdate($entity)) {
@@ -306,7 +310,6 @@ final class ChatAiCommands extends DrushCommands {
       }
     }
   }
-
 
   /**
    * Checks if the entity's next_update timestamp is in the past.
@@ -336,7 +339,7 @@ final class ChatAiCommands extends DrushCommands {
    */
   private function predictNextUpdate($lastmod, $changefreq) {
     try {
-      $lastmod_date = !empty($lastmod) ? new DateTime($lastmod) : new DateTime();
+      $lastmod_date = !empty($lastmod) ? new \DateTime($lastmod) : new \DateTime();
       $interval = $this->getUpdateInterval($changefreq);
 
       if ($interval) {
@@ -345,7 +348,8 @@ final class ChatAiCommands extends DrushCommands {
       }
 
       return NULL;
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       \Drupal::logger('sitemap_parser')->warning('Failed to predict next update for lastmod @lastmod: @message', [
         '@lastmod' => $lastmod,
         '@message' => $e->getMessage(),
@@ -365,17 +369,24 @@ final class ChatAiCommands extends DrushCommands {
    */
   private function getUpdateInterval($changefreq) {
     $intervals = [
-      'always' => 'PT1H',  // 1 hour
-      'hourly' => 'PT1H',  // 1 hour
-      'daily' => 'P1D',    // 1 day
-      'weekly' => 'P7D',   // 1 week
-      'monthly' => 'P1M',  // 1 month
-      'yearly' => 'P1Y',   // 1 year
+    // 1 hour
+      'always' => 'PT1H',
+    // 1 hour
+      'hourly' => 'PT1H',
+    // 1 day
+      'daily' => 'P1D',
+    // 1 week
+      'weekly' => 'P7D',
+    // 1 month
+      'monthly' => 'P1M',
+    // 1 year
+      'yearly' => 'P1Y',
       'never' => NULL,
     ];
 
     return isset($intervals[$changefreq])
-      ? ($intervals[$changefreq] ? new DateInterval($intervals[$changefreq]) : NULL)
-      : new DateInterval('P7D');
+      ? ($intervals[$changefreq] ? new \DateInterval($intervals[$changefreq]) : NULL)
+      : new \DateInterval('P7D');
   }
+
 }
