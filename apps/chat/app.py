@@ -1,46 +1,93 @@
-from typing import List
-from chainlit.mcp import McpConnection
-import json
-from openai import AsyncOpenAI
 import os
-from mcp import ClientSession
-import pprint
+from langchain_openai import ChatOpenAI
+from langgraph.graph.state import CompiledStateGraph
+from langgraph.prebuilt import ToolNode, create_react_agent
+from langchain.schema.runnable.config import RunnableConfig
+from langchain_core.messages import AIMessageChunk, HumanMessage
+from langchain_mcp_adapters.client import MultiServerMCPClient, StdioConnection
+from langgraph.checkpoint.memory import MemorySaver
+from db_utils import VectorDB
+from langchain_openai import OpenAIEmbeddings
 
 import chainlit as cl
-from openai.types.chat import ChatCompletionMessageParam
+from pydantic import SecretStr
+from typing import cast
 
-print(os.environ.get("AMAZEEAI_API_KEY"))
-
-client = AsyncOpenAI(
-    api_key=os.environ.get("AMAZEEAI_API_KEY"),
-    # TODO: read this from drupal config?
-    base_url="https://llm.de103.amazee.ai",
+vector_db = VectorDB()
+embeddings = OpenAIEmbeddings(
+    model="embeddings",  # use env variable
+    base_url=os.environ.get("AMAZEEAI_BASE_URL"),
+    api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
 )
-
-cl.instrument_openai()
-pp = pprint.PrettyPrinter(indent=2).pprint
 
 
 @cl.on_chat_start
-async def start_chat():
-    initialPrompt: ChatCompletionMessageParam = {
-        "role": "system",
-        "content": "You are a helpful chatbot.",
-    }
-    cl.user_session.set("history", [initialPrompt])
+async def on_chat_start():
+    memory = MemorySaver()
+
+    client = MultiServerMCPClient(
+        {
+            "drupal": cast(
+                StdioConnection,
+                {
+                    "command": "mcp-graphql",
+                    "args": [],
+                    "env": {
+                        "ENDPOINT": "http://nginx:8080/mcp",
+                        "HEADERS": '{"api-key": "8fad39495df277f06a0eb58c1f101029"}',
+                        "ALLOW_MUTATIONS": "true",
+                    },
+                    "transport": "stdio",
+                },
+            )
+        }
+    )
+
+    graph = create_react_agent(
+        ChatOpenAI(
+            model="claude-3-5-haiku",
+            temperature=0,
+            base_url=os.environ.get("AMAZEEAI_BASE_URL"),
+            api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
+        ),
+        [],
+        checkpointer=memory,
+    )
+
+    cl.user_session.set("graph", graph)
 
 
 @cl.on_message
-async def on_message(message: cl.Message):
-    history: List[ChatCompletionMessageParam] = cl.user_session.get("history") or []
-    history.append({"content": message.content, "role": "user"})
-    msg = cl.Message(content="")
-    stream = await client.chat.completions.create(
-        messages=history,
-        model="claude-3-5-sonnet",
-        stream=True,
-    )
-    async for part in stream:
-        await msg.stream_token(part.choices[0].delta.content or "")
-    history.append({"role": "assistant", "content": msg.content})
-    await msg.send()
+async def on_message(msg: cl.Message):
+    graph = cast(CompiledStateGraph, cl.user_session.get("graph"))
+    cb = cl.LangchainCallbackHandler()
+    final_answer = cl.Message(content="")
+
+    # Generate embedding for the query
+    query_embedding = embeddings.embed_query(msg.content)
+
+    # Get similar documents from vector DB
+    similar_docs = vector_db.search_similar(query_embedding, limit=5)
+
+    # Create context from similar documents
+    context = "\n\n".join([doc["content"] for doc in similar_docs])
+
+    # Create enhanced prompt with context
+    enhanced_prompt = f"""Context information:
+{context}
+
+User question: {msg.content}
+
+Please use the context information above to help answer the user's question. If the context is not relevant, you can ignore it."""
+
+    async for m, _ in graph.astream(
+        {"messages": [HumanMessage(content=enhanced_prompt)]},
+        stream_mode="messages",
+        config=RunnableConfig(
+            callbacks=[cb] if os.environ.get("DEBUG") else [],
+            configurable={"thread_id": cl.context.session.id},
+        ),
+    ):
+        if isinstance(m, AIMessageChunk) and m.content:
+            await final_answer.stream_token(cast(str, cast(AIMessageChunk, m).content))
+    await final_answer.send()
