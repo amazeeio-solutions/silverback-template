@@ -9,7 +9,7 @@
  * Implements hook_install().
  */
 function chat_ai_install() {
-  \Drupal::service('ai_vdb_provider_postgres.client')->createCollection('embeddings');
+  \Drupal::service('chat_ai.vdb.embeddings')->createCollection('embeddings');
 }
 
 /**

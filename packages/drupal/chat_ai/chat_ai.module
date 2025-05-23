@@ -53,3 +53,37 @@ function chat_ai_entity_delete(EntityInterface $entity) {
     $embeddings->removeEntityEmbedding($entity);
   }
 }
+
+/**
+ * Implements hook_cron().
+ */
+function chat_ai_cron() {
+  $current_time = \Drupal::time()->getCurrentTime();
+  $entity_storage = \Drupal::entityTypeManager()->getStorage('external_page');
+  $query = $entity_storage->getQuery()
+    ->condition('next_update', $current_time, '<')
+    ->accessCheck(FALSE); // Bypass access checks for cron operations
+
+  $entity_ids = $query->execute();
+
+  \Drupal::logger('external_page_cron')->info('🚀 Checking external_page entities for queue processing', []);
+
+  if (empty($entity_ids)) {
+    return;
+  }
+  $entities = $entity_storage->loadMultiple($entity_ids);
+  $queue = \Drupal::service('queue')->get('embeddings_queue');
+  // Process each entity
+  foreach ($entities as $entity) {
+    $item = new \stdClass();
+    $item->entity = $entity;
+    $queue->createItem($item);
+    // Optional: Log the action
+    \Drupal::logger('external_page_cron')->info('Added external_page entity @id to embeddings_queue', [
+      '@id' => $entity->id(),
+    ]);
+  }
+  \Drupal::logger('external_page_cron')->info('Processed @count external_page entities for queue processing', [
+    '@count' => count($entities),
+  ]);
+}

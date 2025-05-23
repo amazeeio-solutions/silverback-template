@@ -97,10 +97,13 @@ final class VdbEmbeddings {
   }
 
   public function createCollection(string $collection_name) {
-    $this->aiVdbProviderPostgresClient->createCollection(
-      $collection_name,
-      1024,
-      $this->connection,
-    );
+    $collections = $this->aiVdbProviderPostgresClient->getCollections($this->connection);
+    if (!in_array('embeddings', $collections)) {
+      $this->aiVdbProviderPostgresClient->createCollection(
+        $collection_name,
+        1024,
+        $this->connection,
+      );
+    }
   }
 }
