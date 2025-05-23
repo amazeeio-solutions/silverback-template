@@ -10,18 +10,23 @@ class SilverbackIframeEventSubscriber implements EventSubscriberInterface {
 
   public function onKernelResponse(ResponseEvent $event) {
     if (silverback_iframe_theme_enabled()) {
-      $event->getResponse()->headers->remove('X-Frame-Options');
+      $response = $event->getResponse();
+      $response->headers->remove('X-Frame-Options');
 
       $request = $event->getRequest();
       if ($request->query->has('ref')) {
         $refValue = $request->query->get('ref');
 
-        // Add a Vary header to ensure different cache entries
-        $response = $event->getResponse();
-        $response->headers->set('Vary', 'ref', false);
+        // Add a Vary header properly
+        $vary = $response->headers->get('Vary', '');
+        $varyHeaders = $vary ? array_map('trim', explode(',', $vary)) : [];
+        if (!in_array('ref', $varyHeaders)) {
+          $varyHeaders[] = 'ref';
+          $response->headers->set('Vary', implode(', ', $varyHeaders));
+        }
 
-        // Set cache context to make Drupal aware of this variation
-        if ($response->getCacheableMetadata) {
+        // Set cache context properly
+        if (method_exists($response, 'getCacheableMetadata')) {
           $response->getCacheableMetadata()->addCacheContexts(['url.query_args:ref']);
         }
 
