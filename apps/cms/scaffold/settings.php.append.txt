@@ -79,3 +79,20 @@ if (file_exists(__DIR__ . '/services.local.yml')) {
 }
 
 $config['silverback_ai.settings']['open_ai_api_key'] = getenv('OPEN_AI_API_KEY');
+
+$config['ai_vdb_provider_postgres.settings']['host'] = getenv('POSTGRESPGVECTOR_HOST') ?: 'postgrespgvector';
+$config['ai_vdb_provider_postgres.settings']['port'] = getenv('POSTGRESPGVECTOR_PORT') ?: 5432;
+$config['ai_vdb_provider_postgres.settings']['username'] = getenv('POSTGRESPGVECTOR_USERNAME') ?: 'lagoon';
+$config['ai_vdb_provider_postgres.settings']['default_database'] = getenv('POSTGRESPGVECTOR_DATABASE') ?: 'lagoon';
+$config['ai_vdb_provider_postgres.settings']['password'] = 'pgvector_password_key';
+if (getenv('POSTGRESPGVECTOR_PASSWORD')) {
+  // The in-code config contains a predefined password to be used with local
+  // Docker. Replace it with an env var.
+  $config['key.key.pgvector_password_key']['key_provider'] = 'env';
+  $config['key.key.pgvector_password_key']['key_provider_settings'] = [
+    'env_variable' => 'POSTGRESPGVECTOR_PASSWORD',
+    'base64_encoded' => FALSE,
+    'strip_line_breaks' => TRUE,
+  ];
+}
+$config['search_api.server.pgvector']['backend_config']['database_settings']['database_name'] = getenv('POSTGRESPGVECTOR_DATABASE') ?: 'lagoon';

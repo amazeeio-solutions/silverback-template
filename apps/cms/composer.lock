@@ -4,7 +4,11 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
+<<<<<<< HEAD
   "content-hash": "e2659152bbf78693317b3982924380e8",
+=======
+  "content-hash": "182b6d07fb09c252b7eea0f6c85455aa",
+>>>>>>> origin/lagoon-chat
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",

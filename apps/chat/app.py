@@ -8,6 +8,8 @@ from langchain_mcp_adapters.client import MultiServerMCPClient, StdioConnection
 from langgraph.checkpoint.memory import MemorySaver
 from db_utils import VectorDB
 from langchain_openai import OpenAIEmbeddings
+from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import MemorySaver
 
 import chainlit as cl
 from pydantic import SecretStr
@@ -45,12 +47,12 @@ async def on_chat_start():
 
     graph = create_react_agent(
         ChatOpenAI(
-            model="claude-3-5-haiku",
+            model="claude-3-5-sonnet",
             temperature=0,
             base_url=os.environ.get("AMAZEEAI_BASE_URL"),
             api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
         ),
-        [],
+        tools=ToolNode(await client.get_tools()),
         checkpointer=memory,
     )
 
@@ -59,7 +61,7 @@ async def on_chat_start():
 
 @cl.on_message
 async def on_message(msg: cl.Message):
-  graph = cast(CompiledStateGraph, cl.user_session.get("graph"))
+    graph = cast(CompiledStateGraph, cl.user_session.get("graph"))
     cb = cl.LangchainCallbackHandler()
     final_answer = cl.Message(content="")
 

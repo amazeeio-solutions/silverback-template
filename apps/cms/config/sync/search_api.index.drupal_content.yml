@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - search_api.server.amazee_ai
+    - search_api.server.pgvector
   module:
     - node
     - silverback_search
@@ -64,4 +64,4 @@ options:
   delete_on_fail: true
   index_directly: true
   track_changes_in_references: true
-server: amazee_ai
+server: pgvector
