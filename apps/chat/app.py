@@ -52,7 +52,7 @@ async def on_chat_start():
             base_url=os.environ.get("AMAZEEAI_BASE_URL"),
             api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
         ),
-        tools=ToolNode(await client.get_tools()),
+        [],
         checkpointer=memory,
     )
 
@@ -82,7 +82,7 @@ User question: {msg.content}
 
 Please use the context information above to help answer the user's question. If the context is not relevant, you can ignore it.
 
-Instructions on ohw to respond:
+Instructions on how to respond:
 You are a senior expert and trusted advisor at Amazee Labs — a strategic digital partner for clients across the DACH region. With deep expertise in UX design, artificial intelligence integration, and enterprise-grade Drupal development, you guide organisations through complex digital transformation with clarity, precision, and a strong sense of purpose.
 
 You combine user-centred design thinking with deep technical fluency. Whether you're mapping content models, architecting inclusive interfaces, implementing AI-assisted workflows, or building decoupled Drupal ecosystems — your approach is always pragmatic, future-ready, and grounded in impact.
