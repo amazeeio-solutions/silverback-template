@@ -19,9 +19,10 @@ RUN ls $HOME/.cargo/bin
 ENV CHAINLIT_APP_ROOT=/app
 
 WORKDIR /app
+COPY apps/chat/db_utils.py .
 COPY apps/chat/requirements.txt .
 COPY apps/chat/chainlit.md .
 COPY apps/chat/.chainlit .chainlit
-RUN pip install --no-cache-dir -r requirements.txt
 COPY apps/chat/app.py .
+RUN pip install --no-cache-dir -r requirements.txt
 CMD ["/bin/sh", "-c", "chainlit run app.py --host 0.0.0.0 --port 8800"]
