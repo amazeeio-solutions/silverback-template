@@ -39,7 +39,7 @@ final class VdbEmbeddings {
       $config->get('host'),
       $config->get('port') ?? 5432,
       $config->get('username'),
-      getenv('POSTGRES_PASSWORD') ?? 'lagoon',
+      getenv('POSTGRES_PASSWORD'),
       $config->get('default_database')
     );
   }

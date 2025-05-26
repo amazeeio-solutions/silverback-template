@@ -19,6 +19,7 @@ RUN ls $HOME/.cargo/bin
 ENV CHAINLIT_APP_ROOT=/app
 
 WORKDIR /app
+COPY apps/chat/public ./apps/chat/public
 COPY apps/chat/db_utils.py .
 COPY apps/chat/requirements.txt .
 COPY apps/chat/chainlit.md .
