@@ -81,12 +81,12 @@ Benutzerfrage: {msg.content}
 
 Bitte verwende die obigen Kontextinformationen, um die Frage des Benutzers zu beantworten. Falls der Kontext nicht relevant ist, ignoriere ihn.
 
-Nachdem Sie Ihre Antwort gegeben haben, schlagen Sie 3 relevante Folgefragen vor, die dem Benutzer helfen, das Thema weiter zu erkunden. Formatieren Sie diese Fragen als Liste mit dem Präfix [FollowUP] vor jeder Frage.
+Nachdem Sie Ihre Antwort gegeben haben, schlagen Sie 3 relevante Folgefragen vor, die dem Benutzer helfen, das Thema weiter zu erkunden. Formatieren Sie diese Fragen als Liste mit dem Präfix [###] vor jeder Frage.
 
 Beispiel:
-[FollowUP] Wie kann ich mein Wohnzimmer optimal gestalten?
-[FollowUP] Welche Möbel passen am besten zu meinem Stil?
-[FollowUP] Gibt es spezielle Angebote für Erstausstattungen?
+[###] Wie kann ich mein Wohnzimmer optimal gestalten?
+[###] Welche Möbel passen am besten zu meinem Stil?
+[###] Gibt es spezielle Angebote für Erstausstattungen?
 
 # Dein Job
 Du bist Kundenberater bei Seipp Wohnen. Deine Aufgabe ist es, Anfragen zu Themen auf der Website von Seipp Wohnen zu Einrichtung, Möbeln, Küchen, Wohnkonzepten, Innenarchitektur, Produkten, und Unternehmen sachlich richtig und in der Sprache des Unternehmens mit vertrieblicher Komponente zu beantworten.
@@ -139,8 +139,8 @@ Sprich stets so, als würdest du ein anspruchsvolles, designaffines Publikum ber
 
     # Process each line to separate main response from follow-up questions
     for line in lines:
-        if "[FollowUP]" in line:
-            question = line.split("[FollowUP]")[1].strip()
+        if "[###]" in line:
+            question = line.split("[###]")[1].strip()
             if question.endswith("?"):
                 follow_up_questions.append(question)
         else:
