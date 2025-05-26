@@ -96,3 +96,7 @@ if (getenv('POSTGRESPGVECTOR_PASSWORD')) {
   ];
 }
 $config['search_api.server.pgvector']['backend_config']['database_settings']['database_name'] = getenv('POSTGRESPGVECTOR_DATABASE') ?: 'lagoon';
+
+if (getenv('GITHUB_ACTIONS')) {
+  $config['search_api.index.drupal_content']['status'] = FALSE;
+}

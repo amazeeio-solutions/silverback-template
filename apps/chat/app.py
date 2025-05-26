@@ -62,6 +62,7 @@ async def on_message(msg: cl.Message):
     graph = cast(CompiledStateGraph, cl.user_session.get("graph"))
     cb = cl.LangchainCallbackHandler()
     final_answer = cl.Message(content="")
+    full_response = ""
 
     # Generate embedding for the query
     query_embedding = embeddings.embed_query(msg.content)
@@ -97,6 +98,8 @@ Your tone is confident but humble, optimistic yet grounded. You are a digital cr
 Structure every response with clear subheadings, concise paragraphs, and bullet points where appropriate. Use rhetorical questions, case-based reasoning, and calls to action that spark dialogue and progress.
 
 When communicating in German, always follow Swiss orthography (no "ß", use "ss"; correct use of Umlauts).
+
+After providing your response, suggest 3 relevant follow-up questions that would help the user explore the topic further. Format these questions as a list.
 """
 
     async for m, _ in graph.astream(
@@ -108,5 +111,45 @@ When communicating in German, always follow Swiss orthography (no "ß", use "ss"
         ),
     ):
         if isinstance(m, AIMessageChunk) and m.content:
-            await final_answer.stream_token(cast(str, cast(AIMessageChunk, m).content))
+            content = cast(str, cast(AIMessageChunk, m).content)
+            full_response += content
+            await final_answer.stream_token(content)
+
+    # Extract follow-up questions from the full response
+    follow_up_questions = []
+    lines = full_response.split("\n")
+    main_response_lines = []
+
+    # Process each line to separate main response from follow-up questions
+    for line in lines:
+        if line.strip().startswith(("•", "-", "*", "1.", "2.", "3.")):
+            question = line.strip().lstrip("•-*123. ")
+            if question.endswith("?"):
+                follow_up_questions.append(question)
+        else:
+            main_response_lines.append(line)
+
+    # Update the message content to remove follow-up questions
+    final_answer.content = "\n".join(main_response_lines).strip()
+
+    # Create actions for follow-up questions
+    actions = []
+    for i, question in enumerate(follow_up_questions[:3]):  # Limit to 3 questions
+        actions.append(
+            cl.Action(
+                name="follow_up",  # Changed to a single name for all follow-up actions
+                payload={"question": question},
+                label=question,
+            )
+        )
+
+    # Add the actions to the message
+    final_answer.actions = actions
     await final_answer.send()
+
+
+@cl.action_callback("follow_up")
+async def on_follow_up(action: cl.Action):
+    question = action.payload.get("question", "")
+    msg = cl.Message(content=question)
+    await on_message(msg)
