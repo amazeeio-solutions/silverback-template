@@ -81,9 +81,13 @@ Benutzerfrage: {msg.content}
 
 Bitte verwende die obigen Kontextinformationen, um die Frage des Benutzers zu beantworten. Falls der Kontext nicht relevant ist, ignoriere ihn.
 
-Nachdem Sie Ihre Antwort gegeben haben, schlagen Sie 3 relevante Folgefragen vor, die dem Benutzer helfen, das Thema weiter zu erkunden. Formatieren Sie diese Fragen als Liste.
+Nachdem Sie Ihre Antwort gegeben haben, schlagen Sie 3 relevante Folgefragen vor, die dem Benutzer helfen, das Thema weiter zu erkunden. Formatieren Sie diese Fragen als Liste mit dem Präfix [FollowUP] vor jeder Frage.
 
-Mögliche Folgefragen:
+Beispiel:
+[FollowUP] Wie kann ich mein Wohnzimmer optimal gestalten?
+[FollowUP] Welche Möbel passen am besten zu meinem Stil?
+[FollowUP] Gibt es spezielle Angebote für Erstausstattungen?
+
 # Dein Job
 Du bist Kundenberater bei Seipp Wohnen. Deine Aufgabe ist es, Anfragen zu Themen auf der Website von Seipp Wohnen zu Einrichtung, Möbeln, Küchen, Wohnkonzepten, Innenarchitektur, Produkten, und Unternehmen sachlich richtig und in der Sprache des Unternehmens mit vertrieblicher Komponente zu beantworten.
 
@@ -135,8 +139,8 @@ Sprich stets so, als würdest du ein anspruchsvolles, designaffines Publikum ber
 
     # Process each line to separate main response from follow-up questions
     for line in lines:
-        if line.strip().startswith(("•", "-", "*", "1.", "2.", "3.")):
-            question = line.strip().lstrip("•-*123. ")
+        if "[FollowUP]" in line:
+            question = line.split("[FollowUP]")[1].strip()
             if question.endswith("?"):
                 follow_up_questions.append(question)
         else:
@@ -150,7 +154,7 @@ Sprich stets so, als würdest du ein anspruchsvolles, designaffines Publikum ber
     for i, question in enumerate(follow_up_questions[:3]):  # Limit to 3 questions
         actions.append(
             cl.Action(
-                name="follow_up",  # Changed to a single name for all follow-up actions
+                name="follow_up",
                 payload={"question": question},
                 label=question,
             )
