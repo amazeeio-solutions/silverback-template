@@ -13,6 +13,10 @@ use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use League\HTMLToMarkdown\HtmlConverter;
 
+use LLPhant\Embeddings\Document;
+use LLPhant\Embeddings\DocumentSplitter\DocumentSplitter;
+
+
 /**
  * Provides a Chat AI form.
  */
