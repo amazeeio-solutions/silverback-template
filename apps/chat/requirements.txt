@@ -4,3 +4,7 @@ langchain
 langchain_openai
 langgraph
 langchain-mcp-adapters
+python-dotenv
+pgvector
+psycopg2-binary
+numpy

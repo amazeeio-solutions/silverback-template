@@ -1,0 +1,9 @@
+name: Chat UI example
+type: module
+description:
+  'Provide a chatbot UI example that can answer questions based on your website
+  content.'
+package: Custom
+core_version_requirement: ^9 || ^10 || ^11
+dependencies:
+  - chat_ai:chat_ai

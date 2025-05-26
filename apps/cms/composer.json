@@ -92,7 +92,10 @@
     "drupal/userprotect": "^1.2",
     "drupal/webform": "^6.1.5",
     "drush/drush": "^12.5",
-    "enyo/dropzone": "^5.7.1"
+    "enyo/dropzone": "^5.7.1",
+    "fivefilters/readability.php": ">=3.0",
+    "league/html-to-markdown": "^5.1",
+    "theodo-group/llphant": "dev-normalize-configs"
   },
   "conflict": {
     "drupal/drupal": "*"
