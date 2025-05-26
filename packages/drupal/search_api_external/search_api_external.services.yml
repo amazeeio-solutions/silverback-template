@@ -1,0 +1,13 @@
+services:
+  search_api_external.xmlsitemap_list:
+    class: Drupal\search_api_external\XMLSitemapList
+  search_api_external.sapi_xmlsitemap:
+    class: Drupal\search_api_external\SapiXMLSitemap
+    arguments:
+      - '@entity_type.manager'
+      - '@search_api_external.xmlsitemap_list'
+  search_api_external.sapi_external_sync:
+    class: Drupal\search_api_external\SapiExternalSync
+    arguments:
+      - '@search_api_external.sapi_xmlsitemap'
+      - '@queue'

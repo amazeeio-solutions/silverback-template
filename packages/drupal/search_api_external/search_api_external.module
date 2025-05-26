@@ -1,0 +1,19 @@
+<?php
+
+use Drupal\search_api_external\Entity\ExternalWebPage;
+
+/**
+ * @file
+ * Module file for the Search API External module.
+ */
+
+function search_api_external_delete_all_external_web_pages() {
+  $storage = \Drupal::entityTypeManager()->getStorage('external_web_page');
+  $storage->delete($storage->loadMultiple());
+}
+
+function search_api_external_search_api_datasource_info_alter(array &$infos) {
+  if (!empty($infos['entity:external_web_page'])) {
+    $infos['entity:external_web_page']['class'] = 'Drupal\search_api_external\Plugin\search_api\datasource\ExternalWebPage';
+  }
+}
