@@ -77,7 +77,10 @@ function chat_ai_cron() {
   foreach ($entities as $entity) {
     $item = new \stdClass();
     $item->entity = $entity;
-    $queue->createItem($item);
+
+    // Temporary disable this
+    // $queue->createItem($item);
+
     // Optional: Log the action
     \Drupal::logger('external_page_cron')->info('Added external_page entity @id to embeddings_queue', [
       '@id' => $entity->id(),

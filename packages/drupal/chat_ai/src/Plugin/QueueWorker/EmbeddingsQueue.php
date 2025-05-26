@@ -53,8 +53,12 @@ class EmbeddingsQueue extends QueueWorkerBase {
 
     $embeddings->removeEmbedding($entity);
     foreach ($chunks as $chunk) {
-      $markdown = $converter->convert($chunk->content);
-      $embeddings->createEntityEmbedding($entity, $markdown);
+      $trimmed = trim(strip_tags($chunk->content));
+      if (!empty($trimmed)) {
+        $cleanHtml = tidy_repair_string($chunk->content, ['input-encoding' => 'utf8', 'output-encoding' => 'utf8']);
+        $markdown = $converter->convert($cleanHtml);
+        $embeddings->createEntityEmbedding($entity, $markdown);
+      }
     }
 
     if (PHP_SAPI === 'cli') {
@@ -65,5 +69,4 @@ class EmbeddingsQueue extends QueueWorkerBase {
       '@url' => $entity->url->value,
     ]));
   }
-
 }
