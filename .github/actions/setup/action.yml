@@ -6,7 +6,7 @@ runs:
     - name: Install devbox
       uses: jetify-com/devbox-install-action@v0.12.0
       with:
-        #enable-cache: 'true'
+        enable-cache: 'true'
         # Should match version from .envrc
         devbox-version: '0.13.7' # Setting a version is required to make the devbox fully cached.
     - name: Load devbox via direnv
