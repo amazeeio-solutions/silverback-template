@@ -19,6 +19,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   entity_keys = {
  *     "id" = "wpid",
  *     "label" = "url",
+ *     "bundle" = "host",
  *     "uuid" = "uuid",
  *   },
  *   links = {
@@ -37,6 +38,11 @@ class ExternalWebPage extends ContentEntityBase {
       ->setLabel(t('UUID'))
       ->setDescription(t('The record UUID.'))
       ->setReadOnly(TRUE);
+    $fields['host'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Host'))
+      ->setDescription(t('The host of the external web page.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 255);
     $fields['url'] = BaseFieldDefinition::create('string')
       ->setLabel(t('URL'))
       ->setDescription(t('The url of the external web page.'))
@@ -66,9 +72,11 @@ class ExternalWebPage extends ContentEntityBase {
           $item->save();
         }
       } else {
+        $host = parse_url($itemUrl, PHP_URL_HOST);
         $item = $webPageEntityTypeManager->create([
           'url' => $itemUrl,
           'lastmod' => $lastmod,
+          'host' => str_replace('.', '_', $host),
         ]);
         $item->save();
       }

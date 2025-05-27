@@ -34,6 +34,7 @@ class SapiXMLSitemap implements SapiXMLSitemapInterface {
           continue;
         }
         $datasourceConfiguration = $datasource->getConfiguration();
+        // @todo: support for multiple xmlsitemap urls.
         $xmlsitemapUrl = $datasourceConfiguration['xmlsitemap_urls'];
         $xmlsitemaps = $this->xmlSitemapList->listXmlSitemaps($xmlsitemapUrl);
         if (empty($xmlsitemaps)) {
