@@ -22,6 +22,7 @@ WORKDIR /app
 COPY apps/chat/.chainlit /app/.chainlit
 COPY apps/chat/public /app/public
 COPY apps/chat/db_utils.py .
+COPY apps/chat/file_utils.py .
 COPY apps/chat/requirements.txt .
 COPY apps/chat/chainlit.md .
 COPY apps/chat/.chainlit .chainlit

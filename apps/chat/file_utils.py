@@ -24,19 +24,13 @@ class InMemoryFileStore:
     async def process_file(self, file: cl.File) -> None:
         """Process a file and store its embeddings in memory"""
         try:
-            # Read file content
-            with open(file.path, 'rb') as f:
+            with open(file.path, "rb") as f:
                 content = f.read()
 
             text = content.decode("utf-8")
-
-            # Split text into chunks
             chunks = self.text_splitter.split_text(text)
-
-            # Generate embeddings for chunks
             embeddings = await self.embeddings.aembed_documents(chunks)
 
-            # Store chunks and their embeddings
             self.file_contents[file.id] = [
                 {"content": chunk, "embedding": embedding}
                 for chunk, embedding in zip(chunks, embeddings)
