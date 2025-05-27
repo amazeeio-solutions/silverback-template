@@ -17,20 +17,31 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   translatable = FALSE,
  *   admin_permission = "administer site configuration",
  *   entity_keys = {
- *     "id" = "id",
- *     "label" = "id",
+ *     "id" = "wpid",
+ *     "label" = "url",
+ *     "uuid" = "uuid",
+ *   },
+ *   links = {
+ *     "canonical" = "/admin/config/search/external_page/{external_web_page}",
  *   }
  * )
  */
 class ExternalWebPage extends ContentEntityBase {
 
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-    $fields['id'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('ID'))
-      ->setDescription(t('The ID (url) of the external web page.'))
+    $fields['wpid'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Webpage ID'))
+      ->setDescription(t('The web page ID.'))
+      ->setReadOnly(TRUE);
+    $fields['uuid'] = BaseFieldDefinition::create('uuid')
+      ->setLabel(t('UUID'))
+      ->setDescription(t('The record UUID.'))
+      ->setReadOnly(TRUE);
+    $fields['url'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('URL'))
+      ->setDescription(t('The url of the external web page.'))
       ->setReadOnly(TRUE)
       ->setSetting('max_length', 2048);
-
     $fields['lastmod'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Last modified'))
       ->setDescription(t('The last modified date of the external web page.'))
@@ -44,10 +55,11 @@ class ExternalWebPage extends ContentEntityBase {
     $xml = simplexml_load_string($xmlContent);
     $webPageEntityTypeManager = \Drupal::entityTypeManager()->getStorage('external_web_page');
     foreach ($xml->url as $url) {
-      $itemId = (string) $url->loc;
+      $itemUrl = (string) $url->loc;
       $lastmod = (string) $url->lastmod;
-      $item = $webPageEntityTypeManager->load($itemId);
+      $item = $webPageEntityTypeManager->loadByProperties(['url' => $itemUrl]);
       if ($item) {
+        $item = reset($item);
         $lastmod = $item->get('lastmod')->value;
         if ($lastmod !== $url->lastmod) {
           $item->set('lastmod', $url->lastmod);
@@ -55,7 +67,7 @@ class ExternalWebPage extends ContentEntityBase {
         }
       } else {
         $item = $webPageEntityTypeManager->create([
-          'id' => $itemId,
+          'url' => $itemUrl,
           'lastmod' => $lastmod,
         ]);
         $item->save();

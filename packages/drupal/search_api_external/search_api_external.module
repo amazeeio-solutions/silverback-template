@@ -1,6 +1,6 @@
 <?php
 
-use Drupal\search_api_external\Entity\ExternalWebPage;
+use Drupal\Core\Entity\ContentEntityInterface;
 
 /**
  * @file
@@ -15,5 +15,14 @@ function search_api_external_delete_all_external_web_pages() {
 function search_api_external_search_api_datasource_info_alter(array &$infos) {
   if (!empty($infos['entity:external_web_page'])) {
     $infos['entity:external_web_page']['class'] = 'Drupal\search_api_external\Plugin\search_api\datasource\ExternalWebPage';
+  }
+}
+
+/**
+ * Implements hook_silverback_search_live_url_alter().
+ */
+function search_api_external_silverback_search_live_url_alter(string &$liveUrl, ContentEntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'external_web_page') {
+    $liveUrl = $entity->get('url')->value;
   }
 }
