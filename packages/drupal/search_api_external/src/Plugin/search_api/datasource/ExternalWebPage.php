@@ -24,6 +24,23 @@ class ExternalWebPage extends ContentEntity {
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     $this->configuration['xmlsitemap_urls'] = $form_state->getValue('xmlsitemap_urls');
+    // To simulate the behaviour when having multiple bunldes, we need to
+    // extract the host from the xmlsitemap_urls and use it as the bundles
+    // setting.
+    $urls = explode("\n", $this->configuration['xmlsitemap_urls']);
+    $hosts = [];
+    foreach ($urls as $url) {
+      $host = parse_url($url, PHP_URL_HOST);
+      $host = str_replace('.', '_', $host);
+      $hosts[$host] = $host;
+    }
+    $form_state->setValue(['bundles', 'selected'], $hosts);
+    // In order to see the meaning of the 'default' flag, please refer to the
+    // ContentEntity::getBundles() method (basically when default is set to
+    // TRUE, this means "All except those selected", so we need to set it to
+    // FALSE).
+    $form_state->setValue(['bundles', 'default'], FALSE);
+
     // Make sure not to overwrite any options not included in the form (like
     // "disable_db_tracking") by adding any existing configuration back to the
     // new values.
@@ -35,5 +52,31 @@ class ExternalWebPage extends ContentEntity {
    */
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
     return;
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public function getEntityBundles() {
+    // We do not have a fixed, static, number of bundles for the external web
+    // page entities. We use instead the host property from these entities to
+    // determine all the available bundles at runtime.
+    $entity_type = $this->getEntityType();
+    $select = $this->getDatabaseConnection()
+      ->select($entity_type->getBaseTable(), 'base_table')
+      ->fields('base_table', ['host'])
+      ->distinct();
+    $result = $select->execute()->fetchCol();
+
+    $bundles = [];
+    if (empty($result)) {
+      return $bundles;
+    }
+    foreach ($result as $host) {
+      $bundles[$host] = [
+        'label' => $host,
+      ];
+    }
+    return $bundles;
   }
 }
