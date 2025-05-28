@@ -31,13 +31,13 @@ class SilverbackIframeEventSubscriber implements EventSubscriberInterface {
         $response->headers->set('Expires', '0');
 
         // TEST OPTION 2: Add a random cache buster (alternative approach)
-//        if (method_exists($response, 'getCacheableMetadata')) {
-//          $randomValue = mt_rand(1, 1000000);
-//          $response->getCacheableMetadata()->addCacheContexts(['url.query_args:ref', 'random:' . $randomValue]);
-//
-//          // Add debug header to verify the random value is changing
-//          $response->headers->set('X-Cache-Buster', $randomValue);
-//        }
+        if (method_exists($response, 'getCacheableMetadata')) {
+          $randomValue = mt_rand(1, 1000000);
+          $response->getCacheableMetadata()->addCacheContexts(['url.query_args:ref', 'random:' . $randomValue]);
+
+          // Add debug header to verify the random value is changing
+          $response->headers->set('X-Cache-Buster', $randomValue);
+        }
 
         // For debugging
         $response->headers->set('X-Ref-Source', $refValue);
