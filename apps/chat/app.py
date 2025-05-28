@@ -8,6 +8,7 @@ from langchain_mcp_adapters.client import MultiServerMCPClient, StdioConnection
 from langgraph.checkpoint.memory import MemorySaver
 from db_utils import VectorDB
 from langchain_openai import OpenAIEmbeddings
+from file_utils import InMemoryFileStore
 
 import chainlit as cl
 from pydantic import SecretStr
@@ -19,6 +20,9 @@ embeddings = OpenAIEmbeddings(
     base_url=os.environ.get("AMAZEEAI_BASE_URL"),
     api_key=cast(SecretStr, os.environ.get("AMAZEEAI_API_KEY")),
 )
+
+# Initialize in-memory file store
+file_store = InMemoryFileStore()
 
 
 @cl.on_chat_start
@@ -59,6 +63,12 @@ async def on_chat_start():
 
 @cl.on_message
 async def on_message(msg: cl.Message):
+    # Process attached files if any
+    if msg.elements:
+        for element in msg.elements:
+            if isinstance(element, cl.File):
+                await file_store.process_file(element)
+
     graph = cast(CompiledStateGraph, cl.user_session.get("graph"))
     cb = cl.LangchainCallbackHandler()
     final_answer = cl.Message(content="")
@@ -67,11 +77,23 @@ async def on_message(msg: cl.Message):
     # Generate embedding for the query
     query_embedding = embeddings.embed_query(msg.content)
 
-    # Get similar documents from vector DB
+    # Get similar documents from both vector DB and file store
     similar_docs = vector_db.search_similar(query_embedding, limit=5)
+    file_similar_docs = file_store.search_similar(query_embedding, limit=5)
+
+    # Combine and deduplicate results
+    all_docs = similar_docs + file_similar_docs
+    seen_contents = set()
+    unique_docs = []
+    for doc in all_docs:
+        if doc["content"] not in seen_contents:
+            seen_contents.add(doc["content"])
+            unique_docs.append(doc)
 
     # Create context from similar documents
-    context = "\n\n".join([doc["content"] for doc in similar_docs])
+    context = "\n\n".join(
+        [doc["content"] for doc in unique_docs[:5]]
+    )  # Limit to top 5 results
 
     # Create enhanced prompt with context
     enhanced_prompt = f"""Kontextinformationen:
