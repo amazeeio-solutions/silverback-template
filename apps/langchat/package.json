@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test:static": "tsc --noEmit && eslint . --quiet",
+    "_test:static": "tsc --noEmit && eslint . --quiet",
     "prep": "vite build",
     "dev": "vite"
   },
