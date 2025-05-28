@@ -9,7 +9,13 @@ use Drupal\Core\Entity\ContentEntityInterface;
 
 function search_api_external_delete_all_external_web_pages() {
   $storage = \Drupal::entityTypeManager()->getStorage('external_web_page');
-  $storage->delete($storage->loadMultiple());
+  $query = $storage->getQuery()->accessCheck(FALSE)->range(0, 1000);
+  $ids = $query->execute();
+  while (!empty($ids)) {
+    $storage->delete($storage->loadMultiple($ids));
+    $query = $storage->getQuery()->accessCheck(FALSE)->range(0, 1000);
+    $ids = $query->execute();
+  }
 }
 
 function search_api_external_search_api_datasource_info_alter(array &$infos) {
