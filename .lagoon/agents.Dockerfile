@@ -1,5 +1,6 @@
 FROM langchain/langgraphjs-api:20
-ADD . /deps/agents
+ENV PORT=8800
+ADD apps/agents /deps/agents
 ENV LANGSERVE_GRAPHS='{"agent":"./src/react-agent/graph.ts:graph"}'
 WORKDIR /deps/agents
 RUN npm i
