@@ -119,6 +119,58 @@ services:
       lagoon.type: node
       lagoon.name: preview
 
+  thumbor:
+    image: ghcr.io/minimalcompact/thumbor:latest
+    labels:
+      lagoon.type: basic
+      lagoon.name: thumbor
+    environment:
+      VIRTUAL_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+      THUMBOR_NUM_PROCESSES: 4
+      CORS_ALLOW_ORIGIN: '*'
+      AUTO_WEBP: 'True'
+      RESULT_STORAGE: thumbor.result_storages.no_storage
+      RESULT_STORAGE_STORES_UNSAFE: 'True'
+      STORAGE: thumbor.storages.file_storage
+      THUMBOR_FILE_LOADER_ROOT_PATH: /data/images
+      THUMBOR_FILE_STORAGE_ROOT_PATH: /data/storage
+      THUMBOR_SECURITY_KEY: ${THUMBOR_SECURITY_KEY:-changeme}
+    volumes:
+      - ./thumbor/thumbor_data:/data
+      - ./thumbor/thumbor_images:/data/images:ro
+      - ./thumbor/thumbor_storage:/data/storage
+    restart: always
+    networks:
+      - amazeeio-network
+      - default
+
+  thumbor-proxy:
+    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache
+    labels:
+      lagoon.type: basic
+      lagoon.name: thumbor-proxy
+    environment:
+      <<: *default-environment # Inherit default environment variables
+      LAGOON_LOCALDEV_URL: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+      VIRTUAL_HOST: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+      DEFAULT_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+      PROXY_CACHE_SIZE: 10g
+      PROXY_CACHE_MEMORY_SIZE: 500m
+      PROXY_CACHE_INACTIVE: 300m
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./thumbor/cache:/var/cache/nginx
+    ports:
+      - '8088:80'
+      - '9443:443'
+    networks:
+      - amazeeio-network
+      - default
+
+volumes:
+  thumbor:
+    driver: local
+
 networks:
   amazeeio-network:
     external: true
