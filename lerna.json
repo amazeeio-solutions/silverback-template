@@ -1,5 +1,5 @@
 {
-  "packages": [".", "packages/@amazeelabs/*"],
+  "packages": [".", "packages/@amazeelabs/*", "packages/git-broom"],
   "version": "independent",
   "npmClient": "pnpm",
   "command": {
