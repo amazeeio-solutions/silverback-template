@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { $, cd, question, ProcessOutput, echo, fs } from 'zx';
+import { $, cd, echo, fs, ProcessOutput, question } from 'zx';
 
 $.verbose = true;
 
