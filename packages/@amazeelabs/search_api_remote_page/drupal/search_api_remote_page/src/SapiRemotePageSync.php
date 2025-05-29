@@ -20,12 +20,16 @@ class SapiRemotePageSync implements SapiRemotePageSyncInterface {
    */
   public function checkForUpdates() {
     $sitemapUrls = $this->getSitemapUrls();
+    $lastSeenIndex = \Drupal::state()->get('search_api_remote_page_last_seen_index', 0);
+    $lastSeenIndex = $lastSeenIndex + 1;
     foreach ($sitemapUrls as $sitemapUrl) {
       $job = [
         'url' => $sitemapUrl,
+        'last_seen_index' => $lastSeenIndex,
       ];
       $this->queueFactory->get('remote_page_xmlsitemap_sync')->createItem($job);
     }
+    \Drupal::state()->set('search_api_remote_page_last_seen_index', $lastSeenIndex);
   }
 
   /**

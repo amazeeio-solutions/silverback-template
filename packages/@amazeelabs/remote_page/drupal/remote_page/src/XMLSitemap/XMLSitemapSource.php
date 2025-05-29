@@ -14,6 +14,9 @@ class XMLSitemapSource implements XMLSitemapSourceInterface {
       $xmlContent = file_get_contents($sitemapUrl);
       $xml = simplexml_load_string($xmlContent);
       foreach ($xml->url as $url) {
+        if (count($entries) >= 5) {
+          break;
+        }
         $entries[] = [
           'url' => (string) $url->loc,
           'lastmod' => (string) $url->lastmod,

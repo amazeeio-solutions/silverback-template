@@ -58,6 +58,11 @@ class RemotePage extends ContentEntityBase {
       ->setDescription(t('The last modified date of the remote page.'))
       ->setReadOnly(TRUE)
       ->setSetting('max_length', 64);
+    $fields['lastseenindex'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Last seen index'))
+      ->setDescription(t('An index corresponding to the last time the remote page was seen in the source.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 255);
     $fields['hash'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Hash'))
       ->setReadOnly(TRUE)
@@ -74,7 +79,7 @@ class RemotePage extends ContentEntityBase {
     parent::preSave($storage);
   }
 
-  public static function bulkSync($remotePages) {
+  public static function bulkSync($remotePages, $lastSeenIndex) {
     $remoteHashedPages = [];
     foreach ($remotePages as $remotePage) {
       $hash = Crypt::hashBase64($remotePage['url'] . '|' . $remotePage['lastmod']);
@@ -96,6 +101,15 @@ class RemotePage extends ContentEntityBase {
         ->condition('hash', array_keys($remoteHashedPagesChunck), 'IN')
         ->execute()
         ->fetchAllKeyed(0, 0);
+      if (!empty($existingHashes)) {
+        // For all existing hashes we want to immediately update the last seen
+        // index value, with a direct query.
+        \Drupal::database()->update($baseTable)
+        ->fields(['lastseenindex' => $lastSeenIndex])
+        ->condition('hash', array_keys($existingHashes), 'IN')
+        ->execute();
+      }
+
       $remoteHashedPagesChunck = array_diff_key($remoteHashedPagesChunck, $existingHashes);
       foreach ($remoteHashedPagesChunck as $hash => $remoteHashedPage) {
         // Load the entity based on the url. If it does not exist yet, we create
@@ -112,6 +126,7 @@ class RemotePage extends ContentEntityBase {
           ]);
         }
         $item->set('lastmod', $remoteHashedPage['lastmod']);
+        $item->set('lastseenindex', $lastSeenIndex);
         $item->save();
       }
     }
