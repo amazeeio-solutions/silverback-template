@@ -219,16 +219,16 @@ async function initRepo() {
   await execa(
     'git',
     [
+      '-c',
+      'user.name=GitBroom',
+      '-c',
+      'user.email=ci@example.com',
       'commit',
       '--allow-empty',
-      '--author',
-      'GitBroom CI <ci@example.com>',
       '-m',
       'init',
     ],
-    {
-      cwd: dir,
-    },
+    { cwd: dir },
   );
   return dir;
 }
