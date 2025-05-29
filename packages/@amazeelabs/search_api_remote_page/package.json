@@ -1,0 +1,10 @@
+{
+  "name": "@amazeelabs/search_api_remote_page",
+  "version": "1.0.0",
+  "scripts": {
+    "test:unit": "cd ../../../apps/cms && vendor/phpunit/phpunit/phpunit web/modules/contrib/search_api_remote_page"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

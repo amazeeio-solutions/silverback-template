@@ -1,5 +1,0 @@
-services:
-  search_api_external.commands:
-    class: \Drupal\search_api_external\Commands\XMLSitemapTracker
-    tags:
-      - { name: drush.command }

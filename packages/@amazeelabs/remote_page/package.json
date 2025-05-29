@@ -1,0 +1,10 @@
+{
+  "name": "@amazeelabs/remote_page",
+  "version": "1.0.0",
+  "scripts": {
+    "test:unit": "cd ../../../apps/cms && vendor/phpunit/phpunit/phpunit web/modules/contrib/remote_page"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

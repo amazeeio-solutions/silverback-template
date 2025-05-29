@@ -1,0 +1,8 @@
+name: Search API Remote Page
+type: module
+description: 'Integrates remote_page entities with Search API.'
+package: Silverback
+core_version_requirement: ^10 || ^11
+dependencies:
+  - remote_page:remote_page
+  - search_api:search_api

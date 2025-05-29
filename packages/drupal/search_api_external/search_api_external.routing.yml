@@ -1,7 +1,0 @@
-entity.external_web_page.canonical:
-  path: '/admin/config/search/external_page/{external_web_page}'
-  defaults:
-    _controller: '\Drupal\search_api_external\Controller\ExternalWebPageViewController::view'
-    _title: 'External web page'
-  requirements:
-    _permission: 'administer site configuration'
