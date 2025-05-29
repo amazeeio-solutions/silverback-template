@@ -1,5 +1,3 @@
-version: '2.3'
-
 x-volumes:
   &default-volumes # Define all volumes you would like to have real-time mounted into the docker containers
   volumes:
