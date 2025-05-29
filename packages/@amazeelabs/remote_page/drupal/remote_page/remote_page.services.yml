@@ -1,0 +1,3 @@
+services:
+  remote_page.xmlsitemap_source:
+    class: Drupal\remote_page\XMLSitemap\XMLSitemapSource

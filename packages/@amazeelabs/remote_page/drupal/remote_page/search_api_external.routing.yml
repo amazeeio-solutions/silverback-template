@@ -1,0 +1,7 @@
+entity.remote_page.canonical:
+  path: '/admin/config/remote_page/{remote_page}'
+  defaults:
+    _controller: '\Drupal\remote_page\Controller\RemotePageViewController::view'
+    _title: 'Remote page'
+  requirements:
+    _permission: 'administer site configuration'

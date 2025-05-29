@@ -1,0 +1,5 @@
+services:
+  search_api_remote_page.commands:
+    class: \Drupal\search_api_remote_page\Commands\XMLSitemapTracker
+    tags:
+      - { name: drush.command }

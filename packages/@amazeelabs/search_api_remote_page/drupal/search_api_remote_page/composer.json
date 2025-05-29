@@ -1,0 +1,6 @@
+{
+  "name": "amazeelabs/search_api_remote_page",
+  "version": "dev-main",
+  "type": "drupal-module",
+  "description": "Integrates remote_page entities with Search API."
+}

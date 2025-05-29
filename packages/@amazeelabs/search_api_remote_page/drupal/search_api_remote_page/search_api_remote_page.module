@@ -1,0 +1,21 @@
+<?php
+
+use Drupal\Core\Entity\ContentEntityInterface;
+
+/**
+ * Implements hook_search_api_datasource_info_alter().
+ */
+function search_api_remote_page_search_api_datasource_info_alter(array &$infos) {
+  if (!empty($infos['entity:remote_page'])) {
+    $infos['entity:remote_page']['class'] = 'Drupal\search_api_remote_page\Plugin\search_api\datasource\RemotePage';
+  }
+}
+
+/**
+ * Implements hook_silverback_search_live_url_alter().
+ */
+function search_api_remote_page_silverback_search_live_url_alter(string &$liveUrl, ContentEntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'remote_page') {
+    $liveUrl = $entity->get('url')->value;
+  }
+}
