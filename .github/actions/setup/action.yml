@@ -10,7 +10,7 @@ runs:
         # Should match version from .envrc
         devbox-version: '0.13.7' # Setting a version is required to make the devbox fully cached.
     - name: Load devbox via direnv
-      uses: HatsuneMiku3939/direnv-action@v1.1.0
+      uses: HatsuneMiku3939/direnv-action@v1
 
     - name: Check xdebug config
       shell: bash
