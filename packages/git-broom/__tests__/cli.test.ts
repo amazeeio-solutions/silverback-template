@@ -15,11 +15,7 @@ beforeAll(async () => {
 
 describe('git-broom CLI', () => {
   test('removes untracked files with a question', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     writeFileSync(join(dir, 'foo.txt'), 'foo');
 
     const result = await execa(
@@ -37,11 +33,7 @@ describe('git-broom CLI', () => {
   });
 
   test('does not ask questions if there are no untracked files', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     const file = join(dir, 'tracked.txt');
     writeFileSync(file, 'keep');
     await execa('git', ['add', file], { cwd: dir });
@@ -58,11 +50,7 @@ describe('git-broom CLI', () => {
   });
 
   test('removes gitignored files', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     writeFileSync(join(dir, '.gitignore'), 'secret.txt\n');
     await execa('git', ['add', '.gitignore'], { cwd: dir });
     writeFileSync(join(dir, 'secret.txt'), 'secret');
@@ -78,11 +66,7 @@ describe('git-broom CLI', () => {
   });
 
   test('respects .gitbroomignore', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     writeFileSync(join(dir, 'foo.txt'), 'foo');
     writeFileSync(join(dir, '.gitignore'), 'foo.txt\n');
     await execa('git', ['add', '.gitignore'], { cwd: dir });
@@ -99,11 +83,7 @@ describe('git-broom CLI', () => {
   });
 
   test('excludes /_local and /.idea by default', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     const dir1 = join(dir, '_local');
     const dir2 = join(dir, '.idea');
     mkdirSync(join(dir1, 'subdir'), { recursive: true });
@@ -125,11 +105,7 @@ describe('git-broom CLI', () => {
   });
 
   test('does not exclude /_local and /.idea if .gitbroomignore exists', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     const dir1 = join(dir, '_local');
     const dir2 = join(dir, '.idea');
     mkdirSync(join(dir1, 'subdir'), { recursive: true });
@@ -165,11 +141,7 @@ describe('git-broom CLI', () => {
   });
 
   test('aborts when user declines', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     writeFileSync(join(dir, 'foo.txt'), 'foo');
 
     const result = await execa(
@@ -184,11 +156,7 @@ describe('git-broom CLI', () => {
   });
 
   test('empty .gitbroomignore triggers full clean without default excludes', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     writeFileSync(join(dir, 'foo.txt'), 'foo');
     mkdirSync(join(dir, '_local'), { recursive: true });
     writeFileSync(join(dir, '_local/file.txt'), 'a');
@@ -212,11 +180,7 @@ describe('git-broom CLI', () => {
   });
 
   test('ignores comments in .gitbroomignore', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
-    await execa('git', ['init'], { cwd: dir });
-    await execa('git', ['commit', '--allow-empty', '-m', 'init'], {
-      cwd: dir,
-    });
+    const dir = await initRepo();
     ['foo', 'bar', 'baz'].forEach((name) => {
       const d = join(dir, name);
       mkdirSync(d, { recursive: true });
@@ -248,3 +212,23 @@ baz
     expect(existsSync(join(dir, 'baz'))).toBe(true);
   });
 });
+
+async function initRepo() {
+  const dir = mkdtempSync(join(tmpdir(), 'gitbroom-'));
+  await execa('git', ['init'], { cwd: dir });
+  await execa(
+    'git',
+    [
+      'commit',
+      '--allow-empty',
+      '--author',
+      'GitBroom CI <ci@example.com>',
+      '-m',
+      'init',
+    ],
+    {
+      cwd: dir,
+    },
+  );
+  return dir;
+}
