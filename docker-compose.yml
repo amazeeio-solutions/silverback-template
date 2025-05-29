@@ -120,7 +120,7 @@ services:
       lagoon.name: preview
 
   thumbor:
-    image: ghcr.io/minimalcompact/thumbor:latest
+    image: ghcr.io/minimalcompact/thumbor:7.7.4
     labels:
       lagoon.type: basic
       lagoon.name: thumbor
@@ -145,7 +145,7 @@ services:
       - default
 
   thumbor-proxy:
-    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache
+    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
     labels:
       lagoon.type: basic
       lagoon.name: thumbor-proxy
