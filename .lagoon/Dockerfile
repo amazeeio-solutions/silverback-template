@@ -58,6 +58,7 @@ RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/cms" /tmp
     cd /tmp/.deploy/cms && composer install --no-dev --optimize-autoloader
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/publisher" /tmp/.deploy/publisher --prod
 RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/preview" /tmp/.deploy/preview --prod
+RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/agents" /tmp/.deploy/agents --prod
 
 # ====================================================================================================
 # CLI IMAGE
@@ -131,3 +132,14 @@ ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 
 CMD pnpm publisher
+
+# ====================================================================================================
+# AGENTS IMAGE
+# ====================================================================================================
+FROM langchain/langgraphjs-api:20 as agents
+RUN npm install -g pnpm@8.15.9
+ENV PORT=8800
+COPY --from=builder /tmp/.deploy/agents /deps/agents
+ENV LANGSERVE_GRAPHS='{"agent":"./src/react-agent/graph.ts:graph"}'
+WORKDIR /deps/agents
+RUN (test ! -f /api/langgraph_api/js/build.mts && echo "Prebuild script not found, skipping") || tsx /api/langgraph_api/js/build.mts

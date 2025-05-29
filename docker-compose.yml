@@ -139,25 +139,26 @@ services:
       lagoon.type: node
       lagoon.name: preview
 
-  agents:
-    build:
-      context: .
-      dockerfile: .lagoon/agents.Dockerfile
-    labels:
-      lagoon.type: python-persistent
-      lagoon.persistent: /app/.files
-      lagoon.name: chat
-    ports:
-      - '8800'
-    environment:
-      <<: *default-environment
-      AMAZEEAI_API_KEY: 'sk-JXpphNe9KKrvY_22mRKHaw'
-      LAGOON_LOCALDEV_URL: chat-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
-    depends_on:
-      - chatstorage
-    networks:
-      - amazeeio-network
-      - default
+  # agents:
+  #   build:
+  #     context: .
+  #     target: agents
+  #     dockerfile: .lagoon/Dockerfile
+  #   labels:
+  #     lagoon.type: python-persistent
+  #     lagoon.persistent: /app/.files
+  #     lagoon.name: chat
+  #   ports:
+  #     - '8800'
+  #   environment:
+  #     <<: *default-environment
+  #     AMAZEEAI_API_KEY: 'sk-JXpphNe9KKrvY_22mRKHaw'
+  #     LAGOON_LOCALDEV_URL: chat-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+  #   depends_on:
+  #     - chatstorage
+  #   networks:
+  #     - amazeeio-network
+  #     - default
 
   chat:
     build:
