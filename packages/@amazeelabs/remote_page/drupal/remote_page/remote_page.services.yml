@@ -1,3 +1,9 @@
 services:
   remote_page.xmlsitemap_source:
     class: Drupal\remote_page\XMLSitemap\XMLSitemapSource
+  remote_page.cleanup:
+    class: Drupal\remote_page\Cleanup
+    arguments:
+      - '@entity_type.manager'
+      - '@database'
+      - '@queue'

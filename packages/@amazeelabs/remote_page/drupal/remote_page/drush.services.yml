@@ -1,0 +1,5 @@
+services:
+  remote_page.commands:
+    class: \Drupal\remote_page\Commands\CleanupRemotePages
+    tags:
+      - { name: drush.command }

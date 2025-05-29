@@ -19,3 +19,14 @@ function search_api_remote_page_silverback_search_live_url_alter(string &$liveUr
     $liveUrl = $entity->get('url')->value;
   }
 }
+
+function search_api_remote_page_delete_all_remote_pages() {
+  $storage = \Drupal::entityTypeManager()->getStorage('remote_page');
+  $query = $storage->getQuery()->accessCheck(FALSE)->range(0, 1000);
+  $ids = $query->execute();
+  while (!empty($ids)) {
+    $storage->delete($storage->loadMultiple($ids));
+    $query = $storage->getQuery()->accessCheck(FALSE)->range(0, 1000);
+    $ids = $query->execute();
+  }
+}
