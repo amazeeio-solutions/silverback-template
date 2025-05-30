@@ -133,15 +133,8 @@
       "drupal/coffee": {
         "On the fly ajax search POC": "./patches/contrib/coffee/on_the_fly_ajax_search_poc.patch"
       },
-      "drupal/ai_vdb_provider_postgres": {
-        "Fix query": "./patches/contrib/ai_vdb_provider_postgres/fix-query.patch",
-        "Missing key": "./patches/contrib/ai_vdb_provider_postgres/missing-key.patch"
-      },
       "drupal/field_group": {
         "#2969051 - Fix HTML5 validation prevents submission in tabs": "https://www.drupal.org/files/issues/2024-08-07/field-group-tabs-8.x-3.x.patch"
-      },
-      "drupal/ai_provider_amazeeio": {
-          "key-error": "./patches/amazee-io-provider.patch"
       }
     },
     "patchLevel": {

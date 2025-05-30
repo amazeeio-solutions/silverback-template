@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "9fa9ba42ce6245a13b41680398e89748",
+  "content-hash": "e2659152bbf78693317b3982924380e8",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -2298,17 +2298,17 @@
     },
     {
       "name": "drupal/ai_provider_amazeeio",
-      "version": "1.0.0-rc2",
+      "version": "1.0.0-rc3",
       "source": {
         "type": "git",
         "url": "https://git.drupalcode.org/project/ai_provider_amazeeio.git",
-        "reference": "1.0.0-rc2"
+        "reference": "1.0.0-rc3"
       },
       "dist": {
         "type": "zip",
-        "url": "https://ftp.drupal.org/files/projects/ai_provider_amazeeio-1.0.0-rc2.zip",
-        "reference": "1.0.0-rc2",
-        "shasum": "7e0649a9d11d7700856217467c121861009b4092"
+        "url": "https://ftp.drupal.org/files/projects/ai_provider_amazeeio-1.0.0-rc3.zip",
+        "reference": "1.0.0-rc3",
+        "shasum": "b6251ffbc3f3ae0007132519200a9b72f5d46622"
       },
       "require": {
         "drupal/ai": "^1.1",
@@ -2324,8 +2324,8 @@
       "type": "drupal-module",
       "extra": {
         "drupal": {
-          "version": "1.0.0-rc2",
-          "datestamp": "1747669466",
+          "version": "1.0.0-rc3",
+          "datestamp": "1748014209",
           "security-coverage": {
             "status": "not-covered",
             "message": "Project has not opted into security advisory coverage!"
@@ -2558,26 +2558,29 @@
     },
     {
       "name": "drupal/ai_vdb_provider_postgres",
-      "version": "dev-1.0.x",
+      "version": "1.0.0-alpha2",
       "source": {
         "type": "git",
         "url": "https://git.drupalcode.org/project/ai_vdb_provider_postgres.git",
-        "reference": "7ceb49e15910f66cd6c50a1af19b489ccf97e169"
+        "reference": "1.0.0-alpha2"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://ftp.drupal.org/files/projects/ai_vdb_provider_postgres-1.0.0-alpha2.zip",
+        "reference": "1.0.0-alpha2",
+        "shasum": "ae3c99c0d103276f70ebadeb8d7123c0611e3d8c"
       },
       "require": {
-        "drupal/ai": "^1.0.x-dev",
+        "drupal/ai": "^1.1@beta",
         "drupal/core": "^10.2 || ^11",
         "drupal/key": "*",
         "ext-pgsql": "*"
       },
       "type": "drupal-module",
       "extra": {
-        "branch-alias": {
-          "dev-1.0.x": "1.0.x-dev"
-        },
         "drupal": {
-          "version": "1.0.x-dev",
-          "datestamp": "1742561889",
+          "version": "1.0.0-alpha2",
+          "datestamp": "1748339262",
           "security-coverage": {
             "status": "not-covered",
             "message": "Project has not opted into security advisory coverage!"
