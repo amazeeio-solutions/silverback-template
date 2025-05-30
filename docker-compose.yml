@@ -124,6 +124,7 @@ services:
     labels:
       lagoon.type: basic
       lagoon.name: thumbor
+      lagoon.volumes.thumbor.path: /data
     environment:
       VIRTUAL_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
       THUMBOR_NUM_PROCESSES: 4
@@ -136,9 +137,9 @@ services:
       THUMBOR_FILE_STORAGE_ROOT_PATH: /data/storage
       THUMBOR_SECURITY_KEY: ${THUMBOR_SECURITY_KEY:-changeme}
     volumes:
-      - ./thumbor/thumbor_data:/data
-      - ./thumbor/thumbor_images:/data/images:ro
-      - ./thumbor/thumbor_storage:/data/storage
+      - thumbor_data:/data
+      - thumbor_images:/data/images:ro
+      - thumbor_storage:/data/storage
     restart: always
     user: root
     networks:
@@ -151,7 +152,7 @@ services:
       lagoon.type: basic
       lagoon.name: thumbor-proxy
     environment:
-      <<: *default-environment # Inherit default environment variables
+      <<: *default-environment
       LAGOON_LOCALDEV_URL: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
       VIRTUAL_HOST: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
       DEFAULT_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
@@ -160,7 +161,7 @@ services:
       PROXY_CACHE_INACTIVE: 300m
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./thumbor/cache:/var/cache/nginx
+      - thumbor_cache:/var/cache/nginx
     ports:
       - '8088:80'
       - '9443:443'
@@ -172,3 +173,22 @@ services:
 networks:
   amazeeio-network:
     external: true
+
+volumes:
+  thumbor_data:
+    driver: local
+    labels:
+      lagoon.type: persistent
+  thumbor_images:
+    driver: local
+    labels:
+      lagoon.type: persistent
+  thumbor_storage:
+    driver: local
+    labels:
+      lagoon.type: persistent
+  thumbor_cache:
+    driver: local
+    labels:
+      lagoon.type: persistent
+      lagoon.backup: false
