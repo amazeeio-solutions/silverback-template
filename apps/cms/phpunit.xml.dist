@@ -10,5 +10,15 @@
 >
   <php>
     <env name="SIMPLETEST_DB" value="sqlite://localhost/sites/default/files/.sqlite"/>
+    <env name="SIMPLETEST_BASE_URL" value="http://localhost:8888"/>
   </php>
+      <testsuites>
+        <testsuite name="custom">
+          <directory>web/modules/custom</directory>
+        </testsuite>
+        <testsuite name="contrib">
+          <directory>web/modules/contrib/ai_provider_amazeeio</directory>
+          <directory>web/modules/contrib/graphql_directives</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

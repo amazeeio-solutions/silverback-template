@@ -14,6 +14,7 @@
     "drupal-install": "SB_SETUP=1 pnpm silverback setup --profile minimal && pnpm content:import && pnpm drush php-eval 'node_access_rebuild();' && rm -rf install-cache.zip && pnpm fix-premissions",
     "export-webforms": "pnpm --filter '@custom/webform-export' webform-snapshots",
     "start": "cd web; SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite DRUSH_OPTIONS_URI=http://127.0.0.1:8888 php -S 0.0.0.0:8888 .ht.router.php # no drush to avoid the drush server timeout",
+    "debug": "cd web; SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite DRUSH_OPTIONS_URI=http://127.0.0.1:8888 php -d xdebug.mode=debug -S 0.0.0.0:8888 .ht.router.php # no drush to avoid the drush server timeout",
     "dev": "pnpm start",
     "clear": "pnpm drush cr",
     "login": "pnpm drush uli",
