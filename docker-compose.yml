@@ -141,6 +141,7 @@ services:
       - ./thumber/thumbor_images:/data/images:ro
       - ./thumber/thumbor_storage:/data/storage
     restart: always
+    user: root
     networks:
       - amazeeio-network
       - default
@@ -164,6 +165,7 @@ services:
     ports:
       - '8088:80'
       - '9443:443'
+    user: root
     depends_on:
       - thumbor
     networks:
