@@ -121,10 +121,6 @@ services:
 
   thumbor:
     image: ghcr.io/minimalcompact/thumbor:7.7.4
-    labels:
-      lagoon.type: basic
-      lagoon.name: thumbor
-      lagoon.persistent: /data
     environment:
       VIRTUAL_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
       THUMBOR_NUM_PROCESSES: 4
@@ -133,24 +129,17 @@ services:
       RESULT_STORAGE: thumbor.result_storages.no_storage
       RESULT_STORAGE_STORES_UNSAFE: 'True'
       STORAGE: thumbor.storages.file_storage
-      THUMBOR_FILE_LOADER_ROOT_PATH: /data/images
-      THUMBOR_FILE_STORAGE_ROOT_PATH: /data/storage
-      THUMBOR_SECURITY_KEY: ${THUMBOR_SECURITY_KEY:-changeme}
-    volumes:
-      - ./thumber/thumbor_data:/data
-      - ./thumber/thumbor_images:/data/images:ro
-      - ./thumber/thumbor_storage:/data/storage
     restart: always
     user: root
     networks:
       - amazeeio-network
       - default
+    labels:
+      lagoon.type: basic
+      lagoon.name: thumbor
 
   thumbor-proxy:
     image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
-    labels:
-      lagoon.type: basic
-      lagoon.name: thumbor-proxy
     environment:
       <<: *default-environment
       LAGOON_LOCALDEV_URL: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
@@ -171,6 +160,9 @@ services:
     networks:
       - amazeeio-network
       - default
+    labels:
+      lagoon.type: basic
+      lagoon.name: thumbor-proxy
 
 networks:
   amazeeio-network:
