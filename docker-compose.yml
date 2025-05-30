@@ -129,6 +129,9 @@ services:
       RESULT_STORAGE: thumbor.result_storages.no_storage
       RESULT_STORAGE_STORES_UNSAFE: 'True'
       STORAGE: thumbor.storages.file_storage
+      FILE_STORAGE_ROOT_PATH: /data/storage
+    volumes:
+      - thumbor_storage:/data/storage
     restart: always
     user: root
     networks:
@@ -137,6 +140,8 @@ services:
     labels:
       lagoon.type: basic
       lagoon.name: thumbor
+      lagoon.persistent: /data/storage
+      lagoon.persistent.name: thumbor-storage
 
 #  thumbor-proxy:
 #    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
@@ -167,9 +172,10 @@ services:
 networks:
   amazeeio-network:
     external: true
-#volumes:
-#  thumbor_cache:
-#    driver: local
-#    labels:
-#      lagoon.type: persistent
-#      lagoon.backup: false
+
+volumes:
+  thumbor_storage:
+    driver: local
+    labels:
+      lagoon.type: persistent
+      lagoon.name: thumbor-storage
