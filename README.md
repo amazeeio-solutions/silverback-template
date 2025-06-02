@@ -11,7 +11,7 @@ Minimum steps
     - add `Tech Team` with `Admin` role
     - remove yourself
   - Settings > General > Pull Requests
-    - Disable `Allow merge commits`
+    - Enable `Allow merge commits`, disable other merge options
     - Enable `Automatically delete head branches`
 - Clone the newly create repo
 - Run `pnpm i && pnpm --filter @custom/init run init` from the project root
