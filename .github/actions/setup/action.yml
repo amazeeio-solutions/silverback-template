@@ -4,7 +4,7 @@ runs:
   using: 'composite'
   steps:
     - name: Install devbox
-      uses: jetify-com/devbox-install-action@22b0f5500b14df4ea357ce673fbd4ced940ed6a1
+      uses: jetify-com/devbox-install-action@v0.13.0
       with:
         enable-cache: 'true'
         # Should match version from .envrc
