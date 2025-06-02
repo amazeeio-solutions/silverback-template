@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.1...@amazeelabs/silverback-template@1.9.2) (2025-05-29)
+
+### Reverts
+
+- Revert "fix: try fixing github cache issue"
+  ([1a17c00](https://github.com/AmazeeLabs/silverback-template/commit/1a17c008c3ebbd91cb8a549759d095164736cceb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.9.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.0...@amazeelabs/silverback-template@1.9.1) (2025-05-29)
 
 ### Bug Fixes
