@@ -1,64 +1,93 @@
-uuid: e21967e8-65fe-4dda-999a-cb719e494483
+uuid: 0821737e-1fa7-427b-b609-8bd453d572dc
 langcode: en
 status: true
 dependencies:
   config:
     - search_api.server.database
   module:
-    - search_api_external
+    - remote_page
     - silverback_search
-id: external_websites
-name: 'External websites'
+id: amazeelabs_website
+name: 'Amazeelabs website'
 description: ''
 read_only: false
 field_settings:
-  external_web_page_html:
-    label: 'External web page HTML output'
-    property_path: external_web_page_html
+  silverback_remote_rendered_item:
+    label: 'Remote rendered HTML output (Silverback)'
+    property_path: silverback_remote_rendered_item
     type: text
+    configuration:
+      root_selector: '#main-content'
+      exclude_selector: .visuallyhidden
+      netlify_password: ''
+      entity_types:
+        remote_page: remote_page
+        block_content: 0
+        config_pages: 0
+        consumer: 0
+        content_moderation_state: 0
+        crop: 0
+        file: 0
+        media: 0
+        menu_link_content: 0
+        node: 0
+        path_alias: 0
+        redirect: 0
+        search_api_task: 0
+        shortcut: 0
+        campaign_url: 0
+        silverback_preview_link: 0
+        oauth2_token: 0
+        taxonomy_term: 0
+        user: 0
+        webform_submission: 0
 datasource_settings:
-  external:
-    xmlsitemap_urls: 'https://www.caritas.ch/sitemap-index.xml'
-    urls: null
+  'entity:remote_page':
+    bundles:
+      default: false
+      selected:
+        - www_amazeelabs_com
+    xmlsitemap_urls: 'https://www.amazeelabs.com/sitemap-index.xml'
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
   custom_value: {  }
   entity_type: {  }
-  external_web_page: {  }
   highlight:
     weights:
       postprocess_query: 0
     prefix: '<strong>'
     suffix: '</strong>'
     excerpt: true
-    excerpt_always: false
+    excerpt_always: true
     excerpt_length: 256
     exclude_fields: {  }
     highlight: always
-    highlight_partial: false
+    highlight_partial: true
   html_filter:
     weights:
       preprocess_index: -15
       preprocess_query: -15
     all_fields: true
     fields:
-      - external_web_page_html
+      - silverback_remote_rendered_item
     title: true
     alt: true
     tags:
       b: 2
+      em: 1
       h1: 5
       h2: 3
       h3: 2
       strong: 2
+      u: 1
   ignorecase:
     weights:
       preprocess_index: -20
       preprocess_query: -20
     all_fields: true
     fields:
-      - external_web_page_html
+      - silverback_remote_rendered_item
   language_with_fallback: {  }
   rendered_item: {  }
   silverback_remote_rendered_item: {  }
@@ -68,7 +97,7 @@ processor_settings:
       preprocess_query: -2
     all_fields: true
     fields:
-      - external_web_page_html
+      - silverback_remote_rendered_item
     stopwords:
       - a
       - an
@@ -111,7 +140,7 @@ processor_settings:
       preprocess_query: -6
     all_fields: true
     fields:
-      - external_web_page_html
+      - silverback_remote_rendered_item
     spaces: ''
     ignored: ._-
     overlap_cjk: 1
@@ -122,7 +151,7 @@ processor_settings:
       preprocess_query: -20
     all_fields: true
     fields:
-      - external_web_page_html
+      - silverback_remote_rendered_item
 tracker_settings:
   default:
     indexing_order: fifo

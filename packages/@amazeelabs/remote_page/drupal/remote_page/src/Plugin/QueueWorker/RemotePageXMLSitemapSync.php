@@ -24,6 +24,10 @@ class RemotePageXMLSitemapSync extends QueueWorkerBase {
      * @var \Drupal\remote_page\XMLSitemap\XMLSitemapSourceInterface $xmlSitemapSource
      */
     $xmlSitemapSource = \Drupal::service('remote_page.xmlsitemap_source');
-    RemotePage::bulkSync($xmlSitemapSource->getXmlSitemapEntries($data['url']), $data['last_seen_index']);
+    /**
+     * @var \Drupal\remote_page\RemotePageSyncInterface $remotePageSync
+     */
+    $remotePageSync = \Drupal::service('remote_page.sync');
+    $remotePageSync->bulkSync($xmlSitemapSource->getXmlSitemapEntries($data['url']), $data['last_seen_index']);
   }
 }

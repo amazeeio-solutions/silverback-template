@@ -58,6 +58,11 @@ class RemotePage extends ContentEntityBase {
       ->setDescription(t('The last modified date of the remote page.'))
       ->setReadOnly(TRUE)
       ->setSetting('max_length', 64);
+    $fields['changefreq'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Change frequency'))
+      ->setDescription(t('The change frequency value of the remote page.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 64);
     $fields['lastseenindex'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Last seen index'))
       ->setDescription(t('An index corresponding to the last time the remote page was seen in the source.'))
@@ -75,61 +80,18 @@ class RemotePage extends ContentEntityBase {
    * {@inheritdoc}
    */
   public function preSave(EntityStorageInterface $storage) {
-    $this->set('hash', Crypt::hashBase64($this->url->value . '|' . $this->lastmod->value));
+    $this->set('hash', self::generateHash($this->url->value, $this->lastmod->value));
     parent::preSave($storage);
   }
 
-  public static function bulkSync($remotePages, $lastSeenIndex) {
-    $remoteHashedPages = [];
-    foreach ($remotePages as $remotePage) {
-      $hash = Crypt::hashBase64($remotePage['url'] . '|' . $remotePage['lastmod']);
-      $remoteHashedPages[$hash] = $remotePage;
-    }
-    // When deciding which of the remote web pages have been updated, we do the
-    // following: we query the database for the hashes that we computed above.
-    // All the hashes which match the ones in the database will be fully skipped
-    // from processing. For the ones that to do match, we load the entity from
-    // the database, based on the url (if it exists) and we will just update the
-    // lastmod date.
-    // We do all this in chunks of 100, to avoid possible issues with too big
-    // sql queries.
-    $remotePageEntityTypeManager = \Drupal::entityTypeManager()->getStorage('remote_page');
-    $baseTable = $remotePageEntityTypeManager->getBaseTable();
-    foreach (array_chunk($remoteHashedPages, 100, TRUE) as $remoteHashedPagesChunck) {
-      $existingHashes = \Drupal::database()->select($baseTable, 'base_table')
-        ->fields('base_table', ['hash'])
-        ->condition('hash', array_keys($remoteHashedPagesChunck), 'IN')
-        ->execute()
-        ->fetchAllKeyed(0, 0);
-      if (!empty($existingHashes)) {
-        // For all existing hashes we want to immediately update the last seen
-        // index value, with a direct query.
-        \Drupal::database()->update($baseTable)
-        ->fields(['lastseenindex' => $lastSeenIndex])
-        ->condition('hash', array_keys($existingHashes), 'IN')
-        ->execute();
-      }
-
-      $remoteHashedPagesChunck = array_diff_key($remoteHashedPagesChunck, $existingHashes);
-      foreach ($remoteHashedPagesChunck as $hash => $remoteHashedPage) {
-        // Load the entity based on the url. If it does not exist yet, we create
-        // a new one.
-        $item = $remotePageEntityTypeManager->loadByProperties(['url' => $remoteHashedPage['url']]);
-        if ($item) {
-          $item = reset($item);
-        } else {
-          $host = parse_url($remoteHashedPage['url'], PHP_URL_HOST);
-          $host = str_replace('.', '_', $host);
-          $item = $remotePageEntityTypeManager->create([
-            'url' => $remoteHashedPage['url'],
-            'host' => $host,
-          ]);
-        }
-        $item->set('lastmod', $remoteHashedPage['lastmod']);
-        $item->set('lastseenindex', $lastSeenIndex);
-        $item->save();
-      }
-    }
+  /**
+   * Helper function to generate a hash for a url and a lastmod value.
+   * @param string $url
+   * @param string $lastmod
+   * @return string
+   */
+  public static function generateHash(string $url, string $lastmod) {
+    return Crypt::hashBase64($url . '|' . $lastmod);
   }
 
 }

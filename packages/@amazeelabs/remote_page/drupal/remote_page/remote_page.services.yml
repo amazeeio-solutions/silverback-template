@@ -7,3 +7,10 @@ services:
       - '@entity_type.manager'
       - '@database'
       - '@queue'
+  remote_page.sync:
+    class: Drupal\remote_page\RemotePageSync
+    arguments:
+      - '@entity_type.manager'
+      - '@database'
+      - '@date.formatter'
+      - '@datetime.time'

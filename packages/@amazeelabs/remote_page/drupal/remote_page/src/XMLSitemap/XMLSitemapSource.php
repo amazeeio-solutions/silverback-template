@@ -19,7 +19,8 @@ class XMLSitemapSource implements XMLSitemapSourceInterface {
         }
         $entries[] = [
           'url' => (string) $url->loc,
-          'lastmod' => (string) $url->lastmod,
+          'lastmod' => isset($url->lastmod) ? (string) $url->lastmod : NULL,
+          'changefreq' => isset($url->changefreq) ? (string) $url->changefreq : NULL,
         ];
       }
     }
