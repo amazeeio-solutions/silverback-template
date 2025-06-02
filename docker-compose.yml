@@ -188,6 +188,23 @@ services:
     ports:
       - '5432'
 
+  openwebui:
+    build:
+      context: .
+      dockerfile: .lagoon/openwebui.Dockerfile
+    labels:
+      lagoon.type: python-persistent
+      lagoon.persistent: /app/backend/data
+      lagoon.name: openwebui
+    ports:
+      - '8800'
+    environment:
+      <<: *default-environment
+      LAGOON_LOCALDEV_URL: openwebui-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+    networks:
+      - amazeeio-network
+      - default
+
 networks:
   amazeeio-network:
     external: true
