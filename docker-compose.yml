@@ -138,7 +138,7 @@ services:
       - amazeeio-network
       - default
     labels:
-      lagoon.type: basic-persistent
+      lagoon.type: nginx
       lagoon.name: thumbor
       lagoon.persistent: /data/storage
       lagoon.persistent.name: thumbor-storage
