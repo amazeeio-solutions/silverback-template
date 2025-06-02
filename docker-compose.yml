@@ -159,6 +159,7 @@ services:
     labels:
       lagoon.type: nginx-php-persistent
       lagoon.name: thumbor-proxy
+      lagoon.persistent: /var/cache/nginx
       lagoon.persistent.name: thumbor_cache
 
 networks:
