@@ -34,7 +34,7 @@ class Cleanup implements CleanupInterface {
     }
 
     $lastId = 0;
-    $batchSize = 3;
+    $batchSize = 100;
     $baseQuery = $this->database->select($baseTable, 'base_table')
       ->fields('base_table', ['rpid'])
       ->condition('lastseenindex', $maxLastSeenIndex - 1, '<')

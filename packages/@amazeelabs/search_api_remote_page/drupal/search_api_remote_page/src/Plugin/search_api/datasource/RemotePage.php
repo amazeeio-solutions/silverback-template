@@ -51,6 +51,16 @@ class RemotePage extends ContentEntity {
    * @inheritdoc
    */
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+    $urls = explode("\n", $form_state->getValue('xmlsitemap_urls'));
+    foreach ($urls as $url) {
+      $url = trim($url);
+      // If the url is not a valid URL, then we add an error on the
+      // xmlsitemap_urls field.
+      if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        $form_state->setErrorByName('xmlsitemap_urls', $this->t('The URL %url is not a valid URL.', ['%url' => $url]));
+      }
+    }
+
     return;
   }
 

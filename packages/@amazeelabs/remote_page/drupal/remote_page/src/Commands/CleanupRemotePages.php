@@ -13,6 +13,9 @@ class CleanupRemotePages extends DrushCommands {
    * @aliases rpc
    */
   public function cleanupRemotePages() {
+    /**
+     * @var \Drupal\remote_page\CleanupInterface $remotePageCleanup
+     */
     $remotePageCleanup = \Drupal::service('remote_page.cleanup');
     $remotePageCleanup->queueCleanup();
   }
