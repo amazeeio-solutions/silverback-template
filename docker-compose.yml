@@ -144,7 +144,7 @@ services:
       - amazeeio-network
       - default
     labels:
-      lagoon.type: python
+      lagoon.type: python-persistent
 
 #  thumbor-proxy:
 #    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
