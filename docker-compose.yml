@@ -129,13 +129,6 @@ services:
       RESULT_STORAGE: thumbor.result_storages.no_storage
       RESULT_STORAGE_STORES_UNSAFE: 'True'
       STORAGE: thumbor.storages.file_storage
-      THUMBOR_FILE_LOADER_ROOT_PATH: /data/images
-      THUMBOR_FILE_STORAGE_ROOT_PATH: /data/storage
-      THUMBOR_SECURITY_KEY: ${THUMBOR_SECURITY_KEY:-changeme}
-    volumes:
-      - ./thumbor/thumbor_data:/data
-      - ./thumbor/thumbor_images:/data/images:ro
-      - ./thumbor/thumbor_storage:/data/storage
     ports:
       - '8800:80'
     restart: always
@@ -144,7 +137,9 @@ services:
       - amazeeio-network
       - default
     labels:
-      lagoon.type: python
+      lagoon.type: python-persistent
+      lagoon.persistent: /app/data
+      lagoon.name: thumbor
 
 #  thumbor-proxy:
 #    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
