@@ -90,7 +90,7 @@ class RemotePage extends ContentEntityBase {
    * @param string $lastmod
    * @return string
    */
-  public static function generateHash(string $url, string $lastmod) {
+  public static function generateHash(string $url, string $lastmod = NULL) {
     return Crypt::hashBase64($url . '|' . $lastmod);
   }
 

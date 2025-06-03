@@ -55,15 +55,23 @@ class SapiRemotePageSync implements SapiRemotePageSyncInterface {
           continue;
         }
         $datasourceConfiguration = $datasource->getConfiguration();
-        // @todo: support for multiple xmlsitemap urls.
-        $xmlsitemapUrl = $datasourceConfiguration['xmlsitemap_urls'];
-        $xmlsitemaps = $this->xmlSitemapSource->listXmlSitemaps($xmlsitemapUrl);
-        if (empty($xmlsitemaps)) {
+        $xmlsitemapUrls = explode("\n", $datasourceConfiguration['xmlsitemap_urls']);
+        if (empty($xmlsitemapUrls)) {
           continue;
         }
-        $sitemapUrls = array_merge($sitemapUrls, $xmlsitemaps);
+        foreach ($xmlsitemapUrls as $xmlsitemapUrl) {
+          $xmlsitemapUrl = trim($xmlsitemapUrl);
+          if (empty($xmlsitemapUrl)) {
+            continue;
+          }
+          $xmlsitemaps = $this->xmlSitemapSource->listXmlSitemaps($xmlsitemapUrl);
+          if (empty($xmlsitemaps)) {
+            continue;
+          }
+          $sitemapUrls = array_merge($sitemapUrls, $xmlsitemaps);
+        }
       }
     }
-    return $sitemapUrls;
+    return array_unique($sitemapUrls);
   }
 }

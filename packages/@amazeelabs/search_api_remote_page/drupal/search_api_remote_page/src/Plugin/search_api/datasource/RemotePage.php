@@ -12,7 +12,7 @@ class RemotePage extends ContentEntity {
     $form['xmlsitemap_urls'] = [
       '#type' => 'textarea',
       '#title' => $this->t('XML Sitemap URL'),
-      '#description' => $this->t('Enter the URL (xml sitemaps) of the remote website that you want to index.'),
+      '#description' => $this->t('Enter the URL (xml sitemaps) of the remote website that you want to index, one URL per line.'),
       '#default_value' => $this->configuration['xmlsitemap_urls'],
       '#required' => TRUE,
     ];
