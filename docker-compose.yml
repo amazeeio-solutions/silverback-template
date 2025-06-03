@@ -129,12 +129,15 @@ services:
       RESULT_STORAGE: thumbor.result_storages.no_storage
       RESULT_STORAGE_STORES_UNSAFE: 'True'
       STORAGE: thumbor.storages.file_storage
+    ports:
+      - '8000:80'
     restart: always
+    user: root
     networks:
       - amazeeio-network
       - default
     labels:
-      lagoon.type: basic
+      lagoon.type: python
       lagoon.name: thumbor
 
 #  thumbor-proxy:
@@ -166,8 +169,8 @@ services:
 networks:
   amazeeio-network:
     external: true
-  app:
-    driver: bridge
+#  app:
+#    driver: bridge
 #volumes:
 #  thumbor_cache:
 #    driver: local
