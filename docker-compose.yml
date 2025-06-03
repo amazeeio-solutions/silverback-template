@@ -130,7 +130,7 @@ services:
       RESULT_STORAGE_STORES_UNSAFE: 'True'
       STORAGE: thumbor.storages.file_storage
     ports:
-      - '8000:80'
+      - '8800:80'
     restart: always
     user: root
     networks:
@@ -138,7 +138,6 @@ services:
       - default
     labels:
       lagoon.type: python
-      lagoon.name: thumbor
 
 #  thumbor-proxy:
 #    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
