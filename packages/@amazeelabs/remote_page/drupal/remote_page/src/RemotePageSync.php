@@ -20,75 +20,160 @@ class RemotePageSync implements RemotePageSyncInterface {
   /**
    * {@inheritdoc}
    */
-  public function bulkSync($remotePages, $lastSeenIndex) {
+  public function bulkSync(array $remotePages, int $lastSeenIndex) {
+    $remoteHashedPages = $this->prepareRemotePages($remotePages);
+    $this->processPagesInChunks($remoteHashedPages, $lastSeenIndex);
+  }
+
+  /**
+   * Prepares remote pages by computing their hashes and handling lastmod dates.
+   *
+   * @param array $remotePages
+   *   Array of remote page data.
+   *
+   * @return array
+   *   Array of remote pages keyed by their hash.
+   */
+  protected function prepareRemotePages(array $remotePages): array {
     $remoteHashedPages = [];
     foreach ($remotePages as $remotePage) {
-      // If we do not have a lastmode value, we compute one based on the
-      // changefreq value.
       if (empty($remotePage['lastmod']) && !empty($remotePage['changefreq'])) {
         $remotePage['lastmod'] = $this->getLastModeBasedOnChangefreq($remotePage['changefreq']);
       }
       $hash = RemotePage::generateHash($remotePage['url'], $remotePage['lastmod']);
       $remoteHashedPages[$hash] = $remotePage;
     }
-    // When deciding which of the remote web pages have been updated, we do the
-    // following: we query the database for the hashes that we computed above.
-    // All the hashes which match the ones in the database will be fully skipped
-    // from processing. For the ones that to do match, we load the entity from
-    // the database, based on the url (if it exists) and we will just update the
-    // lastmod date.
-    // We do all this in chunks of 100, to avoid possible issues with too big
-    // sql queries.
-    $remotePageEntityTypeManager = $this->entityTypeManager->getStorage('remote_page');
-    $baseTable = $remotePageEntityTypeManager->getBaseTable();
-    foreach (array_chunk($remoteHashedPages, 100, TRUE) as $remoteHashedPagesChunck) {
-      $existingHashes = $this->database->select($baseTable, 'base_table')
-        ->fields('base_table', ['hash'])
-        ->condition('hash', array_keys($remoteHashedPagesChunck), 'IN')
-        ->execute()
-        ->fetchAllKeyed(0, 0);
-      if (!empty($existingHashes)) {
-        // For all existing hashes we want to immediately update the last seen
-        // index value, with a direct query.
-        $this->database->update($baseTable)
-        ->fields(['lastseenindex' => $lastSeenIndex])
-        ->condition('hash', array_keys($existingHashes), 'IN')
-        ->execute();
-      }
+    return $remoteHashedPages;
+  }
 
-      $remoteHashedPagesChunck = array_diff_key($remoteHashedPagesChunck, $existingHashes);
-      foreach ($remoteHashedPagesChunck as $hash => $remoteHashedPage) {
-        // Load the entity based on the url. If it does not exist yet, we create
-        // a new one.
-        $item = $remotePageEntityTypeManager->loadByProperties(['url' => $remoteHashedPage['url']]);
-        if ($item) {
-          $item = reset($item);
-        } else {
-          $host = parse_url($remoteHashedPage['url'], PHP_URL_HOST);
-          $host = str_replace('.', '_', $host);
-          $item = $remotePageEntityTypeManager->create([
-            'url' => $remoteHashedPage['url'],
-            'host' => $host,
-          ]);
-        }
-        $item->set('lastmod', $remoteHashedPage['lastmod']);
-        if (!empty($remoteHashedPage['changefreq'])) {
-          $item->set('changefreq', $remoteHashedPage['changefreq']);
-        }
-        $item->set('lastseenindex', $lastSeenIndex);
-        $item->save();
-      }
+  /**
+   * Processes remote pages in chunks to avoid large database queries.
+   *
+   * @param array $remoteHashedPages
+   *   Array of remote pages keyed by their hash.
+   * @param int $lastSeenIndex
+   *   The last seen index value.
+   */
+  protected function processPagesInChunks(array $remoteHashedPages, int $lastSeenIndex): void {
+    $remotePageStorage = $this->entityTypeManager->getStorage('remote_page');
+    $baseTable = $remotePageStorage->getBaseTable();
+
+    foreach (array_chunk($remoteHashedPages, 100, TRUE) as $remoteHashedPagesChunk) {
+      $existingHashes = $this->getExistingHashes($baseTable, array_keys($remoteHashedPagesChunk));
+      $this->updateLastSeenIndex($baseTable, $existingHashes, $lastSeenIndex);
+      $this->processNewPages($remotePageStorage, array_diff_key($remoteHashedPagesChunk, $existingHashes), $lastSeenIndex);
     }
+  }
+
+  /**
+   * Gets existing hashes from the database.
+   *
+   * @param string $baseTable
+   *   The base table name.
+   * @param array $hashes
+   *   Array of hashes to check.
+   *
+   * @return array
+   *   Array of existing hashes.
+   */
+  protected function getExistingHashes(string $baseTable, array $hashes): array {
+    return $this->database->select($baseTable, 'base_table')
+      ->fields('base_table', ['hash'])
+      ->condition('hash', $hashes, 'IN')
+      ->execute()
+      ->fetchAllKeyed(0, 0);
+  }
+
+  /**
+   * Updates the last seen index for existing pages.
+   *
+   * @param string $baseTable
+   *   The base table name.
+   * @param array $hashes
+   *   Array of hashes to update.
+   * @param int $lastSeenIndex
+   *   The last seen index value.
+   */
+  protected function updateLastSeenIndex(string $baseTable, array $hashes, int $lastSeenIndex): void {
+    if (!empty($hashes)) {
+      $this->database->update($baseTable)
+        ->fields(['lastseenindex' => $lastSeenIndex])
+        ->condition('hash', array_keys($hashes), 'IN')
+        ->execute();
+    }
+  }
+
+  /**
+   * Processes new pages that don't exist in the database.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
+   *   The entity storage.
+   * @param array $newPages
+   *   Array of new pages to process.
+   * @param int $lastSeenIndex
+   *   The last seen index value.
+   */
+  protected function processNewPages($storage, array $newPages, int $lastSeenIndex): void {
+    foreach ($newPages as $hash => $remotePage) {
+      $item = $this->getOrCreateRemotePage($storage, $remotePage);
+      $this->updateRemotePage($item, $remotePage, $lastSeenIndex);
+      $item->save();
+    }
+  }
+
+  /**
+   * Gets an existing remote page or creates a new one.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
+   *   The entity storage.
+   * @param array $remotePage
+   *   The remote page data.
+   *
+   * @return \Drupal\remote_page\Entity\RemotePage
+   *   The remote page entity.
+   */
+  protected function getOrCreateRemotePage($storage, array $remotePage): RemotePage {
+    $item = $storage->loadByProperties(['url' => $remotePage['url']]);
+    if ($item) {
+      return reset($item);
+    }
+
+    $host = parse_url($remotePage['url'], PHP_URL_HOST);
+    $host = str_replace('.', '_', $host);
+    return $storage->create([
+      'url' => $remotePage['url'],
+      'host' => $host,
+    ]);
+  }
+
+  /**
+   * Updates a remote page entity with new data.
+   *
+   * @param \Drupal\remote_page\Entity\RemotePage $item
+   *   The remote page entity.
+   * @param array $remotePage
+   *   The remote page data.
+   * @param int $lastSeenIndex
+   *   The last seen index value.
+   */
+  protected function updateRemotePage(RemotePage $item, array $remotePage, int $lastSeenIndex): void {
+    $item->set('lastmod', $remotePage['lastmod']);
+    if (!empty($remotePage['changefreq'])) {
+      $item->set('changefreq', $remotePage['changefreq']);
+    }
+    $item->set('lastseenindex', $lastSeenIndex);
   }
 
   /**
    * Generate a lastmod date based on the changefreq value.
    *
-   * @param string $url
    * @param string $changefreq
+   *   The change frequency value.
+   *
    * @return string
+   *   The formatted lastmod date.
    */
-  public function getLastModeBasedOnChangefreq(string $changefreq) {
+  protected function getLastModeBasedOnChangefreq(string $changefreq): string {
     $currentTimestamp = $this->time->getRequestTime();
     switch ($changefreq) {
       case 'hourly':
