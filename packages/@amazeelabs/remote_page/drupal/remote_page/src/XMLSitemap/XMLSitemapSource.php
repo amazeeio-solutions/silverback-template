@@ -3,8 +3,18 @@
 namespace Drupal\remote_page\XMLSitemap;
 
 use Drupal\Core\Utility\Error;
-
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 class XMLSitemapSource implements XMLSitemapSourceInterface {
+
+  /**
+   * Constructs a new XMLSitemapSource object.
+   *
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
+   *   The logger factory.
+   */
+  public function __construct(
+    protected LoggerChannelFactoryInterface $loggerFactory,
+  ) {}
 
   /**
    * {@inheritDoc}
@@ -31,6 +41,9 @@ class XMLSitemapSource implements XMLSitemapSourceInterface {
   public function listXmlSitemaps(string $xmlsitemapUrl): array {
     $sitemapUrls = [];
     $xmlSitemap = $this->getXmlContent($xmlsitemapUrl);
+    if ($xmlSitemap === FALSE) {
+      return [];
+    }
     // If the sitemap is a sitemap index, we need to get the URL of each
     // individual sitemap and add it to the list of sitemap URLs.
     if (!empty($xmlSitemap->sitemap)) {
@@ -55,20 +68,44 @@ class XMLSitemapSource implements XMLSitemapSourceInterface {
    */
   protected function getXmlContent(string $xmlUrl): bool | \SimpleXMLElement {
     try {
-      $xmlContent = file_get_contents($xmlUrl);
+      $xmlContent = $this->getContentFromUrl($xmlUrl);
       if ($xmlContent === FALSE) {
-        \Drupal::logger('remote_page')->error('Failed to fetch sitemap content from %url', ['%url' => $xmlUrl]);
+        $this->loggerFactory->get('remote_page')->error('Failed to fetch sitemap content from %url', ['%url' => $xmlUrl]);
         return FALSE;
       }
-      $xmlString = simplexml_load_string($xmlContent);
+      $xmlString = $this->loadXmlFromString($xmlContent);
       if ($xmlString === FALSE) {
-        \Drupal::logger('remote_page')->error('Failed to parse XML from %url', ['%url' => $xmlUrl]);
+        $this->loggerFactory->get('remote_page')->error('Failed to parse XML from %url', ['%url' => $xmlUrl]);
         return FALSE;
       }
       return $xmlString;
     } catch (\Exception $e) {
-      Error::logException(\Drupal::logger('remote_page'), $e);
+      Error::logException($this->loggerFactory->get('remote_page'), $e);
       return FALSE;
     }
+  }
+
+  /**
+   * Gets the content (as a string) from an URL.
+   *
+   * @param string $url
+   *   The URL.
+   *
+   * @return bool|string
+   */
+  protected function getContentFromUrl(string $url): string|bool {
+    return file_get_contents($url);
+  }
+
+  /**
+   * Loads an XML string into a SimpleXMLElement.
+   *
+   * @param string $xmlString
+   *   The XML string.
+   *
+   * @return \SimpleXMLElement|bool
+   */
+  protected function loadXmlFromString(string $xmlString): \SimpleXMLElement|bool {
+    return simplexml_load_string($xmlString);
   }
 }
