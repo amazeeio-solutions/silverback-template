@@ -114,7 +114,7 @@ jobs:
 
       - name: Deploy storybook to netlify
         run:
-          pnpm run --filter=@custom/ui build && pnpm --package=netlify-cli dlx
+          pnpm run --filter=@custom/ui build && pnpm --package=netlify-cli@20.0.0 dlx
           netlify deploy --prod --filter @custom/ui
           --dir=packages/ui/storybook-static
         env:
