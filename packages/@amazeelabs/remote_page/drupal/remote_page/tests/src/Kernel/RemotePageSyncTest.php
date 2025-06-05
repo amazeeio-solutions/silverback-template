@@ -191,4 +191,56 @@ class RemotePageSyncTest extends KernelTestBase {
     $this->assertEquals('weekly', $entity->get('changefreq')->value);
     $this->assertEquals($lastSeenIndex, $entity->get('lastseenindex')->value);
   }
+
+  /**
+   * Tests bulk syncing with deleted remote entities.
+   */
+  public function testBulkSyncWithDeletedRemoteEntities() {
+    // Create some remote pages
+    RemotePage::create([
+      'url' => 'https://example.com/page1',
+      'lastmod' => '2024-01-01',
+      'changefreq' => 'daily',
+      'host' => 'example_com',
+      'lastseenindex' => 0,
+    ])->save();
+
+    RemotePage::create([
+      'url' => 'https://example.com/page2',
+      'lastmod' => '2024-01-02',
+      'changefreq' => 'weekly',
+      'host' => 'example_com',
+      'lastseenindex' => 0,
+    ])->save();
+
+    $remotePages = [
+      [
+        'url' => 'https://example.com/page1',
+        'lastmod' => '2024-01-01',
+        'changefreq' => 'daily',
+      ],
+    ];
+    $lastSeenIndex = 1;
+
+    // Execute the sync with only one page (page2 is deleted from the source).
+    $this->remotePageSync->bulkSync($remotePages, $lastSeenIndex);
+
+    // Verify the results. Page1 should have the updated lastseenindex to 1,
+    // while page2 should have the lastseenindex to 0.
+    $entities = RemotePage::loadMultiple();
+    $this->assertCount(2, $entities);
+
+    $firstEntity = reset($entities);
+    if ($firstEntity->get('url')->value === 'https://example.com/page1') {
+      $entity1 = $firstEntity;
+      $entity2 = next($entities);
+    }
+    else {
+      $entity1 = next($entities);
+      $entity2 = $firstEntity;
+    }
+
+    $this->assertEquals(1, $entity1->get('lastseenindex')->value);
+    $this->assertEquals(0, $entity2->get('lastseenindex')->value);
+  }
 }
