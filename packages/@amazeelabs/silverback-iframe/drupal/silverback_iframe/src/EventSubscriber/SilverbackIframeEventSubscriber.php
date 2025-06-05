@@ -10,7 +10,24 @@ class SilverbackIframeEventSubscriber implements EventSubscriberInterface {
 
   public function onKernelResponse(ResponseEvent $event) {
     if (silverback_iframe_theme_enabled()) {
-      $event->getResponse()->headers->remove('X-Frame-Options');
+      $response = $event->getResponse();
+      $response->headers->remove('X-Frame-Options');
+
+      $request = $event->getRequest();
+      if ($request->query->has('ref')) {
+        $refValue = $request->query->get('ref');
+
+        // Add a Vary header properly
+        $vary = $response->headers->get('Vary', '');
+        $varyHeaders = $vary ? array_map('trim', explode(',', $vary)) : [];
+        if (!in_array('ref', $varyHeaders)) {
+          $varyHeaders[] = 'ref';
+          $response->headers->set('Vary', implode(', ', $varyHeaders));
+        }
+
+        // For debugging
+        $response->headers->set('X-Ref-Source', $refValue);
+      }
     }
   }
 
@@ -18,5 +35,4 @@ class SilverbackIframeEventSubscriber implements EventSubscriberInterface {
     $events[KernelEvents::RESPONSE][] = ['onKernelResponse', -10];
     return $events;
   }
-
 }
