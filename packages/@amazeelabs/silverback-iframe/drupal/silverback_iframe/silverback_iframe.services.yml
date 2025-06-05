@@ -18,4 +18,3 @@ services:
   silverback_iframe.helper:
     class: Drupal\silverback_iframe\Service\IframeHelper
     arguments: ['@request_stack']
-    lazy: true
