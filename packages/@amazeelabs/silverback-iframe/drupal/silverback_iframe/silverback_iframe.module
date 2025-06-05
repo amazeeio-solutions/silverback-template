@@ -6,14 +6,11 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 function silverback_iframe_inject_resizer() {
-  if (!getenv('SB_ENVIRONMENT')) {
-    return FALSE;
-  }
-  return \Drupal::request()->query->get('iframe_resizer') === 'true';
+  return \Drupal::service('silverback_iframe.helper')->shouldInjectResizer();
 }
 
 function silverback_iframe_theme_enabled() {
-  return \Drupal::request()->get('iframe') === 'true';
+  return \Drupal::service('silverback_iframe.helper')->isIframeThemeEnabled();
 }
 
 /**

@@ -14,3 +14,8 @@ services:
     class: Drupal\silverback_iframe\EventSubscriber\SilverbackIframeEventSubscriber
     tags:
       - { name: event_subscriber }
+
+  silverback_iframe.helper:
+    class: Drupal\silverback_iframe\Service\IframeHelper
+    arguments: ['@request_stack']
+    lazy: true
