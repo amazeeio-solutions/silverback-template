@@ -170,6 +170,30 @@ class XMLSitemapSourceTest extends UnitTestCase {
         ],
         'Testing getting entries from a sitemap index file',
       ],
+      // If you want to generate the compressed file, using
+      // sitemap-entries-compressed.xml as source, you can use this approach:
+      // file_put_contents(__DIR__ . '/files/sitemap-entries-compressed.xml.gz', gzencode(file_get_contents(__DIR__ . '/files/sitemap-entries-compressed.xml')));
+      'compressed sitemap' => [
+        __DIR__ . '/files/sitemap-entries-compressed.xml.gz',
+        [
+          [
+            'url' => 'https://www.example.com/1-compressed',
+            'lastmod' => '2025-06-04T07:49:13.942Z',
+            'changefreq' => NULL,
+          ],
+          [
+            'url' => 'https://www.example.com/2-compressed',
+            'lastmod' => '2025-06-04T07:49:13.943Z',
+            'changefreq' => NULL,
+          ],
+          [
+            'url' => 'https://www.example.com/3-compressed',
+            'lastmod' => '2025-06-04T07:49:13.943Z',
+            'changefreq' => NULL,
+          ],
+        ],
+        'Testing getting entries from a compressed sitemap file',
+      ],
     ];
   }
 

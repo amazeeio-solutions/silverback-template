@@ -94,7 +94,12 @@ class XMLSitemapSource implements XMLSitemapSourceInterface {
    * @return bool|string
    */
   protected function getContentFromUrl(string $url): string|bool {
-    return file_get_contents($url);
+    // If the content is gzip compressed, we need to inflate it.
+    $content = file_get_contents($url);
+    if (str_starts_with($content, "\x1f\x8b")) {
+      $content = gzinflate(substr($content, 10, -8));
+    }
+    return $content;
   }
 
   /**
