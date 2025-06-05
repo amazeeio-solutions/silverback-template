@@ -1,4 +1,4 @@
-uuid: 452a69f0-cade-443f-8ba6-46b5fe92cedd
+uuid: c222f31c-7c66-4453-9761-536650f972fb
 langcode: en
 status: open
 dependencies: {  }
@@ -8,15 +8,16 @@ close: null
 uid: 1
 template: false
 archive: false
-id: for_testing_confirmation_options
-title: 'For testing confirmation options'
-description: 'This form is used to test various confirmation options.'
+id: submission_limit
+title: 'Submission Limit'
+description: 'This form is used to test if submissions limits work as expected.'
 categories: {  }
 elements: |-
-  optional_text_field:
-    '#type': textfield
-    '#title': 'Optional text field'
-    '#description': 'A <a href="/en/article/with-everything?iframe=true">link to article</a> with "iframe=true".'
+  tick_me:
+    '#type': checkbox
+    '#title': 'Tick this box...'
+    '#required': true
+    '#required_error': 'You must tick me!'
 css: ''
 javascript: ''
 settings:
@@ -29,7 +30,7 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: both
+  form_title: source_entity_webform
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
@@ -121,10 +122,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: page
+  confirmation_type: inline
   confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: 'Thank you for your submission.'
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -134,13 +135,13 @@ settings:
   confirmation_update: false
   limit_total: null
   limit_total_interval: null
-  limit_total_message: ''
+  limit_total_message: '⚠️ LIMIT REACHED!'
   limit_total_unique: false
   limit_user: null
   limit_user_interval: null
   limit_user_message: ''
   limit_user_unique: false
-  entity_limit_total: null
+  entity_limit_total: 1
   entity_limit_total_interval: null
   entity_limit_user: null
   entity_limit_user_interval: null
