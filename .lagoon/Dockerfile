@@ -11,15 +11,6 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 # Install pnpm
 RUN npm install -g pnpm@10.11.1 && pnpm config set store-dir /tmp/cache/pnpm
 
-# Copy pnpm lockfile and install dependencies.
-COPY pnpm-lock.yaml .npmrc /app/
-# COPY patches /app/patches
-RUN --mount=type=cache,target=/tmp/cache pnpm fetch && \
-    # There is a bug in pnpm: `pnpm fetch` creates _some_ node_modules folders
-    # with _some_ packages. This can lead to an incomplete package installation.
-    # So we remove them now.
-    find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
-
 # Prepare everything for "composer install".
 WORKDIR /app/apps/cms
 RUN apk add --no-cache git qpdf imagemagick icu-dev && \
