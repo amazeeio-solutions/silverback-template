@@ -10,7 +10,7 @@ RUN sudo update-alternatives --set php $(which php8.3)
 RUN sudo install-packages php8.3-gd php8.3-mbstring php8.3-curl php8.3-sqlite3 php8.3-zip php8.3-xdebug php8.3-imagick
 RUN pnpx playwright@1.32.3 install-deps
 RUN pnpx playwright@1.32.3 install
-RUN npm install -g pnpm@10.11.0 @withgraphite/graphite-cli
+RUN npm install -g pnpm@10.11.1 @withgraphite/graphite-cli
 
 COPY .gitpod/xdebug.ini /etc/php/8.3/mods-available/xdebug.ini
 RUN curl -fsSL https://deno.land/x/install/install.sh | sh
