@@ -1,0 +1,14 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://www.example.com/1-compressed</loc>
+    <lastmod>2025-06-04T07:49:13.942Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.example.com/2-compressed</loc>
+    <lastmod>2025-06-04T07:49:13.943Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.example.com/3-compressed</loc>
+    <lastmod>2025-06-04T07:49:13.943Z</lastmod>
+  </url>
+</urlset>
