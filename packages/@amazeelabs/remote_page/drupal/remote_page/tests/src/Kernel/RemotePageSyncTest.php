@@ -40,7 +40,6 @@ class RemotePageSyncTest extends KernelTestBase {
    * Tests bulk syncing of new pages.
    */
   public function testBulkSync() {
-    // Test data
     $remotePages = [
       [
         'url' => 'https://example.com/page1',
@@ -54,8 +53,6 @@ class RemotePageSyncTest extends KernelTestBase {
       ],
     ];
     $lastSeenIndex = 1;
-
-    // Execute the sync
     $this->remotePageSync->bulkSync($remotePages, $lastSeenIndex);
 
     // Verify the results
