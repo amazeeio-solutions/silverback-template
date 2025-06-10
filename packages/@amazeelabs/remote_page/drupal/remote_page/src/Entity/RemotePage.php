@@ -1,0 +1,97 @@
+<?php
+
+namespace Drupal\remote_page\Entity;
+
+use Drupal\Component\Utility\Crypt;
+use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * The remote page entity class.
+ *
+ * @ContentEntityType(
+ *   id = "remote_page",
+ *   label = @Translation("Remote page"),
+ *   bundle_label = @Translation("Remote page"),
+ *   base_table = "remote_page",
+ *   translatable = FALSE,
+ *   admin_permission = "administer site configuration",
+ *   handlers = {
+ *     "storage_schema" = "Drupal\remote_page\RemotePageStorageSchema",
+ *   },
+ *   entity_keys = {
+ *     "id" = "rpid",
+ *     "label" = "url",
+ *     "bundle" = "host",
+ *     "uuid" = "uuid",
+ *   },
+ *   links = {
+ *     "canonical" = "/admin/config/remote_page/{remote_page}",
+ *   }
+ * )
+ */
+class RemotePage extends ContentEntityBase {
+
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+    $fields['rpid'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Remote page ID'))
+      ->setDescription(t('The remote page ID.'))
+      ->setReadOnly(TRUE);
+    $fields['uuid'] = BaseFieldDefinition::create('uuid')
+      ->setLabel(t('UUID'))
+      ->setDescription(t('The record UUID.'))
+      ->setReadOnly(TRUE);
+    $fields['host'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Host'))
+      ->setDescription(t('The host of the remote page.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 255);
+    $fields['url'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('URL'))
+      ->setDescription(t('The url of the remote page.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 2048);
+    $fields['lastmod'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Last modified'))
+      ->setDescription(t('The last modified date of the remote page.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 64);
+    $fields['changefreq'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Change frequency'))
+      ->setDescription(t('The change frequency value of the remote page.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 64);
+    $fields['lastseenindex'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('Last seen index'))
+      ->setDescription(t('An index corresponding to the last time the remote page was seen in the source.'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 255);
+    $fields['hash'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Hash'))
+      ->setReadOnly(TRUE)
+      ->setSetting('max_length', 64)
+      ->setDescription(t('The remote page hash.'));
+    return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave(EntityStorageInterface $storage) {
+    $this->set('hash', self::generateHash($this->url->value, $this->lastmod->value));
+    parent::preSave($storage);
+  }
+
+  /**
+   * Helper function to generate a hash for a url and a lastmod value.
+   * @param string $url
+   * @param string $lastmod
+   * @return string
+   */
+  public static function generateHash(string $url, string $lastmod = NULL) {
+    return Crypt::hashBase64($url . '|' . $lastmod);
+  }
+
+}
