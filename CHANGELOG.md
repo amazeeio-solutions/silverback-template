@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.5...@amazeelabs/silverback-template@1.10.0) (2025-06-05)
+
+### Bug Fixes
+
+- **SLB-537:** better error handling
+  ([e33ec4f](https://github.com/AmazeeLabs/silverback-template/commit/e33ec4f120aa45efd734938fc1274eaba64959a5))
+- **slb-537:** trying to break the cache
+  ([da31e20](https://github.com/AmazeeLabs/silverback-template/commit/da31e204ea8ab4d6b6dfb0ec600858b05d1a622f))
+
+### Features
+
+- **SLB-513:** adjusting SilverbackIframe to add in base64 url ref
+  ([250c2ca](https://github.com/AmazeeLabs/silverback-template/commit/250c2ca1c41916b5a83fd4e4e3586017dc75d6d7))
+- **SLB-513:** adjusting tests to check for locked/unlocked forms
+  ([0b3436b](https://github.com/AmazeeLabs/silverback-template/commit/0b3436b00e18c537651a7811edf88247e02c7f08))
+- **SLB-513:** adjusting the silverback_iframe module to handle ref
+  ([6324d1c](https://github.com/AmazeeLabs/silverback-template/commit/6324d1c6fd2fc3d90c1a6938ab6d6a89160a060c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.9.5](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.4...@amazeelabs/silverback-template@1.9.5) (2025-06-04)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
