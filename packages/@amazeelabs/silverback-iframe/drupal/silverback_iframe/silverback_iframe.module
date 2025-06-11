@@ -9,10 +9,12 @@ function silverback_iframe_inject_resizer() {
   if (!getenv('SB_ENVIRONMENT')) {
     return FALSE;
   }
+  // Using $_GET directly to prevent possible service circular dependency errors.
   return ($_GET['iframe_resizer'] ?? '') === 'true';
 }
 
 function silverback_iframe_theme_enabled() {
+  // Using $_GET directly to prevent possible service circular dependency errors.
   return ($_GET['iframe'] ?? '') === 'true';
 }
 
