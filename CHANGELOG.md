@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.0...@amazeelabs/silverback-template@1.10.1) (2025-06-11)
+
+### Bug Fixes
+
+- avoid circular references in path processor
+  ([f0a1d14](https://github.com/AmazeeLabs/silverback-template/commit/f0a1d14dbbb0d15def730bdcee03e48105b238e5))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.10.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.5...@amazeelabs/silverback-template@1.10.0) (2025-06-05)
 
 ### Bug Fixes
