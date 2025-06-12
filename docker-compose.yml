@@ -140,7 +140,7 @@ services:
       - default
     labels:
       lagoon.type: python-persistent
-      lagoon.persistent: /app
+      lagoon.persistent: /data
       lagoon.name: thumbor
 
 #  thumbor-proxy:
