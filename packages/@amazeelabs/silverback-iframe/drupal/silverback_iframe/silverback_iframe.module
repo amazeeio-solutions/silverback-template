@@ -9,11 +9,13 @@ function silverback_iframe_inject_resizer() {
   if (!getenv('SB_ENVIRONMENT')) {
     return FALSE;
   }
-  return \Drupal::request()->query->get('iframe_resizer') === 'true';
+  // Using $_GET directly to prevent possible service circular dependency errors.
+  return ($_GET['iframe_resizer'] ?? '') === 'true';
 }
 
 function silverback_iframe_theme_enabled() {
-  return \Drupal::request()->get('iframe') === 'true';
+  // Using $_GET directly to prevent possible service circular dependency errors.
+  return ($_GET['iframe'] ?? '') === 'true';
 }
 
 /**

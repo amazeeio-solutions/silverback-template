@@ -33,6 +33,7 @@
     "dev": "storybook dev -p 6006 --no-open",
     "start": "serve storybook-static -p 6006 > /dev/null 2>&1",
     "test:static": "tsc --noEmit && eslint . --quiet",
+    "test:static:fix": "tsc --noEmit && eslint . --quiet --fix",
     "test:unit": "vitest run --passWithNoTests",
     "test:storybook": "test-storybook --coverage",
     "test:integration": "start-test start http://localhost:6006 test:storybook && pnpm report",
