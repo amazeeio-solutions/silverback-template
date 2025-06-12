@@ -19,9 +19,18 @@ use Drupal\webform\WebformInterface;
 class QueryStringWebformSourceEntity extends Original {
 
   /**
+   * Flag to enable debug logging.
+   * @var bool
+   */
+  private bool $debugEnabled = FALSE;
+
+  /**
    * {@inheritdoc}
    */
   public function getSourceEntity(array $ignored_types) {
+    // Enable debug logging based on query parameter
+    $this->debugEnabled = $this->request->query->get('debug', 'false') === 'true';
+
     $this->debugLog('Starting source entity detection with ignored types: @types', ['@types' => implode(', ', $ignored_types)], 'step');
 
     // Try the default implementation first
@@ -184,10 +193,10 @@ class QueryStringWebformSourceEntity extends Original {
    * @param array $context
    *   Context data to include in the log.
    * @param string $status
-   *   Status of the message: 'success', 'error', 'warning', or 'info'.
+   *   Status of the message. Expected values include: 'success', 'error', 'warning', 'neutral', 'step', 'check', or 'info' (default).
    */
   private function debugLog(string $message, array $context = [], string $status = 'info'): void {
-    if ($this->request->query->has('debug') && $this->request->query->get('debug') === 'true') {
+    if ($this->debugEnabled) {
       $emoji = match ($status) {
         'success' => '✅ ',
         'error' => '❌ ',
