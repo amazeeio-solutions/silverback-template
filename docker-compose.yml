@@ -134,13 +134,13 @@ services:
     ports:
       - '8800:80'
     restart: always
-    <<: *default-user # uses the defined user from top
+    user: '10000'
     networks:
       - amazeeio-network
       - default
     labels:
       lagoon.type: python-persistent
-      lagoon.persistent: /app
+      lagoon.persistent: /data
       lagoon.name: thumbor
 
 #  thumbor-proxy:
