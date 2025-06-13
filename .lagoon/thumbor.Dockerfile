@@ -1,5 +1,7 @@
 FROM ghcr.io/minimalcompact/thumbor:7.7.4
 
+# Create a fix-permissions script
+# that can be used to fix permissions on the /app directory.
 COPY <<'EOF' /usr/local/bin/fix-permissions
 #!/bin/sh
 # Fix permissions on the given directory to allow group read/write of
@@ -7,10 +9,9 @@ COPY <<'EOF' /usr/local/bin/fix-permissions
 find -L "$1" -exec chgrp 0 {} +
 find -L "$1" -exec chmod g+rwX {} +
 EOF
-
 RUN chmod +x /usr/local/bin/fix-permissions
 
-## Set full permissions on the /app directory
+# Adjust permissions and user on the /app directory
 RUN chown 1000:0 /app
 RUN fix-permissions /app
 
