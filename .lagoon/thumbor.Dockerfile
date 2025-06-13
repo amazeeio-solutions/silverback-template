@@ -1,8 +1,19 @@
 FROM ghcr.io/minimalcompact/thumbor:7.7.4
 
+COPY <<'EOF' /usr/local/bin/fix-permissions
+#!/bin/sh
+# Fix permissions on the given directory to allow group read/write of
+# regular files and execute of directories.
+find -L "$1" -exec chgrp 0 {} +
+find -L "$1" -exec chmod g+rwX {} +
+EOF
+
+RUN chmod +x /usr/local/bin/fix-permissions
+
 # Set full permissions on the /app directory
-#RUN chmod 777 /app
+RUN chmod 777 /app
 RUN chown 1000:0 /app
+RUN fix-permissions /app
 #
 ## Ensure the template file has the right permissions
 #RUN chmod 644 /app/thumbor.conf.tpl && chown 1000:0 /app/thumbor.conf.tpl && \
@@ -16,10 +27,3 @@ RUN chown 1000:0 /app
 #
 ## Make sure the entrypoint script is executable
 #RUN chmod +x /docker-entrypoint.sh
-
-ENV THUMBOR_NUM_PROCESSES=8
-ENV CORS_ALLOW_ORIGIN='*'
-ENV AUTO_WEBP='True'
-ENV RESULT_STORAGE=thumbor.result_storages.no_storage
-ENV RESULT_STORAGE_STORES_UNSAFE='True'
-ENV STORAGE=thumbor.storages.file_storage
