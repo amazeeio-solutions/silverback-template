@@ -134,6 +134,7 @@ services:
     ports:
       - '8800:80'
     restart: always
+    <<: *default-user # uses the defined user from top
     networks:
       - amazeeio-network
       - default
