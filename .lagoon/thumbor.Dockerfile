@@ -15,3 +15,5 @@ RUN chown 1000:0 /app
 RUN fix-permissions /app
 RUN mkdir -p /data/storage && chown -R 1000:0 /data
 RUN fix-permissions /data
+
+ENV THUMBOR_PORT=8800
