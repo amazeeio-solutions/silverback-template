@@ -16,3 +16,10 @@ RUN chown 1000:0 /app
 #
 ## Make sure the entrypoint script is executable
 #RUN chmod +x /docker-entrypoint.sh
+
+ENV THUMBOR_NUM_PROCESSES=8
+ENV CORS_ALLOW_ORIGIN='*'
+ENV AUTO_WEBP='True'
+ENV RESULT_STORAGE=thumbor.result_storages.no_storage
+ENV RESULT_STORAGE_STORES_UNSAFE='True'
+ENV STORAGE=thumbor.storages.file_storage
