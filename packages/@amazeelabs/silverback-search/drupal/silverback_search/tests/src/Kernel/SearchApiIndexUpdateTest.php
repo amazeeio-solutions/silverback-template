@@ -44,11 +44,11 @@ class SearchApiIndexUpdateTest extends MediaKernelTestBase {
     'filter',
     'text',
     'silverback_gutenberg',
-    'language',
-    'content_translation',
+    //'language',
+    // 'content_translation',
     'entity_usage',
-    'silverback_search',
     'silverback_external_preview',
+    'silverback_search',
   ];
 
   /**
@@ -160,7 +160,6 @@ class SearchApiIndexUpdateTest extends MediaKernelTestBase {
 
   /**
    * Tests correct tracking of changes in referenced entities inside gutenberg blocks.
-   *
    */
   public function testReferencedEntityChangedGutenbergBlock() {
 
@@ -247,7 +246,6 @@ class SearchApiIndexUpdateTest extends MediaKernelTestBase {
 
   /**
    * Tests correct tracking of changes in referenced entities outside gutenberg blocks.
-   *
    */
   public function testReferencedEntityChangedDirect() {
 
