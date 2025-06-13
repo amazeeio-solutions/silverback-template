@@ -132,7 +132,7 @@ services:
       RESULT_STORAGE_STORES_UNSAFE: 'True'
       STORAGE: thumbor.storages.file_storage
     ports:
-      - '8800:80'
+      - '8800:8800'
     restart: always
     <<: *default-user # uses the defined user from top
     networks:
