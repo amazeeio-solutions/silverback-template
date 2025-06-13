@@ -125,10 +125,15 @@ services:
       dockerfile: .lagoon/thumbor.Dockerfile
     environment:
       VIRTUAL_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+      THUMBOR_NUM_PROCESSES: 4
+      CORS_ALLOW_ORIGIN: '*'
+      AUTO_WEBP: 'True'
+      RESULT_STORAGE: thumbor.result_storages.no_storage
+      RESULT_STORAGE_STORES_UNSAFE: 'True'
+      STORAGE: thumbor.storages.file_storage
     ports:
       - '8800:80'
     restart: always
-    <<: *default-user # uses the defined user from top
     networks:
       - amazeeio-network
       - default
