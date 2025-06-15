@@ -1,0 +1,7 @@
+services:
+  search_api_remote_page.sapi_remote_page_sync:
+    class: Drupal\search_api_remote_page\SapiRemotePageSync
+    arguments:
+      - '@entity_type.manager'
+      - '@remote_page.xmlsitemap_source'
+      - '@queue'

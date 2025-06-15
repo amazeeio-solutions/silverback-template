@@ -1,0 +1,6 @@
+{
+  "name": "amazeelabs/remote_page",
+  "version": "dev-main",
+  "type": "drupal-module",
+  "description": "Drupal entities that point to remote pages."
+}

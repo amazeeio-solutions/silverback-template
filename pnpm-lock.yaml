@@ -37,6 +37,12 @@ importers:
       '@amazeelabs/gatsby-source-silverback':
         specifier: '*'
         version: 1.15.3(@types/node@20.11.17)(gatsby-plugin-sharp@5.13.1)(gatsby@5.14.1)(typescript@5.8.2)
+      '@amazeelabs/remote_page':
+        specifier: workspace:^
+        version: link:../../packages/@amazeelabs/remote_page
+      '@amazeelabs/search_api_remote_page':
+        specifier: workspace:^
+        version: link:../../packages/@amazeelabs/search_api_remote_page
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-iframe
@@ -383,6 +389,10 @@ importers:
       vitest:
         specifier: ^3.0.4
         version: 3.0.4(@types/node@20.11.17)(happy-dom@16.7.3)
+
+  packages/@amazeelabs/remote_page: {}
+
+  packages/@amazeelabs/search_api_remote_page: {}
 
   packages/@amazeelabs/silverback-iframe:
     dependencies:

@@ -1,0 +1,8 @@
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+      <loc>__DIR__/files/sitemap-entries.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>__DIR__/files/sitemap-more-entries.xml</loc>
+  </sitemap>
+</sitemapindex>

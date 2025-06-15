@@ -29,6 +29,8 @@
   "dependencies": {
     "@amazeelabs/silverback-iframe": "workspace:*",
     "@amazeelabs/silverback-search": "workspace:^",
+    "@amazeelabs/remote_page": "workspace:^",
+    "@amazeelabs/search_api_remote_page": "workspace:^",
     "@custom/custom": "workspace:*",
     "@custom/custom_heavy": "workspace:*",
     "@custom/gutenberg_blocks": "workspace:*",

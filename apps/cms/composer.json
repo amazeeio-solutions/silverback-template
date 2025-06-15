@@ -34,6 +34,8 @@
     "php": "^8.3 <8.4",
     "amazeeio/drupal_integrations": "^0.3.7",
     "amazeelabs/default-content": "^1.2.11",
+    "amazeelabs/remote_page": "*",
+    "amazeelabs/search_api_remote_page": "*",
     "amazeelabs/silverback-cli": "^2.9.13",
     "amazeelabs/silverback_ai": "^1.1",
     "amazeelabs/silverback_autosave": "^1.1",

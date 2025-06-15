@@ -1,0 +1,5 @@
+name: Remote page
+type: module
+description: 'Drupal entities that point to remote pages.'
+package: Silverback
+core_version_requirement: ^10 || ^11
