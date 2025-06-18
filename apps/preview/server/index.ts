@@ -109,7 +109,7 @@ app.get('/oauth/callback', async (req, res) => {
   // Check if the state matches.
   if (!stateMatches(req)) {
     return res
-      .status(500)
+      .status(400)
       .json(
         'State does not match. Check if the Drupal Consumer entity redirect URI is properly set.',
       );
