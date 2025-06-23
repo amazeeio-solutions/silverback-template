@@ -24,9 +24,9 @@ export function PageTransitionWrapper({ children }: PropsWithChildren) {
   );
 }
 
-export function PageTransition({ 
-  children, 
-  languageMessageProps 
+export function PageTransition({
+  children,
+  languageMessageProps,
 }: PropsWithChildren<{ languageMessageProps?: LanguageMessageProps }>) {
   const [messages, setMessages] = React.useState<Array<string>>([]);
   const [messageComponents, setMessageComponents] = React.useState<
@@ -36,9 +36,9 @@ export function PageTransition({
     // Standard messages.
     setMessages(readMessages());
     // Language message.
-    const languageMessage = languageMessageProps 
+    const languageMessage = languageMessageProps
       ? getLanguageMessageFromProps(languageMessageProps)
-      : typeof window !== 'undefined' 
+      : typeof window !== 'undefined'
         ? getLanguageMessage(window.location.href)
         : null;
     if (languageMessage) {
@@ -101,7 +101,8 @@ function getLanguageMessageFromProps(props: LanguageMessageProps): ReactNode {
           {translation.message}{' '}
           <a
             href="#"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               if (typeof window !== 'undefined') {
                 window.history.back();
               }

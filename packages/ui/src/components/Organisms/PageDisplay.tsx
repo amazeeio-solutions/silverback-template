@@ -21,23 +21,25 @@ import { BlockQuote } from './PageContent/BlockQuote';
 import { BlockTeaserList } from './PageContent/BlockTeaserList';
 import { PageHero } from './PageHero';
 
+// Extract language message props from URL for SSR compatibility
+const getLanguageMessageProps = () => {
+  if (typeof window === 'undefined') return undefined;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const contentLanguageNotAvailable =
+    urlParams.get('content_language_not_available') === 'true';
+  const requestedLanguage = urlParams.get('requested_language');
+
+  if (contentLanguageNotAvailable && requestedLanguage) {
+    return {
+      contentLanguageNotAvailable,
+      requestedLanguage,
+    };
+  }
+  return undefined;
+};
+
 export function PageDisplay(page: PageFragment) {
-  // Extract language message props from URL for SSR compatibility
-  const getLanguageMessageProps = () => {
-    if (typeof window === 'undefined') return undefined;
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    const contentLanguageNotAvailable = urlParams.get('content_language_not_available') === 'true';
-    const requestedLanguage = urlParams.get('requested_language');
-    
-    if (contentLanguageNotAvailable && requestedLanguage) {
-      return {
-        contentLanguageNotAvailable,
-        requestedLanguage,
-      };
-    }
-    return undefined;
-  };
 
   return (
     <PageTransition languageMessageProps={getLanguageMessageProps()}>

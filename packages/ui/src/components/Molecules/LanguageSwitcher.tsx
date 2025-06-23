@@ -38,9 +38,11 @@ export function LanguageSwitcher() {
   const { locale } = useLocaleContext();
 
   // Use context locale with fallback to translations detection
-  const currentLocale = locale.currentLocale || 
+  const currentLocale =
+    locale.currentLocale ||
     Object.entries(translations).find(
-      ([, path]) => typeof window !== 'undefined' && path === window.location.pathname,
+      ([, path]) =>
+        typeof window !== 'undefined' && path === window.location.pathname,
     )?.[0];
   const isMultiLingual = Object.keys(translations).length > 1;
 
