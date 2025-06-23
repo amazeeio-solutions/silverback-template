@@ -13,29 +13,7 @@ apps/website/.env
 /_local
 /lerna-debug.log
 /.prettierignore
-# From apps/agents/.gitignore
-/apps/agents/**/.cache
-/apps/agents/**/dist
-/apps/agents/**/.langgraph_api
-# From apps/chat/.gitignore
-/apps/chat/**/__pycache__
-/apps/chat/**/metadata,
-/apps/chat/**/*.env
-/apps/chat/**/*.files
-/apps/chat/**/*.langchain.db
-/apps/chat/**/*.chroma
-/apps/chat/**/.vscode
-/apps/chat/**/.DS_STORE
-/apps/chat/**/fly.toml
-/apps/chat/**/.dockerignore
-/apps/chat/**/__pycache__
-/apps/chat/**/storage
-/apps/chat/**/venv
-/apps/chat/**/.venv
-/apps/chat/**/credentials.json
-/apps/chat/**/token.json
-/apps/chat/**/*.sql
-/apps/chat/.cursor/*
+.claude/
 # From apps/cms/.gitignore
 /apps/cms/vendor
 /apps/cms/.editorconfig
@@ -86,29 +64,6 @@ apps/website/.env
 /apps/decap/**/*.njsproj
 /apps/decap/**/*.sln
 /apps/decap/**/*.sw?
-# From apps/langchat/.gitignore
-/apps/langchat/**/logs
-/apps/langchat/**/*.log
-/apps/langchat/**/npm-debug.log*
-/apps/langchat/**/yarn-debug.log*
-/apps/langchat/**/yarn-error.log*
-/apps/langchat/**/pnpm-debug.log*
-/apps/langchat/**/lerna-debug.log*
-/apps/langchat/**/node_modules
-/apps/langchat/**/dist
-/apps/langchat/**/dist-ssr
-/apps/langchat/**/*.local
-/apps/langchat/.vscode/*
-!/apps/langchat/.vscode/extensions.json
-/apps/langchat/**/.idea
-/apps/langchat/**/.DS_Store
-/apps/langchat/**/*.suo
-/apps/langchat/**/*.ntvs*
-/apps/langchat/**/*.njsproj
-/apps/langchat/**/*.sln
-/apps/langchat/**/*.sw?
-/apps/langchat/**/.langgraph_api
-/apps/langchat/**/.env
 # From apps/preview/.gitignore
 /apps/preview/**/logs
 /apps/preview/**/*.log
@@ -151,26 +106,6 @@ apps/website/.env
 /packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme/**/CHANGELOG.md
 # From packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe/.prettierignore
 /packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe/**/CHANGELOG.md
-# From packages/drupal/chat_ai/.gitignore
-/packages/drupal/chat_ai/vendor
-/packages/drupal/chat_ai/.editorconfig
-/packages/drupal/chat_ai/.gitattributes
-/packages/drupal/chat_ai/web/*
-!/packages/drupal/chat_ai/web/modules
-!/packages/drupal/chat_ai/web/themes
-/packages/drupal/chat_ai/web/modules/*
-/packages/drupal/chat_ai/web/themes/*
-!/packages/drupal/chat_ai/web/modules/custom
-!/packages/drupal/chat_ai/web/themes/custom
-/packages/drupal/chat_ai/drush
-/packages/drupal/chat_ai/.drush-lock-update
-/packages/drupal/chat_ai/.env.local
-/packages/drupal/chat_ai/.env.local.example
-/packages/drupal/chat_ai/.envrc
-/packages/drupal/chat_ai/.silverback-snapshots
-/packages/drupal/chat_ai/**/.phpunit.result.cache
-/packages/drupal/chat_ai/generated/operations.json
-/packages/drupal/chat_ai/generated/translations.json
 # From packages/drupal/gutenberg_blocks/.gitignore
 /packages/drupal/gutenberg_blocks/**/node_modules
 /packages/drupal/gutenberg_blocks/dist/gutenberg_blocks.mjs
@@ -210,4 +145,4 @@ pnpm-lock.yaml
 .devbox
 .idea
 CLAUDE.md
-.claude/
+.claude
