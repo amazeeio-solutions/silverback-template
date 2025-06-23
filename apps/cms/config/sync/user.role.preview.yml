@@ -1,0 +1,16 @@
+uuid: aa9f147f-40e1-4c26-b129-fcc8e52c7573
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_preview
+    - node
+    - silverback_gatsby
+id: preview
+label: Preview
+weight: -4
+is_admin: null
+permissions:
+  - 'access any content revision'
+  - 'fetch any autosaved entity'
+  - 'view all revisions'

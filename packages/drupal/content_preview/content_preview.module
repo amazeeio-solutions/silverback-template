@@ -1,0 +1,26 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * @file
+ * Deals with customisations related to the content preview feature.
+ */
+
+function content_preview_entity_access(EntityInterface $entity, $operation, AccountInterface $account)
+{
+  // We are only interested in content entities.
+  if (!$entity instanceof ContentEntityInterface) {
+    return AccessResult::neutral()->cachePerPermissions();
+  }
+  // If the user has the permission to view any content revision, then we just
+  // allow the access for the view operation, without checking if the content
+  // is published or not.
+  if ($operation === 'view' && $account->hasPermission('access any content revision')) {
+    return AccessResult::allowed()->cachePerPermissions();
+  }
+  return AccessResult::neutral()->cachePerPermissions();
+}

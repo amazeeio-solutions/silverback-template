@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@amazeelabs/silverback-iframe": "workspace:*",
+    "@custom/content_preview": "workspace:*",
     "@amazeelabs/silverback-search": "workspace:^",
     "@custom/custom": "workspace:*",
     "@custom/custom_heavy": "workspace:*",

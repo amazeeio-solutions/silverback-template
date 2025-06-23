@@ -1,0 +1,40 @@
+_meta:
+  version: '1.0'
+  entity_type: user
+  uuid: cba7df8e-781b-4e2c-8e1b-2a98098828ac
+  default_langcode: en
+default:
+  preferred_langcode:
+    -
+      value: en
+  preferred_admin_langcode:
+    -
+      value: en
+  name:
+    -
+      value: Preview
+  pass:
+    -
+      value: $2y$10$jLth1NL88qvzFMgM/KhlpeaioSetXm0QmvvYW6o1.vjlDHJ/fAzYm
+      existing: ''
+      pre_hashed: true
+  timezone:
+    -
+      value: UTC
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1741531244
+  login:
+    -
+      value: 0
+  roles:
+    -
+      target_id: preview
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
