@@ -1,5 +1,5 @@
 'use client';
-import { Link, Locale, useLocation } from '@custom/schema';
+import { Link, Locale } from '@custom/schema';
 import {
   Menu,
   MenuButton,
@@ -11,6 +11,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import React, { Fragment } from 'react';
 
+import { useLocaleContext } from '../../contexts';
 import { useTranslations } from '../../utils/translations';
 
 function getLanguageName(locale: string) {
@@ -34,11 +35,13 @@ function formatLocalePath(locale: Locale | string) {
 
 export function LanguageSwitcher() {
   const translations = useTranslations();
-  const [location] = useLocation();
+  const { locale } = useLocaleContext();
 
-  const currentLocale = Object.entries(translations).find(
-    ([, path]) => path === location.pathname,
-  )?.[0];
+  // Use context locale with fallback to translations detection
+  const currentLocale = locale.currentLocale || 
+    Object.entries(translations).find(
+      ([, path]) => typeof window !== 'undefined' && path === window.location.pathname,
+    )?.[0];
   const isMultiLingual = Object.keys(translations).length > 1;
 
   return (
@@ -73,21 +76,21 @@ export function LanguageSwitcher() {
         >
           <MenuItems className="absolute right-0 z-50 mt-3 w-48 origin-top-right rounded bg-white shadow-md ring-1 ring-gray-100">
             <div className="py-1">
-              {Object.values(Locale).map((locale) => (
-                <React.Fragment key={locale}>
-                  {translations[locale] &&
-                  location.pathname !== translations[locale] ? (
+              {Object.values(Locale).map((localeOption) => (
+                <React.Fragment key={localeOption}>
+                  {translations[localeOption] &&
+                  localeOption !== currentLocale ? (
                     <MenuItem>
                       {({ focus }) =>
-                        translations[locale] ? (
+                        translations[localeOption] ? (
                           <Link
-                            href={translations[locale]!}
+                            href={translations[localeOption]!}
                             className={clsx(
                               focus ? 'text-blue-600' : 'text-gray-500',
                               'block px-4 py-2 text-sm',
                             )}
                           >
-                            {getLanguageName(locale as string)}
+                            {getLanguageName(localeOption as string)}
                           </Link>
                         ) : (
                           <span
@@ -98,7 +101,7 @@ export function LanguageSwitcher() {
                               'block px-3.5 py-2 text-sm opacity-70',
                             )}
                           >
-                            {getLanguageName(locale as string)}
+                            {getLanguageName(localeOption as string)}
                           </span>
                         )
                       }

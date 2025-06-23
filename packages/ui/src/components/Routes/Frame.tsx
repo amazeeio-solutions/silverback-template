@@ -1,9 +1,11 @@
 import { IntlProvider } from '@amazeelabs/react-intl';
-import { FrameQuery, Locale, Operation } from '@custom/schema';
+import { FrameQuery, Locale, Operation, useLocation } from '@custom/schema';
 import React, { PropsWithChildren } from 'react';
 
 import translationSources from '../../../build/translatables.json';
+import { FrameProvider } from '../../contexts';
 import { useLocale } from '../../utils/locale';
+import { useTranslations } from '../../utils/translations';
 import { TranslationsProvider } from '../../utils/translations';
 import { PageTransitionWrapper } from '../Molecules/PageTransition';
 import { Footer } from '../Organisms/Footer';
@@ -30,8 +32,33 @@ function translationsMap(translatables: FrameQuery['stringTranslations']) {
   );
 }
 
-export function Frame({ children }: PropsWithChildren) {
+interface FrameProps extends PropsWithChildren {
+  currentPageId?: string;
+  currentPath?: string;
+  availableLocales?: Locale[];
+  pageTranslations?: Record<string, string>;
+}
+
+export function Frame({ 
+  children, 
+  currentPageId, 
+  currentPath, 
+  availableLocales,
+  pageTranslations 
+}: FrameProps) {
   const locale = useLocale();
+  const pageTranslationsFromContext = useTranslations();
+  
+  // Auto-extract navigation state if not provided as props
+  let navigationCurrentPath = currentPath;
+  try {
+    if (!navigationCurrentPath) {
+      const [location] = useLocation();
+      navigationCurrentPath = location.pathname;
+    }
+  } catch {
+    // useLocation failed (SSR, etc.), no fallback needed
+  }
   return (
     <Operation id={FrameQuery}>
       {(result) => {
@@ -59,9 +86,17 @@ export function Frame({ children }: PropsWithChildren) {
           return (
             <IntlProvider locale={locale} messages={messages}>
               <TranslationsProvider>
-                <Header />
-                <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                <Footer />
+                <FrameProvider
+                  currentPageId={currentPageId}
+                  currentPath={navigationCurrentPath}
+                  currentLocale={locale}
+                  availableLocales={availableLocales || Object.values(Locale)}
+                  translations={pageTranslations || pageTranslationsFromContext}
+                >
+                  <Header />
+                  <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                  <Footer />
+                </FrameProvider>
               </TranslationsProvider>
             </IntlProvider>
           );

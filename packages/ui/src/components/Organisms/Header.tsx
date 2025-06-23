@@ -3,6 +3,7 @@ import { useIntl } from '@amazeelabs/react-intl';
 import { FrameQuery, Link, Url } from '@custom/schema';
 import React from 'react';
 
+import { useNavigation } from '../../contexts';
 import { isTruthy } from '../../utils/isTruthy';
 import { buildNavigationTree } from '../../utils/navigation';
 import { useOperation } from '../../utils/operation';
@@ -38,9 +39,15 @@ function useMetaNavigation(lang: string = 'en') {
 
 export function Header() {
   const intl = useIntl();
+  const { navigation } = useNavigation();
   const items = buildNavigationTree(useHeaderNavigation(intl.locale));
-
   const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
+
+  // Helper function to check if a link is active
+  const isActiveLink = (href: string) => {
+    if (!navigation.currentPath) return false;
+    return navigation.currentPath === href;
+  };
 
   return (
     <MobileMenuProvider>
@@ -52,8 +59,9 @@ export function Header() {
                 <Link
                   key={key}
                   href={item.target}
-                  className="mt-px text-sm font-medium leading-6 text-gray-900 hover:text-blue-600"
-                  activeClassName={'font-bold text-blue-200'}
+                  className={`mt-px text-sm font-medium leading-6 text-gray-900 hover:text-blue-600 ${
+                    isActiveLink(item.target) ? 'font-bold text-blue-200' : ''
+                  }`}
                 >
                   {item.title}
                 </Link>
@@ -95,8 +103,9 @@ export function Header() {
                   <Link
                     key={key}
                     href={item.target}
-                    className="ml-8 text-base font-medium text-gray-900 hover:text-blue-600"
-                    activeClassName={'font-bold text-blue-200'}
+                    className={`ml-8 text-base font-medium text-gray-900 hover:text-blue-600 ${
+                      isActiveLink(item.target) ? 'font-bold text-blue-200' : ''
+                    }`}
                   >
                     {item.title}
                   </Link>
@@ -204,8 +213,9 @@ export function Header() {
                 <Link
                   key={key}
                   href={item.target}
-                  className="text-base font-medium text-gray-900 hover:text-blue-600"
-                  activeClassName={'font-bold text-blue-200'}
+                  className={`text-base font-medium text-gray-900 hover:text-blue-600 ${
+                    isActiveLink(item.target) ? 'font-bold text-blue-200' : ''
+                  }`}
                 >
                   {item.title}
                 </Link>

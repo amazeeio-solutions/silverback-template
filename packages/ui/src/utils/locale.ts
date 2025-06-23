@@ -1,5 +1,7 @@
 import { Locale, useLocation } from '@custom/schema';
 
+import { useLocaleContext } from '../contexts';
+
 const locales = Object.values(Locale);
 export const defaultLocale: Locale = 'en';
 
@@ -8,15 +10,28 @@ export function isLocale(input: unknown): input is Locale {
 }
 
 /**
- * Extract the current locale from the path prefix.
+ * Extract the current locale from context or path prefix as fallback.
  */
 export function useLocale() {
-  const [{ pathname, searchParams }] = useLocation();
-  const prefix = pathname.split('/')[1];
-  // For the preview route, we should get the language code from the "lang"
-  // parameter.
-  const langcode = prefix === '__preview' ? searchParams.get('lang') : prefix;
-  return isLocale(langcode) ? langcode : defaultLocale;
+  const { locale } = useLocaleContext();
+  
+  // Use context locale if available
+  if (locale.currentLocale) {
+    return locale.currentLocale;
+  }
+  
+  // Fallback to path-based detection for backward compatibility
+  try {
+    const [{ pathname, searchParams }] = useLocation();
+    const prefix = pathname.split('/')[1];
+    // For the preview route, we should get the language code from the "lang"
+    // parameter.
+    const langcode = prefix === '__preview' ? searchParams.get('lang') : prefix;
+    return isLocale(langcode) ? langcode : defaultLocale;
+  } catch {
+    // If useLocation fails (SSR, etc.), return default locale
+    return defaultLocale;
+  }
 }
 
 type Localized = { locale: Locale };

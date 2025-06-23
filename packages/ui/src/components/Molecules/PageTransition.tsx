@@ -5,6 +5,11 @@ import React, { PropsWithChildren, ReactNode, useEffect } from 'react';
 
 import { Messages, readMessages } from './Messages';
 
+interface LanguageMessageProps {
+  contentLanguageNotAvailable?: boolean;
+  requestedLanguage?: string;
+}
+
 export function PageTransitionWrapper({ children }: PropsWithChildren) {
   return (
     <main>
@@ -19,7 +24,10 @@ export function PageTransitionWrapper({ children }: PropsWithChildren) {
   );
 }
 
-export function PageTransition({ children }: PropsWithChildren) {
+export function PageTransition({ 
+  children, 
+  languageMessageProps 
+}: PropsWithChildren<{ languageMessageProps?: LanguageMessageProps }>) {
   const [messages, setMessages] = React.useState<Array<string>>([]);
   const [messageComponents, setMessageComponents] = React.useState<
     Array<ReactNode>
@@ -28,11 +36,15 @@ export function PageTransition({ children }: PropsWithChildren) {
     // Standard messages.
     setMessages(readMessages());
     // Language message.
-    const languageMessage = getLanguageMessage(window.location.href);
+    const languageMessage = languageMessageProps 
+      ? getLanguageMessageFromProps(languageMessageProps)
+      : typeof window !== 'undefined' 
+        ? getLanguageMessage(window.location.href)
+        : null;
     if (languageMessage) {
       setMessageComponents([languageMessage]);
     }
-  }, []);
+  }, [languageMessageProps]);
 
   return useReducedMotion() ? (
     <main id="main-content">
@@ -58,6 +70,56 @@ export function PageTransition({ children }: PropsWithChildren) {
   );
 }
 
+function getLanguageMessageFromProps(props: LanguageMessageProps): ReactNode {
+  if (props.contentLanguageNotAvailable && props.requestedLanguage) {
+    const translations: {
+      [language in Locale]: { message: string; goBack: string };
+    } = {
+      en: {
+        message: 'This page is not available in the requested language.',
+        goBack: 'Go back',
+      },
+      de: {
+        message:
+          'Diese Seite ist nicht in der angeforderten Sprache verfügbar.',
+        goBack: 'Zurück',
+      },
+      de_CH: {
+        message:
+          'Diese Seite ist nicht in der angeforderten Sprache verfügbar.',
+        goBack: 'Zurück',
+      },
+      french: {
+        message: "Cette page n'est pas disponible dans la langue demandée",
+        goBack: 'Retour',
+      },
+    };
+    const translation = translations[props.requestedLanguage as Locale];
+    if (translation) {
+      return (
+        <div>
+          {translation.message}{' '}
+          <a
+            href="#"
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.history.back();
+              }
+            }}
+          >
+            {translation.goBack}
+          </a>
+        </div>
+      );
+    } else {
+      console.error(
+        `Requested language "${props.requestedLanguage}" not found in messages.`,
+      );
+    }
+  }
+  return null;
+}
+
 function getLanguageMessage(url: string): ReactNode {
   const urlObject = new URL(url);
   const contentLanguageNotAvailable =
@@ -65,48 +127,11 @@ function getLanguageMessage(url: string): ReactNode {
   if (contentLanguageNotAvailable) {
     const requestedLanguage = urlObject.searchParams.get('requested_language');
     if (requestedLanguage) {
-      const translations: {
-        [language in Locale]: { message: string; goBack: string };
-      } = {
-        en: {
-          message: 'This page is not available in the requested language.',
-          goBack: 'Go back',
-        },
-        de: {
-          message:
-            'Diese Seite ist nicht in der angeforderten Sprache verfügbar.',
-          goBack: 'Zurück',
-        },
-        de_CH: {
-          message:
-            'Diese Seite ist nicht in der angeforderten Sprache verfügbar.',
-          goBack: 'Zurück',
-        },
-        french: {
-          message: "Cette page n'est pas disponible dans la langue demandée",
-          goBack: 'Retour',
-        },
-      };
-      const translation = translations[requestedLanguage as Locale];
-      if (translation) {
-        return (
-          <div>
-            {translation.message}{' '}
-            <a
-              href="#"
-              onClick={() => {
-                window.history.back();
-              }}
-            >
-              {translation.goBack}
-            </a>
-          </div>
-        );
-      } else {
-        console.error(
-          `Requested language "${requestedLanguage}" not found in messages.`,
-        );
-      }
+      return getLanguageMessageFromProps({
+        contentLanguageNotAvailable,
+        requestedLanguage,
+      });
     }
   }
+  return null;
 }
