@@ -2,11 +2,12 @@
 import { BlockConditionalFragment, PageFragment } from '@custom/schema';
 import React from 'react';
 
+import { NavigationState, LocaleState } from '../../contexts/FrameProvider';
 import { isTruthy } from '../../utils/isTruthy';
 import { UnreachableCaseError } from '../../utils/unreachable-case-error';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
 import { ContentEditLink } from '../Molecules/ContentEditLink';
-import { PageTransition } from '../Molecules/PageTransition';
+import { PageTransition, PageTransitionProps } from '../Molecules/PageTransition';
 import { BlockAccordion } from './PageContent/BlockAccordion';
 import { BlockConditional } from './PageContent/BlockConditional';
 import { BlockCta } from './PageContent/BlockCta';
@@ -21,9 +22,20 @@ import { BlockQuote } from './PageContent/BlockQuote';
 import { BlockTeaserList } from './PageContent/BlockTeaserList';
 import { PageHero } from './PageHero';
 
-export function PageDisplay(page: PageFragment) {
+export interface PageDisplayProps extends PageFragment {
+  navigationState?: NavigationState;
+  localeState?: LocaleState;
+  languageMessageProps?: PageTransitionProps['languageMessageProps'];
+}
+
+export function PageDisplay({ 
+  navigationState, 
+  localeState, 
+  languageMessageProps, 
+  ...page 
+}: PageDisplayProps) {
   return (
-    <PageTransition>
+    <PageTransition languageMessageProps={languageMessageProps}>
       <div>
         {page.editLink ? <ContentEditLink {...page.editLink} /> : null}
         {!page.hero && <BreadCrumbs />}

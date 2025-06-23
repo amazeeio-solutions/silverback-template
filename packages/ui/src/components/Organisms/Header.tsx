@@ -6,6 +6,7 @@ import React from 'react';
 import { isTruthy } from '../../utils/isTruthy';
 import { buildNavigationTree } from '../../utils/navigation';
 import { useOperation } from '../../utils/operation';
+import { useNavigation } from '../../contexts/FrameProvider';
 import {
   DesktopMenuDropDown,
   DesktopMenuDropdownDisclosure,
@@ -41,6 +42,16 @@ export function Header() {
   const items = buildNavigationTree(useHeaderNavigation(intl.locale));
 
   const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
+  
+  // Get current page information from context, fallback to undefined if not available
+  let currentPath: string | undefined;
+  try {
+    const { navigationState } = useNavigation();
+    currentPath = navigationState.currentPath;
+  } catch {
+    // Navigation context not available - component works without it
+    currentPath = undefined;
+  }
 
   return (
     <MobileMenuProvider>
@@ -48,16 +59,20 @@ export function Header() {
         <header className="container-content">
           <div className="hidden border-b border-gray-200 py-2 md:flex md:gap-x-8 md:align-bottom">
             <nav className={'flex w-full justify-end gap-x-6'}>
-              {metaItems.map((item, key) => (
-                <Link
-                  key={key}
-                  href={item.target}
-                  className="mt-px text-sm font-medium leading-6 text-gray-900 hover:text-blue-600"
-                  activeClassName={'font-bold text-blue-200'}
-                >
-                  {item.title}
-                </Link>
-              ))}
+              {metaItems.map((item, key) => {
+                const isActive = currentPath === item.target;
+                return (
+                  <Link
+                    key={key}
+                    href={item.target}
+                    className={`mt-px text-sm font-medium leading-6 text-gray-900 hover:text-blue-600 ${
+                      isActive ? 'font-bold text-blue-200' : ''
+                    }`}
+                  >
+                    {item.title}
+                  </Link>
+                );
+              })}
             </nav>
             <UserActions />
           </div>
@@ -95,8 +110,9 @@ export function Header() {
                   <Link
                     key={key}
                     href={item.target}
-                    className="ml-8 text-base font-medium text-gray-900 hover:text-blue-600"
-                    activeClassName={'font-bold text-blue-200'}
+                    className={`ml-8 text-base font-medium text-gray-900 hover:text-blue-600 ${
+                      currentPath === item.target ? 'font-bold text-blue-200' : ''
+                    }`}
                   >
                     {item.title}
                   </Link>
@@ -200,16 +216,20 @@ export function Header() {
               </div>
             </div>
             <nav className={'mt-10 flex w-full flex-col gap-y-6 px-8'}>
-              {metaItems.map((item, key) => (
-                <Link
-                  key={key}
-                  href={item.target}
-                  className="text-base font-medium text-gray-900 hover:text-blue-600"
-                  activeClassName={'font-bold text-blue-200'}
-                >
-                  {item.title}
-                </Link>
-              ))}
+              {metaItems.map((item, key) => {
+                const isActive = currentPath === item.target;
+                return (
+                  <Link
+                    key={key}
+                    href={item.target}
+                    className={`text-base font-medium text-gray-900 hover:text-blue-600 ${
+                      isActive ? 'font-bold text-blue-200' : ''
+                    }`}
+                  >
+                    {item.title}
+                  </Link>
+                );
+              })}
             </nav>
           </MobileMenu>
         </header>

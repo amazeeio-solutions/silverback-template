@@ -19,7 +19,18 @@ export function PageTransitionWrapper({ children }: PropsWithChildren) {
   );
 }
 
-export function PageTransition({ children }: PropsWithChildren) {
+export interface PageTransitionProps {
+  children: React.ReactNode;
+  languageMessageProps?: {
+    contentLanguageNotAvailable?: boolean;
+    requestedLanguage?: string;
+  };
+}
+
+export function PageTransition({ 
+  children, 
+  languageMessageProps 
+}: PageTransitionProps) {
   const [messages, setMessages] = React.useState<Array<string>>([]);
   const [messageComponents, setMessageComponents] = React.useState<
     Array<ReactNode>
@@ -27,12 +38,14 @@ export function PageTransition({ children }: PropsWithChildren) {
   useEffect(() => {
     // Standard messages.
     setMessages(readMessages());
-    // Language message.
-    const languageMessage = getLanguageMessage(window.location.href);
-    if (languageMessage) {
-      setMessageComponents([languageMessage]);
+    // Language message from props instead of URL
+    if (languageMessageProps) {
+      const languageMessage = getLanguageMessage(languageMessageProps);
+      if (languageMessage) {
+        setMessageComponents([languageMessage]);
+      }
     }
-  }, []);
+  }, [languageMessageProps]);
 
   return useReducedMotion() ? (
     <main id="main-content">
@@ -58,12 +71,12 @@ export function PageTransition({ children }: PropsWithChildren) {
   );
 }
 
-function getLanguageMessage(url: string): ReactNode {
-  const urlObject = new URL(url);
-  const contentLanguageNotAvailable =
-    urlObject.searchParams.get('content_language_not_available') === 'true';
-  if (contentLanguageNotAvailable) {
-    const requestedLanguage = urlObject.searchParams.get('requested_language');
+function getLanguageMessage(props: {
+  contentLanguageNotAvailable?: boolean;
+  requestedLanguage?: string;
+}): ReactNode {
+  if (props.contentLanguageNotAvailable) {
+    const requestedLanguage = props.requestedLanguage;
     if (requestedLanguage) {
       const translations: {
         [language in Locale]: { message: string; goBack: string };

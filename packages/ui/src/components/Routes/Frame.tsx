@@ -3,6 +3,7 @@ import { FrameQuery, Locale, Operation } from '@custom/schema';
 import React, { PropsWithChildren } from 'react';
 
 import translationSources from '../../../build/translatables.json';
+import { FrameProvider, NavigationState, LocaleState } from '../../contexts/FrameProvider';
 import { useLocale } from '../../utils/locale';
 import { TranslationsProvider } from '../../utils/translations';
 import { PageTransitionWrapper } from '../Molecules/PageTransition';
@@ -30,7 +31,23 @@ function translationsMap(translatables: FrameQuery['stringTranslations']) {
   );
 }
 
-export function Frame({ children }: PropsWithChildren) {
+export interface FrameProps extends PropsWithChildren {
+  // Navigation and locale state for frame context
+  navigationState?: NavigationState;
+  localeState?: LocaleState;
+  // Language message props for PageTransition
+  languageMessageProps?: {
+    contentLanguageNotAvailable?: boolean;
+    requestedLanguage?: string;
+  };
+}
+
+export function Frame({ 
+  children, 
+  navigationState, 
+  localeState, 
+  languageMessageProps 
+}: FrameProps) {
   const locale = useLocale();
   return (
     <Operation id={FrameQuery}>
@@ -56,12 +73,27 @@ export function Frame({ children }: PropsWithChildren) {
                   .defaultMessage,
             ]),
           );
+          // Build locale state from available data
+          const defaultLocaleState: LocaleState = {
+            currentLocale: locale,
+            availableLocales: Object.values(Locale),
+            translations: {}
+          };
+
+          // Use provided locale state or build from current data
+          const finalLocaleState = localeState || defaultLocaleState;
+
           return (
             <IntlProvider locale={locale} messages={messages}>
               <TranslationsProvider>
-                <Header />
-                <PageTransitionWrapper>{children}</PageTransitionWrapper>
-                <Footer />
+                <FrameProvider 
+                  navigationState={navigationState} 
+                  localeState={finalLocaleState}
+                >
+                  <Header />
+                  <PageTransitionWrapper>{children}</PageTransitionWrapper>
+                  <Footer />
+                </FrameProvider>
               </TranslationsProvider>
             </IntlProvider>
           );

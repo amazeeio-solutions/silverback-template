@@ -1,5 +1,5 @@
 'use client';
-import { Link, Locale, useLocation } from '@custom/schema';
+import { Link, Locale } from '@custom/schema';
 import {
   Menu,
   MenuButton,
@@ -11,6 +11,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import React, { Fragment } from 'react';
 
+import { useLocaleContext } from '../../contexts/FrameProvider';
 import { useTranslations } from '../../utils/translations';
 
 function getLanguageName(locale: string) {
@@ -34,11 +35,22 @@ function formatLocalePath(locale: Locale | string) {
 
 export function LanguageSwitcher() {
   const translations = useTranslations();
-  const [location] = useLocation();
-
-  const currentLocale = Object.entries(translations).find(
-    ([, path]) => path === location.pathname,
-  )?.[0];
+  
+  // Get current locale from context, fallback to useTranslations if context not available
+  let currentLocale: string | undefined;
+  let currentPath: string | undefined;
+  
+  try {
+    const { localeState } = useLocaleContext();
+    currentLocale = localeState.currentLocale;
+    currentPath = localeState.translations[localeState.currentLocale];
+  } catch {
+    // Fallback to the old logic when context is not available
+    // This provides backward compatibility during migration
+    currentLocale = 'en'; // fallback to default
+    currentPath = undefined;
+  }
+  
   const isMultiLingual = Object.keys(translations).length > 1;
 
   return (
@@ -76,7 +88,7 @@ export function LanguageSwitcher() {
               {Object.values(Locale).map((locale) => (
                 <React.Fragment key={locale}>
                   {translations[locale] &&
-                  location.pathname !== translations[locale] ? (
+                  currentPath !== translations[locale] ? (
                     <MenuItem>
                       {({ focus }) =>
                         translations[locale] ? (
