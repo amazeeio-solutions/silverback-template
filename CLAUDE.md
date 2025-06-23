@@ -139,4 +139,5 @@ Always run `pnpm turbo:prep` after switching branches or making package changes.
 
 ## Development Best Practices
 - Always use prettier to format typescript, javascript, yaml, json and markdown files after editing them
-- Run quick tests after code changes
+- Run `pnpm turbo:test:quick` tests after code changes
+- Run `pnpm test:format:fix` after changes to format everything correctly
