@@ -1,0 +1,212 @@
+# From .gitignore
+node_modules
+.idea/inspectionProfiles
+.idea/git_toolbox_prj.xml
+build-storybook.log
+storybook-static
+coverage
+dts
+.netlify
+apps/website/.env
+.DS_Store
+.turbo
+/_local
+/lerna-debug.log
+/.prettierignore
+# From apps/agents/.gitignore
+/apps/agents/**/.cache
+/apps/agents/**/dist
+/apps/agents/**/.langgraph_api
+# From apps/chat/.gitignore
+/apps/chat/**/__pycache__
+/apps/chat/**/metadata,
+/apps/chat/**/*.env
+/apps/chat/**/*.files
+/apps/chat/**/*.langchain.db
+/apps/chat/**/*.chroma
+/apps/chat/**/.vscode
+/apps/chat/**/.DS_STORE
+/apps/chat/**/fly.toml
+/apps/chat/**/.dockerignore
+/apps/chat/**/__pycache__
+/apps/chat/**/storage
+/apps/chat/**/venv
+/apps/chat/**/.venv
+/apps/chat/**/credentials.json
+/apps/chat/**/token.json
+/apps/chat/**/*.sql
+/apps/chat/.cursor/*
+# From apps/cms/.gitignore
+/apps/cms/vendor
+/apps/cms/.editorconfig
+/apps/cms/.gitattributes
+/apps/cms/web/*
+!/apps/cms/web/modules
+!/apps/cms/web/themes
+/apps/cms/web/modules/*
+/apps/cms/web/themes/*
+!/apps/cms/web/modules/custom
+!/apps/cms/web/themes/custom
+/apps/cms/drush
+/apps/cms/.drush-lock-update
+/apps/cms/.env.local
+/apps/cms/.env.local.example
+/apps/cms/.envrc
+/apps/cms/.silverback-snapshots
+/apps/cms/**/.phpunit.result.cache
+/apps/cms/generated/operations.json
+/apps/cms/generated/translations.json
+/apps/cms/**/autoload.json
+!/apps/cms/web/gutenberg.css
+!/apps/cms/web/iframe.css
+/apps/cms/**/turbo-seed.txt
+# From apps/cms/.prettierignore
+/apps/cms/config/sync
+/apps/cms/**/composer.json
+/apps/cms/**/composer.lock
+# From apps/decap/.gitignore
+/apps/decap/**/logs
+/apps/decap/**/*.log
+/apps/decap/**/npm-debug.log*
+/apps/decap/**/yarn-debug.log*
+/apps/decap/**/yarn-error.log*
+/apps/decap/**/pnpm-debug.log*
+/apps/decap/**/lerna-debug.log*
+/apps/decap/**/node_modules
+/apps/decap/**/dist
+/apps/decap/**/dist-ssr
+/apps/decap/**/*.local
+/apps/decap/**/build
+/apps/decap/.vscode/*
+!/apps/decap/.vscode/extensions.json
+/apps/decap/**/.idea
+/apps/decap/**/.DS_Store
+/apps/decap/**/*.suo
+/apps/decap/**/*.ntvs*
+/apps/decap/**/*.njsproj
+/apps/decap/**/*.sln
+/apps/decap/**/*.sw?
+# From apps/langchat/.gitignore
+/apps/langchat/**/logs
+/apps/langchat/**/*.log
+/apps/langchat/**/npm-debug.log*
+/apps/langchat/**/yarn-debug.log*
+/apps/langchat/**/yarn-error.log*
+/apps/langchat/**/pnpm-debug.log*
+/apps/langchat/**/lerna-debug.log*
+/apps/langchat/**/node_modules
+/apps/langchat/**/dist
+/apps/langchat/**/dist-ssr
+/apps/langchat/**/*.local
+/apps/langchat/.vscode/*
+!/apps/langchat/.vscode/extensions.json
+/apps/langchat/**/.idea
+/apps/langchat/**/.DS_Store
+/apps/langchat/**/*.suo
+/apps/langchat/**/*.ntvs*
+/apps/langchat/**/*.njsproj
+/apps/langchat/**/*.sln
+/apps/langchat/**/*.sw?
+/apps/langchat/**/.langgraph_api
+/apps/langchat/**/.env
+# From apps/preview/.gitignore
+/apps/preview/**/logs
+/apps/preview/**/*.log
+/apps/preview/**/npm-debug.log*
+/apps/preview/**/yarn-debug.log*
+/apps/preview/**/yarn-error.log*
+/apps/preview/**/pnpm-debug.log*
+/apps/preview/**/lerna-debug.log*
+/apps/preview/**/node_modules
+/apps/preview/**/dist
+/apps/preview/**/build
+/apps/preview/**/dist-ssr
+/apps/preview/**/*.local
+/apps/preview/.vscode/*
+!/apps/preview/.vscode/extensions.json
+/apps/preview/**/.idea
+/apps/preview/**/.DS_Store
+/apps/preview/**/*.suo
+/apps/preview/**/*.ntvs*
+/apps/preview/**/*.njsproj
+/apps/preview/**/*.sln
+/apps/preview/**/*.sw?
+# From apps/publisher/.gitignore
+/apps/publisher/**/.cache
+# From apps/website/.gitignore
+/apps/website/**/.netlify
+/apps/website/**/.cache
+/apps/website/**/.turbo
+/apps/website/**/public
+/apps/website/**/styles.css
+/apps/website/**/persisted-store
+/apps/website/deno.lock
+/apps/website/**/netlify.toml
+# From packages/@amazeelabs/silverback-iframe/.gitignore
+/packages/@amazeelabs/silverback-iframe/dist
+# From packages/@amazeelabs/silverback-iframe/.prettierignore
+/packages/@amazeelabs/silverback-iframe/CHANGELOG.md
+/packages/@amazeelabs/silverback-iframe/dist
+# From packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme/.prettierignore
+/packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe_theme/**/CHANGELOG.md
+# From packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe/.prettierignore
+/packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe/**/CHANGELOG.md
+# From packages/drupal/chat_ai/.gitignore
+/packages/drupal/chat_ai/vendor
+/packages/drupal/chat_ai/.editorconfig
+/packages/drupal/chat_ai/.gitattributes
+/packages/drupal/chat_ai/web/*
+!/packages/drupal/chat_ai/web/modules
+!/packages/drupal/chat_ai/web/themes
+/packages/drupal/chat_ai/web/modules/*
+/packages/drupal/chat_ai/web/themes/*
+!/packages/drupal/chat_ai/web/modules/custom
+!/packages/drupal/chat_ai/web/themes/custom
+/packages/drupal/chat_ai/drush
+/packages/drupal/chat_ai/.drush-lock-update
+/packages/drupal/chat_ai/.env.local
+/packages/drupal/chat_ai/.env.local.example
+/packages/drupal/chat_ai/.envrc
+/packages/drupal/chat_ai/.silverback-snapshots
+/packages/drupal/chat_ai/**/.phpunit.result.cache
+/packages/drupal/chat_ai/generated/operations.json
+/packages/drupal/chat_ai/generated/translations.json
+# From packages/drupal/gutenberg_blocks/.gitignore
+/packages/drupal/gutenberg_blocks/**/node_modules
+/packages/drupal/gutenberg_blocks/dist/gutenberg_blocks.mjs
+/packages/drupal/gutenberg_blocks/dist/gutenberg_blocks.umd.js
+# From packages/drupal/test_content/.prettierignore
+/packages/drupal/test_content/**/content
+/packages/drupal/test_content/**/webforms
+# From packages/schema/.gitignore
+/packages/schema/src/generated
+/packages/schema/**/build
+# From packages/ui/.gitignore
+/packages/ui/**/.turbo
+/packages/ui/**/build
+/packages/ui/**/.nyc_output
+/packages/ui/**/coverage
+/packages/ui/**/node_modules
+/packages/ui/**/storybook-static
+/packages/ui/static/stories/webforms
+# From packages/webform-export/.gitignore
+/packages/webform-export/test-results
+/packages/webform-export/playwright-report
+# From tests/e2e-basic/.gitignore
+/tests/e2e-basic/test-results
+/tests/e2e-basic/playwright-report
+# From tests/e2e/.gitignore
+/tests/e2e/**/node_modules/
+/tests/e2e/test-results/
+/tests/e2e/playwright-report/
+/tests/e2e/playwright/.cache/
+/tests/e2e/**/.auth
+# From tests/schema/.gitignore
+/tests/schema/**/node_modules
+/tests/schema/**/.turbo
+/tests/schema/**/*.graphqls
+# From .prettierignore-append
+pnpm-lock.yaml
+.devbox
+.idea
+CLAUDE.md
