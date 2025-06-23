@@ -141,3 +141,6 @@ Always run `pnpm turbo:prep` after switching branches or making package changes.
 - Always use prettier to format typescript, javascript, yaml, json and markdown files after editing them
 - Run `pnpm turbo:test:quick` tests after code changes
 - Run `pnpm test:format:fix` after changes to format everything correctly
+
+## Code Organization Principles
+- Don't create index.ts files that aggregate a whole directory. Use explicit imports instead.
