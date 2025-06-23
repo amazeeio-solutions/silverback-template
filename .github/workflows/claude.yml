@@ -27,37 +27,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          # For PR-related events, check out the PR head; otherwise use default
-          ref:
-            ${{ (github.event_name == 'pull_request_review_comment' ||
-            github.event_name == 'pull_request_review') &&
-            github.event.pull_request.head.sha || github.sha }}
-
-      - name: Checkout PR branch for issue comments on PRs
-        if:
-          github.event_name == 'issue_comment' &&
-          github.event.issue.pull_request
-        run: |
-          # Get PR details and checkout the PR branch
-          PR_NUMBER=$(echo "${{ github.event.issue.pull_request.url }}" | grep -o '[0-9]*$')
-          PR_DATA=$(gh pr view $PR_NUMBER --json headRefName,headRepository)
-          HEAD_REF=$(echo "$PR_DATA" | jq -r '.headRefName')
-          HEAD_REPO=$(echo "$PR_DATA" | jq -r '.headRepository.owner.login + "/" + .headRepository.name')
-
-          if [[ "$HEAD_REPO" != "${{ github.repository }}" ]]; then
-            # For forks, add the fork as a remote and fetch
-            git remote add fork "https://github.com/$HEAD_REPO.git"
-            git fetch fork "$HEAD_REF"
-            git checkout "fork/$HEAD_REF"
-          else
-            # For same repo, just checkout the branch
-            git fetch origin "$HEAD_REF"
-            git checkout "$HEAD_REF"
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
+          fetch-depth: 1
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -67,6 +37,7 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          timeout_minutes: '60'
 
           # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4)
           # model: "claude-opus-4-20250514"
@@ -78,7 +49,8 @@ jobs:
           # assignee_trigger: "claude-bot"
 
           # Optional: Allow Claude to run specific commands
-          # allowed_tools: "Bash(npm install),Bash(npm run build),Bash(npm run test:*),Bash(npm run lint:*)"
+        allowed_tools:
+          'Bash(pnpm install),Bash(pnpm turbo:*)'
 
           # Optional: Add custom instructions for Claude to customize its behavior for your project
           # custom_instructions: |
