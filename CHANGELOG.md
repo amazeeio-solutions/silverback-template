@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.1...@amazeelabs/silverback-template@1.10.2) (2025-06-23)
+
+### Bug Fixes
+
+- update Claude workflows to use consistent setup action
+  ([649e4c9](https://github.com/AmazeeLabs/silverback-template/commit/649e4c95c618acadcac99e670862b0cd20594d00))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.10.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.0...@amazeelabs/silverback-template@1.10.1) (2025-06-11)
 
 ### Bug Fixes
