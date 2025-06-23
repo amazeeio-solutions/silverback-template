@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.5.0...@amazeelabs/silverback-iframe@1.5.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* avoid circular references in path processor ([f0a1d14](https://github.com/AmazeeLabs/silverback-template/commit/f0a1d14dbbb0d15def730bdcee03e48105b238e5))
+
+
+
+
+
 # [1.5.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.4.4...@amazeelabs/silverback-iframe@1.5.0) (2025-06-05)
 
 
