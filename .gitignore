@@ -14,4 +14,3 @@ apps/website/.env
 /lerna-debug.log
 /.prettierignore
 .claude/
-CLAUDE.md
