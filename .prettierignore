@@ -210,3 +210,4 @@ pnpm-lock.yaml
 .devbox
 .idea
 CLAUDE.md
+.claude/

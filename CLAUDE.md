@@ -136,3 +136,7 @@ playwright test --ui     # Interactive mode
 ## Turborepo Build Pipeline
 The build follows stages: prep → test:static → test:unit → test:integration
 Always run `pnpm turbo:prep` after switching branches or making package changes.
+
+## Development Best Practices
+- Always use prettier to format typescript, javascript, yaml, json and markdown files after editing them
+- Run quick tests after code changes

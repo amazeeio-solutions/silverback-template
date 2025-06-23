@@ -28,6 +28,36 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # For PR-related events, check out the PR head; otherwise use default
+          ref:
+            ${{ (github.event_name == 'pull_request_review_comment' ||
+            github.event_name == 'pull_request_review') &&
+            github.event.pull_request.head.sha || github.sha }}
+
+      - name: Checkout PR branch for issue comments on PRs
+        if:
+          github.event_name == 'issue_comment' &&
+          github.event.issue.pull_request
+        run: |
+          # Get PR details and checkout the PR branch
+          PR_NUMBER=$(echo "${{ github.event.issue.pull_request.url }}" | grep -o '[0-9]*$')
+          PR_DATA=$(gh pr view $PR_NUMBER --json headRefName,headRepository)
+          HEAD_REF=$(echo "$PR_DATA" | jq -r '.headRefName')
+          HEAD_REPO=$(echo "$PR_DATA" | jq -r '.headRepository.owner.login + "/" + .headRepository.name')
+
+          if [[ "$HEAD_REPO" != "${{ github.repository }}" ]]; then
+            # For forks, add the fork as a remote and fetch
+            git remote add fork "https://github.com/$HEAD_REPO.git"
+            git fetch fork "$HEAD_REF"
+            git checkout "fork/$HEAD_REF"
+          else
+            # For same repo, just checkout the branch
+            git fetch origin "$HEAD_REF"
+            git checkout "$HEAD_REF"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
 
       - name: Setup
         uses: ./.github/actions/setup
