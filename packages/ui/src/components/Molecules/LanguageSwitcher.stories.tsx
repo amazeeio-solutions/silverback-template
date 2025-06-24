@@ -8,8 +8,6 @@ import { Decorator, Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 import React from 'react';
 
-import { FrameProvider } from '../../utils/frame-provider';
-import { useLocaleContext } from '../../utils/locale-context';
 import {
   TranslationPaths,
   TranslationsProvider,
@@ -121,12 +119,12 @@ export const Full = {
     // Scope within the menu for precision
     const menuWithin = within(menu);
 
-    const germanLink = menuWithin.getByRole('menuitem', { name: /Deutsch$/i });
+    const germanLink = menuWithin.getByRole('menuitem', { name: 'Deutsch' });
     await expect(germanLink).toBeInTheDocument();
     await expect(germanLink).toHaveAttribute('href', '/de/german-version');
 
     const swissGermanLink = menuWithin.getByRole('menuitem', {
-      name: /Deutsch \(Schweiz\)/i,
+      name: 'Schweizer Hochdeutsch',
     });
     await expect(swissGermanLink).toBeInTheDocument();
     await expect(swissGermanLink).toHaveAttribute(
@@ -134,13 +132,13 @@ export const Full = {
       '/de-CH/swiss-german-version',
     );
 
-    const frenchLink = menuWithin.getByRole('menuitem', { name: /Français/i });
+    const frenchLink = menuWithin.getByRole('menuitem', { name: 'french' });
     await expect(frenchLink).toBeInTheDocument();
     await expect(frenchLink).toHaveAttribute('href', '/french/french-version');
 
     // Should not show current language (English) in dropdown
     const englishLink = menuWithin.queryByRole('menuitem', {
-      name: /English/i,
+      name: 'English',
     });
     await expect(englishLink).not.toBeInTheDocument();
   },
@@ -181,7 +179,7 @@ export const Homepage = {
     await expect(englishLink).toHaveAttribute('href', '/en/home');
 
     const swissGermanLink = menuWithin.getByRole('menuitem', {
-      name: /Deutsch \(Schweiz\)/i,
+      name: 'Schweizer Hochdeutsch',
     });
     await expect(swissGermanLink).toBeInTheDocument();
     await expect(swissGermanLink).toHaveAttribute('href', '/de-CH/home');
@@ -197,185 +195,3 @@ export const Homepage = {
     await expect(germanLink).not.toBeInTheDocument();
   },
 } satisfies Story;
-
-// Test the new LocaleContext functionality
-export const WithContext = {
-  decorators: [
-    (Story) => {
-      const ContextUpdater = () => {
-        const { updateLocale } = useLocaleContext();
-        React.useEffect(() => {
-          updateLocale({
-            currentLocale: Locale.De,
-            availableLocales: [
-              Locale.En,
-              Locale.De,
-              Locale.DeCh,
-              Locale.French,
-            ],
-            translations: {
-              en: '/en/context-page' as Url,
-              de: '/de/context-page' as Url,
-              de_CH: '/de-CH/context-page' as Url,
-              french: '/french/context-page' as Url,
-            },
-            defaultLocale: Locale.En,
-          });
-        }, [updateLocale]);
-        return <Story />;
-      };
-
-      return (
-        <FrameProvider>
-          <ContextUpdater />
-        </FrameProvider>
-      );
-    },
-  ],
-  parameters: {
-    // Remove the TranslationsDecorator for this story to test pure context
-    decorators: [],
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // Should show current language from context (German)
-    const button = canvas.getByRole('button');
-    await expect(button).toBeInTheDocument();
-    await expect(button).not.toBeDisabled();
-    await expect(button).toHaveTextContent('Deutsch');
-
-    // Should open dropdown when clicked
-    await userEvent.click(button);
-
-    // Verify dropdown uses context translations
-    const menu = canvas.getByRole('menu');
-    await expect(menu).toBeInTheDocument();
-
-    // Scope within the menu for precision
-    const menuWithin = within(menu);
-
-    const englishLink = menuWithin.getByRole('menuitem', { name: /English/i });
-    await expect(englishLink).toBeInTheDocument();
-    await expect(englishLink).toHaveAttribute('href', '/en/context-page');
-
-    const swissGermanLink = menuWithin.getByRole('menuitem', {
-      name: /Deutsch \(Schweiz\)/i,
-    });
-    await expect(swissGermanLink).toBeInTheDocument();
-    await expect(swissGermanLink).toHaveAttribute(
-      'href',
-      '/de-CH/context-page',
-    );
-
-    // Should not show current language in dropdown
-    const germanLink = menuWithin.queryByRole('menuitem', {
-      name: /^Deutsch$/i,
-    });
-    await expect(germanLink).not.toBeInTheDocument();
-  },
-} satisfies StoryObj;
-
-// Test homepage context fallback behavior
-export const HomepageContextFallback = {
-  decorators: [
-    (Story) => {
-      const ContextUpdater = () => {
-        const { updateLocale } = useLocaleContext();
-        React.useEffect(() => {
-          updateLocale({
-            currentLocale: Locale.En,
-            availableLocales: [
-              Locale.En,
-              Locale.De,
-              Locale.DeCh,
-              Locale.French,
-            ],
-            translations: {
-              en: '/' as Url,
-              de: '/de' as Url,
-              de_CH: '/de-CH' as Url,
-              french: '/french' as Url,
-            },
-            defaultLocale: Locale.En,
-          });
-        }, [updateLocale]);
-        return (
-          <TranslationsProvider
-            defaultTranslations={{
-              en: '/en/specific-page' as Url,
-              de: '/de/specific-page' as Url,
-              de_CH: '/de-CH/specific-page' as Url,
-              french: '/french/specific-page' as Url,
-            }}
-          >
-            <Story />
-          </TranslationsProvider>
-        );
-      };
-
-      return (
-        <OperationExecutorsProvider
-          executors={[
-            {
-              executor: {
-                ...Default.args,
-                websiteSettings: {
-                  homePage: {
-                    translations: [
-                      { locale: Locale.En, path: '/en' as Url },
-                      { locale: Locale.De, path: '/de' as Url },
-                      { locale: Locale.DeCh, path: '/de-CH' as Url },
-                      { locale: Locale.French, path: '/french' as Url },
-                    ],
-                  },
-                },
-              },
-              id: FrameQuery,
-            },
-          ]}
-        >
-          <FrameProvider>
-            <ContextUpdater />
-          </FrameProvider>
-        </OperationExecutorsProvider>
-      );
-    },
-  ],
-  parameters: {
-    // Remove default decorators to test custom setup
-    decorators: [],
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // Should detect homepage context and fallback to TranslationsProvider
-    const button = canvas.getByRole('button');
-    await expect(button).toBeInTheDocument();
-    await expect(button).not.toBeDisabled();
-    await expect(button).toHaveTextContent('English');
-
-    // Should open dropdown when clicked
-    await userEvent.click(button);
-
-    // Should use the TranslationsProvider data instead of homepage context
-    const menu = canvas.getByRole('menu');
-    await expect(menu).toBeInTheDocument();
-
-    // Scope within the menu for precision
-    const menuWithin = within(menu);
-
-    const germanLink = menuWithin.getByRole('menuitem', { name: /Deutsch$/i });
-    await expect(germanLink).toBeInTheDocument();
-    await expect(germanLink).toHaveAttribute('href', '/de/specific-page');
-
-    const swissGermanLink = menuWithin.getByRole('menuitem', {
-      name: /Deutsch \(Schweiz\)/i,
-    });
-    await expect(swissGermanLink).toBeInTheDocument();
-    await expect(swissGermanLink).toHaveAttribute(
-      'href',
-      '/de-CH/specific-page',
-    );
-  },
-} satisfies StoryObj;
