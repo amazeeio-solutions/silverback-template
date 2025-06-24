@@ -1,5 +1,6 @@
 'use client';
-import { Link, Locale, useLocation } from '@custom/schema';
+import React, { Fragment } from 'react';
+
 import {
   Menu,
   MenuButton,
@@ -9,8 +10,10 @@ import {
 } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import React, { Fragment } from 'react';
 
+import { Link, Locale } from '@custom/schema';
+
+import { useLocaleContext } from '../../utils/frame-contexts';
 import { useTranslations } from '../../utils/translations';
 
 function getLanguageName(locale: string) {
@@ -34,12 +37,24 @@ function formatLocalePath(locale: Locale | string) {
 
 export function LanguageSwitcher() {
   const translations = useTranslations();
-  const [location] = useLocation();
+  const { currentLocale: contextLocale, translations: contextTranslations } =
+    useLocaleContext();
 
-  const currentLocale = Object.entries(translations).find(
-    ([, path]) => path === location.pathname,
-  )?.[0];
-  const isMultiLingual = Object.keys(translations).length > 1;
+  // Use context locale if available, fallback to path-based detection for backward compatibility
+  const currentLocale =
+    contextLocale ||
+    Object.entries(translations).find(([, path]) => {
+      // Only use pathname detection as fallback when context is not available
+      if (typeof window === 'undefined') return false;
+      return path === window.location.pathname;
+    })?.[0];
+
+  // Use context translations if available, fallback to useTranslations hook
+  const availableTranslations =
+    Object.keys(contextTranslations).length > 0
+      ? contextTranslations
+      : translations;
+  const isMultiLingual = Object.keys(availableTranslations).length > 1;
 
   return (
     <div className="relative inline-block text-left">
@@ -75,13 +90,12 @@ export function LanguageSwitcher() {
             <div className="py-1">
               {Object.values(Locale).map((locale) => (
                 <React.Fragment key={locale}>
-                  {translations[locale] &&
-                  location.pathname !== translations[locale] ? (
+                  {availableTranslations[locale] && locale !== currentLocale ? (
                     <MenuItem>
                       {({ focus }) =>
-                        translations[locale] ? (
+                        availableTranslations[locale] ? (
                           <Link
-                            href={translations[locale]!}
+                            href={availableTranslations[locale]!}
                             className={clsx(
                               focus ? 'text-blue-600' : 'text-gray-500',
                               'block px-4 py-2 text-sm',

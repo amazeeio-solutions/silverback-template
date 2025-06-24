@@ -1,11 +1,14 @@
 'use client';
-import { useIntl } from '@amazeelabs/react-intl';
-import { FrameQuery, Link, Url } from '@custom/schema';
 import React from 'react';
+
+import { useIntl } from '@amazeelabs/react-intl';
+
+import { FrameQuery, Link, Url } from '@custom/schema';
 
 import { isTruthy } from '../../utils/isTruthy';
 import { buildNavigationTree } from '../../utils/navigation';
 import { useOperation } from '../../utils/operation';
+import { useNavigation } from '../../utils/frame-contexts';
 import {
   DesktopMenuDropDown,
   DesktopMenuDropdownDisclosure,
@@ -36,8 +39,18 @@ function useMetaNavigation(lang: string = 'en') {
   );
 }
 
+function isActiveLink(targetUrl: string, currentPath: string): boolean {
+  if (!currentPath) return false;
+  // Handle exact match for root path
+  if (targetUrl === '/' && currentPath === '/') return true;
+  // Handle prefix match for other paths
+  if (targetUrl !== '/' && currentPath.startsWith(targetUrl)) return true;
+  return false;
+}
+
 export function Header() {
   const intl = useIntl();
+  const { currentPath = '' } = useNavigation();
   const items = buildNavigationTree(useHeaderNavigation(intl.locale));
 
   const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
@@ -52,8 +65,11 @@ export function Header() {
                 <Link
                   key={key}
                   href={item.target}
-                  className="mt-px text-sm font-medium leading-6 text-gray-900 hover:text-blue-600"
-                  activeClassName={'font-bold text-blue-200'}
+                  className={`mt-px text-sm font-medium leading-6 text-gray-900 hover:text-blue-600 ${
+                    isActiveLink(item.target, currentPath)
+                      ? 'font-bold text-blue-200'
+                      : ''
+                  }`}
                 >
                   {item.title}
                 </Link>
@@ -95,8 +111,11 @@ export function Header() {
                   <Link
                     key={key}
                     href={item.target}
-                    className="ml-8 text-base font-medium text-gray-900 hover:text-blue-600"
-                    activeClassName={'font-bold text-blue-200'}
+                    className={`ml-8 text-base font-medium text-gray-900 hover:text-blue-600 ${
+                      isActiveLink(item.target, currentPath)
+                        ? 'font-bold text-blue-200'
+                        : ''
+                    }`}
                   >
                     {item.title}
                   </Link>
@@ -204,8 +223,11 @@ export function Header() {
                 <Link
                   key={key}
                   href={item.target}
-                  className="text-base font-medium text-gray-900 hover:text-blue-600"
-                  activeClassName={'font-bold text-blue-200'}
+                  className={`text-base font-medium text-gray-900 hover:text-blue-600 ${
+                    isActiveLink(item.target, currentPath)
+                      ? 'font-bold text-blue-200'
+                      : ''
+                  }`}
                 >
                   {item.title}
                 </Link>

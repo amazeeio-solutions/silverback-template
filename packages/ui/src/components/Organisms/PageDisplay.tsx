@@ -21,9 +21,29 @@ import { BlockQuote } from './PageContent/BlockQuote';
 import { BlockTeaserList } from './PageContent/BlockTeaserList';
 import { PageHero } from './PageHero';
 
+function extractLanguageMessageProps(): {
+  contentLanguageNotAvailable?: boolean;
+  requestedLanguage?: string;
+} {
+  if (typeof window === 'undefined') return {};
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const contentLanguageNotAvailable =
+    urlParams.get('content_language_not_available') === 'true';
+  const requestedLanguage = urlParams.get('requested_language');
+
+  if (contentLanguageNotAvailable && requestedLanguage) {
+    return { contentLanguageNotAvailable, requestedLanguage };
+  }
+
+  return {};
+}
+
 export function PageDisplay(page: PageFragment) {
+  const languageMessageProps = extractLanguageMessageProps();
+
   return (
-    <PageTransition>
+    <PageTransition languageMessageProps={languageMessageProps}>
       <div>
         {page.editLink ? <ContentEditLink {...page.editLink} /> : null}
         {!page.hero && <BreadCrumbs />}

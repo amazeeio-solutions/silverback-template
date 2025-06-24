@@ -1,7 +1,9 @@
 'use client';
-import { Locale } from '@custom/schema';
 import { PropsWithChildren, useEffect, useState } from 'react';
 
+import { Locale } from '@custom/schema';
+
+import { useLocaleContext } from './frame-contexts';
 import { defaultLocale, isLocale } from './locale';
 
 /**
@@ -11,12 +13,26 @@ export function LanguageNegotiator({
   locale,
   children,
 }: PropsWithChildren<{ locale: Locale }>) {
-  const [currentLocale, setCurrentLocale] = useState<Locale>(defaultLocale);
+  const { currentLocale: contextLocale } = useLocaleContext();
+  const [currentLocale, setCurrentLocale] = useState<Locale>(
+    contextLocale || defaultLocale,
+  );
+
   useEffect(() => {
-    const prefix = window.location.pathname.split('/')[1];
-    if (isLocale(prefix)) {
-      setCurrentLocale(prefix);
+    // Use context locale if available
+    if (contextLocale) {
+      setCurrentLocale(contextLocale);
+      return;
     }
-  }, [setCurrentLocale]);
+
+    // Fallback to path-based detection for backward compatibility
+    if (typeof window !== 'undefined') {
+      const prefix = window.location.pathname.split('/')[1];
+      if (isLocale(prefix)) {
+        setCurrentLocale(prefix);
+      }
+    }
+  }, [contextLocale, setCurrentLocale]);
+
   return locale === currentLocale ? children : null;
 }
