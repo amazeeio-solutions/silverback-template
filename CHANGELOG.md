@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.12.0...@amazeelabs/silverback-template@1.13.0) (2025-06-24)
+
+### Features
+
+- adding a feature to set a custom webform id for silverback iframe
+  ([4351acd](https://github.com/AmazeeLabs/silverback-template/commit/4351acdee1a23b8baaf71b1b28223192ad92dea7))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.12.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.11.0...@amazeelabs/silverback-template@1.12.0) (2025-06-24)
 
 ### Bug Fixes
