@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.2...@amazeelabs/silverback-template@1.11.0) (2025-06-24)
+
+### Bug Fixes
+
+- broken github workflow
+  ([2217a8c](https://github.com/AmazeeLabs/silverback-template/commit/2217a8c8b95b68670cfe622a6a4f57fe859c4f0e))
+- prettier-ignore claude files
+  ([c01fa53](https://github.com/AmazeeLabs/silverback-template/commit/c01fa53e287639b6b2fb2cee92c526f9cb345cfc))
+- resolve Playwright browser cache issues in GitHub Actions
+  ([14acc16](https://github.com/AmazeeLabs/silverback-template/commit/14acc1694cc4047ebed4afa6604cc21f6f4664b4))
+
+### Features
+
+- improve Claude workflows and configuration
+  ([355761b](https://github.com/AmazeeLabs/silverback-template/commit/355761ba6c937ed957e6618586c1d00a88a583ff))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.10.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.1...@amazeelabs/silverback-template@1.10.2) (2025-06-23)
 
 ### Bug Fixes
