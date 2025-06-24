@@ -50,7 +50,8 @@ jobs:
 
           # Optional: Allow Claude to run specific commands
           allowed_tools:
-            'Bash(pnpm add),Bash(pnpm turbo:test:quick),Bash(pnpm
+            'Bash(pnpm add),Bash(pnpm turbo:test:quick),Bash(pnpm turbo
+            test:static),Bash(pnpm eslint . --fix),Bash(pnpm
             test:format:fix),Bash(rg:*),Bash(find:*),Bash(ls:*),Bash(cat:*),Bash(pnpm
             eslint:*),Bash(pnpm run:*),Bash(pnpm turbo test:static:*)",Bash(git
             restore:*),Bash(pnpm --filter \"!@custom/cms\" turbo test:static
