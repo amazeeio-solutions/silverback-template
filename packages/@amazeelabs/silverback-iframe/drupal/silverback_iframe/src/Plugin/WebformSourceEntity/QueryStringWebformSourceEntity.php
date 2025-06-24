@@ -52,8 +52,21 @@ class QueryStringWebformSourceEntity extends Original {
     ], 'check');
 
     if (!$webform instanceof WebformInterface) {
-      $this->debugLog('No valid webform found in route, exiting', [], 'warning');
-      return $source_entity;
+      $this->debugLog('No valid webform found in route, checking for fallback methods.', [], 'warning');
+
+      $silverback_iframe_webform_id = $this->request->attributes->get('silverback_iframe_webform_id');
+      if (!$silverback_iframe_webform_id) {
+        $this->debugLog('No webform ID found in request attributes, exiting', [], 'error');
+        return $source_entity;
+      }
+
+      $this->debugLog('Using fallback webform ID from request attributes: @id', ['@id' => $silverback_iframe_webform_id]);
+      $webform = $this->entityTypeManager->getStorage('webform')->load($silverback_iframe_webform_id);
+
+      if (!$webform instanceof WebformInterface) {
+        $this->debugLog('Failed to load webform with ID: @id', ['@id' => $silverback_iframe_webform_id], 'error');
+        return $source_entity;
+      }
     }
 
     // Skip our custom logic if the webform already has prepopulation enabled
