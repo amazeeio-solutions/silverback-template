@@ -8,12 +8,12 @@ import { Decorator, Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 import React from 'react';
 
+import { FrameProvider } from '../../utils/frame-provider';
+import { useLocaleContext } from '../../utils/locale-context';
 import {
   TranslationPaths,
   TranslationsProvider,
 } from '../../utils/translations';
-import { FrameProvider } from '../../utils/frame-provider';
-import { useLocaleContext } from '../../utils/locale-context';
 import { Default } from '../Routes/Frame.stories';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
