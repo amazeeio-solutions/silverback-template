@@ -1,9 +1,19 @@
 'use client';
-import { BlockConditionalFragment, PageFragment } from '@custom/schema';
-import React from 'react';
+import {
+  BlockConditionalFragment,
+  PageFragment,
+  FrameQuery,
+  useLocation,
+  Locale,
+  Url,
+} from '@custom/schema';
+import { useIntl } from '@amazeelabs/react-intl';
+import React, { useEffect } from 'react';
 
 import { isTruthy } from '../../utils/isTruthy';
 import { UnreachableCaseError } from '../../utils/unreachable-case-error';
+import { useNavigation, useLocaleContext } from '../../utils/frame-contexts';
+import { useOperation } from '../../utils/operation';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
 import { ContentEditLink } from '../Molecules/ContentEditLink';
 import { PageTransition } from '../Molecules/PageTransition';
@@ -41,6 +51,64 @@ function extractLanguageMessageProps(): {
 
 export function PageDisplay(page: PageFragment) {
   const languageMessageProps = extractLanguageMessageProps();
+  const intl = useIntl();
+  const [location] = useLocation();
+  const { updateNavigation } = useNavigation();
+  const { updateLocale } = useLocaleContext();
+  const operation = useOperation(FrameQuery);
+
+  // Update navigation context when location and data are available
+  useEffect(() => {
+    if (operation.data && location) {
+      const mainNavigation =
+        operation.data.mainNavigation
+          ?.filter((nav) => nav?.locale === intl.locale)
+          .pop()
+          ?.items.filter(
+            (item): item is NonNullable<typeof item> =>
+              item !== null && item !== undefined,
+          ) || [];
+
+      const footerNavigation =
+        operation.data.footerNavigation
+          ?.filter((nav) => nav?.locale === intl.locale)
+          .pop()
+          ?.items.filter(
+            (item): item is NonNullable<typeof item> =>
+              item !== null && item !== undefined,
+          ) || [];
+
+      updateNavigation({
+        mainNavigation,
+        footerNavigation,
+        currentPath: location.pathname,
+        currentPageId: location.pathname,
+      });
+    }
+  }, [operation.data, location, intl.locale, updateNavigation]);
+
+  // Update locale context when data is available
+  useEffect(() => {
+    if (operation.data) {
+      const localeTranslations =
+        operation.data.websiteSettings?.homePage?.translations?.reduce(
+          (acc, translation) => {
+            if (translation?.locale && translation?.path) {
+              acc[translation.locale] = translation.path;
+            }
+            return acc;
+          },
+          {} as Record<Locale, string>,
+        ) || {};
+
+      updateLocale({
+        currentLocale: intl.locale as Locale,
+        availableLocales: Object.keys(localeTranslations) as Locale[],
+        translations: localeTranslations as Record<Locale, Url>,
+        defaultLocale: 'en',
+      });
+    }
+  }, [operation.data, intl.locale, updateLocale]);
 
   return (
     <PageTransition languageMessageProps={languageMessageProps}>

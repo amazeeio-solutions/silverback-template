@@ -1,5 +1,5 @@
 'use client';
-import { Link, Locale, FrameQuery, Url } from '@custom/schema';
+import { Link, Locale, Url } from '@custom/schema';
 import {
   Menu,
   MenuButton,
@@ -9,11 +9,10 @@ import {
 } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 
 import { useLocaleContext } from '../../utils/frame-contexts';
 import { useLocale } from '../../utils/locale';
-import { useOperation } from '../../utils/operation';
 import { useTranslations } from '../../utils/translations';
 
 function getLanguageName(locale: string) {
@@ -38,35 +37,8 @@ function formatLocalePath(locale: Locale | string) {
 export function LanguageSwitcher() {
   const translations = useTranslations();
   const locale = useLocale();
-  const operation = useOperation(FrameQuery);
-  const {
-    currentLocale: contextLocale,
-    translations: contextTranslations,
-    updateLocale,
-  } = useLocaleContext();
-
-  // Update locale context when data is available
-  useEffect(() => {
-    if (operation.data) {
-      const localeTranslations =
-        operation.data.websiteSettings?.homePage?.translations?.reduce(
-          (acc, translation) => {
-            if (translation?.locale && translation?.path) {
-              acc[translation.locale] = translation.path;
-            }
-            return acc;
-          },
-          {} as Record<Locale, string>,
-        ) || {};
-
-      updateLocale({
-        currentLocale: locale,
-        availableLocales: Object.keys(localeTranslations) as Locale[],
-        translations: localeTranslations as Record<Locale, Url>,
-        defaultLocale: 'en',
-      });
-    }
-  }, [operation.data, locale, updateLocale]);
+  const { currentLocale: contextLocale, translations: contextTranslations } =
+    useLocaleContext();
 
   // Use context locale if available, fallback to path-based detection for backward compatibility
   const currentLocale =

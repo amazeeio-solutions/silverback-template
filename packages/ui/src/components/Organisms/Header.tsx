@@ -1,7 +1,7 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import { FrameQuery, Link, Url, useLocation } from '@custom/schema';
-import React, { useEffect } from 'react';
+import { FrameQuery, Link, Url } from '@custom/schema';
+import React from 'react';
 
 import { useNavigation } from '../../utils/frame-contexts';
 import { isTruthy } from '../../utils/isTruthy';
@@ -48,41 +48,14 @@ function isActiveLink(targetUrl: string, currentPath: string): boolean {
 
 export function Header() {
   const intl = useIntl();
-  const [location] = useLocation();
-  const { currentPath = '', updateNavigation } = useNavigation();
+  const { currentPath = '', mainNavigation = [] } = useNavigation();
   const operation = useOperation(FrameQuery);
 
-  // Update navigation context when data is available
-  useEffect(() => {
-    if (operation.data && location) {
-      const mainNavigation =
-        operation.data.mainNavigation
-          ?.filter((nav) => nav?.locale === intl.locale)
-          .pop()
-          ?.items.filter(
-            (item): item is NonNullable<typeof item> =>
-              item !== null && item !== undefined,
-          ) || [];
+  // Use context navigation if available, fallback to direct operation data for backward compatibility
+  const contextItems = buildNavigationTree(mainNavigation);
+  const fallbackItems = buildNavigationTree(useHeaderNavigation(intl.locale));
+  const items = contextItems.length > 0 ? contextItems : fallbackItems;
 
-      const footerNavigation =
-        operation.data.footerNavigation
-          ?.filter((nav) => nav?.locale === intl.locale)
-          .pop()
-          ?.items.filter(
-            (item): item is NonNullable<typeof item> =>
-              item !== null && item !== undefined,
-          ) || [];
-
-      updateNavigation({
-        mainNavigation,
-        footerNavigation,
-        currentPath: location.pathname,
-        currentPageId: location.pathname,
-      });
-    }
-  }, [operation.data, location, intl.locale, updateNavigation]);
-
-  const items = buildNavigationTree(useHeaderNavigation(intl.locale));
   const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
 
   return (
