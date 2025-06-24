@@ -1,5 +1,5 @@
 'use client';
-import { Link, Locale, Url } from '@custom/schema';
+import { Link, Locale } from '@custom/schema';
 import {
   Menu,
   MenuButton,
@@ -12,7 +12,6 @@ import clsx from 'clsx';
 import React, { Fragment } from 'react';
 
 import { useLocaleContext } from '../../utils/frame-contexts';
-import { useLocale } from '../../utils/locale';
 import { useTranslations } from '../../utils/translations';
 
 function getLanguageName(locale: string) {
@@ -36,7 +35,6 @@ function formatLocalePath(locale: Locale | string) {
 
 export function LanguageSwitcher() {
   const translations = useTranslations();
-  const locale = useLocale();
   const { currentLocale: contextLocale, translations: contextTranslations } =
     useLocaleContext();
 

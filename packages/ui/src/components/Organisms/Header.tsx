@@ -49,7 +49,6 @@ function isActiveLink(targetUrl: string, currentPath: string): boolean {
 export function Header() {
   const intl = useIntl();
   const { currentPath = '', mainNavigation = [] } = useNavigation();
-  const operation = useOperation(FrameQuery);
 
   // Use context navigation if available, fallback to direct operation data for backward compatibility
   const contextItems = buildNavigationTree(mainNavigation);
