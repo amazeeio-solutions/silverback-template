@@ -33,7 +33,7 @@ export function Pagination(props: { total: number; pageSize: number }) {
         {currentPage === 1 ? (
           <span className={clsx('opacity-50', arrowCls)} aria-hidden={true}>
             <ArrowLongLeftIcon
-              className="mr-3 h-5 w-5 text-gray-400"
+              className="mr-3 size-5 text-gray-400"
               aria-hidden="true"
             />
             {intl.formatMessage({ defaultMessage: 'Previous', id: 'JJNc3c' })}
@@ -48,7 +48,7 @@ export function Pagination(props: { total: number; pageSize: number }) {
             )}
           >
             <ArrowLongLeftIcon
-              className="mr-3 h-5 w-5 text-gray-400"
+              className="mr-3 size-5 text-gray-400"
               aria-hidden="true"
             />
             {intl.formatMessage({ defaultMessage: 'Previous', id: 'JJNc3c' })}
@@ -71,7 +71,7 @@ export function Pagination(props: { total: number; pageSize: number }) {
           <span className={clsx('opacity-50', arrowCls)} aria-hidden={true}>
             {intl.formatMessage({ defaultMessage: 'Next', id: '9+Ddtu' })}
             <ArrowLongRightIcon
-              className="ml-3 h-5 w-5 text-gray-400"
+              className="ml-3 size-5 text-gray-400"
               aria-hidden="true"
             />
           </span>
@@ -88,7 +88,7 @@ export function Pagination(props: { total: number; pageSize: number }) {
           >
             {intl.formatMessage({ defaultMessage: 'Next', id: '9+Ddtu' })}
             <ArrowLongRightIcon
-              className="ml-3 h-5 w-5 text-gray-400"
+              className="ml-3 size-5 text-gray-400"
               aria-hidden="true"
             />
           </Link>

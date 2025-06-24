@@ -1,6 +1,5 @@
 'use client';
-import React, { Fragment } from 'react';
-
+import { Link, Locale } from '@custom/schema';
 import {
   Menu,
   MenuButton,
@@ -10,8 +9,7 @@ import {
 } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-
-import { Link, Locale } from '@custom/schema';
+import React, { Fragment } from 'react';
 
 import { useLocaleContext } from '../../utils/frame-contexts';
 import { useTranslations } from '../../utils/translations';

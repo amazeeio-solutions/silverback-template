@@ -1,10 +1,9 @@
+import type { Locale, Url } from '@custom/schema';
 import React, {
   createContext,
-  useContext,
   type PropsWithChildren,
+  useContext,
 } from 'react';
-
-import type { Locale, Url } from '@custom/schema';
 
 export type LocaleContextValue = {
   currentLocale: Locale;

@@ -52,6 +52,23 @@ pnpm test:format         # Check Prettier formatting
 pnpm test:format:fix     # Fix formatting issues
 ```
 
+### ESLint (Code Linting)
+```bash
+# Check for ESLint issues in all workspaces
+pnpm turbo test:static
+
+# Fix ESLint issues in a specific workspace
+cd <workspace-directory>
+pnpm eslint . --fix
+
+# Check ESLint issues without TypeScript compilation
+cd <workspace-directory>  
+pnpm eslint . --quiet
+
+# Example: Fix issues in UI package
+cd packages/ui && pnpm eslint . --fix
+```
+
 ### App Development
 ```bash
 # Drupal CMS
@@ -141,6 +158,8 @@ Always run `pnpm turbo:prep` after switching branches or making package changes.
 - Always use prettier to format typescript, javascript, yaml, json and markdown files after editing them
 - Run `pnpm turbo:test:quick` tests after code changes
 - Run `pnpm test:format:fix` after changes to format everything correctly
+- Fix ESLint issues using `pnpm eslint . --fix` in individual workspaces before committing
+- Use `pnpm turbo test:static` to run ESLint across all workspaces (includes TypeScript compilation)
 
 ## Code Organization Principles
 - Don't create index.ts files that aggregate a whole directory. Use explicit imports instead.

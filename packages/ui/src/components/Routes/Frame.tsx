@@ -1,21 +1,20 @@
-import React, { PropsWithChildren } from 'react';
-
 import { IntlProvider } from '@amazeelabs/react-intl';
 import {
   FrameQuery,
   Locale,
   Operation,
-  useLocation,
   Url,
+  useLocation,
 } from '@custom/schema';
+import React, { PropsWithChildren } from 'react';
 
 import translationSources from '../../../build/translatables.json';
-import { Footer } from '../Organisms/Footer';
-import { Header } from '../Organisms/Header';
-import { PageTransitionWrapper } from '../Molecules/PageTransition';
 import { FrameProvider } from '../../utils/frame-provider';
 import { useLocale } from '../../utils/locale';
 import { TranslationsProvider } from '../../utils/translations';
+import { PageTransitionWrapper } from '../Molecules/PageTransition';
+import { Footer } from '../Organisms/Footer';
+import { Header } from '../Organisms/Header';
 
 function filterByLocale(locale: Locale) {
   return (str: Exclude<FrameQuery['stringTranslations'], undefined>[number]) =>

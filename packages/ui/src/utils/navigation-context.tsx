@@ -1,10 +1,9 @@
+import type { NavigationItemFragment } from '@custom/schema';
 import React, {
   createContext,
-  useContext,
   type PropsWithChildren,
+  useContext,
 } from 'react';
-
-import type { NavigationItemFragment } from '@custom/schema';
 
 export type NavigationContextValue = {
   mainNavigation: NavigationItemFragment[] | undefined;

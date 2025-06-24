@@ -1,7 +1,6 @@
 'use client';
-import { PropsWithChildren, useEffect, useState } from 'react';
-
 import { Locale } from '@custom/schema';
+import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { useLocaleContext } from './frame-contexts';
 import { defaultLocale, isLocale } from './locale';
