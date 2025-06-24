@@ -47,9 +47,18 @@ export function LanguageSwitcher() {
       return path === window.location.pathname;
     })?.[0];
 
-  // Use context translations if available, fallback to useTranslations hook
+  // Check if context translations are meaningful (not just homepage defaults)
+  // If all context translations are just homepage paths, use the translations hook instead
+  const isContextTranslationsHomepageOnly =
+    Object.keys(contextTranslations).length > 0 &&
+    Object.values(contextTranslations).every(
+      (path) => path === '/' || path?.match(/^\/[a-z]{2}(_[A-Z]{2})?$/),
+    );
+
+  // Use context translations if available and meaningful, otherwise use translations hook
   const availableTranslations =
-    Object.keys(contextTranslations).length > 0
+    Object.keys(contextTranslations).length > 0 &&
+    !isContextTranslationsHomepageOnly
       ? contextTranslations
       : translations;
   const isMultiLingual = Object.keys(availableTranslations).length > 1;
