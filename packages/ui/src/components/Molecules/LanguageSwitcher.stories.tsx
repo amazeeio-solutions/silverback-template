@@ -13,6 +13,7 @@ import {
   TranslationsProvider,
 } from '../../utils/translations';
 import { FrameProvider } from '../../utils/frame-provider';
+import { useLocaleContext } from '../../utils/locale-context';
 import { Default } from '../Routes/Frame.stories';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
@@ -190,20 +191,30 @@ export const Homepage = {
 // Test the new LocaleContext functionality
 export const WithContext = {
   decorators: [
-    (Story) => (
-      <FrameProvider
-        currentLocale={Locale.De}
-        availableLocales={[Locale.En, Locale.De, Locale.DeCh]}
-        translations={{
-          en: '/en/context-page' as Url,
-          de: '/de/context-page' as Url,
-          de_CH: '/de-CH/context-page' as Url,
-        }}
-        defaultLocale={Locale.En}
-      >
-        <Story />
-      </FrameProvider>
-    ),
+    (Story) => {
+      const ContextUpdater = () => {
+        const { updateLocale } = useLocaleContext();
+        React.useEffect(() => {
+          updateLocale({
+            currentLocale: Locale.De,
+            availableLocales: [Locale.En, Locale.De, Locale.DeCh],
+            translations: {
+              en: '/en/context-page' as Url,
+              de: '/de/context-page' as Url,
+              de_CH: '/de-CH/context-page' as Url,
+            },
+            defaultLocale: Locale.En,
+          });
+        }, [updateLocale]);
+        return <Story />;
+      };
+
+      return (
+        <FrameProvider>
+          <ContextUpdater />
+        </FrameProvider>
+      );
+    },
   ],
   parameters: {
     // Remove the TranslationsDecorator for this story to test pure context
@@ -247,36 +258,22 @@ export const WithContext = {
 // Test homepage context fallback behavior
 export const HomepageContextFallback = {
   decorators: [
-    (Story) => (
-      <OperationExecutorsProvider
-        executors={[
-          {
-            executor: {
-              ...Default.args,
-              websiteSettings: {
-                homePage: {
-                  translations: [
-                    { locale: Locale.En, path: '/en' as Url },
-                    { locale: Locale.De, path: '/de' as Url },
-                    { locale: Locale.DeCh, path: '/de-CH' as Url },
-                  ],
-                },
-              },
+    (Story) => {
+      const ContextUpdater = () => {
+        const { updateLocale } = useLocaleContext();
+        React.useEffect(() => {
+          updateLocale({
+            currentLocale: Locale.En,
+            availableLocales: [Locale.En, Locale.De, Locale.DeCh],
+            translations: {
+              en: '/' as Url,
+              de: '/de' as Url,
+              de_CH: '/de-CH' as Url,
             },
-            id: FrameQuery,
-          },
-        ]}
-      >
-        <FrameProvider
-          currentLocale={Locale.En}
-          availableLocales={[Locale.En, Locale.De, Locale.DeCh]}
-          translations={{
-            en: '/' as Url,
-            de: '/de' as Url,
-            de_CH: '/de-CH' as Url,
-          }}
-          defaultLocale={Locale.En}
-        >
+            defaultLocale: Locale.En,
+          });
+        }, [updateLocale]);
+        return (
           <TranslationsProvider
             defaultTranslations={{
               en: '/en/specific-page' as Url,
@@ -286,9 +283,35 @@ export const HomepageContextFallback = {
           >
             <Story />
           </TranslationsProvider>
-        </FrameProvider>
-      </OperationExecutorsProvider>
-    ),
+        );
+      };
+
+      return (
+        <OperationExecutorsProvider
+          executors={[
+            {
+              executor: {
+                ...Default.args,
+                websiteSettings: {
+                  homePage: {
+                    translations: [
+                      { locale: Locale.En, path: '/en' as Url },
+                      { locale: Locale.De, path: '/de' as Url },
+                      { locale: Locale.DeCh, path: '/de-CH' as Url },
+                    ],
+                  },
+                },
+              },
+              id: FrameQuery,
+            },
+          ]}
+        >
+          <FrameProvider>
+            <ContextUpdater />
+          </FrameProvider>
+        </OperationExecutorsProvider>
+      );
+    },
   ],
   parameters: {
     // Remove default decorators to test custom setup
