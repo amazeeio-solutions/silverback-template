@@ -51,7 +51,11 @@ jobs:
           # Optional: Allow Claude to run specific commands
           allowed_tools:
             'Bash(pnpm add),Bash(pnpm turbo:test:quick),Bash(pnpm
-            test:format:fix)'
+            test:format:fix),Bash(rg:*),Bash(find:*),Bash(ls:*),Bash(cat:*),Bash(pnpm
+            eslint:*),Bash(pnpm run:*),Bash(pnpm turbo test:static:*)",Bash(git
+            restore:*),Bash(pnpm --filter \"!@custom/cms\" turbo test:static
+            --output-logs=new-only),Bash(do echo \"Checking
+            $dir...\"),Bash(echo:*),Bash(done),Bash(pnpm prettier:*)'
 
           # Optional: Add custom instructions for Claude to customize its behavior for your project
           # custom_instructions: |
