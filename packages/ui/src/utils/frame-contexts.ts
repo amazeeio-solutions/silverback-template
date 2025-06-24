@@ -6,7 +6,6 @@ export {
   useCurrentPath,
   useCurrentPageId,
   type NavigationContextValue,
-  type NavigationProviderProps,
 } from './navigation-context';
 
 // Locale Context
@@ -18,8 +17,7 @@ export {
   useAvailableLocales,
   useTranslations,
   type LocaleContextValue,
-  type LocaleProviderProps,
 } from './locale-context';
 
 // Frame Provider
-export { FrameProvider, type FrameProviderProps } from './frame-provider';
+export { FrameProvider } from './frame-provider';

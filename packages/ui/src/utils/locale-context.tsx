@@ -3,6 +3,7 @@ import React, {
   createContext,
   type PropsWithChildren,
   useContext,
+  useState,
 } from 'react';
 
 export type LocaleContextValue = {
@@ -10,6 +11,9 @@ export type LocaleContextValue = {
   availableLocales: Locale[];
   translations: Record<Locale, Url>;
   defaultLocale: Locale;
+  updateLocale: (
+    locale: Partial<Omit<LocaleContextValue, 'updateLocale'>>,
+  ) => void;
 };
 
 export const LocaleContext = createContext<LocaleContextValue>({
@@ -17,27 +21,26 @@ export const LocaleContext = createContext<LocaleContextValue>({
   availableLocales: ['en'],
   translations: {} as Record<Locale, Url>,
   defaultLocale: 'en',
+  updateLocale: () => {},
 });
 
-export type LocaleProviderProps = PropsWithChildren<{
-  currentLocale?: Locale;
-  availableLocales?: Locale[];
-  translations?: Record<Locale, Url>;
-  defaultLocale?: Locale;
-}>;
+export function LocaleProvider({ children }: PropsWithChildren) {
+  const [state, setState] = useState<Omit<LocaleContextValue, 'updateLocale'>>({
+    currentLocale: 'en',
+    availableLocales: ['en'],
+    translations: {} as Record<Locale, Url>,
+    defaultLocale: 'en',
+  });
 
-export function LocaleProvider({
-  children,
-  currentLocale = 'en',
-  availableLocales = ['en'],
-  translations = {} as Record<Locale, Url>,
-  defaultLocale = 'en',
-}: LocaleProviderProps) {
+  const updateLocale = (
+    updates: Partial<Omit<LocaleContextValue, 'updateLocale'>>,
+  ) => {
+    setState((prev) => ({ ...prev, ...updates }));
+  };
+
   const value: LocaleContextValue = {
-    currentLocale,
-    availableLocales,
-    translations,
-    defaultLocale,
+    ...state,
+    updateLocale,
   };
 
   return (

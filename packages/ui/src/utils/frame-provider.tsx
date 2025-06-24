@@ -1,43 +1,12 @@
 import React, { type PropsWithChildren } from 'react';
 
-import { LocaleProvider, type LocaleProviderProps } from './locale-context';
-import {
-  NavigationProvider,
-  type NavigationProviderProps,
-} from './navigation-context';
+import { LocaleProvider } from './locale-context';
+import { NavigationProvider } from './navigation-context';
 
-export type FrameProviderProps = PropsWithChildren<
-  NavigationProviderProps & LocaleProviderProps
->;
-
-export function FrameProvider({
-  children,
-  // Navigation props
-  mainNavigation,
-  footerNavigation,
-  currentPath,
-  currentPageId,
-  // Locale props
-  currentLocale,
-  availableLocales,
-  translations,
-  defaultLocale,
-}: FrameProviderProps) {
+export function FrameProvider({ children }: PropsWithChildren) {
   return (
-    <NavigationProvider
-      mainNavigation={mainNavigation}
-      footerNavigation={footerNavigation}
-      currentPath={currentPath}
-      currentPageId={currentPageId}
-    >
-      <LocaleProvider
-        currentLocale={currentLocale}
-        availableLocales={availableLocales}
-        translations={translations}
-        defaultLocale={defaultLocale}
-      >
-        {children}
-      </LocaleProvider>
+    <NavigationProvider>
+      <LocaleProvider>{children}</LocaleProvider>
     </NavigationProvider>
   );
 }

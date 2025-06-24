@@ -1,11 +1,5 @@
 import { IntlProvider } from '@amazeelabs/react-intl';
-import {
-  FrameQuery,
-  Locale,
-  Operation,
-  Url,
-  useLocation,
-} from '@custom/schema';
+import { FrameQuery, Locale, Operation } from '@custom/schema';
 import React, { PropsWithChildren } from 'react';
 
 import translationSources from '../../../build/translatables.json';
@@ -39,7 +33,6 @@ function translationsMap(translatables: FrameQuery['stringTranslations']) {
 
 export function Frame({ children }: PropsWithChildren) {
   const locale = useLocale();
-  const [location] = useLocation();
 
   return (
     <Operation id={FrameQuery}>
@@ -66,51 +59,9 @@ export function Frame({ children }: PropsWithChildren) {
             ]),
           );
 
-          // Extract navigation data for context
-          const mainNavigation =
-            result.data.mainNavigation
-              ?.filter((nav) => nav?.locale === locale)
-              .pop()
-              ?.items.filter(
-                (item): item is NonNullable<typeof item> =>
-                  item !== null && item !== undefined,
-              ) || [];
-
-          const footerNavigation =
-            result.data.footerNavigation
-              ?.filter((nav) => nav?.locale === locale)
-              .pop()
-              ?.items.filter(
-                (item): item is NonNullable<typeof item> =>
-                  item !== null && item !== undefined,
-              ) || [];
-
-          // Extract locale translations from website settings
-          const localeTranslations =
-            result.data.websiteSettings?.homePage?.translations?.reduce(
-              (acc, translation) => {
-                if (translation?.locale && translation?.path) {
-                  acc[translation.locale] = translation.path;
-                }
-                return acc;
-              },
-              {} as Record<Locale, string>,
-            ) || {};
-
           return (
             <IntlProvider locale={locale} messages={messages}>
-              <FrameProvider
-                // Navigation context
-                mainNavigation={mainNavigation}
-                footerNavigation={footerNavigation}
-                currentPath={location.pathname}
-                currentPageId={location.pathname}
-                // Locale context
-                currentLocale={locale}
-                availableLocales={Object.keys(localeTranslations) as Locale[]}
-                translations={localeTranslations as Record<Locale, Url>}
-                defaultLocale={'en'}
-              >
+              <FrameProvider>
                 <TranslationsProvider>
                   <Header />
                   <PageTransitionWrapper>{children}</PageTransitionWrapper>

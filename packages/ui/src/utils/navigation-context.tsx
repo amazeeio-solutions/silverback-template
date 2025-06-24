@@ -3,6 +3,7 @@ import React, {
   createContext,
   type PropsWithChildren,
   useContext,
+  useState,
 } from 'react';
 
 export type NavigationContextValue = {
@@ -10,6 +11,9 @@ export type NavigationContextValue = {
   footerNavigation: NavigationItemFragment[] | undefined;
   currentPath: string;
   currentPageId?: string;
+  updateNavigation: (
+    navigation: Partial<Omit<NavigationContextValue, 'updateNavigation'>>,
+  ) => void;
 };
 
 export const NavigationContext = createContext<NavigationContextValue>({
@@ -17,27 +21,28 @@ export const NavigationContext = createContext<NavigationContextValue>({
   footerNavigation: undefined,
   currentPath: '',
   currentPageId: undefined,
+  updateNavigation: () => {},
 });
 
-export type NavigationProviderProps = PropsWithChildren<{
-  mainNavigation?: NavigationItemFragment[];
-  footerNavigation?: NavigationItemFragment[];
-  currentPath?: string;
-  currentPageId?: string;
-}>;
+export function NavigationProvider({ children }: PropsWithChildren) {
+  const [state, setState] = useState<
+    Omit<NavigationContextValue, 'updateNavigation'>
+  >({
+    mainNavigation: undefined,
+    footerNavigation: undefined,
+    currentPath: '',
+    currentPageId: undefined,
+  });
 
-export function NavigationProvider({
-  children,
-  mainNavigation,
-  footerNavigation,
-  currentPath = '',
-  currentPageId,
-}: NavigationProviderProps) {
+  const updateNavigation = (
+    updates: Partial<Omit<NavigationContextValue, 'updateNavigation'>>,
+  ) => {
+    setState((prev) => ({ ...prev, ...updates }));
+  };
+
   const value: NavigationContextValue = {
-    mainNavigation,
-    footerNavigation,
-    currentPath,
-    currentPageId,
+    ...state,
+    updateNavigation,
   };
 
   return (
