@@ -59,13 +59,13 @@ type Story = StoryObj<TranslationPaths>;
 export const Empty = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Should show default language (English) with disabled state
     const button = canvas.getByRole('button');
     await expect(button).toBeInTheDocument();
     await expect(button).toBeDisabled();
     await expect(button).toHaveTextContent('English');
-    
+
     // Should not open dropdown when disabled
     await userEvent.click(button);
     const menu = canvas.queryByRole('menu');
@@ -79,13 +79,13 @@ export const Partial = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Should show current language with disabled state (only one language available)
     const button = canvas.getByRole('button');
     await expect(button).toBeInTheDocument();
     await expect(button).toBeDisabled();
     await expect(button).toHaveTextContent('English');
-    
+
     // Should not open dropdown when only one language is available
     await userEvent.click(button);
     const menu = canvas.queryByRole('menu');
@@ -102,33 +102,38 @@ export const Full = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Should show current language and be enabled for multiple languages
     const button = canvas.getByRole('button');
     await expect(button).toBeInTheDocument();
     await expect(button).not.toBeDisabled();
     await expect(button).toHaveTextContent('English');
-    
+
     // Should open dropdown when clicked
     await userEvent.click(button);
-    
+
     // Verify dropdown menu is visible
     const menu = canvas.getByRole('menu');
     await expect(menu).toBeInTheDocument();
-    
+
     // Should show alternative language options (all except current)
     const germanLink = canvas.getByRole('menuitem', { name: /German/i });
     await expect(germanLink).toBeInTheDocument();
     await expect(germanLink).toHaveAttribute('href', '/de/german-version');
-    
-    const swissGermanLink = canvas.getByRole('menuitem', { name: /German \(Switzerland\)/i });
+
+    const swissGermanLink = canvas.getByRole('menuitem', {
+      name: /German \(Switzerland\)/i,
+    });
     await expect(swissGermanLink).toBeInTheDocument();
-    await expect(swissGermanLink).toHaveAttribute('href', '/de-CH/swiss-german-version');
-    
+    await expect(swissGermanLink).toHaveAttribute(
+      'href',
+      '/de-CH/swiss-german-version',
+    );
+
     const frenchLink = canvas.getByRole('menuitem', { name: /French/i });
     await expect(frenchLink).toBeInTheDocument();
     await expect(frenchLink).toHaveAttribute('href', '/french/french-version');
-    
+
     // Should not show current language (English) in dropdown
     const englishLink = canvas.queryByRole('menuitem', { name: /English/i });
     await expect(englishLink).not.toBeInTheDocument();
@@ -147,33 +152,35 @@ export const Homepage = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Should show current language (German) for homepage
     const button = canvas.getByRole('button');
     await expect(button).toBeInTheDocument();
     await expect(button).not.toBeDisabled();
     await expect(button).toHaveTextContent('German');
-    
+
     // Should open dropdown when clicked
     await userEvent.click(button);
-    
+
     // Verify dropdown menu is visible
     const menu = canvas.getByRole('menu');
     await expect(menu).toBeInTheDocument();
-    
+
     // Should show alternative language options for homepage
     const englishLink = canvas.getByRole('menuitem', { name: /English/i });
     await expect(englishLink).toBeInTheDocument();
     await expect(englishLink).toHaveAttribute('href', '/en/home');
-    
-    const swissGermanLink = canvas.getByRole('menuitem', { name: /German \(Switzerland\)/i });
+
+    const swissGermanLink = canvas.getByRole('menuitem', {
+      name: /German \(Switzerland\)/i,
+    });
     await expect(swissGermanLink).toBeInTheDocument();
     await expect(swissGermanLink).toHaveAttribute('href', '/de-CH/home');
-    
+
     const frenchLink = canvas.getByRole('menuitem', { name: /French/i });
     await expect(frenchLink).toBeInTheDocument();
     await expect(frenchLink).toHaveAttribute('href', '/french/home');
-    
+
     // Should not show current language (German) in dropdown
     const germanLink = canvas.queryByRole('menuitem', { name: /^German$/i });
     await expect(germanLink).not.toBeInTheDocument();
@@ -204,28 +211,33 @@ export const WithContext = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Should show current language from context (German)
     const button = canvas.getByRole('button');
     await expect(button).toBeInTheDocument();
     await expect(button).not.toBeDisabled();
     await expect(button).toHaveTextContent('German');
-    
+
     // Should open dropdown when clicked
     await userEvent.click(button);
-    
+
     // Verify dropdown uses context translations
     const menu = canvas.getByRole('menu');
     await expect(menu).toBeInTheDocument();
-    
+
     const englishLink = canvas.getByRole('menuitem', { name: /English/i });
     await expect(englishLink).toBeInTheDocument();
     await expect(englishLink).toHaveAttribute('href', '/en/context-page');
-    
-    const swissGermanLink = canvas.getByRole('menuitem', { name: /German \(Switzerland\)/i });
+
+    const swissGermanLink = canvas.getByRole('menuitem', {
+      name: /German \(Switzerland\)/i,
+    });
     await expect(swissGermanLink).toBeInTheDocument();
-    await expect(swissGermanLink).toHaveAttribute('href', '/de-CH/context-page');
-    
+    await expect(swissGermanLink).toHaveAttribute(
+      'href',
+      '/de-CH/context-page',
+    );
+
     // Should not show current language in dropdown
     const germanLink = canvas.queryByRole('menuitem', { name: /^German$/i });
     await expect(germanLink).not.toBeInTheDocument();
@@ -284,26 +296,31 @@ export const HomepageContextFallback = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    
+
     // Should detect homepage context and fallback to TranslationsProvider
     const button = canvas.getByRole('button');
     await expect(button).toBeInTheDocument();
     await expect(button).not.toBeDisabled();
     await expect(button).toHaveTextContent('English');
-    
+
     // Should open dropdown when clicked
     await userEvent.click(button);
-    
+
     // Should use the TranslationsProvider data instead of homepage context
     const menu = canvas.getByRole('menu');
     await expect(menu).toBeInTheDocument();
-    
+
     const germanLink = canvas.getByRole('menuitem', { name: /German/i });
     await expect(germanLink).toBeInTheDocument();
     await expect(germanLink).toHaveAttribute('href', '/de/specific-page');
-    
-    const swissGermanLink = canvas.getByRole('menuitem', { name: /German \(Switzerland\)/i });
+
+    const swissGermanLink = canvas.getByRole('menuitem', {
+      name: /German \(Switzerland\)/i,
+    });
     await expect(swissGermanLink).toBeInTheDocument();
-    await expect(swissGermanLink).toHaveAttribute('href', '/de-CH/specific-page');
+    await expect(swissGermanLink).toHaveAttribute(
+      'href',
+      '/de-CH/specific-page',
+    );
   },
 } satisfies StoryObj;
