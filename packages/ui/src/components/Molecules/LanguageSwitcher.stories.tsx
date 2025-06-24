@@ -197,11 +197,17 @@ export const WithContext = {
         React.useEffect(() => {
           updateLocale({
             currentLocale: Locale.De,
-            availableLocales: [Locale.En, Locale.De, Locale.DeCh],
+            availableLocales: [
+              Locale.En,
+              Locale.De,
+              Locale.DeCh,
+              Locale.French,
+            ],
             translations: {
               en: '/en/context-page' as Url,
               de: '/de/context-page' as Url,
               de_CH: '/de-CH/context-page' as Url,
+              french: '/french/context-page' as Url,
             },
             defaultLocale: Locale.En,
           });
@@ -264,11 +270,17 @@ export const HomepageContextFallback = {
         React.useEffect(() => {
           updateLocale({
             currentLocale: Locale.En,
-            availableLocales: [Locale.En, Locale.De, Locale.DeCh],
+            availableLocales: [
+              Locale.En,
+              Locale.De,
+              Locale.DeCh,
+              Locale.French,
+            ],
             translations: {
               en: '/' as Url,
               de: '/de' as Url,
               de_CH: '/de-CH' as Url,
+              french: '/french' as Url,
             },
             defaultLocale: Locale.En,
           });
@@ -279,6 +291,7 @@ export const HomepageContextFallback = {
               en: '/en/specific-page' as Url,
               de: '/de/specific-page' as Url,
               de_CH: '/de-CH/specific-page' as Url,
+              french: '/french/specific-page' as Url,
             }}
           >
             <Story />
@@ -298,6 +311,7 @@ export const HomepageContextFallback = {
                       { locale: Locale.En, path: '/en' as Url },
                       { locale: Locale.De, path: '/de' as Url },
                       { locale: Locale.DeCh, path: '/de-CH' as Url },
+                      { locale: Locale.French, path: '/french' as Url },
                     ],
                   },
                 },
