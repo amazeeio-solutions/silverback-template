@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.5.1...@amazeelabs/silverback-iframe@1.6.0) (2025-06-24)
+
+
+### Bug Fixes
+
+* small improvements for debug ([6f6340e](https://github.com/AmazeeLabs/silverback-template/commit/6f6340eb9174ac690f74a977f09452345acd118e))
+
+
+### Features
+
+* adding debug flag and output to silverback_iframe query ([4bb82b8](https://github.com/AmazeeLabs/silverback-template/commit/4bb82b8cb20f194dd9c66ac356017de6ff970acd))
+
+
+
+
+
 ## [1.5.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.5.0...@amazeelabs/silverback-iframe@1.5.1) (2025-06-11)
 
 
