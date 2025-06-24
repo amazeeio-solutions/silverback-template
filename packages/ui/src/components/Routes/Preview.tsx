@@ -1,7 +1,10 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import type { OperationVariables } from '@custom/schema';
-import { PreviewDrupalPageQuery, useLocation } from '@custom/schema';
+import {
+  OperationVariables,
+  PreviewDrupalPageQuery,
+  useLocation,
+} from '@custom/schema';
 import React from 'react';
 
 import { clear, useOperation } from '../../utils/operation';
@@ -14,46 +17,34 @@ function usePreviewParameters(): OperationVariables<
 > {
   const [location] = useLocation();
 
-  const nid = location.searchParams.get('nid');
-  const rid = location.searchParams.get('rid');
-  const lang = location.searchParams.get('lang');
-  const previewUserId = location.searchParams.get('preview_user_id');
-  const previewAccessToken = location.searchParams.get('preview_access_token');
   return {
-    id: nid || '',
-    rid: rid || '',
-    locale: lang || 'en',
-    preview_user_id: previewUserId || '',
-    preview_access_token: previewAccessToken || '',
+    path: location.pathname || '',
+    rid: location.searchParams.get('rid') || '',
   };
 }
 
 export function usePreviewRefresh() {
   const params = usePreviewParameters();
-  return (input: {
-    entity_type_id?: string;
-    entity_id?: string;
-    langcode?: string;
-    preview_user_id?: string;
-    preview_access_token?: string;
-  }) => {
+  return (input: { entity_type_id?: string; entity_id?: string }) => {
     if (
       // TODO: Extend for non-node entities?
-      input.entity_type_id === 'node' &&
-      input.entity_id === params.id &&
-      input.langcode === params.locale
+      input.entity_type_id === 'node'
     ) {
       clear(PreviewDrupalPageQuery, params);
     }
   };
 }
 
-export function Preview() {
-  const { data, isLoading, error } = useOperation(
-    PreviewDrupalPageQuery,
-    usePreviewParameters(),
-  );
-
+function PreviewContent({
+  data,
+  isLoading,
+  error,
+}: {
+  data?: PreviewDrupalPageQuery;
+  isLoading?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error?: any;
+}) {
   const intl = useIntl();
   // @todo forward error from the backend.
   // @todo 403 status code.
@@ -89,4 +80,13 @@ export function Preview() {
       )}
     </>
   );
+}
+
+export function Preview() {
+  const { data, isLoading, error } = useOperation(
+    PreviewDrupalPageQuery,
+    usePreviewParameters(),
+  );
+
+  return <PreviewContent data={data} isLoading={isLoading} error={error} />;
 }

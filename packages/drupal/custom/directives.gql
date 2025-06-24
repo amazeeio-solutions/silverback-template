@@ -38,3 +38,12 @@ Resolves the translated strings.
 implementation(drupal): \Drupal\custom\Directives::translatedStrings
 """
 directive @drupalTranslatedStrings repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Resolves the home route.
+
+implementation(drupal): \Drupal\custom\Directives::homeRoute
+"""
+directive @homeRoute(
+  path: String
+) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
