@@ -33,8 +33,9 @@
   },
   "scripts": {
     "prep": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-    "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:unit": "jest --passWithNoTests",
+    "test:static": "tsc --noEmit && eslint . --quiet && ../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 drupal/ && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress drupal/",
+    "test:unit": "jest --passWithNoTests && cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --configuration=phpunit.xml.dist --group Unit ../../../packages/@amazeelabs/silverback-iframe/drupal/",
+    "test:integration": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --configuration=phpunit.xml.dist --exclude-group Unit ../../../packages/@amazeelabs/silverback-iframe/drupal/",
     "test:watch": "jest --watch"
   },
   "peerDependencies": {
