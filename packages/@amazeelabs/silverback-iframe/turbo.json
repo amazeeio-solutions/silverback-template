@@ -15,7 +15,8 @@
         "drupal/**/*.profile",
         "drupal/**/*.theme",
         "drupal/**/*.info.yml"
-      ]
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
     },
     "test:unit": {
       "inputs": [
