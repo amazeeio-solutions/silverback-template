@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test:static": "../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 . && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress .",
-    "test:unit": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=unit --filter=\"custom\"",
-    "test:integration": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=integration --filter=\"custom\""
+    "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"custom\"",
+    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"custom\""
   }
 }

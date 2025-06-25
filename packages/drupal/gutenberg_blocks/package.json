@@ -5,8 +5,8 @@
     "dev": "vite build --watch",
     "prep": "vite build",
     "test:static": "tsc --noEmit && eslint . --quiet && ../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 --ignore=node_modules *.module src/ && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress *.module src/",
-    "test:unit": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=unit --filter=\"gutenberg_blocks\"",
-    "test:integration": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=integration --filter=\"gutenberg_blocks\"",
+    "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"gutenberg_blocks\"",
+    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"gutenberg_blocks\"",
     "test:fix": "tsc --noEmit && eslint . --fix --quiet",
     "gutenberg:generate": "node ./scripts/generate-gutenberg-block.js"
   },

@@ -34,8 +34,8 @@
   "scripts": {
     "prep": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "test:static": "tsc --noEmit && eslint . --quiet && ../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 drupal/ && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress drupal/",
-    "test:unit": "jest --passWithNoTests && cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=unit --filter=\"silverback_iframe\"",
-    "test:integration": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=integration --filter=\"silverback_iframe\"",
+    "test:unit": "jest --passWithNoTests && cd ../../../apps/cms && pnpm test:unit --filter=\"silverback_iframe\"",
+    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"silverback_iframe\"",
     "test:watch": "jest --watch"
   },
   "peerDependencies": {
