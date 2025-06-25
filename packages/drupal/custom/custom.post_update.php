@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Post-update functions for the custom module.
+ */
+
 use Drupal\locale\Gettext;
 
 /**
@@ -10,7 +15,7 @@ function custom_post_update_import_string_translations() {
   $modules = \Drupal::service('extension.list.module');
 
   Gettext::fileToDatabase(
-    (object)[
+    (object) [
       'langcode' => 'de',
       'uri' => $modules->getPath('custom') . '/translations/de.po',
     ],
@@ -20,6 +25,9 @@ function custom_post_update_import_string_translations() {
   );
 }
 
+/**
+ * Migrates Gatsby context to website context.
+ */
 function custom_post_update_migrate_gatsby_to_website_context() {
   $database = \Drupal::database();
   // Make sure we do not have any "website" strings, as they would just be

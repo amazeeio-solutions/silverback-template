@@ -3,7 +3,6 @@
 namespace Drupal\silverback_iframe\Plugin\WebformSourceEntity;
 
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\webform\Plugin\WebformSourceEntity\QueryStringWebformSourceEntity as Original;
 use Drupal\webform\WebformInterface;
 
@@ -20,6 +19,7 @@ class QueryStringWebformSourceEntity extends Original {
 
   /**
    * Flag to enable debug logging.
+   *
    * @var bool
    */
   private bool $debugEnabled = FALSE;
@@ -28,12 +28,12 @@ class QueryStringWebformSourceEntity extends Original {
    * {@inheritdoc}
    */
   public function getSourceEntity(array $ignored_types) {
-    // Enable debug logging based on query parameter
+    // Enable debug logging based on query parameter.
     $this->debugEnabled = $this->request->query->get('debug', 'false') === 'true';
 
     $this->debugLog('Starting source entity detection with ignored types: @types', ['@types' => implode(', ', $ignored_types)], 'step');
 
-    // Try the default implementation first
+    // Try the default implementation first.
     $this->debugLog('Trying parent implementation first', [], 'step');
     $source_entity = parent::getSourceEntity($ignored_types);
     if ($source_entity !== NULL) {
@@ -45,7 +45,7 @@ class QueryStringWebformSourceEntity extends Original {
     }
     $this->debugLog('Parent implementation returned NULL, continuing with custom logic', [], 'neutral');
 
-    // Ensure we have a valid webform
+    // Ensure we have a valid webform.
     $webform = $this->routeMatch->getParameter('webform');
     $this->debugLog('Route webform parameter: @webform', [
       '@webform' => $webform instanceof WebformInterface ? $webform->id() : 'NULL',
@@ -69,7 +69,7 @@ class QueryStringWebformSourceEntity extends Original {
       }
     }
 
-    // Skip our custom logic if the webform already has prepopulation enabled
+    // Skip our custom logic if the webform already has prepopulation enabled.
     $prepopulation_enabled = $webform->getSetting('form_prepopulate_source_entity');
     $this->debugLog('Webform prepopulation setting: @setting', ['@setting' => $prepopulation_enabled ? 'enabled' : 'disabled'], 'check');
 
@@ -78,7 +78,7 @@ class QueryStringWebformSourceEntity extends Original {
       return $source_entity;
     }
 
-    // Only proceed with custom logic if we're in iframe mode
+    // Only proceed with custom logic if we're in iframe mode.
     $iframe_enabled = silverback_iframe_theme_enabled();
     $this->debugLog('Silverback iframe theme enabled: @enabled', ['@enabled' => $iframe_enabled ? 'yes' : 'no'], 'check');
 
@@ -87,7 +87,7 @@ class QueryStringWebformSourceEntity extends Original {
       return NULL;
     }
 
-    // Check for preserved source entity ID from form submission
+    // Check for preserved source entity ID from form submission.
     $preserved_id = $this->request->request->get('silverback_iframe_source_entity_id');
     $this->debugLog('Checking for preserved source entity ID: @id', ['@id' => $preserved_id ?: 'not found'], 'check');
 
@@ -101,7 +101,7 @@ class QueryStringWebformSourceEntity extends Original {
       }
     }
 
-    // Check for ref parameter and decode it
+    // Check for ref parameter and decode it.
     $referrer = NULL;
     $ref_param = $this->request->query->get('ref');
     $this->debugLog('Checking ref parameter: @ref', ['@ref' => $ref_param ?: 'not found'], 'check');
@@ -110,12 +110,12 @@ class QueryStringWebformSourceEntity extends Original {
       $encoded_url = $this->request->query->get('ref');
       $this->debugLog('Found ref parameter: @value', ['@value' => $encoded_url], 'info');
 
-      $decoded_url = base64_decode($encoded_url, true);
-      if ($decoded_url === false) {
+      $decoded_url = base64_decode($encoded_url, TRUE);
+      if ($decoded_url === FALSE) {
         $this->debugLog('Failed to base64 decode ref parameter', [
           '@value' => $encoded_url,
           '@query_string' => $this->request->getQueryString(),
-          '@all_params' => print_r($this->request->query->all(), true),
+          '@all_params' => print_r($this->request->query->all(), TRUE),
         ], 'error');
         \Drupal::logger('silverback_iframe')->warning('Failed to base64 decode ref parameter: @value', ['@value' => $encoded_url]);
       }
@@ -132,7 +132,7 @@ class QueryStringWebformSourceEntity extends Original {
       }
     }
 
-    // If no ref parameter or decoding failed, fall back to HTTP referer
+    // If no ref parameter or decoding failed, fall back to HTTP referer.
     if (empty($referrer)) {
       $http_referrer = $this->request->headers->get('referer');
       $this->debugLog('No valid ref param, falling back to HTTP referer: @referer', ['@referer' => $http_referrer ?: 'not found'], 'step');
@@ -144,17 +144,17 @@ class QueryStringWebformSourceEntity extends Original {
       }
     }
 
-    // Parse the referrer URL to extract path
+    // Parse the referrer URL to extract path.
     $this->debugLog('Parsing referrer URL: @url', ['@url' => $referrer], 'step');
     $referrer_parts = parse_url($referrer);
-    $this->debugLog('Parsed URL parts: @parts', ['@parts' => print_r($referrer_parts, true)], 'info');
+    $this->debugLog('Parsed URL parts: @parts', ['@parts' => print_r($referrer_parts, TRUE)], 'info');
 
     if (!isset($referrer_parts['path'])) {
       $this->debugLog('No path component in referrer URL, exiting', [], 'warning');
       return NULL;
     }
 
-    // Validate path and check if it's a node page
+    // Validate path and check if it's a node page.
     $path = $referrer_parts['path'];
     $this->debugLog('Validating path: @path', ['@path' => $path], 'check');
     $url = \Drupal::service('path.validator')->getUrlIfValid($path);
@@ -172,9 +172,9 @@ class QueryStringWebformSourceEntity extends Original {
       return NULL;
     }
 
-    // Extract and load the node from route parameters
+    // Extract and load the node from route parameters.
     $route_parameters = $url->getRouteParameters();
-    $this->debugLog('Route parameters: @params', ['@params' => print_r($route_parameters, true)], 'info');
+    $this->debugLog('Route parameters: @params', ['@params' => print_r($route_parameters, TRUE)], 'info');
 
     if (!isset($route_parameters['node'])) {
       $this->debugLog('No node parameter in route, exiting', [], 'warning');
@@ -190,10 +190,10 @@ class QueryStringWebformSourceEntity extends Original {
       return NULL;
     }
 
-    // Return the node as our source entity
+    // Return the node as our source entity.
     $this->debugLog('Successfully resolved source entity: node/@id (@type)', [
       '@id' => $node->id(),
-      '@type' => $node->bundle()
+      '@type' => $node->bundle(),
     ], 'success');
     return $node;
   }
@@ -217,10 +217,12 @@ class QueryStringWebformSourceEntity extends Original {
         'neutral' => '🔍 ',
         'step' => '➡️ ',
         'check' => '🔎 ',
-        default => 'ℹ️ ', // info is the default
+        // Info is the default.
+        default => 'ℹ️ ',
       };
 
       \Drupal::logger('silverback_iframe')->debug($emoji . $message, $context);
     }
   }
+
 }

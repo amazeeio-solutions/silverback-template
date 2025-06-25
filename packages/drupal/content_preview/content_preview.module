@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Content preview functionality and access control.
+ */
+
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -10,8 +15,10 @@ use Drupal\Core\Session\AccountInterface;
  * Deals with customisations related to the content preview feature.
  */
 
-function content_preview_entity_access(EntityInterface $entity, $operation, AccountInterface $account)
-{
+/**
+ * Implements hook_entity_access().
+ */
+function content_preview_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
   // We are only interested in content entities.
   if (!$entity instanceof ContentEntityInterface) {
     return AccessResult::neutral()->cachePerPermissions();

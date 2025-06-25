@@ -2,11 +2,13 @@
 
 /**
  * @file
- * Provides a route for splitting the entity creation in two steps: first for
- * the mandatory fields and a second one, which is actually the edit form, for
- * the rest of the fields.
+ * Provides a route for splitting the entity creation in two steps.
+ *
+ * First for the mandatory fields and a second one, which is actually the edit
+ * form, for the rest of the fields.
  */
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Entity\ContentEntityType;
 use Drupal\Core\Entity\EntityInterface;
@@ -34,7 +36,7 @@ function entity_create_split_gutenberg_enabled(EntityInterface $entity) {
 /**
  * Implements hook_form_alter().
  */
-function entity_create_split_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function entity_create_split_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $formObject = $form_state->getFormObject();
   if (
     $formObject instanceof ContentEntityForm &&
@@ -56,19 +58,22 @@ function entity_create_split_form_alter(&$form, \Drupal\Core\Form\FormStateInter
 }
 
 /**
- * Submit handler for the entity create from, to redirect the user to the entity
- * edit form.
+ * Submit handler for the entity create form to redirect the user to the entity edit form.
  *
  * @param array $form
+ *   The form array.
  * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state object.
  *
  * @return void
+ *   Returns nothing.
+ *
  * @throws \Drupal\Core\Entity\EntityMalformedException
  */
-function entity_create_split_submit_redirect(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-  /* @var \Drupal\Core\Entity\EntityInterface $entity */
+function entity_create_split_submit_redirect(array &$form, FormStateInterface $form_state) {
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
   $entity = $form_state->getFormObject()->getEntity();
-  if (!empty($entity) && $entity->id()) {
+  if ($entity && $entity->id()) {
     $url = $entity->toUrl('edit-form');
     $form_state->setRedirectUrl($url);
   }

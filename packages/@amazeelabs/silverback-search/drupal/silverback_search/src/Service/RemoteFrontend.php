@@ -18,15 +18,44 @@ use GuzzleHttp\TransferStats;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Service for fetching content from remote frontend.
+ */
 class RemoteFrontend {
 
+  /**
+   * The external preview link service.
+   */
   protected ExternalPreviewLink $externalPreviewLink;
+
+  /**
+   * The logger service.
+   */
   protected LoggerInterface $logger;
+
+  /**
+   * The database connection.
+   */
   protected Connection $database;
+
+  /**
+   * The HTTP client.
+   */
   protected Client $httpClient;
+
+  /**
+   * The module handler service.
+   */
   protected ModuleHandlerInterface $moduleHandler;
 
+  /**
+   * The Netlify password for authentication.
+   */
   protected ?string $netlifyPassword = NULL;
+
+  /**
+   * Cached build ID.
+   */
   private ?int $cachedBuildId = NULL;
 
   public function __construct(
@@ -88,6 +117,15 @@ class RemoteFrontend {
     return $count > 0;
   }
 
+  /**
+   * Fetches content from a remote URL.
+   *
+   * @param string $url
+   *   The URL to fetch from.
+   *
+   * @return \Drupal\silverback_search\FetchResult
+   *   The fetch result.
+   */
   private function getFromRemote(string $url): FetchResult {
     try {
       $response = $this->makeRequest('GET', $url);
@@ -144,9 +182,22 @@ class RemoteFrontend {
     }
   }
 
+  /**
+   * Makes an HTTP request.
+   *
+   * @param string $method
+   *   The HTTP method.
+   * @param string $url
+   *   The URL to request.
+   * @param array $options
+   *   Additional request options.
+   *
+   * @return \Psr\Http\Message\ResponseInterface
+   *   The HTTP response.
+   */
   private function makeRequest(string $method, string $url, array $options = []): ResponseInterface {
     $originalHost = parse_url($url, PHP_URL_HOST);
-    $effectiveUrl = null;
+    $effectiveUrl = NULL;
 
     $options[RequestOptions::ON_STATS] = function (TransferStats $stats) use (&$effectiveUrl) {
       $effectiveUrl = $stats->getEffectiveUri()->__toString();
@@ -167,6 +218,17 @@ class RemoteFrontend {
     return $response;
   }
 
+  /**
+   * Gets the update count for an entity.
+   *
+   * @param string $entityUuid
+   *   The entity UUID.
+   * @param int $buildId
+   *   The build ID.
+   *
+   * @return int
+   *   The update count.
+   */
   private function getUpdateCount(string $entityUuid, int $buildId): int {
     return (int) $this->database->select('gatsby_update_log', 'gul')
       ->condition(
@@ -180,6 +242,12 @@ class RemoteFrontend {
       ->fetchField();
   }
 
+  /**
+   * Gets the current build ID.
+   *
+   * @return int|null
+   *   The build ID or NULL if not available.
+   */
   private function getBuildId(): ?int {
     if ($this->cachedBuildId !== NULL) {
       return $this->cachedBuildId;
@@ -211,6 +279,12 @@ class RemoteFrontend {
     }
   }
 
+  /**
+   * Checks if Netlify password is set.
+   *
+   * @throws \Exception
+   *   If the password is not set.
+   */
   private function checkNetlifyPassword(): void {
     if ($this->netlifyPassword === NULL) {
       throw new \Exception('Netlify password is not set. Use setNetlifyPassword() first.');

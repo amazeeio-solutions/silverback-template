@@ -110,8 +110,9 @@ class Directives {
   }
 
   /**
-   * Resolves the home route for a path argument (if the path argument matches
-   * the frontend url, like '/' for example).
+   * Resolves the home route for a path argument.
+   *
+   * Checks if the path argument matches the frontend url, like '/' for example.
    */
   public static function homeRoute(Api $api) : string {
     $path = $api->args['path'];

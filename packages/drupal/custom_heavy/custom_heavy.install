@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file
+ * Install, update and uninstall functions for the custom_heavy module.
+ */
+
+/**
+ * Implements hook_install().
+ */
 function custom_heavy_install() {
   module_set_weight('custom_heavy', 9999);
 }

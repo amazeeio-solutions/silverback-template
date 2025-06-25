@@ -426,6 +426,8 @@ importers:
 
   packages/drupal/custom_heavy: {}
 
+  packages/drupal/entity_create_split: {}
+
   packages/drupal/gutenberg_blocks:
     dependencies:
       clsx:
