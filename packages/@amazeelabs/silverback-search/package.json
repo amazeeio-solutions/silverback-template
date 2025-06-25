@@ -3,8 +3,8 @@
   "version": "1.3.4",
   "scripts": {
     "test:static": "../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 drupal/ && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress drupal/",
-    "test:unit": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit ../../packages/@amazeelabs/silverback-search/drupal/tests/Unit/",
-    "test:integration": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit ../../packages/@amazeelabs/silverback-search/drupal/tests/Kernel/"
+    "test:unit": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=unit --filter=\"silverback_search\"",
+    "test:integration": "cd ../../../apps/cms && SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=integration --filter=\"silverback_search\""
   },
   "publishConfig": {
     "access": "public"

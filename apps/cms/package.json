@@ -21,7 +21,9 @@
     "content:import": "pnpm drush php-script web/modules/custom/test_content/import.php",
     "config:export": "pnpm drush cex -y",
     "config:import": "pnpm drush -y cim",
-    "import-translations": "pnpm drush scr scripts/translations-import.php"
+    "import-translations": "pnpm drush scr scripts/translations-import.php",
+    "test:unit": "SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=unit",
+    "test:integration": "SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=integration"
   },
   "peerDependencies": {
     "@amazeelabs/gatsby-source-silverback": "*"
