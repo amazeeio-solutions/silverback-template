@@ -12,7 +12,8 @@
         "**/*.profile",
         "**/*.theme",
         "**/*.info.yml"
-      ]
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
     },
     "test:unit": {
       "inputs": [
