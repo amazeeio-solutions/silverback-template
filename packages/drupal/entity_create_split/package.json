@@ -2,7 +2,7 @@
   "name": "@custom/entity_create_split",
   "private": true,
   "scripts": {
-    "test:static": "../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 . && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress .",
+    "test:static": "cd ../../../apps/cms && pnpm test:static:phpcs ../../packages/drupal/entity_create_split/ && pnpm test:static:phpstan ../../packages/drupal/entity_create_split/",
     "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"entity_create_split\"",
     "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"entity_create_split\""
   }
