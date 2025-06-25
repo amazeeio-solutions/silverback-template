@@ -5,8 +5,8 @@
     "dev": "vite build --watch",
     "prep": "vite build",
     "test:static": "tsc --noEmit && eslint . --quiet && ../../../apps/cms/vendor/bin/phpcs --standard=../../../phpcs.xml.dist --error-severity=1 --warning-severity=0 --ignore=node_modules *.module src/ && ../../../apps/cms/vendor/bin/phpstan analyse --configuration=../../../phpstan.neon --error-format=table --no-progress *.module src/",
-    "test:unit": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --configuration=phpunit.xml.dist --group Unit ../../../packages/drupal/gutenberg_blocks/",
-    "test:integration": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --configuration=phpunit.xml.dist --exclude-group Unit ../../../packages/drupal/gutenberg_blocks/",
+    "test:unit": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit ../../packages/drupal/gutenberg_blocks/tests/Unit/",
+    "test:integration": "cd ../../../apps/cms && SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit ../../packages/drupal/gutenberg_blocks/tests/Kernel/",
     "test:fix": "tsc --noEmit && eslint . --fix --quiet",
     "gutenberg:generate": "node ./scripts/generate-gutenberg-block.js"
   },
