@@ -2,8 +2,8 @@
   "name": "@custom/custom",
   "private": true,
   "scripts": {
-    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/custom/",
-    "test:unit": "../../../scripts/cms-test-unit.sh custom",
-    "test:integration": "../../../scripts/cms-test-integration.sh custom"
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/custom",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=custom",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=custom"
   }
 }

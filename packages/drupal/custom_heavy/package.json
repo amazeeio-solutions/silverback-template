@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/custom_heavy/",
-    "test:unit": "../../../scripts/cms-test-unit.sh custom_heavy",
-    "test:integration": "../../../scripts/cms-test-integration.sh custom_heavy"
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/custom_heavy",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=custom_heavy",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=custom_heavy"
   }
 }
