@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test:static": "cd ../../../apps/cms && pnpm test:static:phpcs ../../packages/drupal/content_preview/ && pnpm test:static:phpstan ../../packages/drupal/content_preview/",
-    "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"content_preview\"",
-    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"content_preview\""
+    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/content_preview/",
+    "test:unit": "../../../scripts/cms-test-unit.sh content_preview",
+    "test:integration": "../../../scripts/cms-test-integration.sh content_preview"
   }
 }

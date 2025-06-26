@@ -33,9 +33,9 @@
   },
   "scripts": {
     "prep": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-    "test:static": "tsc --noEmit && eslint . --quiet && cd ../../../apps/cms && pnpm test:static:phpcs ../../packages/@amazeelabs/silverback-iframe/drupal/ && pnpm test:static:phpstan ../../packages/@amazeelabs/silverback-iframe/drupal/",
-    "test:unit": "jest --passWithNoTests && cd ../../../apps/cms && pnpm test:unit --filter=\"silverback_iframe\"",
-    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"silverback_iframe\"",
+    "test:static": "tsc --noEmit && eslint . --quiet && ../../../scripts/cms-test-static.sh ../../packages/@amazeelabs/silverback-iframe/drupal/",
+    "test:unit": "jest --passWithNoTests && ../../../scripts/cms-test-unit.sh silverback_iframe",
+    "test:integration": "../../../scripts/cms-test-integration.sh silverback_iframe",
     "test:watch": "jest --watch"
   },
   "peerDependencies": {

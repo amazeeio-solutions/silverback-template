@@ -2,8 +2,8 @@
   "name": "@custom/search_api_global",
   "private": true,
   "scripts": {
-    "test:static": "cd ../../../apps/cms && pnpm test:static:phpcs ../../packages/drupal/search_api_global/ && pnpm test:static:phpstan ../../packages/drupal/search_api_global/",
-    "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"search_api_global\"",
-    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"search_api_global\""
+    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/search_api_global/",
+    "test:unit": "../../../scripts/cms-test-unit.sh search_api_global",
+    "test:integration": "../../../scripts/cms-test-integration.sh search_api_global"
   }
 }

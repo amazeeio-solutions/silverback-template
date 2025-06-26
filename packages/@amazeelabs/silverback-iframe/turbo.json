@@ -1,46 +1,12 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "extends": ["//"],
+  "extends": ["//", "../../turbo-drupal.json"],
   "tasks": {
     "prep": {
       "outputs": ["dist"]
     },
     "test:static": {
-      "inputs": [
-        "src/**",
-        "drupal/**/*.php",
-        "drupal/**/*.module",
-        "drupal/**/*.inc",
-        "drupal/**/*.install",
-        "drupal/**/*.profile",
-        "drupal/**/*.theme",
-        "drupal/**/*.info.yml"
-      ],
-      "dependsOn": ["@custom/cms#prep:composer"]
-    },
-    "test:unit": {
-      "inputs": [
-        "drupal/**/*.php",
-        "drupal/**/*.module",
-        "drupal/**/*.inc",
-        "drupal/**/*.install",
-        "drupal/**/*.profile",
-        "drupal/**/*.theme",
-        "drupal/**/*.info.yml"
-      ],
-      "dependsOn": ["@custom/cms#prep:composer"]
-    },
-    "test:integration": {
-      "inputs": [
-        "drupal/**/*.php",
-        "drupal/**/*.module",
-        "drupal/**/*.inc",
-        "drupal/**/*.install",
-        "drupal/**/*.profile",
-        "drupal/**/*.theme",
-        "drupal/**/*.info.yml"
-      ],
-      "dependsOn": ["@custom/cms#prep:composer"]
+      "inputs": ["src/**"]
     }
   }
 }

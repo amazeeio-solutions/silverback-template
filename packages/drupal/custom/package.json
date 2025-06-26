@@ -2,8 +2,8 @@
   "name": "@custom/custom",
   "private": true,
   "scripts": {
-    "test:static": "cd ../../../apps/cms && pnpm test:static:phpcs ../../packages/drupal/custom/ && pnpm test:static:phpstan ../../packages/drupal/custom/",
-    "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"custom\"",
-    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"custom\""
+    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/custom/",
+    "test:unit": "../../../scripts/cms-test-unit.sh custom",
+    "test:integration": "../../../scripts/cms-test-integration.sh custom"
   }
 }

@@ -2,9 +2,9 @@
   "name": "@amazeelabs/silverback-search",
   "version": "1.3.4",
   "scripts": {
-    "test:static": "cd ../../../apps/cms && pnpm test:static:phpcs ../../packages/@amazeelabs/silverback-search/drupal/ && pnpm test:static:phpstan ../../packages/@amazeelabs/silverback-search/drupal/",
-    "test:unit": "cd ../../../apps/cms && pnpm test:unit --filter=\"silverback_search\"",
-    "test:integration": "cd ../../../apps/cms && pnpm test:integration --filter=\"silverback_search\""
+    "test:static": "../../../scripts/cms-test-static.sh ../../packages/@amazeelabs/silverback-search/drupal/",
+    "test:unit": "../../../scripts/cms-test-unit.sh silverback_search",
+    "test:integration": "../../../scripts/cms-test-integration.sh silverback_search"
   },
   "publishConfig": {
     "access": "public"
