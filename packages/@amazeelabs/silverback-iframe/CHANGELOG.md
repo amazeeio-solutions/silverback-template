@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.6.0...@amazeelabs/silverback-iframe@1.7.0) (2025-06-24)
+
+
+### Features
+
+* adding a feature to set a custom webform id for silverback iframe ([4351acd](https://github.com/AmazeeLabs/silverback-template/commit/4351acdee1a23b8baaf71b1b28223192ad92dea7))
+
+
+
+
+
+# [1.6.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.5.1...@amazeelabs/silverback-iframe@1.6.0) (2025-06-24)
+
+
+### Bug Fixes
+
+* small improvements for debug ([6f6340e](https://github.com/AmazeeLabs/silverback-template/commit/6f6340eb9174ac690f74a977f09452345acd118e))
+
+
+### Features
+
+* adding debug flag and output to silverback_iframe query ([4bb82b8](https://github.com/AmazeeLabs/silverback-template/commit/4bb82b8cb20f194dd9c66ac356017de6ff970acd))
+
+
+
+
+
+## [1.5.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.5.0...@amazeelabs/silverback-iframe@1.5.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* avoid circular references in path processor ([f0a1d14](https://github.com/AmazeeLabs/silverback-template/commit/f0a1d14dbbb0d15def730bdcee03e48105b238e5))
+
+
+
+
+
+# [1.5.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.4.4...@amazeelabs/silverback-iframe@1.5.0) (2025-06-05)
+
+
+### Bug Fixes
+
+* **SLB-537:** better error handling ([e33ec4f](https://github.com/AmazeeLabs/silverback-template/commit/e33ec4f120aa45efd734938fc1274eaba64959a5))
+* **slb-537:** trying to break the cache ([da31e20](https://github.com/AmazeeLabs/silverback-template/commit/da31e204ea8ab4d6b6dfb0ec600858b05d1a622f))
+
+
+### Features
+
+* **SLB-513:** adjusting SilverbackIframe to add in base64 url ref ([250c2ca](https://github.com/AmazeeLabs/silverback-template/commit/250c2ca1c41916b5a83fd4e4e3586017dc75d6d7))
+* **SLB-513:** adjusting the silverback_iframe module to handle ref ([6324d1c](https://github.com/AmazeeLabs/silverback-template/commit/6324d1c6fd2fc3d90c1a6938ab6d6a89160a060c))
+
+
+
+
+
 ## [1.4.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.4.3...@amazeelabs/silverback-iframe@1.4.4) (2025-03-12)
 
 

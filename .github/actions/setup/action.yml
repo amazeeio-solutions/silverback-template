@@ -4,7 +4,7 @@ runs:
   using: 'composite'
   steps:
     - name: Install devbox
-      uses: jetify-com/devbox-install-action@v0.12.0
+      uses: jetify-com/devbox-install-action@v0.13.0
       with:
         enable-cache: 'true'
         # Should match version from .envrc
@@ -20,13 +20,20 @@ runs:
           exit 1
         fi
 
+    - name: Get Playwright version
+      shell: bash
+      run: |
+        PLAYWRIGHT_VERSION=$(node -p "require('./packages/ui/package.json').devDependencies['@playwright/test'] || require('./tests/e2e/package.json').devDependencies['@playwright/test']")
+        echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
+
     - name: Cache dependencies
       uses: actions/cache@v4
       with:
         path: /tmp/cache
         key: |
-          cache-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/composer.lock') }}
+          cache-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/composer.lock') }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
         restore-keys: |
+          cache-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/composer.lock') }}-playwright-
           cache-${{ hashFiles('**/pnpm-lock.yaml') }}-
           cache-
     - name: Set composer cache dir
@@ -44,3 +51,15 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm i
+
+    - name: Verify Playwright browser installation
+      shell: bash
+      run: |
+        if [ -d "/tmp/cache/playwright-browsers" ] && [ "$(ls -A /tmp/cache/playwright-browsers 2>/dev/null)" ]; then
+          echo "Playwright browsers found in cache, verifying installation..."
+          if command -v playwright &> /dev/null; then
+            playwright install --dry-run chromium || echo "Browser verification failed, will need fresh installation"
+          fi
+        else
+          echo "No cached Playwright browsers found"
+        fi

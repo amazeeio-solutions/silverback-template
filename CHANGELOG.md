@@ -3,6 +3,165 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.13.0...@amazeelabs/silverback-template@1.13.1) (2025-06-24)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.13.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.12.0...@amazeelabs/silverback-template@1.13.0) (2025-06-24)
+
+### Features
+
+- adding a feature to set a custom webform id for silverback iframe
+  ([4351acd](https://github.com/AmazeeLabs/silverback-template/commit/4351acdee1a23b8baaf71b1b28223192ad92dea7))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.12.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.11.0...@amazeelabs/silverback-template@1.12.0) (2025-06-24)
+
+### Bug Fixes
+
+- small improvements for debug
+  ([6f6340e](https://github.com/AmazeeLabs/silverback-template/commit/6f6340eb9174ac690f74a977f09452345acd118e))
+
+### Features
+
+- adding debug flag and output to silverback_iframe query
+  ([4bb82b8](https://github.com/AmazeeLabs/silverback-template/commit/4bb82b8cb20f194dd9c66ac356017de6ff970acd))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.11.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.2...@amazeelabs/silverback-template@1.11.0) (2025-06-24)
+
+### Bug Fixes
+
+- broken github workflow
+  ([2217a8c](https://github.com/AmazeeLabs/silverback-template/commit/2217a8c8b95b68670cfe622a6a4f57fe859c4f0e))
+- prettier-ignore claude files
+  ([c01fa53](https://github.com/AmazeeLabs/silverback-template/commit/c01fa53e287639b6b2fb2cee92c526f9cb345cfc))
+- resolve Playwright browser cache issues in GitHub Actions
+  ([14acc16](https://github.com/AmazeeLabs/silverback-template/commit/14acc1694cc4047ebed4afa6604cc21f6f4664b4))
+
+### Features
+
+- improve Claude workflows and configuration
+  ([355761b](https://github.com/AmazeeLabs/silverback-template/commit/355761ba6c937ed957e6618586c1d00a88a583ff))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.10.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.1...@amazeelabs/silverback-template@1.10.2) (2025-06-23)
+
+### Bug Fixes
+
+- update Claude workflows to use consistent setup action
+  ([649e4c9](https://github.com/AmazeeLabs/silverback-template/commit/649e4c95c618acadcac99e670862b0cd20594d00))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.10.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.10.0...@amazeelabs/silverback-template@1.10.1) (2025-06-11)
+
+### Bug Fixes
+
+- avoid circular references in path processor
+  ([f0a1d14](https://github.com/AmazeeLabs/silverback-template/commit/f0a1d14dbbb0d15def730bdcee03e48105b238e5))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.10.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.5...@amazeelabs/silverback-template@1.10.0) (2025-06-05)
+
+### Bug Fixes
+
+- **SLB-537:** better error handling
+  ([e33ec4f](https://github.com/AmazeeLabs/silverback-template/commit/e33ec4f120aa45efd734938fc1274eaba64959a5))
+- **slb-537:** trying to break the cache
+  ([da31e20](https://github.com/AmazeeLabs/silverback-template/commit/da31e204ea8ab4d6b6dfb0ec600858b05d1a622f))
+
+### Features
+
+- **SLB-513:** adjusting SilverbackIframe to add in base64 url ref
+  ([250c2ca](https://github.com/AmazeeLabs/silverback-template/commit/250c2ca1c41916b5a83fd4e4e3586017dc75d6d7))
+- **SLB-513:** adjusting tests to check for locked/unlocked forms
+  ([0b3436b](https://github.com/AmazeeLabs/silverback-template/commit/0b3436b00e18c537651a7811edf88247e02c7f08))
+- **SLB-513:** adjusting the silverback_iframe module to handle ref
+  ([6324d1c](https://github.com/AmazeeLabs/silverback-template/commit/6324d1c6fd2fc3d90c1a6938ab6d6a89160a060c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.9.5](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.4...@amazeelabs/silverback-template@1.9.5) (2025-06-04)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.9.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.3...@amazeelabs/silverback-template@1.9.4) (2025-06-02)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.9.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.2...@amazeelabs/silverback-template@1.9.3) (2025-06-02)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.9.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.1...@amazeelabs/silverback-template@1.9.2) (2025-05-29)
+
+### Reverts
+
+- Revert "fix: try fixing github cache issue"
+  ([1a17c00](https://github.com/AmazeeLabs/silverback-template/commit/1a17c008c3ebbd91cb8a549759d095164736cceb))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.9.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.9.0...@amazeelabs/silverback-template@1.9.1) (2025-05-29)
+
+### Bug Fixes
+
+- try fixing github cache issue
+  ([3085732](https://github.com/AmazeeLabs/silverback-template/commit/3085732e36afdec7e50a85d7bbc9f70046a6689b)),
+  closes
+  [/github.com/orgs/community/discussions/160793#discussioncomment-13300514](https://github.com//github.com/orgs/community/discussions/160793/issues/discussioncomment-13300514)
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.9.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.8.11...@amazeelabs/silverback-template@1.9.0) (2025-05-16)
 
 ### Features

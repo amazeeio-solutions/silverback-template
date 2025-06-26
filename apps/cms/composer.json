@@ -39,7 +39,7 @@
     "amazeelabs/silverback_autosave": "^1.1",
     "amazeelabs/silverback_campaign_urls": "^1.0.5",
     "amazeelabs/silverback_cloudinary": "^1.3.0",
-    "amazeelabs/silverback_external_preview": "^2.0.3",
+    "amazeelabs/silverback_external_preview": "^3.0",
     "amazeelabs/silverback_gatsby": "^3.0",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
     "amazeelabs/silverback_gutenberg": "^2.6",
