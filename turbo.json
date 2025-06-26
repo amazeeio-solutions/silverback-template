@@ -36,6 +36,78 @@
     },
     "test:integration": {
       "dependsOn": ["test:unit"]
+    },
+    "drupal:test:static": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:unit": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:integration": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:static:subdir": {
+      "inputs": [
+        "drupal/**/*.php",
+        "drupal/**/*.module",
+        "drupal/**/*.inc",
+        "drupal/**/*.install",
+        "drupal/**/*.profile",
+        "drupal/**/*.theme",
+        "drupal/**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:unit:subdir": {
+      "inputs": [
+        "drupal/**/*.php",
+        "drupal/**/*.module",
+        "drupal/**/*.inc",
+        "drupal/**/*.install",
+        "drupal/**/*.profile",
+        "drupal/**/*.theme",
+        "drupal/**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:integration:subdir": {
+      "inputs": [
+        "drupal/**/*.php",
+        "drupal/**/*.module",
+        "drupal/**/*.inc",
+        "drupal/**/*.install",
+        "drupal/**/*.profile",
+        "drupal/**/*.theme",
+        "drupal/**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
     }
   }
 }

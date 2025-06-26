@@ -1,4 +1,15 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "extends": ["//", "../../turbo-drupal.json"]
+  "extends": ["//"],
+  "tasks": {
+    "test:static": {
+      "dependsOn": ["drupal:test:static:subdir"]
+    },
+    "test:unit": {
+      "dependsOn": ["drupal:test:unit:subdir"]
+    },
+    "test:integration": {
+      "dependsOn": ["drupal:test:integration:subdir"]
+    }
+  }
 }
