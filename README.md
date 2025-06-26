@@ -108,7 +108,9 @@ either (or both), follow these two steps:
 
 ## Pre-commit Quality Checks
 
-The project includes a comprehensive pre-commit system to catch errors and maintain code quality before CI. This system automatically fixes formatting issues, reports unfixable problems, and runs unit tests across all packages.
+The project includes a comprehensive pre-commit system to catch errors and
+maintain code quality before CI. This system automatically fixes formatting
+issues, reports unfixable problems, and runs unit tests across all packages.
 
 ### Available Commands
 
@@ -127,21 +129,25 @@ pnpm precommit:check
 
 ### What It Does
 
-- **Auto-fixes formatting** with Prettier (TypeScript/JavaScript) and PHPCBF (PHP)
+- **Auto-fixes formatting** with Prettier (TypeScript/JavaScript) and PHPCBF
+  (PHP)
 - **Auto-fixes linting issues** with ESLint (where possible)
 - **Reports unfixable issues** with clear error messages and line numbers
-- **Runs unit tests** across all packages (Vitest for TypeScript, PHPUnit for PHP)
+- **Runs unit tests** across all packages (Vitest for TypeScript, PHPUnit for
+  PHP)
 - **Provides fast feedback** for both developers and AI tools
 
 ### Integration
 
 This system is designed to:
+
 - Catch avoidable errors before CI runs
 - Provide immediate feedback during development
 - Automatically maintain consistent code style
 - Work seamlessly with AI development tools
 
-The pre-commit checks leverage Turborepo's caching system for optimal performance, typically achieving 80%+ cache hit rates on subsequent runs.
+The pre-commit checks leverage Turborepo's caching system for optimal
+performance, typically achieving 80%+ cache hit rates on subsequent runs.
 
 ## Installation
 
