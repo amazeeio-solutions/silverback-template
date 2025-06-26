@@ -11,6 +11,9 @@
   "scripts": {
     "postinstall": "pnpm generate:prettierignore && husky install || true",
     "commit": "git-cz",
+    "precommit": "pnpm turbo:local && pnpm turbo precommit --output-logs=new-only",
+    "precommit:fix": "pnpm test:format:fix && pnpm turbo precommit:fix --output-logs=new-only",
+    "precommit:check": "pnpm test:format && pnpm turbo precommit:check --output-logs=new-only",
     "test:format": "pnpm prettier . --check",
     "test:format:fix": "pnpm prettier . --write",
     "turbo:local": "if [ -z $CI ]; then echo $(date)$RANDOM > apps/cms/turbo-seed.txt; fi",

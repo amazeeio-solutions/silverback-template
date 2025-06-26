@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
     "dev:app": "vite",
     "dev:server": "tsx watch server/index.ts",
