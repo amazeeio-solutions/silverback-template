@@ -2,7 +2,7 @@
   "name": "@custom/custom",
   "private": true,
   "scripts": {
-    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/custom/",
+    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/custom/",
     "test:unit": "../../../scripts/cms-test-unit.sh custom",
     "test:integration": "../../../scripts/cms-test-integration.sh custom"
   }

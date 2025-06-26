@@ -16,4 +16,4 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 CMS_DIR="$PROJECT_ROOT/apps/cms"
 
 cd "$CMS_DIR"
-exec pnpm test:static "$PACKAGE_PATH"
+exec pnpm cms:test:static "$PACKAGE_PATH"

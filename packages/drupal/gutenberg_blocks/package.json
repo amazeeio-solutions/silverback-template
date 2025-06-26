@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite build --watch",
     "prep": "vite build",
-    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/gutenberg_blocks/",
+    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/gutenberg_blocks/",
     "test:unit": "../../../scripts/cms-test-unit.sh gutenberg_blocks",
     "test:integration": "../../../scripts/cms-test-integration.sh gutenberg_blocks",
     "test:fix": "tsc --noEmit && eslint . --fix --quiet",

@@ -2,7 +2,7 @@
   "name": "@custom/entity_create_split",
   "private": true,
   "scripts": {
-    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/entity_create_split/",
+    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/entity_create_split/",
     "test:unit": "../../../scripts/cms-test-unit.sh entity_create_split",
     "test:integration": "../../../scripts/cms-test-integration.sh entity_create_split"
   }

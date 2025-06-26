@@ -2,7 +2,7 @@
   "name": "@custom/search_api_global",
   "private": true,
   "scripts": {
-    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/search_api_global/",
+    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/search_api_global/",
     "test:unit": "../../../scripts/cms-test-unit.sh search_api_global",
     "test:integration": "../../../scripts/cms-test-integration.sh search_api_global"
   }

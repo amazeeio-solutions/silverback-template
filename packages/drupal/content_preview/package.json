@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test:static": "../../../scripts/cms-test-static.sh ../../../packages/drupal/content_preview/",
+    "test:static": "../../../scripts/cms-test-static.sh ../../packages/drupal/content_preview/",
     "test:unit": "../../../scripts/cms-test-unit.sh content_preview",
     "test:integration": "../../../scripts/cms-test-integration.sh content_preview"
   }

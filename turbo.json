@@ -72,42 +72,6 @@
         "**/*.info.yml"
       ],
       "dependsOn": ["@custom/cms#prep:composer"]
-    },
-    "drupal:test:static:subdir": {
-      "inputs": [
-        "drupal/**/*.php",
-        "drupal/**/*.module",
-        "drupal/**/*.inc",
-        "drupal/**/*.install",
-        "drupal/**/*.profile",
-        "drupal/**/*.theme",
-        "drupal/**/*.info.yml"
-      ],
-      "dependsOn": ["@custom/cms#prep:composer"]
-    },
-    "drupal:test:unit:subdir": {
-      "inputs": [
-        "drupal/**/*.php",
-        "drupal/**/*.module",
-        "drupal/**/*.inc",
-        "drupal/**/*.install",
-        "drupal/**/*.profile",
-        "drupal/**/*.theme",
-        "drupal/**/*.info.yml"
-      ],
-      "dependsOn": ["@custom/cms#prep:composer"]
-    },
-    "drupal:test:integration:subdir": {
-      "inputs": [
-        "drupal/**/*.php",
-        "drupal/**/*.module",
-        "drupal/**/*.inc",
-        "drupal/**/*.install",
-        "drupal/**/*.profile",
-        "drupal/**/*.theme",
-        "drupal/**/*.info.yml"
-      ],
-      "dependsOn": ["@custom/cms#prep:composer"]
     }
   }
 }

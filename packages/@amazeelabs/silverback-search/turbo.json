@@ -3,13 +3,14 @@
   "extends": ["//"],
   "tasks": {
     "test:static": {
-      "dependsOn": ["drupal:test:static:subdir"]
+      "dependsOn": ["drupal:test:static"]
     },
     "test:unit": {
-      "dependsOn": ["drupal:test:unit:subdir"]
+      "dependsOn": ["drupal:test:unit"]
     },
     "test:integration": {
-      "dependsOn": ["drupal:test:integration:subdir"]
+      "dependsOn": ["drupal:test:integration"]
     }
   }
 }
+
