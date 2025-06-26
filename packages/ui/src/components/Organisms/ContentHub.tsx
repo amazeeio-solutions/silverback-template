@@ -6,8 +6,8 @@ import React from 'react';
 import { isTruthy } from '../../utils/isTruthy';
 import { useOperation } from '../../utils/operation';
 import { Alert } from '../Molecules/Alert';
-import { Pagination, useCurrentPage } from '../Molecules/Pagination';
-import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
+import { Pagination, useNamespacedCurrentPage } from '../Molecules/Pagination';
+import { SearchForm, useNamespacedSearchParameters } from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
 import { CardItem } from './CardItem';
 
@@ -21,10 +21,16 @@ export type ContentHubPaginationArgs = {
   pageSize?: string;
 };
 
-export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
+export function ContentHub({ 
+  pageSize = 10, 
+  blockId 
+}: { 
+  pageSize: number;
+  blockId?: string;
+}) {
   const intl = useIntl();
-  const page = useCurrentPage();
-  const search = useSearchParameters();
+  const page = useNamespacedCurrentPage(blockId);
+  const search = useNamespacedSearchParameters(blockId);
   const { data, isLoading, error } = useOperation(ContentHubQuery, {
     locale: intl.locale as Locale,
     args: qs.stringify(
@@ -47,6 +53,7 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <SearchForm
+          blockId={blockId}
           termOptions={termsResult?.data?.contentHubTerms
             ?.filter(isTruthy)
             .filter((term) => term.locale === (intl.locale as Locale))}
@@ -85,7 +92,7 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
                 );
               })}
             </ul>
-            <Pagination pageSize={pageSize} total={data.contentHub.total} />
+            <Pagination blockId={blockId} pageSize={pageSize} total={data.contentHub.total} />
           </>
         ) : null}
       </div>

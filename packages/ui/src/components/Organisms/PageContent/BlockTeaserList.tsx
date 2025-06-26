@@ -26,8 +26,33 @@ function getUUIDFromId(id: string) {
   return words[1];
 }
 
+/**
+ * Generates a unique block ID for a teaser list block based on its configuration.
+ * This ensures that multiple blocks on the same page have different URL parameters.
+ */
+function generateBlockId(props: BlockTeaserListFragment): string {
+  const configHash = [
+    props.layout || 'GRID',
+    props.buttonText || '',
+    props.filters?.title || '',
+    props.filters?.limit || '0',
+    props.contentHubEnabled ? '1' : '0',
+  ].join('|');
+  
+  // Simple hash function to create a short, stable identifier
+  let hash = 0;
+  for (let i = 0; i < configHash.length; i++) {
+    const char = configHash.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  return `tl${Math.abs(hash).toString(36)}`;
+}
+
 export function BlockTeaserList(props: BlockTeaserListFragment) {
   const staticIds: Array<string | undefined> = [];
+  const blockId = generateBlockId(props);
 
   return (
     <div className="bg-white px-6 py-12 lg:px-8">

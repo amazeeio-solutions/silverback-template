@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 
 import { ContentHubQueryArgs } from '../Organisms/ContentHub';
+import { parseNamespacedParameters, setNamespacedParameters } from '../../utils/namespacedParameters';
 
 const formValueSchema = z.object({
   title: z.string().optional(),
@@ -19,13 +20,26 @@ export function useSearchParameters() {
   );
 }
 
-export function SearchForm(props: { termOptions?: TermContentHub[] }) {
+export function useNamespacedSearchParameters(blockId?: string): ContentHubQueryArgs {
+  const [location] = useLocation();
+  const params = parseNamespacedParameters<ContentHubQueryArgs>(
+    location.searchParams,
+    ['title', 'terms'],
+    blockId,
+  );
+  return formValueSchema.parse(params);
+}
+
+export function SearchForm(props: { 
+  termOptions?: TermContentHub[];
+  blockId?: string;
+}) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
   const { register, handleSubmit, setValue } = useForm<FormValues>({
     resolver: zodResolver(formValueSchema),
   });
-  const params = useSearchParameters();
+  const params = useNamespacedSearchParameters(props.blockId);
   const stringifiedParams = JSON.stringify(params);
 
   useEffect(() => {
@@ -42,7 +56,12 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
         <form
           className="mt-5 sm:flex sm:items-center"
           onSubmit={handleSubmit((values) => {
-            navigate(location, { ...values, page: 1 });
+            const newParams = setNamespacedParameters(
+              location.searchParams,
+              { ...values, page: 1 },
+              props.blockId,
+            );
+            navigate(location, Object.fromEntries(newParams.entries()));
           })}
         >
           {props.termOptions && props.termOptions.length > 0 ? (

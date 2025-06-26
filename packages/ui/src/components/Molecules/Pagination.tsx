@@ -8,6 +8,8 @@ import clsx from 'clsx';
 import React from 'react';
 import { z } from 'zod';
 
+import { parseNamespacedParameters, setNamespacedParameters } from '../../utils/namespacedParameters';
+
 export const paginationParamsSchema = z.object({
   page: z.coerce.number().default(1),
 });
@@ -19,8 +21,22 @@ export function useCurrentPage(): number {
   ).page;
 }
 
-export function Pagination(props: { total: number; pageSize: number }) {
-  const currentPage = useCurrentPage();
+export function useNamespacedCurrentPage(blockId?: string): number {
+  const [location] = useLocation();
+  const params = parseNamespacedParameters<{ page: string }>(
+    location.searchParams,
+    ['page'],
+    blockId,
+  );
+  return paginationParamsSchema.parse(params).page;
+}
+
+export function Pagination(props: { 
+  total: number; 
+  pageSize: number;
+  blockId?: string;
+}) {
+  const currentPage = useNamespacedCurrentPage(props.blockId);
   const intl = useIntl();
   const totalPages = Math.ceil(props.total / props.pageSize);
   const [location] = useLocation();
@@ -41,7 +57,13 @@ export function Pagination(props: { total: number; pageSize: number }) {
         ) : (
           <Link
             href={location}
-            search={{ page: Math.max(currentPage - 1, 1) }}
+            search={Object.fromEntries(
+              setNamespacedParameters(
+                location.searchParams,
+                { page: Math.max(currentPage - 1, 1) },
+                props.blockId,
+              ).entries()
+            )}
             className={clsx(
               'hover:border-gray-300 hover:text-gray-700',
               arrowCls,
@@ -78,9 +100,13 @@ export function Pagination(props: { total: number; pageSize: number }) {
         ) : (
           <Link
             href={location}
-            search={{
-              page: Math.min(currentPage + 1, totalPages),
-            }}
+            search={Object.fromEntries(
+              setNamespacedParameters(
+                location.searchParams,
+                { page: Math.min(currentPage + 1, totalPages) },
+                props.blockId,
+              ).entries()
+            )}
             className={clsx(
               'hover:border-gray-300 hover:text-gray-700',
               arrowCls,
