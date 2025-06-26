@@ -3,6 +3,11 @@ import React from 'react';
 
 import { ContentHub } from '../ContentHub';
 
-export function BlockContentHub(props: BlockContentHubFragment) {
-  return <ContentHub {...props} />;
+type BlockContentHubProps = BlockContentHubFragment & {
+  blockId?: string;
+};
+
+export function BlockContentHub(props: BlockContentHubProps) {
+  const { blockId, ...rest } = props;
+  return <ContentHub {...rest} {...(blockId ? { blockId } : {})} />;
 }

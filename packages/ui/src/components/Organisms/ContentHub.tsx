@@ -11,8 +11,11 @@ import React, { useMemo } from 'react';
 import { isTruthy } from '../../utils/isTruthy';
 import { useOperation } from '../../utils/operation';
 import { Alert } from '../Molecules/Alert';
-import { Pagination, useCurrentPage } from '../Molecules/Pagination';
-import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
+import { Pagination, useNamespacedCurrentPage } from '../Molecules/Pagination';
+import {
+  SearchForm,
+  useNamespacedSearchParameters,
+} from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
 import { CardItem } from './CardItem';
 
@@ -26,10 +29,14 @@ export type ContentHubPaginationArgs = {
   pageSize?: string;
 };
 
-export function ContentHub(props: BlockContentHubFragment) {
+type BlockContentHubFragmentWithId = BlockContentHubFragment & {
+  blockId?: string;
+};
+export function ContentHub(props: BlockContentHubFragmentWithId) {
+  const { blockId } = props;
   const intl = useIntl();
-  const page = useCurrentPage();
-  const urlSearch = useSearchParameters();
+  const page = useNamespacedCurrentPage(blockId);
+  const urlSearch = useNamespacedSearchParameters(blockId);
 
   const itemsPerPage = props.itemsPerPage || 6;
   const showFilters = props.showFilters ?? true;
@@ -74,6 +81,7 @@ export function ContentHub(props: BlockContentHubFragment) {
       <div className="mx-auto max-w-6xl">
         <div className={showFilters ? 'block' : 'hidden'}>
           <SearchForm
+            blockId={blockId}
             termOptions={termsResult?.data?.contentHubTerms
               ?.filter(isTruthy)
               .filter((term) => term.locale === (intl.locale as Locale))}
@@ -115,7 +123,11 @@ export function ContentHub(props: BlockContentHubFragment) {
                 );
               })}
             </ul>
-            <Pagination pageSize={itemsPerPage} total={data.contentHub.total} />
+            <Pagination
+              blockId={blockId}
+              pageSize={itemsPerPage}
+              total={data.contentHub.total}
+            />
           </>
         ) : null}
       </div>

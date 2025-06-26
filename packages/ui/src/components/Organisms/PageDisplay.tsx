@@ -2,6 +2,7 @@
 import { BlockConditionalFragment, PageFragment } from '@custom/schema';
 import React from 'react';
 
+import { getBlockInstances } from '../../utils/blockInstances';
 import { isTruthy } from '../../utils/isTruthy';
 import { UnreachableCaseError } from '../../utils/unreachable-case-error';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
@@ -35,8 +36,18 @@ export function PageDisplay(page: PageFragment) {
               return <BlockAccordion key={index} {...block} />;
             case 'BlockConditional':
               return <BlockConditional key={index} {...block} />;
-            case 'BlockContentHub':
-              return <BlockContentHub key={index} {...block} />;
+            case 'BlockContentHub': {
+              const {
+                instances: contentHubBlocks,
+                isMultiple: multipleContentHubBlocks,
+              } = getBlockInstances(page, 'BlockContentHub');
+              const blockId = multipleContentHubBlocks
+                ? `ct${contentHubBlocks.indexOf(block) + 1}`
+                : undefined;
+              return (
+                <BlockContentHub key={index} {...block} blockId={blockId} />
+              );
+            }
             case 'BlockCta':
               return <BlockCta key={index} {...block} />;
             case 'BlockForm':
@@ -68,14 +79,14 @@ export function PageDisplay(page: PageFragment) {
 
 type CommonContentBlock = NonNullable<
   Required<BlockConditionalFragment>['content'][number]
->;
+> & { blockId?: string };
 
 export function CommonContent(props: CommonContentBlock) {
   switch (props.__typename) {
     case 'BlockAccordion':
       return <BlockAccordion {...props} />;
     case 'BlockContentHub':
-      return <BlockContentHub {...props} />;
+      return <BlockContentHub {...props} blockId={props.blockId} />;
     case 'BlockCta':
       return <BlockCta {...props} />;
     case 'BlockForm':

@@ -209,3 +209,38 @@ export const LimitedPerPage: ContentHubStory = {
     itemsPerPage: 3,
   },
 };
+
+export const TwoContentHubs: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+  },
+  render: (args) => (
+    <OperationExecutorsProvider
+      executors={[
+        { executor: args.execQuery, id: ContentHubQuery },
+        { executor: args.execTerms, id: ContentHubTermsQuery },
+      ]}
+    >
+      <div style={{ display: 'flex', gap: 32 }}>
+        <div style={{ flex: 1 }}>
+          <ContentHub
+            itemsPerPage={args.itemsPerPage || defaultItemsPerPage}
+            showFilters={args.showFilters}
+            defaultTerm={args.defaultTerm}
+            defaultKeyword={args.defaultKeyword}
+            blockId="content-hub-1"
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <ContentHub
+            itemsPerPage={args.itemsPerPage || defaultItemsPerPage}
+            showFilters={args.showFilters}
+            defaultTerm={args.defaultTerm}
+            defaultKeyword={args.defaultKeyword}
+            blockId="content-hub-2"
+          />
+        </div>
+      </div>
+    </OperationExecutorsProvider>
+  ),
+};
