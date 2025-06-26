@@ -5,6 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 
+import {
+  parseNamespacedParameters,
+  setNamespacedParameters,
+} from '../../utils/namespacedParameters';
 import { ContentHubQueryArgs } from '../Organisms/ContentHub';
 
 const formValueSchema = z.object({
@@ -12,17 +16,23 @@ const formValueSchema = z.object({
   terms: z.string().optional(),
 }) satisfies ZodType<ContentHubQueryArgs>;
 
-export function useSearchParameters() {
+export function useNamespacedSearchParameters(
+  blockId?: string,
+): ContentHubQueryArgs {
   const [location] = useLocation();
-  return formValueSchema.parse(
-    Object.fromEntries(location.searchParams.entries() ?? []),
+  const params = parseNamespacedParameters<ContentHubQueryArgs>(
+    location.searchParams,
+    ['title', 'terms'],
+    blockId,
   );
+  return formValueSchema.parse(params);
 }
 
 export function SearchForm(props: {
   termOptions?: TermContentHub[];
   defaultKeyword?: string;
   defaultTerm?: string;
+  blockId?: string;
 }) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
@@ -37,7 +47,7 @@ export function SearchForm(props: {
       terms: props.defaultTerm || '',
     },
   });
-  const params = useSearchParameters();
+  const params = useNamespacedSearchParameters(props.blockId);
   const stringifiedParams = JSON.stringify(params);
 
   useEffect(() => {
@@ -76,7 +86,12 @@ export function SearchForm(props: {
         <form
           className="mt-5 sm:flex sm:items-center"
           onSubmit={handleSubmit((values) => {
-            navigate(location, { ...values, page: 1 });
+            const newParams = setNamespacedParameters(
+              location.searchParams,
+              { ...values, page: 1 },
+              props.blockId,
+            );
+            navigate(location, Object.fromEntries(newParams.entries()));
           })}
         >
           {props.termOptions && props.termOptions.length > 0 ? (
