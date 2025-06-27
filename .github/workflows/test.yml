@@ -45,7 +45,7 @@ jobs:
       - name: Check if Drupal content export is up to date
         run: |
           set -ex
-          cd apps/cms
+          cd apps/cms/web/modules/custom/test_content
           pnpm turbo prep
           pnpm content:export
           if [[ $(git status --porcelain) ]]; then
