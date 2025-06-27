@@ -45,16 +45,16 @@ jobs:
       - name: Check if Drupal content export is up to date
         run: |
           set -ex
-          cd apps/cms/web/modules/custom/test_content
+          cd apps/cms
           pnpm turbo prep
           pnpm content:export
-          if [[ $(git status --porcelain) ]]; then
+          if [[ $(git status --porcelain web/modules/custom/test_content) ]]; then
             echo "Error: Content export is not up to date"
             echo "Please run 'pnpm content:export' from apps/cms and commit the changes"
             echo "Detected changes:"
-            git status --porcelain
+            git status --porcelain web/modules/custom/test_content
             echo "Diff:"
-            git diff
+            git diff web/modules/custom/test_content
             exit 1
           fi
         env:
