@@ -42,7 +42,7 @@ export function PageDisplay(page: PageFragment) {
                 isMultiple: multipleContentHubBlocks,
               } = getBlockInstances(page, 'BlockContentHub');
               const blockId = multipleContentHubBlocks
-                ? `ct${contentHubBlocks.indexOf(block) + 1}`
+                ? `ch${contentHubBlocks.indexOf(block) + 1}`
                 : undefined;
               return (
                 <BlockContentHub key={index} {...block} blockId={blockId} />
