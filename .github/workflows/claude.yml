@@ -40,12 +40,6 @@ jobs:
           timeout_minutes: '60'
 
           allowed_tools: >
-            Bash(mkdir:*),
-            Bash(ls:*),
-            Bash(find:*),
-            Bash(sed:*),
-            Bash(grep:*),
-            Bash(awk:*),
-            Bash(pnpm add:*),
-            Bash(pnpm remove:*),
-            Bash(pnpm precommit:*)
+            Bash(mkdir:*), Bash(ls:*), Bash(find:*), Bash(sed:*), Bash(grep:*),
+            Bash(awk:*), Bash(pnpm add:*), Bash(pnpm remove:*), Bash(pnpm
+            precommit:*)
