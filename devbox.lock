@@ -1,6 +1,54 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "mailpit@latest": {
+      "last_modified": "2025-06-20T02:24:11Z",
+      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#mailpit",
+      "source": "devbox-search",
+      "version": "1.26.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zcadkny625gbsfzkdkxd1gj4dkwsqfqb-mailpit-1.26.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/zcadkny625gbsfzkdkxd1gj4dkwsqfqb-mailpit-1.26.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/9d3iwpqgm7a4ay4f59ngffzxjrr07i1j-mailpit-1.26.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/9d3iwpqgm7a4ay4f59ngffzxjrr07i1j-mailpit-1.26.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/lajkbmqrynljgrz0nvrj9r27cwmbbv17-mailpit-1.26.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/lajkbmqrynljgrz0nvrj9r27cwmbbv17-mailpit-1.26.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cqjnlqwy5s21509xw7f9rrn0xy41xs4m-mailpit-1.26.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/cqjnlqwy5s21509xw7f9rrn0xy41xs4m-mailpit-1.26.0"
+        }
+      }
+    },
     "nodejs@20": {
       "last_modified": "2025-03-16T23:54:35Z",
       "plugin_version": "0.0.2",
