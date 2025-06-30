@@ -2,17 +2,17 @@
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
   "env": {
     // TODO: Remove when https://github.com/nodejs/corepack/issues/612 is solved.
-    "COREPACK_INTEGRITY_KEYS":                    "0",
-    "GATSBY_TELEMETRY_DISABLED":                  "1",
-    "DEVBOX_COREPACK_ENABLED":                    "true",
-    "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS": "true",
+    "COREPACK_INTEGRITY_KEYS": "0",
+    "GATSBY_TELEMETRY_DISABLED": "1",
+    "DEVBOX_COREPACK_ENABLED": "true",
+    "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS": "true"
   },
   "packages": [
     "nodejs@20",
     "php@8.3",
     "php83Packages.composer@2",
     "php83Extensions.xdebug@3",
-    "mailpit@latest",
+    "mailpit@latest"
   ],
   "shell": {
     "scripts": {
@@ -20,8 +20,8 @@
         "rm -rf node_modules",
         "git clean -dxff -e '/_local' -e '/.idea'",
         "find . -type d -empty -delete",
-        "direnv reload",
-      ],
-    },
-  },
+        "direnv reload"
+      ]
+    }
+  }
 }
