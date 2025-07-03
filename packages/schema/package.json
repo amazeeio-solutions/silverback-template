@@ -34,6 +34,9 @@
     }
   },
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
     "watch": "concurrently \"npm run watch:codegen\" \"npm run watch:swc\" \"npm run watch:tsc\"",
     "watch:codegen": "graphql-codegen --verbose --watch",
