@@ -25,8 +25,6 @@
     "config:import": "pnpm drush -y cim",
     "import-translations": "pnpm drush scr scripts/translations-import.php",
     "cms:test:static": "bash -c 'vendor/bin/phpcs --standard=../../phpcs.xml.dist --error-severity=1 --warning-severity=0 \"../../$@\" && vendor/bin/phpstan analyse --configuration=../../phpstan.neon --error-format=table --no-progress \"../../$@\"' -- ",
-    "cms:test:static:phpcs": "vendor/bin/phpcs --standard=../../phpcs.xml.dist --error-severity=1 --warning-severity=0",
-    "cms:test:static:phpstan": "vendor/bin/phpstan analyse --configuration=../../phpstan.neon --error-format=table --no-progress",
     "cms:test:unit": "bash -c 'SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=unit \"$@\"' -- ",
     "cms:test:integration": "bash -c 'SB_ENVIRONMENT=1 SIMPLETEST_DB=sqlite://localhost/sites/default/files/.sqlite vendor/bin/phpunit --testsuite=integration \"$@\"' -- "
   },
