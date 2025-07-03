@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.8.0...@amazeelabs/silverback-iframe@1.9.0) (2025-07-03)
+
+
+### Features
+
+* add comprehensive pre-commit quality checks system ([1aec847](https://github.com/AmazeeLabs/silverback-template/commit/1aec847715d81a06db59556352cba25f62201e30))
+
+
+
+
+
 # [1.8.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.7.0...@amazeelabs/silverback-iframe@1.8.0) (2025-07-03)
 
 

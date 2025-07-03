@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.15.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.14.0...@amazeelabs/silverback-template@1.15.0) (2025-07-03)
+
+### Bug Fixes
+
+- remove precommit commands in cms package
+  ([6c582ff](https://github.com/AmazeeLabs/silverback-template/commit/6c582ff847ac313f5df7583a92851029d8d99557))
+
+### Features
+
+- add comprehensive pre-commit quality checks system
+  ([1aec847](https://github.com/AmazeeLabs/silverback-template/commit/1aec847715d81a06db59556352cba25f62201e30))
+- add comprehensive pre-commit quality checks system
+  ([46d08cb](https://github.com/AmazeeLabs/silverback-template/commit/46d08cb350fb1f01969fffc72231fe581e44f9c4))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.14.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.13.3...@amazeelabs/silverback-template@1.14.0) (2025-07-03)
 
 ### Bug Fixes
