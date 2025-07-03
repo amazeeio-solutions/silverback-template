@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-search",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "scripts": {
     "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
     "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-search/drupal",

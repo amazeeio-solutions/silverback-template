@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.14.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.13.3...@amazeelabs/silverback-template@1.14.0) (2025-07-03)
+
+### Bug Fixes
+
+- add missing composer dependency to silverback packages test:static
+  ([6b52a81](https://github.com/AmazeeLabs/silverback-template/commit/6b52a81d09dce0f6ee9c8aba7617a327393ae635))
+- add missing newlines at end of test files
+  ([bb147ea](https://github.com/AmazeeLabs/silverback-template/commit/bb147eaebf060e9ef986b2ea46185d470fffa9a0))
+- correct relative paths to PHP quality tools in all packages
+  ([40c5140](https://github.com/AmazeeLabs/silverback-template/commit/40c5140df4edcca9c31f9266166abfcf186948aa))
+- resolve circular dependency in Turborepo configuration
+  ([acbb4cc](https://github.com/AmazeeLabs/silverback-template/commit/acbb4cc8c513d6859848e997d9585a0d14c1546e))
+- resolve static analysis violations across PHP packages
+  ([6242fa6](https://github.com/AmazeeLabs/silverback-template/commit/6242fa6ec3db1b1273b9a8f8d8c76ebd2d83c065))
+- turbo.json formatting
+  ([5d0b48d](https://github.com/AmazeeLabs/silverback-template/commit/5d0b48dec7064039eb03cb550b499362e5cc3894))
+- update package turbo configs and wrapper scripts for renamed CMS commands
+  ([fe0d589](https://github.com/AmazeeLabs/silverback-template/commit/fe0d5890ef89844d0448a4ebdc8c40b2b3880a6a))
+
+### Features
+
+- add centralized PHPCS and PHPStan commands with package-specific usage
+  ([25015c9](https://github.com/AmazeeLabs/silverback-template/commit/25015c95a3c8d547e51692061146846e88703abc))
+- implement centralized PHPUnit testsuites with package filtering
+  ([66901e4](https://github.com/AmazeeLabs/silverback-template/commit/66901e4a0850d10f982a1862ebb539757d61a08c))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.13.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.13.2...@amazeelabs/silverback-template@1.13.3) (2025-06-30)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.13.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.13.1...@amazeelabs/silverback-template@1.13.2) (2025-06-27)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.13.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.13.0...@amazeelabs/silverback-template@1.13.1) (2025-06-24)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

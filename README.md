@@ -179,6 +179,11 @@ clears Drupal cache. Otherwise, it re-installs Drupal completely.
 
 If you wish Drupal to be re-installed, run `pnpm turbo:prep:force`.
 
+### Mailpit
+
+Mailpit is installed by default on local development environments and catches
+all Drupal outgoing emails. Available on http://localhost:8025/
+
 ## Environment overrides
 
 The application is tailored to run locally out of the box. In a production or
