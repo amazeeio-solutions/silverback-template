@@ -12,15 +12,13 @@ use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Checks if iframe resizer should be injected.
- *
- * @return bool
- *   TRUE if iframe resizer should be injected, FALSE otherwise.
  */
-function silverback_iframe_inject_resizer() {
+function silverback_iframe_should_inject_resizer() : bool {
   if (!getenv('SB_ENVIRONMENT')) {
     return FALSE;
   }
-  // Using $_GET directly to prevent possible service circular dependency errors.
+  // Using $_GET directly to prevent possible service circular dependencies.
+  // We have to ignore this because phpcs does not like direct access to $_GET.
   // phpcs:ignore
   return ($_GET['iframe_resizer'] ?? '') === 'true';
 }
@@ -32,7 +30,8 @@ function silverback_iframe_inject_resizer() {
  *   TRUE if iframe theme is enabled, FALSE otherwise.
  */
 function silverback_iframe_theme_enabled() {
-  // Using $_GET directly to prevent possible service circular dependency errors.
+  // Using $_GET directly to prevent possible service circular dependencies.
+  // We have to ignore this because phpcs does not like direct access to $_GET.
   // phpcs:ignore
   return ($_GET['iframe'] ?? '') === 'true';
 }
@@ -50,7 +49,7 @@ function silverback_iframe_preprocess_page(&$variables) {
 
   if (getenv('SB_ENVIRONMENT')) {
     $variables['page']['#cache']['contexts'][] = 'url.query_args:iframe_resizer';
-    if (silverback_iframe_inject_resizer()) {
+    if (silverback_iframe_should_inject_resizer()) {
       $injectJs = TRUE;
     }
   }
