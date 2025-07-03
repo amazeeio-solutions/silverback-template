@@ -4,6 +4,9 @@
   "scripts": {
     "dev": "vite build --watch",
     "prep": "vite build",
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "eslint . --fix --quiet && pnpm --filter @custom/cms precommit:fix packages/drupal/gutenberg_blocks",
+    "precommit:check": "tsc --noEmit && eslint . --quiet && pnpm --filter @custom/cms precommit:check packages/drupal/gutenberg_blocks",
     "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/gutenberg_blocks",
     "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=gutenberg_blocks",
     "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=gutenberg_blocks",

@@ -37,6 +37,15 @@
     "test:integration": {
       "dependsOn": ["test:unit"]
     },
+    "precommit": {
+      "dependsOn": ["precommit:fix", "precommit:check", "test:unit"]
+    },
+    "precommit:fix": {
+      "dependsOn": ["^prep"]
+    },
+    "precommit:check": {
+      "dependsOn": ["precommit:fix"]
+    },
     "drupal:test:static": {
       "inputs": [
         "**/*.php",

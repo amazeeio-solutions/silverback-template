@@ -45,6 +45,9 @@
     "vitest": "^3.0.4"
   },
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
     "full-rebuild": "pnpm clean && pnpm build:gatsby",
     "start:drupal": "pnpm run --filter @custom/cms start >> /tmp/cms.log 2>&1",

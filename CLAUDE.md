@@ -20,12 +20,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `/apps/website/` - Gatsby frontend (port 8000)
 - `/apps/preview/` - Real-time preview server with OAuth2
 - `/apps/decap/` - Git-based CMS interface
-- `/apps/publisher/` - Build and deployment coordination
+- `/apps/publisher/` - Static website build and deployment coordination
 
 ### Shared Packages
 - `/packages/ui/` - React components with Storybook
 - `/packages/schema/` - GraphQL schema and types
 - `/packages/drupal/` - Custom Drupal modules
+- `/packages/@amazeelabs/` - Amazee Labs specific packages, published to NPM.js. Only available in `silverback-template`, not in derived projects.
+- `/packages/eslint-config/` - Shared ESLint configuration
 
 ## Essential Commands
 
@@ -34,44 +36,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm i && pnpm turbo:prep
 ```
 
-### Force Reinstall (after branch switching)
+### Pre-commit Quality Checks
 ```bash
-pnpm turbo:prep:force
+pnpm precommit             # Fix formatting, run linters, and execute unit tests
+pnpm precommit:fix         # Only auto-fix formatting and linting issues
+pnpm precommit:check       # Only validate without fixing
 ```
 
 ### Testing
 ```bash
-pnpm turbo:test          # Full test suite (unit + integration)
-pnpm turbo:test:quick    # Unit tests only
-pnpm turbo:test:force    # Force run without cache
+pnpm turbo:test             # Full test suite (unit + integration)
+pnpm turbo:test:quick       # Static and unit tests only
+pnpm turbo:test:integration # Integration tests only
 ```
 
 ### Code Quality
 ```bash
 pnpm test:format         # Check Prettier formatting
 pnpm test:format:fix     # Fix formatting issues
-```
-
-### App Development
-```bash
-# Drupal CMS
-cd apps/cms && pnpm start
-
-# Gatsby Website  
-cd apps/website && pnpm gatsby:develop
-
-# Preview Server
-cd apps/preview && pnpm dev:app
-
-# Decap CMS
-cd apps/decap && pnpm dev
-```
-
-### Drupal-Specific
-```bash
-cd apps/cms
-drush                    # Drupal CLI
-pnpm turbo:prep         # Clears cache if DB exists, reinstalls if not
 ```
 
 ## Testing Framework
@@ -135,12 +117,32 @@ playwright test --ui     # Interactive mode
 
 ## Turborepo Build Pipeline
 The build follows stages: prep → test:static → test:unit → test:integration
-Always run `pnpm turbo:prep` after switching branches or making package changes.
-
-## Development Best Practices
-- Always use prettier to format typescript, javascript, yaml, json and markdown files after editing them
-- Run `pnpm turbo:test:quick` tests after code changes
-- Run `pnpm test:format:fix` after changes to format everything correctly
 
 ## Code Organization Principles
-- Don't create index.ts files that aggregate a whole directory. Use explicit imports instead.
+- Don't create `index.ts` files that aggregate a whole directory. Use explicit imports instead.
+- Follow existing code conventions and patterns when making changes
+- Check package.json for available libraries before adding new dependencies
+
+## Development Best Practices
+
+- If a task requires new operations or data structures, start by adjusting the GraphQL schema and operations.
+- Run `pnpm precommit` after code changes, which will fix formatting and run linters and unit tests.
+- Always run `pnpm install && pnpm turbo:prep` after switching branches to avoid issues
+
+### Storybook and UI Component Development
+- Create Storybook stories for UI components. Cover input property edge cases and create play functions for testing interactions.
+- Visible interface strings have to be translated using 'react-intl'.
+- Never use string concatenation for class attributes, always use 'clsx'.
+- Implement frontend business logic in Typescript utilities that are tested with vitest.
+- Avoid using useEffect and useContext in React. Try to solve the problem with zustand instead.
+- Test zustand stores with vitest by accessing them directly, not through React hooks.
+
+### Drupal Extensions
+- Create services for Drupal business logic and create PHPUnit tests for them.
+- Create Kernel tests for interconnected Drupal services. Avoid mocking services, unless they connect to external systems.
+- Keep Drupal hooks as simple as possible. If they get complex, they should instead call a unit-tested service.
+
+### GraphQL Schema
+- Avoid technical Details, keep types and fields technology agnostic and readable to humans.
+- Add GraphQL block comments for describing schema elements. Use markdown for clarity.
+- Run `pnpm prep` in `packages/schema` after changing the schema, operations or fragments to verify correctness.
