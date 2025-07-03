@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-search",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "scripts": {
     "test:static": "pnpm --filter @custom/cms cms:test:static packages/@amazeelabs/silverback-search/drupal",
     "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=silverback_search",
