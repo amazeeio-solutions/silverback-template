@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Export test content and configuration.
+ */
+
 use AmazeeLabs\DefaultContent\Export;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\Utility\WebformYaml;

@@ -1,5 +1,10 @@
 {
   "name": "@custom/custom_heavy",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/custom_heavy",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=custom_heavy",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=custom_heavy"
+  }
 }

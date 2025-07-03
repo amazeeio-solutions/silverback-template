@@ -2,15 +2,16 @@
 
 /**
  * @file
+ * Custom module providing site-specific functionality.
  */
 
+use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityFormInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Render\Element;
-use Drupal\file\Entity\File;
 use Drupal\node\NodeInterface;
 use Drupal\silverback_gutenberg\LinkProcessor;
 use Drupal\user\Entity\Role;
@@ -62,9 +63,12 @@ function custom_silverback_gutenberg_link_processor_outbound_url_alter(
  * Implements hook_silverback_gutenberg_link_processor_inbound_link_alter().
  *
  * @param \DOMElement $link
+ *   The DOM element representing the link to process.
  * @param \Drupal\silverback_gutenberg\LinkProcessor $linkProcessor
+ *   The link processor service instance.
  *
  * @return void
+ *   This function does not return a value.
  *
  * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
  * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -138,7 +142,7 @@ function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     }
   }
 
-  // Check if something has been moved to `details_sidebar`
+  // Check if something has been moved to `details_sidebar`.
   $groups = $form['#fieldgroups'] ?? [];
   foreach ($groups as $group) {
     if ($group->format_type === 'details_sidebar') {
@@ -148,7 +152,7 @@ function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
       foreach ($children as $child) {
         if (isset($form[$child])) {
-          if($form[$child]['#group'] === "metabox_fields") {
+          if ($form[$child]['#group'] === "metabox_fields") {
             $form[$child]['#group'] = $group_name;
             $updated = TRUE;
           }
@@ -294,6 +298,7 @@ function custom_preprocess_html(&$variables) {
  *   Variables passed to hook_preprocess_html().
  *
  * @return void
+ *   This function does not return a value.
  */
 function _custom_add_session_iframe_to_page(array &$variables): void {
   $variables['page_bottom']['frontend_session_iframe'] = [
@@ -340,14 +345,18 @@ function _custom_add_session_iframe_to_page(array &$variables): void {
  * Implements hook_tokens_alter() for nodes.
  *
  * @param array $replacements
+ *   An associative array of replacements returned by hook_tokens().
  * @param array $context
+ *   An associative array with the following keys.
  * @param \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata
+ *   The bubbleable metadata.
  *
  * @return void
+ *   This function does not return a value.
  */
-function custom_tokens_alter(array &$replacements, array $context, \Drupal\Core\Render\BubbleableMetadata $bubbleable_metadata) {
+function custom_tokens_alter(array &$replacements, array $context, BubbleableMetadata $bubbleable_metadata) {
   if ($context['type'] == 'node' && !empty($context['data']['node'])) {
-    /* @var Drupal\node\NodeInterface $node */
+    /** @var Drupal\node\NodeInterface $node */
     $node = $context['data']['node'];
     // In case there is no value for the seo title field, then we actually want
     // to fall back to the label (title) of the node itself.

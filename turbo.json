@@ -36,6 +36,42 @@
     },
     "test:integration": {
       "dependsOn": ["test:unit"]
+    },
+    "drupal:test:static": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:unit": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:integration": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
     }
   }
 }

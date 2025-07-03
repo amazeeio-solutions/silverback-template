@@ -1,1 +1,6 @@
 <?php
+
+/**
+ * @file
+ * Global search functionality module.
+ */

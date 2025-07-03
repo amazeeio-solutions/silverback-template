@@ -33,8 +33,9 @@
   },
   "scripts": {
     "prep": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-    "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:unit": "jest --passWithNoTests",
+    "test:static": "tsc --noEmit && eslint . --quiet && pnpm --filter @custom/cms cms:test:static packages/@amazeelabs/silverback-iframe/drupal",
+    "test:unit": "jest --passWithNoTests && pnpm --filter @custom/cms cms:test:unit --filter=silverback_iframe",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=silverback_iframe",
     "test:watch": "jest --watch"
   },
   "peerDependencies": {

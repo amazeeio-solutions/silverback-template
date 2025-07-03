@@ -1,4 +1,9 @@
 {
   "name": "@custom/search_api_global",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/search_api_global",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=search_api_global",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=search_api_global"
+  }
 }

@@ -3,12 +3,13 @@
 namespace Drupal\gutenberg_blocks\Plugin\Validation\GutenbergValidator;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\silverback_gutenberg\Annotation\GutenbergValidator;
 use Drupal\silverback_gutenberg\GutenbergValidation\GutenbergCardinalityValidatorInterface;
 use Drupal\silverback_gutenberg\GutenbergValidation\GutenbergCardinalityValidatorTrait;
 use Drupal\silverback_gutenberg\GutenbergValidation\GutenbergValidatorBase;
 
 /**
+ * Validates accordion block structure and content.
+ *
  * @GutenbergValidator(
  *   id="accordion_validator",
  *   label = @Translation("Accordion validator")
