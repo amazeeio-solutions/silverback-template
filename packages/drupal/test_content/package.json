@@ -1,4 +1,9 @@
 {
   "name": "@custom/test_content",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/test_content",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=test_content",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=test_content"
+  }
 }

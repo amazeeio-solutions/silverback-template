@@ -12,9 +12,11 @@ class Menus {
   /**
    * Get translations for a menu.
    *
-   * @param \Drupal\graphql_directives\Api $input
+   * @param \Drupal\graphql_directives\Api $api
+   *   The GraphQL API object containing menu arguments.
    *
    * @return array
+   *   An array of menu translations.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException

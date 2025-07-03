@@ -11,6 +11,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Event subscriber for entity creation split functionality.
+ */
 class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
 
   /**
@@ -29,18 +32,25 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
 
   /**
    * The entity display repository service.
+   *
    * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
    */
   protected $entityDisplayRepository;
 
   /**
    * Constructs a EntityCreateSplitRequestSubscriber object.
+   *
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The route match service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
+   *   The entity display repository service.
    */
   public function __construct(
     RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
-    EntityDisplayRepositoryInterface $entity_display_repository
+    EntityDisplayRepositoryInterface $entity_display_repository,
   ) {
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
@@ -55,6 +65,12 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
     return $events;
   }
 
+  /**
+   * Responds to kernel request events.
+   *
+   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
+   *   The event to process.
+   */
   public function onKernelRequest(RequestEvent $event) {
     $supportedRoutes = $this->supportedRoutes();
     $currentRouteName = $this->routeMatch->getRouteName();
@@ -62,7 +78,7 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
       return;
     }
     $entityTypeId = $supportedRoutes[$currentRouteName];
-    $entityTypeDefinition =$this->entityTypeManager->getDefinition($entityTypeId);
+    $entityTypeDefinition = $this->entityTypeManager->getDefinition($entityTypeId);
     // Make sure the entity has the split form class handler defined.
     if (!$entityTypeDefinition->getFormClass('split')) {
       return;
@@ -94,10 +110,10 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Helper, temporary, method to define the routes which are checked by the
-   * event subscriber for redirecting the user to the split form.
+   * Helper method to define the routes checked for redirecting to the split form.
    *
    * @return string[]
+   *   An array of route names and their corresponding entity types.
    */
   protected function supportedRoutes() {
     return [
@@ -105,4 +121,5 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
       'media.add' => 'media',
     ];
   }
+
 }

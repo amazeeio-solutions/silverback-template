@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file
+ * Theme functions for the custom_iframe theme.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
 function custom_iframe_preprocess_page(&$variables) {
   $noCssParamName = 'no_css';
   $variables['page']['#cache']['contexts'][] = 'url.query_args:' . $noCssParamName;

@@ -11,4 +11,26 @@
   <php>
     <env name="SIMPLETEST_DB" value="sqlite://localhost/sites/default/files/.sqlite"/>
   </php>
+  <testsuites>
+    <testsuite name="unit">
+      <directory>../../packages/*/tests/Unit</directory>
+      <directory>../../packages/*/*/tests/Unit</directory>
+      <directory>../../packages/*/*/*/tests/src/Unit</directory>
+      <directory>../../packages/*/*/*/*/tests/src/Unit</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <directory>../../packages/*/tests/Kernel</directory>
+      <directory>../../packages/*/*/tests/Kernel</directory>
+      <directory>../../packages/*/*/*/tests/src/Kernel</directory>
+      <directory>../../packages/*/*/*/*/tests/src/Kernel</directory>
+      <directory>../../packages/*/tests/Functional</directory>
+      <directory>../../packages/*/*/tests/Functional</directory>
+      <directory>../../packages/*/*/*/tests/src/Functional</directory>
+      <directory>../../packages/*/*/*/*/tests/src/Functional</directory>
+      <directory>../../packages/*/tests/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/tests/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/tests/src/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/*/tests/src/FunctionalJavascript</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

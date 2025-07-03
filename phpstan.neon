@@ -1,6 +1,5 @@
+includes:
+  - apps/cms/vendor/mglaman/phpstan-drupal/extension.neon
+
 parameters:
-  ignoreErrors:
-    # new static() is a best practice in Drupal, so we cannot fix that.
-    - "#^Unsafe usage of new static#"
-  drupal:
-    drupal_root: apps/cms
+  level: 1

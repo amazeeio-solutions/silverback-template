@@ -1,5 +1,10 @@
 {
   "name": "@custom/custom_iframe",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal-themes/custom_iframe",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=custom_iframe",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=custom_iframe"
+  }
 }
