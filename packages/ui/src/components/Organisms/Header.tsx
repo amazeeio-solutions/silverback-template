@@ -40,7 +40,7 @@ export function Header() {
   const intl = useIntl();
   const items = buildNavigationTree(useHeaderNavigation(intl.locale));
 
-    const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
+  const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
 
   return (
     <MobileMenuProvider>
