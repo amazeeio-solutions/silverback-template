@@ -26,7 +26,7 @@
       "dependsOn": ["prep"]
     },
     "prep": {
-      "dependsOn": ["test:static"]
+      "dependsOn": ["^prep"]
     },
     "test:static": {
       "dependsOn": ["^prep"]
