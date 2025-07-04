@@ -46,14 +46,7 @@ pnpm precommit:check       # Only validate without fixing
 ### Testing
 ```bash
 pnpm turbo:test             # Full test suite (unit + integration)
-pnpm turbo:test:quick       # Static and unit tests only
 pnpm turbo:test:integration # Integration tests only
-```
-
-### Code Quality
-```bash
-pnpm test:format         # Check Prettier formatting
-pnpm test:format:fix     # Fix formatting issues
 ```
 
 ## Testing Framework
