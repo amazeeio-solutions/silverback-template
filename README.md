@@ -31,10 +31,7 @@ Other steps
 
 ## Connect to automatic estimations
 
-There are Github workflows that can connect to the
-[Amazeelabs Dashboard](https://dashboard.amazeelabs.com) to log complexity
-statistics and retrieve automatic estimations. To use that, provide a
-`JIRA_PROJECT_ID` environment variable in the Github repository variables.
+There are Github workflows that can connect to the [Amazeelabs Dashboard](https://dashboard.amazeelabs.com) to log complexity statistics and retrieve automatic estimations. To use that, provide a `JIRA_PROJECT_ID` environment variable in the Github repository variables.
 
 The project should then show up on
 [Estimator page](https://dashboard.amazeelabs.com/estimator).
