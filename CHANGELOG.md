@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.15.0...@amazeelabs/silverback-template@1.15.1) (2025-07-04)
+
+### Reverts
+
+- Revert "test: formatting issues that should be found in github workflow"
+  ([9511bab](https://github.com/AmazeeLabs/silverback-template/commit/9511bab1766cc38927eb99cf2e6cd1dcaefcb19b))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [1.15.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.14.0...@amazeelabs/silverback-template@1.15.0) (2025-07-03)
 
 ### Bug Fixes
