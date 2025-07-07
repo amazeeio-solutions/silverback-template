@@ -58,13 +58,12 @@ runs:
         BROWSERS_INSTALLED=false
         if [ -d "/tmp/cache/playwright-browsers" ] && [ "$(ls -A /tmp/cache/playwright-browsers 2>/dev/null)" ]; then
           echo "Playwright browsers found in cache, verifying installation..."
-          if command -v playwright &> /dev/null; then
-            if playwright install --dry-run chromium 2>/dev/null; then
-              echo "Browser verification successful"
-              BROWSERS_INSTALLED=true
-            else
-              echo "Browser verification failed, will need fresh installation"
-            fi
+          cd tests/e2e
+          if npx playwright install --dry-run chromium 2>/dev/null; then
+            echo "Browser verification successful"
+            BROWSERS_INSTALLED=true
+          else
+            echo "Browser verification failed, will need fresh installation"
           fi
         else
           echo "No cached Playwright browsers found"
@@ -77,7 +76,7 @@ runs:
         if [ "$BROWSERS_INSTALLED" != "true" ]; then
           echo "Installing Playwright browsers..."
           cd tests/e2e
-          playwright install chromium --with-deps
+          npx playwright install chromium --with-deps
           echo "Playwright browsers installed successfully"
         else
           echo "Playwright browsers already available, skipping installation"
