@@ -420,6 +420,8 @@ importers:
 
   packages/@amazeelabs/silverback-search: {}
 
+  packages/drupal-local: {}
+
   packages/drupal/content_preview: {}
 
   packages/drupal/custom: {}
