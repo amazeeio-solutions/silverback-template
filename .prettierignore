@@ -108,6 +108,7 @@ apps/website/.env
 /packages/@amazeelabs/silverback-iframe/drupal/silverback_iframe/**/CHANGELOG.md
 # From packages/drupal-local/.gitignore
 /packages/drupal-local/**/*
+!/packages/drupal-local/**/package.json
 !/packages/drupal-local/**/.gitignore
 !/packages/drupal-local/**/README.md
 # From packages/drupal/gutenberg_blocks/.gitignore
