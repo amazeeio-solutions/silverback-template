@@ -55,11 +55,30 @@ runs:
     - name: Verify Playwright browser installation
       shell: bash
       run: |
+        BROWSERS_INSTALLED=false
         if [ -d "/tmp/cache/playwright-browsers" ] && [ "$(ls -A /tmp/cache/playwright-browsers 2>/dev/null)" ]; then
           echo "Playwright browsers found in cache, verifying installation..."
           if command -v playwright &> /dev/null; then
-            playwright install --dry-run chromium || echo "Browser verification failed, will need fresh installation"
+            if playwright install --dry-run chromium 2>/dev/null; then
+              echo "Browser verification successful"
+              BROWSERS_INSTALLED=true
+            else
+              echo "Browser verification failed, will need fresh installation"
+            fi
           fi
         else
           echo "No cached Playwright browsers found"
+        fi
+        echo "BROWSERS_INSTALLED=$BROWSERS_INSTALLED" >> $GITHUB_ENV
+
+    - name: Install Playwright browsers
+      shell: bash
+      run: |
+        if [ "$BROWSERS_INSTALLED" != "true" ]; then
+          echo "Installing Playwright browsers..."
+          cd tests/e2e
+          playwright install chromium --with-deps
+          echo "Playwright browsers installed successfully"
+        else
+          echo "Playwright browsers already available, skipping installation"
         fi
