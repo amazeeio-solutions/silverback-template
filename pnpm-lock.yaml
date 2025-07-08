@@ -420,6 +420,8 @@ importers:
 
   packages/@amazeelabs/silverback-search: {}
 
+  packages/drupal-local: {}
+
   packages/drupal/content_preview: {}
 
   packages/drupal/custom: {}
@@ -843,6 +845,9 @@ importers:
       nyc:
         specifier: ^17.1.0
         version: 17.1.0
+      playwright:
+        specifier: ^1.50.0
+        version: 1.50.0
       postcss:
         specifier: ^8.5.1
         version: 8.5.1
