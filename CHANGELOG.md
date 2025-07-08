@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.16.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.15.2...@amazeelabs/silverback-template@1.16.0) (2025-07-08)
+
+### Bug Fixes
+
+- readme formatting
+  ([3805dce](https://github.com/AmazeeLabs/silverback-template/commit/3805dcedf197be00d1f1447ad6f954e64e568b97))
+- regenerate prettierignore
+  ([2fb1aec](https://github.com/AmazeeLabs/silverback-template/commit/2fb1aec13c27c7c1829cc80612fa76ba75a28261))
+- use npx for playwright commands in GitHub workflow
+  ([9a5ea82](https://github.com/AmazeeLabs/silverback-template/commit/9a5ea8292a44c7454aa8e234116f7c8372b3772e))
+
+### Features
+
+- simplify local development of contributed Drupal modules
+  ([12e225e](https://github.com/AmazeeLabs/silverback-template/commit/12e225ede50c51fec34f91142e32dfd75b47e00d))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.15.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.15.1...@amazeelabs/silverback-template@1.15.2) (2025-07-08)
 
 ### Bug Fixes
