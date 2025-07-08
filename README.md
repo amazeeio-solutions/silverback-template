@@ -179,6 +179,9 @@ clears Drupal cache. Otherwise, it re-installs Drupal completely.
 
 If you wish Drupal to be re-installed, run `pnpm turbo:prep:force`.
 
+To work on packages from drupal.org, clone them into `packages/drupal-local`.
+They will have a higher precedence than the versions downloaded by composer.
+
 ### Mailpit
 
 Mailpit is installed by default on local development environments and catches

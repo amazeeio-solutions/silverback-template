@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.15.1...@amazeelabs/silverback-template@1.15.2) (2025-07-08)
+
+### Bug Fixes
+
+- proxy core/misc
+  ([9b4e87b](https://github.com/AmazeeLabs/silverback-template/commit/9b4e87be941a51bc56b4e3d023bb03fde74dba86))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [1.15.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.15.0...@amazeelabs/silverback-template@1.15.1) (2025-07-04)
 
 ### Reverts
