@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:integration": "playwright install chromium --with-deps && playwright test",
-    "test:headed": "playwright install chromium --with-deps && playwright test --headed",
-    "dev": "playwright install chromium --with-deps && playwright test --ui --headed"
+    "test:integration": "playwright install chromium && playwright test",
+    "test:headed": "playwright install chromium && playwright test --headed",
+    "dev": "playwright install chromium && playwright test --ui --headed"
   },
   "devDependencies": {
     "@custom/cms": "workspace:*",
