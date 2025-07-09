@@ -87,3 +87,16 @@ environments:
         schedule: '30 * * * *'
         command: drush silverback-gatsby:build main
         service: cli
+  demo-kls:
+    routes:
+      - nginx:
+        - kls.cms.amazeelabs.dev
+      - build:
+        - kls.build.amazeelabs.dev
+      - preview:
+        - kls.preview.amazeelabs.dev
+    cronjobs:
+      - name: drush cron
+        schedule: '*/15 * * * *'
+        command: drush cron
+        service: cli
