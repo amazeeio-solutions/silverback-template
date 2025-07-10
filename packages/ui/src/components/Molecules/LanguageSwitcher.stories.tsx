@@ -27,7 +27,7 @@ const TranslationsDecorator = ((Story, ctx) => {
                 translations: [
                   { locale: Locale.En, path: '/en/home' as Url },
                   { locale: Locale.De, path: '/de/home' as Url },
-                  { locale: Locale.DeCh, path: '/de-CH/home' as Url },
+                  { locale: Locale.It, path: '/it/home' as Url },
                   { locale: Locale.French, path: '/french/home' as Url },
                 ],
               },
@@ -79,7 +79,7 @@ export const Full = {
   args: {
     en: '/en/english-version' as Url,
     de: '/de/german-version' as Url,
-    de_CH: '/de-CH/swiss-german-version' as Url,
+    it: '/it/italian-version' as Url,
     french: '/french/french-version' as Url,
   },
 } satisfies Story;
@@ -88,7 +88,7 @@ export const Homepage = {
   args: {
     en: '/en/home' as Url,
     de: '/de/home' as Url,
-    de_CH: '/de-CH/home' as Url,
+    it: '/it/home' as Url,
     french: '/french/home' as Url,
   },
   parameters: {
@@ -101,7 +101,7 @@ export const MobileVariant = {
     variant: 'mobile',
     en: '/en/english-version' as Url,
     de: '/de/german-version' as Url,
-    de_CH: '/de-CH/swiss-german-version' as Url,
+    it: '/it/italian-version' as Url,
     french: '/french/french-version' as Url,
   },
 } satisfies Story;
