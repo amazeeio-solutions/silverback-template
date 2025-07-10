@@ -55,18 +55,16 @@ function DefaultHero(props: NonNullable<PageFragment['hero']>) {
         <HeroImage {...props} />
         <div className="container-content">
           <div className="mx-auto max-w-2xl lg:mx-0">
-            <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-white drop-shadow-md">
+            <h1 className="headline-1 text-white drop-shadow-md">
               {props.headline}
             </h1>
             {props.lead ? (
-              <p className="mt-6 text-lg leading-8 text-gray-300">
-                {props.lead}
-              </p>
+              <p className="lead-text mt-6 text-gray-300">{props.lead}</p>
             ) : null}
             {props.ctaText && props.ctaUrl ? (
               <Link
                 href={props.ctaUrl}
-                className="mt-7 inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-7 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 <svg
                   className="-ml-1 mr-2 size-4"
@@ -98,18 +96,16 @@ function FormHero(props: NonNullable<PageFragment['hero']>) {
         <HeroImage {...props} enableOverlay={true} />
         <div className="container-page relative px-4 pb-[22rem] text-center lg:px-6 lg:pb-96">
           <div className="mx-auto max-w-screen-xl">
-            <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-md">
+            <h1 className="headline-2 text-white drop-shadow-md">
               {props.headline}
             </h1>
             {props.lead ? (
-              <p className="mt-6 text-lg leading-4 text-gray-300">
-                {props.lead}
-              </p>
+              <p className="lead-text mt-6 text-gray-300">{props.lead}</p>
             ) : null}
             {props.ctaText && props.ctaUrl ? (
               <Link
                 href={props.ctaUrl}
-                className="mt-7 inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-7 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 <svg
                   className="-ml-1 mr-2 size-4"
@@ -147,18 +143,14 @@ function NoImageHero(props: NonNullable<PageFragment['hero']>) {
       <section className="container-page relative isolate overflow-hidden pt-12 sm:pt-20">
         <div className="container-content">
           <div className="container-text">
-            <h1 className="text-4xl font-extrabold leading-tight tracking-tight">
-              {props.headline}
-            </h1>
+            <h1 className="headline-2">{props.headline}</h1>
             {props.lead ? (
-              <p className="mt-4 text-lg leading-8 text-gray-500">
-                {props.lead}
-              </p>
+              <p className="lead-text text-gray mt-4">{props.lead}</p>
             ) : null}
             {props.ctaText && props.ctaUrl ? (
               <Link
                 href={props.ctaUrl}
-                className="mt-5 inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-5 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 <svg
                   className="-ml-1 mr-2 size-4"

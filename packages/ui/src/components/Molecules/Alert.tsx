@@ -29,18 +29,20 @@ export function Alert({
 
   switch (status) {
     case 'warning':
-      colors.main = 'border-yellow-300 bg-yellow-50 p-4 text-yellow-800';
+      colors.main =
+        'border-kls-orange-accent bg-kls-orange-bright-alt p-4 text-kls-orange-accessible';
       colors.button =
-        'bg-yellow-50 p-1.5 text-yellow-500 hover:bg-yellow-200 focus:ring-yellow-400';
+        'bg-kls-orange-bright-alt p-1.5 text-kls-orange-accent hover:bg-kls-orange-bright focus:ring-kls-orange-primary';
       srText = intl.formatMessage({
         defaultMessage: 'Warning message',
         id: 'qB0/gQ',
       });
       break;
     case 'danger':
-      colors.main = 'border-red-300 bg-red-50 p-4 text-red-800';
+      colors.main =
+        'border-kls-orange-accessible bg-gray-lightest p-4 text-kls-orange-accessible';
       colors.button =
-        'bg-red-50 p-1.5 text-red-500 hover:bg-red-200 focus:ring-red-400';
+        'bg-gray-lightest p-1.5 text-kls-orange-accessible hover:bg-gray-lighter focus:ring-kls-orange-accessible';
       srText = intl.formatMessage({
         defaultMessage: 'Danger message',
         id: 'xMJFTH',
@@ -75,7 +77,7 @@ export function Alert({
         </svg>
       ) : null}
       <span className="sr-only">{srText}</span>
-      <div className="prose-a:font-semibold prose-a:underline text-sm font-medium">
+      <div className="copy-small prose-a:font-semibold prose-a:underline">
         {children}
       </div>
       {handleClose ? (

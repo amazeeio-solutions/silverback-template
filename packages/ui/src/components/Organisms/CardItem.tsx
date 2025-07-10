@@ -17,22 +17,21 @@ export const CardItem = ({
   return (
     <article
       aria-labelledby={formattedID}
-      className="relative grid max-w-sm grid-rows-[auto_1fr] rounded-lg bg-white focus-within:outline focus-within:outline-2 focus-within:outline-indigo-600 hover:shadow"
+      className="focus-within:outline-kls-orange-primary relative grid max-w-sm grid-rows-[auto_1fr] rounded-lg bg-white focus-within:outline focus-within:outline-2 hover:shadow"
     >
       <div className="grid grid-rows-[auto_1fr_auto] gap-4 p-5">
-        <h5
-          id={formattedID}
-          className="mb-2 text-2xl font-bold tracking-tight text-gray-900"
-        >
+        <h5 id={formattedID} className="headline-3 text-gray-dark mb-2">
           {title}
         </h5>
-        {hero?.headline ? <div className="mb-2">{hero?.headline}</div> : null}
+        {hero?.headline ? (
+          <div className="copy-regular mb-2">{hero?.headline}</div>
+        ) : null}
         {terms?.length ? (
           <div className={`mb-2 flex flex-wrap`}>
             {terms.map((term) => (
               <span
                 key={term.termId}
-                className="me-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                className="bg-gray-lighter text-gray-dark dark:bg-gray-dark dark:text-gray-lighter me-2 rounded px-2.5 py-0.5 text-xs font-medium"
               >
                 {term.label}
               </span>
@@ -41,7 +40,7 @@ export const CardItem = ({
         ) : null}
         <Link
           href={path}
-          className="row-start-3 inline-flex items-center justify-self-start rounded-lg border border-blue-700 px-3 py-2 text-center text-sm font-medium text-blue-700 after:absolute after:inset-0 after:content-[''] hover:bg-blue-800 hover:text-white focus:outline-offset-4"
+          className="copy-small border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary row-start-3 inline-flex items-center justify-self-start rounded-lg border px-3 py-2 text-center after:absolute after:inset-0 after:content-[''] hover:text-white focus:outline-offset-4"
         >
           <span className="sr-only size-0 overflow-hidden">{title}</span>
           {readMoreText ||
@@ -73,7 +72,7 @@ export const CardItem = ({
             className="aspect-[16/9] w-full rounded-t-lg"
           />
         ) : (
-          <div className="aspect-[16/9] rounded-t-lg bg-indigo-200" />
+          <div className="bg-kls-orange-bright aspect-[16/9] rounded-t-lg" />
         )}
       </div>
     </article>

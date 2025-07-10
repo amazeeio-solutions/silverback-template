@@ -129,6 +129,7 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - Implement frontend business logic in Typescript utilities that are tested with vitest.
 - Avoid using useEffect and useContext in React. Try to solve the problem with zustand instead.
 - Test zustand stores with vitest by accessing them directly, not through React hooks.
+- **Never attempt to start storybook. It should already be running in the background.**
 
 ### Drupal Extensions
 - Create services for Drupal business logic and create PHPUnit tests for them.
@@ -139,3 +140,7 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - Avoid technical Details, keep types and fields technology agnostic and readable to humans.
 - Add GraphQL block comments for describing schema elements. Use markdown for clarity.
 - Run `pnpm prep` in `packages/schema` after changing the schema, operations or fragments to verify correctness.
+
+## Asset Management
+
+- Always download assets from figma and put them into the `static/public` directory, which is available at the "/" level in the browser.

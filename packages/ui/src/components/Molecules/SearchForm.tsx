@@ -57,7 +57,7 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
                 id="terms"
                 {...register('terms')}
                 defaultValue={'default'}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                className="border-gray-light bg-gray-lightest text-gray-dark focus:border-kls-orange-primary focus:ring-kls-orange-primary copy-small block w-full rounded-lg border p-3"
               >
                 <option key="default" value="">
                   {intl.formatMessage({
@@ -82,7 +82,7 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
             </label>
             <input
               {...register('title')}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              className="border-gray-light bg-gray-lightest text-gray-dark focus-within:border-gray-light focus:border-kls-orange-primary focus:ring-kls-orange-primary copy-small block w-full rounded-lg border p-3 shadow-sm"
               placeholder={intl.formatMessage({
                 defaultMessage: 'Keyword',
                 id: 'fe0rMF',
@@ -91,7 +91,7 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
           </div>
           <button
             type="submit"
-            className="mb-2 rounded-lg bg-indigo-600 px-5 py-3 text-center text-sm font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:w-fit dark:bg-indigo-600 dark:hover:bg-indigo-600 dark:focus:ring-indigo-600"
+            className="bg-kls-orange-primary hover:bg-kls-orange-accessible focus-visible:outline-kls-orange-primary dark:bg-kls-orange-primary dark:hover:bg-kls-orange-accessible dark:focus:ring-kls-orange-primary copy-small mb-2 rounded-lg px-5 py-3 text-center font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-fit"
           >
             {intl.formatMessage({ defaultMessage: 'Search', id: 'xmcVZ0' })}
           </button>

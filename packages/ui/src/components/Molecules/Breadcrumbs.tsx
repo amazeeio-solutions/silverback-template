@@ -40,18 +40,18 @@ export function BreadCrumbs() {
                   <div aria-hidden="true">
                     <ChevronRightIcon
                       className={
-                        'mr-4 hidden size-4 rotate-180 text-gray-400 xl:flex xl:rotate-0'
+                        'text-gray mr-4 hidden size-4 rotate-180 xl:flex xl:rotate-0'
                       }
                     />
                   </div>
                   <button
-                    className="mr-4 hidden h-2 items-center rounded-sm bg-gray-100 px-1 py-2 hover:bg-gray-200 xl:flex"
+                    className="bg-gray-lighter hover:bg-gray-light mr-4 hidden h-2 items-center rounded-sm px-1 py-2 xl:flex"
                     onClick={() => {
                       setHideInnerBreadcrumbs(false);
                       setToggleMoreBreadcrumbs(true);
                     }}
                   >
-                    <EllipsisHorizontalIcon className="w-4 text-gray-900" />
+                    <EllipsisHorizontalIcon className="text-gray-dark w-4" />
                   </button>
                 </>
               )}
@@ -75,9 +75,7 @@ export function BreadCrumbs() {
                     )}
                   >
                     <ChevronRightIcon
-                      className={
-                        'mr-4 size-4 rotate-180 text-gray-400 xl:rotate-0'
-                      }
+                      className={'text-gray mr-4 size-4 rotate-180 xl:rotate-0'}
                     />
                   </div>
                 ) : null}
@@ -85,7 +83,7 @@ export function BreadCrumbs() {
                   href={target}
                   title={title}
                   className={clsx(
-                    'inline-flex items-center whitespace-nowrap text-sm font-medium hover:text-blue-600',
+                    'copy-small hover:text-kls-orange-primary inline-flex items-center whitespace-nowrap',
                     index < breadcrumbs.length - 1 &&
                       hideInnerBreadcrumbs !== true
                       ? 'hidden xl:inline-flex xl:items-center'

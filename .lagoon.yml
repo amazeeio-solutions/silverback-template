@@ -90,11 +90,11 @@ environments:
   demo-kls:
     routes:
       - nginx:
-        - kls.cms.amazeelabs.dev
+          - kls.cms.amazeelabs.dev
       - build:
-        - kls.build.amazeelabs.dev
+          - kls.build.amazeelabs.dev
       - preview:
-        - kls.preview.amazeelabs.dev
+          - kls.preview.amazeelabs.dev
     cronjobs:
       - name: drush cron
         schedule: '*/15 * * * *'

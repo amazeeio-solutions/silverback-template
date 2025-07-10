@@ -2,7 +2,9 @@ import {
   ContentHubQuery,
   ContentHubTermsQuery,
   FrameQuery,
+  Locale,
   OperationExecutorsProvider,
+  Url,
   ViewPageQuery,
 } from '@custom/schema';
 import { Meta, StoryFn } from '@storybook/react';
@@ -53,6 +55,45 @@ export const ContentHubPage = (() => {
     >
       <Frame>
         <ContentHub pageSize={6} />
+      </Frame>
+    </OperationExecutorsProvider>
+  );
+}) satisfies StoryFn;
+
+export const SimplePageWithDropCap = (() => {
+  const simplePageArgs = {
+    page: {
+      title: 'Simple Page with Drop Cap',
+      locale: 'en',
+      translations: [
+        {
+          locale: Locale.En,
+          path: '/simple-page' as Url,
+        },
+      ],
+      path: '/simple-page' as Url,
+      editLink: {
+        type: 'drupal',
+        url: '/simple-page/edit' as Url,
+      },
+      content: [
+        {
+          __typename: 'BlockMarkup',
+          markup: `<p class="has-drop-cap">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>`,
+        },
+      ],
+    },
+  };
+
+  return (
+    <OperationExecutorsProvider
+      executors={[
+        { executor: simplePageArgs, id: ViewPageQuery },
+        { executor: FrameStory.args, id: FrameQuery },
+      ]}
+    >
+      <Frame>
+        <Page />
       </Frame>
     </OperationExecutorsProvider>
   );

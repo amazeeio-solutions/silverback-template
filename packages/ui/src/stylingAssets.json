@@ -1,3 +1,71 @@
 {
-  "theme": {}
+  "theme": {
+    "extend": {
+      "colors": {
+        "kls": {
+          "orange": {
+            "accessible": "#c13a00",
+            "primary": "#e65000",
+            "accent": "#ff5c00",
+            "bright": "#ff8d5b",
+            "bright-alt": "#ffcdb8"
+          }
+        },
+        "gray": {
+          "dark": "#222222",
+          "DEFAULT": "#bdbdbd",
+          "light": "#dddcdd",
+          "lighter": "#ebebeb",
+          "lightest": "#f7f7f7"
+        },
+        "green": {
+          "50": "#f0fdf4",
+          "100": "#dcfce7",
+          "200": "#bbf7d0",
+          "300": "#86efac",
+          "400": "#4ade80",
+          "500": "#22c55e",
+          "600": "#16a34a",
+          "700": "#15803d",
+          "800": "#166534"
+        },
+        "blue": {
+          "50": "#eff6ff",
+          "100": "#dbeafe",
+          "200": "#bfdbfe",
+          "300": "#93c5fd",
+          "400": "#60a5fa",
+          "500": "#3b82f6",
+          "600": "#2563eb",
+          "700": "#1d4ed8",
+          "800": "#1e40af"
+        }
+      },
+      "fontSize": {
+        "12": "12px",
+        "14": "14px",
+        "16": "16px",
+        "18": "18px",
+        "22": "22px",
+        "26": "26px",
+        "30": "30px",
+        "40": "40px",
+        "50": "50px"
+      },
+      "fontWeight": {
+        "regular": "400",
+        "bold": "700",
+        "extrabold": "800"
+      },
+      "lineHeight": {
+        "headline": "1.25",
+        "body": "1.6",
+        "lead": "1.5"
+      },
+      "fontFamily": {
+        "sans": ["Open Sans", "Inter", "system-ui", "sans-serif"],
+        "open-sans": ["Open Sans", "sans-serif"]
+      }
+    }
+  }
 }

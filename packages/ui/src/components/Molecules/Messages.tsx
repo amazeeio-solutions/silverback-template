@@ -69,7 +69,7 @@ export const buildMessages = (
                     <li
                       {...props}
                       className={clsx(className, {
-                        '!text-blue-800 ml-5 mt-1 mb-1 list-disc messages text-sm font-medium':
+                        '!text-kls-orange-primary font-open-sans ml-5 mt-1 mb-1 list-disc messages text-sm font-medium':
                           unordered,
                       })}
                     >

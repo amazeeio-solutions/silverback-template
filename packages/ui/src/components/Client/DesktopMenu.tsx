@@ -33,15 +33,15 @@ export function DesktopMenuDropDown({
         <>
           <PopoverButton
             className={clsx(
-              'ml-8 flex items-center text-base font-medium hover:text-blue-600',
-              open ? 'text-blue-600' : 'text-gray-900',
+              'copy-medium hover:text-kls-orange-primary ml-8 flex items-center',
+              open ? 'text-kls-orange-primary' : 'text-gray-dark',
             )}
             onClick={() => avoidFocusOnClick()}
           >
             {title}
             <ChevronDownIcon
               className={clsx(
-                'size-5 flex-none text-blue-600',
+                'text-kls-orange-primary size-5 flex-none',
                 open && 'rotate-180',
               )}
               aria-hidden="true"
@@ -56,7 +56,7 @@ export function DesktopMenuDropDown({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <PopoverPanel className="absolute left-8 top-full z-10 mt-3 w-56 rounded bg-white shadow-md ring-1 ring-gray-100">
+            <PopoverPanel className="ring-gray-lighter absolute left-8 top-full z-10 mt-3 w-56 rounded bg-white shadow-md ring-1">
               {children}
             </PopoverPanel>
           </Transition>
@@ -73,16 +73,16 @@ export function DesktopMenuDropdownDisclosure({
   return (
     <Disclosure as="div" className="">
       {({ open }) => (
-        <div className={clsx('m-1.5 rounded', open && 'bg-gray-100')}>
+        <div className={clsx('m-1.5 rounded', open && 'bg-gray-lighter')}>
           <DisclosureButton
             className={clsx(
-              'flex w-full items-center justify-between px-2 py-1 text-sm leading-5 hover:text-blue-600',
-              open ? 'font-medium text-blue-600' : 'text-gray-500',
+              'copy-small hover:text-kls-orange-primary flex w-full items-center justify-between px-2 py-1 leading-5',
+              open ? 'text-kls-orange-primary font-medium' : 'text-gray',
             )}
           >
             {title}
             <ChevronDownIcon
-              className={clsx('size-5 flex-none text-blue-600', {
+              className={clsx('text-kls-orange-primary size-5 flex-none', {
                 'rotate-180': open,
               })}
               aria-hidden="true"

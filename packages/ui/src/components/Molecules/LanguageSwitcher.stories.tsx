@@ -15,6 +15,7 @@ import { Default } from '../Routes/Frame.stories';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 const TranslationsDecorator = ((Story, ctx) => {
+  const isHeader = ctx.args.variant === 'header';
   return (
     <OperationExecutorsProvider
       executors={[
@@ -37,11 +38,13 @@ const TranslationsDecorator = ((Story, ctx) => {
       ]}
     >
       <TranslationsProvider defaultTranslations={ctx.args}>
-        <Story />
+        <div className={isHeader ? 'bg-kls-orange-accent p-4' : 'p-4'}>
+          <Story args={ctx.args} />
+        </div>
       </TranslationsProvider>
     </OperationExecutorsProvider>
   );
-}) as Decorator<TranslationPaths>;
+}) as Decorator<TranslationPaths & { variant?: 'header' | 'mobile' }>;
 
 export default {
   component: LanguageSwitcher,
@@ -50,9 +53,19 @@ export default {
     location: new URL('local:/en/english-version'),
     layout: 'centered',
   },
-} satisfies Meta<TranslationPaths>;
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['header', 'mobile'],
+      description: 'Visual variant of the language switcher',
+    },
+  },
+  args: {
+    variant: 'header',
+  },
+} satisfies Meta<TranslationPaths & { variant?: 'header' | 'mobile' }>;
 
-type Story = StoryObj<TranslationPaths>;
+type Story = StoryObj<TranslationPaths & { variant?: 'header' | 'mobile' }>;
 
 export const Empty = {} satisfies Story;
 
@@ -80,5 +93,15 @@ export const Homepage = {
   },
   parameters: {
     location: new URL('local:/de'),
+  },
+} satisfies Story;
+
+export const MobileVariant = {
+  args: {
+    variant: 'mobile',
+    en: '/en/english-version' as Url,
+    de: '/de/german-version' as Url,
+    de_CH: '/de-CH/swiss-german-version' as Url,
+    french: '/french/french-version' as Url,
   },
 } satisfies Story;
