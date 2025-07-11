@@ -46,7 +46,7 @@ export function BlockMarkup(props: BlockMarkupFragment) {
                           fill="#e65000"
                         />
                       </svg>
-                      <span className="text-kls-orange-primary">{children}</span>
+                      <span className="text-kls-orange-primary font-bold">{children}</span>
                     </blockquote>
                   );
                 },
