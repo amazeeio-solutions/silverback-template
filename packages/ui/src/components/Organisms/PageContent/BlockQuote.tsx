@@ -36,10 +36,10 @@ export function BlockQuote(props: BlockQuoteFragment) {
                     />
                   )}
                   {(props.author || props.role) && (
-                    <div className="not-prose flex items-center text-base font-semibold not-italic">
-                      {props.author && <span>{props.author}</span>}
+                    <div className="not-prose flex items-center text-base not-italic">
+                      {props.author && <span className="font-bold text-gray-dark">{props.author}</span>}
                       {props.role && (
-                        <span className={props.author ? "ml-3 text-gray-500" : "text-gray-500"}>{props.role}</span>
+                        <span className={props.author ? "ml-3 font-normal text-gray-dark" : "font-normal text-gray-dark"}>{props.role}</span>
                       )}
                     </div>
                   )}
