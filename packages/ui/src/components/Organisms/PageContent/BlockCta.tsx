@@ -22,7 +22,7 @@ export function BlockCta(props: BlockCtaFragment) {
                   'flex-row-reverse':
                     props.iconPosition === CtaIconPosition.Before,
                 },
-                'border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary focus:ring-kls-orange-accent group flex w-fit flex-row items-center  gap-2 rounded-lg border px-3 py-2 text-center text-xs font-medium leading-[1.125rem] transition-all duration-200 ease-in-out hover:text-white focus:outline-none focus:ring-4',
+                'border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary focus:ring-kls-orange-accent group flex w-fit flex-row items-center  gap-2 rounded-full border px-3 py-2 text-center text-xs font-medium leading-[1.125rem] transition-all duration-200 ease-in-out hover:text-white focus:outline-none focus:ring-4',
               )}
               href={props.url ?? ('/' as Url)}
               target={props.openInNewTab ? '_blank' : '_self'}

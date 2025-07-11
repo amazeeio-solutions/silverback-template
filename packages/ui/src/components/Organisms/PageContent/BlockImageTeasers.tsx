@@ -51,7 +51,7 @@ export function BlockImageTeaser(
           <Link
             href={props.ctaUrl}
             type="button"
-            className="inline-flex items-center rounded-lg border border-white px-5 py-3 text-center text-base font-medium text-white hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-700"
+            className="inline-flex items-center rounded-full border border-white px-5 py-3 text-center text-base font-medium text-white hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-700"
           >
             {props.ctaText}
           </Link>

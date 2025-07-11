@@ -40,7 +40,7 @@ export const CardItem = ({
         ) : null}
         <Link
           href={path}
-          className="copy-small border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary row-start-3 inline-flex items-center justify-self-start rounded-lg border px-3 py-2 text-center after:absolute after:inset-0 after:content-[''] hover:text-white focus:outline-offset-4"
+          className="copy-small border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary row-start-3 inline-flex items-center justify-self-start rounded-full border px-3 py-2 text-center after:absolute after:inset-0 after:content-[''] hover:text-white focus:outline-offset-4"
         >
           <span className="sr-only size-0 overflow-hidden">{title}</span>
           {readMoreText ||
