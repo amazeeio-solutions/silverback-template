@@ -9,7 +9,7 @@ export function BlockQuote(props: BlockQuoteFragment) {
       <div className="container-page">
         <div className="container-content">
           <div className="container-text">
-            <div className="prose lg:prose-xl prose-p:text-xl prose-p:font-bold prose-p:leading-8 prose-p:text-[#111928]">
+            <div className="prose lg:prose-xl prose-p:text-xl prose-p:font-bold prose-p:leading-8">
               <blockquote className="relative border-l-0 pb-8 pl-0 pt-16">
                 <svg
                   width="32"
