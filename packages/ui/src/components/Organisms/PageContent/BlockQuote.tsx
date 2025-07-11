@@ -26,7 +26,7 @@ export function BlockQuote(props: BlockQuoteFragment) {
                     fill="#9CA3AF"
                   />
                 </svg>
-                <p className="text-kls-orange-primary">{props.quote && <Html markup={props.quote} />}</p>
+                <p style={{ color: '#e65000' }}>{props.quote && <Html markup={props.quote} />}</p>
                 <div className="not-prose flex flex-wrap items-center">
                   {props.image && (
                     <Image
