@@ -105,7 +105,7 @@ h1 {
 }
 
 .form-item input[type='file']::file-selector-button {
-  @apply text-white bg-blue-700 hover:bg-blue-800 rounded-l-lg text-sm w-full sm:w-auto px-6 py-2.5 text-center shadow-none border-0 font-medium mr-4;
+  @apply text-white bg-kls-orange-primary hover:bg-kls-orange-accessible rounded-l-lg text-sm w-full sm:w-auto px-6 py-2.5 text-center shadow-none border-0 font-medium mr-4;
 }
 
 .form-actions input[type='submit'] {
