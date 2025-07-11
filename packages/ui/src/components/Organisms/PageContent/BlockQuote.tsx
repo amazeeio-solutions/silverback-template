@@ -10,7 +10,7 @@ export function BlockQuote(props: BlockQuoteFragment) {
         <div className="container-content">
           <div className="container-text">
             <div className="prose lg:prose-xl prose-p:text-xl prose-p:font-bold prose-p:leading-8 prose-p:text-[#111928]">
-              <blockquote className="relative border-l-0 pb-8 pl-0 pt-16 text-kls-orange-primary">
+              <blockquote className="relative border-l-0 pb-8 pl-0 pt-16">
                 <svg
                   width="32"
                   height="24"
@@ -26,7 +26,7 @@ export function BlockQuote(props: BlockQuoteFragment) {
                     fill="#9CA3AF"
                   />
                 </svg>
-                <p>{props.quote && <Html markup={props.quote} />}</p>
+                <p className="text-kls-orange-primary">{props.quote && <Html markup={props.quote} />}</p>
                 <div className="not-prose flex flex-wrap items-center">
                   {props.image && (
                     <Image
