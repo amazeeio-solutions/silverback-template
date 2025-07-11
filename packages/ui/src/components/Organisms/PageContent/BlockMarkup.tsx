@@ -30,20 +30,23 @@ export function BlockMarkup(props: BlockMarkupFragment) {
               components={{
                 blockquote: ({ children }: PropsWithChildren<{}>) => {
                   return (
-                    <blockquote className="relative border-l-0 pl-0">
+                    <blockquote className="relative border-l-0 pb-8 pl-0 pt-16">
                       <svg
                         width="32"
                         height="24"
                         viewBox="0 0 32 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        role="img"
+                        aria-labelledby="quote-svg-title"
                       >
+                        <title id="quote-svg-title">Quote Symbol</title>
                         <path
                           d="M18.6893 24V14.1453C18.6893 6.54 23.664 1.38533 30.6667 0L31.9933 2.868C28.7507 4.09066 26.6667 7.71867 26.6667 10.6667H32V24H18.6893ZM0 24V14.1453C0 6.54 4.99733 1.384 12 0L13.328 2.868C10.084 4.09066 8 7.71867 8 10.6667L13.3107 10.6667V24H0Z"
-                          fill="#9CA3AF"
+                          fill="#e65000"
                         />
                       </svg>
-                      {children}
+                      <span className="text-kls-orange-primary">{children}</span>
                     </blockquote>
                   );
                 },
