@@ -1,0 +1,6 @@
+fragment BlockContentHub on BlockContentHub {
+  showFilters
+  defaultTerm
+  defaultKeyword
+  itemsPerPage
+}

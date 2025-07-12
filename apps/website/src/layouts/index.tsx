@@ -1,8 +1,13 @@
-import { graphql, useStaticQuery } from '@amazeelabs/gatsby-plugin-operations';
-import { FrameQuery, OperationExecutorsProvider } from '@custom/schema';
+import {
+  ContentHubTermsQuery,
+  FrameQuery,
+  OperationExecutorsProvider,
+} from '@custom/schema';
 import { Frame } from '@custom/ui/routes/Frame';
 import React, { PropsWithChildren } from 'react';
 
+import { useContentHubTermsQuery } from '../hooks/use-content-hub-terms-query';
+import { useFrameQuery } from '../hooks/use-frame-query';
 import { drupalExecutor } from '../utils/drupal-executor';
 
 export default function Layout({
@@ -10,12 +15,15 @@ export default function Layout({
 }: PropsWithChildren<{
   locale: string;
 }>) {
-  const data = useStaticQuery(graphql(FrameQuery));
+  const frameQuery = useFrameQuery();
+  const contentHubTerms = useContentHubTermsQuery();
+
   return (
     <OperationExecutorsProvider
       executors={[
         { executor: drupalExecutor(`/graphql`) },
-        { executor: data, id: FrameQuery },
+        { executor: frameQuery, id: FrameQuery },
+        { executor: contentHubTerms, id: ContentHubTermsQuery },
       ]}
     >
       <Frame>{children}</Frame>

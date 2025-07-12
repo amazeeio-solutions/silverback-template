@@ -3,15 +3,16 @@ fragment BlockConditional on BlockConditional {
   displayTo
   content {
     __typename
+    ...BlockAccordion
+    ...BlockContentHub
+    ...BlockCta
+    ...BlockForm
+    ...BlockHorizontalSeparator
+    ...BlockImageTeasers
+    ...BlockImageWithText
+    ...BlockInfoGrid
     ...BlockMarkup
     ...BlockMedia
-    ...BlockForm
-    ...BlockImageTeasers
-    ...BlockCta
-    ...BlockImageWithText
     ...BlockQuote
-    ...BlockHorizontalSeparator
-    ...BlockAccordion
-    ...BlockInfoGrid
   }
 }

@@ -1,13 +1,21 @@
 import { useIntl } from '@amazeelabs/react-intl';
-import { ContentHubQuery, ContentHubTermsQuery, Locale } from '@custom/schema';
+import {
+  BlockContentHubFragment,
+  ContentHubQuery,
+  ContentHubTermsQuery,
+  Locale,
+} from '@custom/schema';
 import qs from 'query-string';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { isTruthy } from '../../utils/isTruthy';
 import { useOperation } from '../../utils/operation';
 import { Alert } from '../Molecules/Alert';
-import { Pagination, useCurrentPage } from '../Molecules/Pagination';
-import { SearchForm, useSearchParameters } from '../Molecules/SearchForm';
+import { Pagination, useNamespacedCurrentPage } from '../Molecules/Pagination';
+import {
+  SearchForm,
+  useNamespacedSearchParameters,
+} from '../Molecules/SearchForm';
 import { Loading } from '../Routes/Loading';
 import { CardItem } from './CardItem';
 
@@ -21,18 +29,43 @@ export type ContentHubPaginationArgs = {
   pageSize?: string;
 };
 
-export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
+type BlockContentHubFragmentWithId = BlockContentHubFragment & {
+  blockId?: string;
+};
+export function ContentHub(props: BlockContentHubFragmentWithId) {
+  const { blockId } = props;
   const intl = useIntl();
-  const page = useCurrentPage();
-  const search = useSearchParameters();
+  const page = useNamespacedCurrentPage(blockId);
+  const urlSearch = useNamespacedSearchParameters(blockId);
+
+  const itemsPerPage = props.itemsPerPage || 6;
+  const showFilters = props.showFilters ?? true;
+
+  // Combine URL params with default values
+  const search = useMemo(() => {
+    return {
+      ...urlSearch,
+      title: urlSearch.title || props.defaultKeyword || undefined,
+      terms:
+        urlSearch.terms === ''
+          ? undefined
+          : urlSearch.terms || props.defaultTerm || undefined,
+    };
+  }, [
+    urlSearch.title,
+    urlSearch.terms,
+    props.defaultKeyword,
+    props.defaultTerm,
+  ]);
+
   const { data, isLoading, error } = useOperation(ContentHubQuery, {
     locale: intl.locale as Locale,
     args: qs.stringify(
       {
         title: search.title,
-        terms: search.terms === '' ? undefined : search.terms,
+        terms: search.terms,
         page: `${page}`,
-        pageSize: `${pageSize}`,
+        pageSize: `${itemsPerPage}`,
       } satisfies ContentHubQueryArgs & ContentHubPaginationArgs,
       { arrayFormat: 'bracket' },
     ),
@@ -46,11 +79,16 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
   return (
     <div className="bg-white px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <SearchForm
-          termOptions={termsResult?.data?.contentHubTerms
-            ?.filter(isTruthy)
-            .filter((term) => term.locale === (intl.locale as Locale))}
-        />
+        <div className={showFilters ? 'block' : 'hidden'}>
+          <SearchForm
+            blockId={blockId}
+            termOptions={termsResult?.data?.contentHubTerms
+              ?.filter(isTruthy)
+              .filter((term) => term.locale === (intl.locale as Locale))}
+            defaultKeyword={props.defaultKeyword}
+            defaultTerm={props.defaultTerm}
+          />
+        </div>
         {error ? (
           <div className="my-8">
             <Alert status="danger" withIcon={false}>
@@ -85,7 +123,11 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
                 );
               })}
             </ul>
-            <Pagination pageSize={pageSize} total={data.contentHub.total} />
+            <Pagination
+              blockId={blockId}
+              pageSize={itemsPerPage}
+              total={data.contentHub.total}
+            />
           </>
         ) : null}
       </div>

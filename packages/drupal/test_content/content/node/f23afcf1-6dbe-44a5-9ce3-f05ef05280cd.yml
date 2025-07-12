@@ -1,7 +1,7 @@
 _meta:
   version: '1.0'
   entity_type: node
-  uuid: 696b3f86-fdc7-4c30-900a-24daf08d7e82
+  uuid: f23afcf1-6dbe-44a5-9ce3-f05ef05280cd
   bundle: page
   default_langcode: en
 default:
@@ -16,10 +16,10 @@ default:
       target_id: 1
   title:
     -
-      value: 'Remote rendered items test'
+      value: 'Block: ContentHub [Limited]'
   created:
     -
-      value: 1742886922
+      value: 1744714125
   promote:
     -
       value: false
@@ -37,7 +37,7 @@ default:
       value: false
   path:
     -
-      alias: /remote-rendered-items-test
+      alias: /content-hub-limited
       langcode: en
       pathauto: 0
   content_translation_source:
@@ -49,12 +49,10 @@ default:
   body:
     -
       value: |-
-        <!-- wp:custom/hero /-->
+        <!-- wp:custom/hero {"headline":"Content Hub [Limited]"} /-->
+
         <!-- wp:custom/content -->
-        <!-- wp:paragraph -->
-        <p>The next paragraph is CTA. All its texts are stored in Gutenberg attributes. The only way to index the link label is to fetch it from the frontend.</p>
-        <!-- /wp:paragraph -->
-        <!-- wp:custom/cta {"text":"Trytofindme"} /-->
+        <!-- wp:custom/content-hub {"defaultTerm":"","defaultKeyword":"","itemsPerPage":3} /-->
         <!-- /wp:custom/content -->
       format: gutenberg
       summary: ''

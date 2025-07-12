@@ -1,10 +1,14 @@
 import { useIntl } from '@amazeelabs/react-intl';
 import { TermContentHub, useLocation } from '@custom/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 
+import {
+  parseNamespacedParameters,
+  setNamespacedParameters,
+} from '../../utils/namespacedParameters';
 import { ContentHubQueryArgs } from '../Organisms/ContentHub';
 
 const formValueSchema = z.object({
@@ -12,20 +16,38 @@ const formValueSchema = z.object({
   terms: z.string().optional(),
 }) satisfies ZodType<ContentHubQueryArgs>;
 
-export function useSearchParameters() {
+export function useNamespacedSearchParameters(
+  blockId?: string,
+): ContentHubQueryArgs {
   const [location] = useLocation();
-  return formValueSchema.parse(
-    Object.fromEntries(location.searchParams.entries() ?? []),
+  const params = parseNamespacedParameters<ContentHubQueryArgs>(
+    location.searchParams,
+    ['title', 'terms'],
+    blockId,
   );
+  return formValueSchema.parse(params);
 }
 
-export function SearchForm(props: { termOptions?: TermContentHub[] }) {
+export function SearchForm(props: {
+  termOptions?: TermContentHub[];
+  defaultKeyword?: string;
+  defaultTerm?: string;
+  blockId?: string;
+}) {
   const intl = useIntl();
   type FormValues = z.infer<typeof formValueSchema>;
+
+  const [isUsingDefaultKeyword, setIsUsingDefaultKeyword] = useState(false);
+  const [isUsingDefaultTerm, setIsUsingDefaultTerm] = useState(false);
+
   const { register, handleSubmit, setValue } = useForm<FormValues>({
     resolver: zodResolver(formValueSchema),
+    defaultValues: {
+      title: props.defaultKeyword || '',
+      terms: props.defaultTerm || '',
+    },
   });
-  const params = useSearchParameters();
+  const params = useNamespacedSearchParameters(props.blockId);
   const stringifiedParams = JSON.stringify(params);
 
   useEffect(() => {
@@ -33,7 +55,29 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
     for (const key of keys) {
       setValue(key, params[key]);
     }
-  }, [stringifiedParams]);
+
+    // Set default keyword if no title is in URL params
+    if (!params.title && props.defaultKeyword) {
+      setValue('title', props.defaultKeyword);
+      setIsUsingDefaultKeyword(true);
+    } else {
+      setIsUsingDefaultKeyword(false);
+    }
+
+    // Set default term if no terms is in URL params
+    if (!params.terms && props.defaultTerm) {
+      setValue('terms', props.defaultTerm);
+      setIsUsingDefaultTerm(true);
+    } else {
+      setIsUsingDefaultTerm(false);
+    }
+  }, [
+    params,
+    props.defaultKeyword,
+    props.defaultTerm,
+    setValue,
+    stringifiedParams,
+  ]);
 
   const [location, navigate] = useLocation();
   return (
@@ -42,7 +86,12 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
         <form
           className="mt-5 sm:flex sm:items-center"
           onSubmit={handleSubmit((values) => {
-            navigate(location, { ...values, page: 1 });
+            const newParams = setNamespacedParameters(
+              location.searchParams,
+              { ...values, page: 1 },
+              props.blockId,
+            );
+            navigate(location, Object.fromEntries(newParams.entries()));
           })}
         >
           {props.termOptions && props.termOptions.length > 0 ? (
@@ -56,8 +105,8 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
               <select
                 id="terms"
                 {...register('terms')}
-                defaultValue={'default'}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+                disabled={isUsingDefaultTerm}
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:opacity-80"
               >
                 <option key="default" value="">
                   {intl.formatMessage({
@@ -82,7 +131,8 @@ export function SearchForm(props: { termOptions?: TermContentHub[] }) {
             </label>
             <input
               {...register('title')}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+              disabled={isUsingDefaultKeyword}
+              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm focus-within:border-gray-300 focus:border-blue-500 focus:ring-blue-500 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:opacity-80"
               placeholder={intl.formatMessage({
                 defaultMessage: 'Keyword',
                 id: 'fe0rMF',

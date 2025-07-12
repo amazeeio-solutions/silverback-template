@@ -26,7 +26,7 @@ type ContentHubExecutor = (
   vars: OperationVariables<typeof ContentHubQuery>,
 ) => Promise<OperationResult<typeof ContentHubQuery>>;
 
-const pageSize = 6;
+const defaultItemsPerPage = 6;
 
 export default {
   title: 'Components/Organisms/ContentHub',
@@ -38,18 +38,38 @@ export default {
           { executor: args.execTerms, id: ContentHubTermsQuery },
         ]}
       >
-        <ContentHub pageSize={pageSize} />
+        <ContentHub
+          itemsPerPage={args.itemsPerPage || defaultItemsPerPage}
+          showFilters={args.showFilters}
+          defaultTerm={args.defaultTerm}
+          defaultKeyword={args.defaultKeyword}
+        />
       </OperationExecutorsProvider>
     );
+  },
+  argTypes: {
+    showFilters: {
+      control: 'boolean',
+      description: 'Toggle search filters visibility',
+    },
   },
 } satisfies Meta<{
   execQuery: ContentHubExecutor;
   execTerms: ContentHubTermsQuery;
+  itemsPerPage: number;
+  showFilters: boolean;
+  defaultKeyword: string;
+  defaultTerm: string;
 }>;
 
+// Update the ContentHubStory type
 type ContentHubStory = StoryObj<{
   execQuery: ContentHubExecutor;
   execTerms: ContentHubTermsQuery;
+  itemsPerPage: number;
+  showFilters: boolean;
+  defaultKeyword: string;
+  defaultTerm: string;
 }>;
 
 const termOptions = {
@@ -119,7 +139,9 @@ export const WithResults: ContentHubStory = {
 
       // filter by title
       let filtered = items.filter(
-        (item) => !args.title || item.title.includes(args.title),
+        (item) =>
+          !args.title ||
+          item.title.toLowerCase().includes(args.title.toLowerCase()),
       );
       // filter by terms
       filtered = filtered.filter(
@@ -127,13 +149,18 @@ export const WithResults: ContentHubStory = {
           !args.terms || item.terms.some((term) => term.termId === args.terms),
       );
 
+      // Use pageSize from args if available, otherwise use default itemsPerPage
+      const itemsPerPage = args.pageSize
+        ? parseInt(args.pageSize) || defaultItemsPerPage
+        : defaultItemsPerPage;
+
       const offset = args.page
-        ? ((parseInt(args.page) || 1) - 1) * pageSize
+        ? ((parseInt(args.page) || 1) - 1) * itemsPerPage
         : 0;
       return {
         contentHub: {
           total: filtered.length,
-          items: filtered.slice(offset, offset + pageSize),
+          items: filtered.slice(offset, offset + itemsPerPage),
         },
       };
     },
@@ -153,4 +180,67 @@ export const Paged: ContentHubStory = {
   parameters: {
     location: new URL('local:/content-hub?page=2'),
   },
+};
+
+export const HiddenFilters: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    showFilters: false,
+  },
+};
+
+export const DefaultKeyword: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    defaultKeyword: 'Story',
+  },
+};
+
+export const DefaultTerm: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    defaultTerm: '3',
+  },
+};
+
+export const LimitedPerPage: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+    itemsPerPage: 3,
+  },
+};
+
+export const TwoContentHubs: ContentHubStory = {
+  args: {
+    ...WithResults.args,
+  },
+  render: (args) => (
+    <OperationExecutorsProvider
+      executors={[
+        { executor: args.execQuery, id: ContentHubQuery },
+        { executor: args.execTerms, id: ContentHubTermsQuery },
+      ]}
+    >
+      <div style={{ display: 'flex', gap: 32 }}>
+        <div style={{ flex: 1 }}>
+          <ContentHub
+            itemsPerPage={args.itemsPerPage || defaultItemsPerPage}
+            showFilters={args.showFilters}
+            defaultTerm={args.defaultTerm}
+            defaultKeyword={args.defaultKeyword}
+            blockId="content-hub-1"
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <ContentHub
+            itemsPerPage={args.itemsPerPage || defaultItemsPerPage}
+            showFilters={args.showFilters}
+            defaultTerm={args.defaultTerm}
+            defaultKeyword={args.defaultKeyword}
+            blockId="content-hub-2"
+          />
+        </div>
+      </div>
+    </OperationExecutorsProvider>
+  ),
 };

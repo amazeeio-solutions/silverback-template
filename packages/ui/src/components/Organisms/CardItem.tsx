@@ -26,7 +26,7 @@ export const CardItem = ({
         >
           {title}
         </h5>
-        {hero?.headline ? <div className="mb-2">{hero?.headline}</div> : null}
+        <div className="mb-2">{hero?.headline ? hero?.headline : null}</div>
         {terms?.length ? (
           <div className={`mb-2 flex flex-wrap`}>
             {terms.map((term) => (

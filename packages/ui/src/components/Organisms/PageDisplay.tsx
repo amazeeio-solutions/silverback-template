@@ -2,6 +2,7 @@
 import { BlockConditionalFragment, PageFragment } from '@custom/schema';
 import React from 'react';
 
+import { getBlockInstances } from '../../utils/blockInstances';
 import { isTruthy } from '../../utils/isTruthy';
 import { UnreachableCaseError } from '../../utils/unreachable-case-error';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
@@ -9,6 +10,7 @@ import { ContentEditLink } from '../Molecules/ContentEditLink';
 import { PageTransition } from '../Molecules/PageTransition';
 import { BlockAccordion } from './PageContent/BlockAccordion';
 import { BlockConditional } from './PageContent/BlockConditional';
+import { BlockContentHub } from './PageContent/BlockContentHub';
 import { BlockCta } from './PageContent/BlockCta';
 import { BlockForm } from './PageContent/BlockForm';
 import { BlockHorizontalSeparator } from './PageContent/BlockHorizontalSeparator';
@@ -30,30 +32,42 @@ export function PageDisplay(page: PageFragment) {
         {page.hero && <PageHero {...page.hero} />}
         {page?.content?.filter(isTruthy).map((block, index) => {
           switch (block.__typename) {
-            case 'BlockMedia':
-              return <BlockMedia key={index} {...block} />;
-            case 'BlockMarkup':
-              return <BlockMarkup key={index} {...block} />;
-            case 'BlockForm':
-              return <BlockForm key={index} {...block} />;
-            case 'BlockImageTeasers':
-              return <BlockImageTeasers key={index} {...block} />;
-            case 'BlockCta':
-              return <BlockCta key={index} {...block} />;
-            case 'BlockImageWithText':
-              return <BlockImageWithText key={index} {...block} />;
-            case 'BlockQuote':
-              return <BlockQuote key={index} {...block} />;
-            case 'BlockHorizontalSeparator':
-              return <BlockHorizontalSeparator key={index} {...block} />;
             case 'BlockAccordion':
               return <BlockAccordion key={index} {...block} />;
-            case 'BlockInfoGrid':
-              return <BlockInfoGrid key={index} {...block} />;
-            case 'BlockTeaserList':
-              return <BlockTeaserList key={index} {...block} />;
             case 'BlockConditional':
               return <BlockConditional key={index} {...block} />;
+            case 'BlockContentHub': {
+              const {
+                instances: contentHubBlocks,
+                isMultiple: multipleContentHubBlocks,
+              } = getBlockInstances(page, 'BlockContentHub');
+              const blockId = multipleContentHubBlocks
+                ? `ch${contentHubBlocks.indexOf(block) + 1}`
+                : undefined;
+              return (
+                <BlockContentHub key={index} {...block} blockId={blockId} />
+              );
+            }
+            case 'BlockCta':
+              return <BlockCta key={index} {...block} />;
+            case 'BlockForm':
+              return <BlockForm key={index} {...block} />;
+            case 'BlockHorizontalSeparator':
+              return <BlockHorizontalSeparator key={index} {...block} />;
+            case 'BlockImageTeasers':
+              return <BlockImageTeasers key={index} {...block} />;
+            case 'BlockImageWithText':
+              return <BlockImageWithText key={index} {...block} />;
+            case 'BlockInfoGrid':
+              return <BlockInfoGrid key={index} {...block} />;
+            case 'BlockMarkup':
+              return <BlockMarkup key={index} {...block} />;
+            case 'BlockMedia':
+              return <BlockMedia key={index} {...block} />;
+            case 'BlockQuote':
+              return <BlockQuote key={index} {...block} />;
+            case 'BlockTeaserList':
+              return <BlockTeaserList key={index} {...block} />;
             default:
               throw new UnreachableCaseError(block);
           }
@@ -65,30 +79,32 @@ export function PageDisplay(page: PageFragment) {
 
 type CommonContentBlock = NonNullable<
   Required<BlockConditionalFragment>['content'][number]
->;
+> & { blockId?: string };
 
 export function CommonContent(props: CommonContentBlock) {
   switch (props.__typename) {
-    case 'BlockMedia':
-      return <BlockMedia {...props} />;
-    case 'BlockMarkup':
-      return <BlockMarkup {...props} />;
-    case 'BlockForm':
-      return <BlockForm {...props} />;
-    case 'BlockImageTeasers':
-      return <BlockImageTeasers {...props} />;
-    case 'BlockCta':
-      return <BlockCta {...props} />;
-    case 'BlockImageWithText':
-      return <BlockImageWithText {...props} />;
-    case 'BlockQuote':
-      return <BlockQuote {...props} />;
-    case 'BlockHorizontalSeparator':
-      return <BlockHorizontalSeparator />;
     case 'BlockAccordion':
       return <BlockAccordion {...props} />;
+    case 'BlockContentHub':
+      return <BlockContentHub {...props} blockId={props.blockId} />;
+    case 'BlockCta':
+      return <BlockCta {...props} />;
+    case 'BlockForm':
+      return <BlockForm {...props} />;
+    case 'BlockHorizontalSeparator':
+      return <BlockHorizontalSeparator />;
+    case 'BlockImageTeasers':
+      return <BlockImageTeasers {...props} />;
+    case 'BlockImageWithText':
+      return <BlockImageWithText {...props} />;
     case 'BlockInfoGrid':
       return <BlockInfoGrid {...props} />;
+    case 'BlockMarkup':
+      return <BlockMarkup {...props} />;
+    case 'BlockMedia':
+      return <BlockMedia {...props} />;
+    case 'BlockQuote':
+      return <BlockQuote {...props} />;
     default:
       throw new UnreachableCaseError(props);
   }

@@ -1,6 +1,4 @@
 import {
-  ContentHubQuery,
-  ContentHubTermsQuery,
   FrameQuery,
   OperationExecutorsProvider,
   ViewPageQuery,
@@ -8,8 +6,6 @@ import {
 import { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
-import { WithResults } from './components/Organisms/ContentHub.stories';
-import { ContentHub } from './components/Routes/ContentHub';
 import { Frame } from './components/Routes/Frame';
 import { Default as FrameStory } from './components/Routes/Frame.stories';
 import { Page } from './components/Routes/Page';
@@ -36,23 +32,6 @@ export const ContentPage = (() => {
     >
       <Frame>
         <Page />
-      </Frame>
-    </OperationExecutorsProvider>
-  );
-}) satisfies StoryFn;
-
-export const ContentHubPage = (() => {
-  return (
-    <OperationExecutorsProvider
-      executors={[
-        { executor: PageStory.args, id: ViewPageQuery },
-        { executor: WithResults.args?.execQuery, id: ContentHubQuery },
-        { executor: WithResults.args?.execTerms, id: ContentHubTermsQuery },
-        { executor: FrameStory.args, id: FrameQuery },
-      ]}
-    >
-      <Frame>
-        <ContentHub pageSize={6} />
       </Frame>
     </OperationExecutorsProvider>
   );
