@@ -2,6 +2,7 @@ import { graphqlQuery } from '@amazeelabs/gatsby-plugin-operations';
 import {
   HomePageQuery,
   ListPagesQuery,
+  ListProductsQuery,
   Locale,
   NotFoundPageQuery,
 } from '@custom/schema';
@@ -84,6 +85,18 @@ export const createPages = async ({ actions }) => {
         context: { pathname: path },
       });
     });
+
+  // Run the query that lists all products.
+  const products = await graphqlQuery(ListProductsQuery);
+
+  // Create a gatsby page for each product.
+  products.data?.allProducts?.filter(isDefined).forEach(({ path }) => {
+    actions.createPage({
+      path: path,
+      component: resolve(`./src/templates/product.tsx`),
+      context: { pathname: path },
+    });
+  });
 
   // Create the content hub page in each language.
   Object.values(Locale).forEach((locale) => {
