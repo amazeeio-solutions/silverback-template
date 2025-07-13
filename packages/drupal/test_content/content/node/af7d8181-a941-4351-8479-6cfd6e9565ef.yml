@@ -1,0 +1,68 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: af7d8181-a941-4351-8479-6cfd6e9565ef
+  bundle: product
+  default_langcode: en
+  depends:
+    79e0e4e7-e458-4312-967c-72a7c657772c: taxonomy_term
+    72187a1f-3e48-4b45-a9b7-189c6fd7ee26: media
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Gaming Mechanical Keyboard'
+  created:
+    -
+      value: 1752237326
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /products/gaming-mechanical-keyboard
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: 'Professional gaming keyboard with RGB backlighting and mechanical switches for enhanced performance and durability.'
+      format: gutenberg
+      summary: ''
+  field_content_hub_terms:
+    -
+      entity: 79e0e4e7-e458-4312-967c-72a7c657772c
+  field_image:
+    -
+      entity: 72187a1f-3e48-4b45-a9b7-189c6fd7ee26
+  field_price:
+    -
+      value: '89.99'
+  field_sku:
+    -
+      value: GMK-2024-002
+  field_stock:
+    -
+      value: 15
