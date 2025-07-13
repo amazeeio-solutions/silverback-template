@@ -109,51 +109,6 @@ translations:
           <!-- /wp:custom/content -->
         format: gutenberg
         summary: ''
-  gsw-berne:
-    status:
-      -
-        value: true
-    uid:
-      -
-        target_id: 1
-    title:
-      -
-        value: Privatsphäre
-    created:
-      -
-        value: 1747072844
-    promote:
-      -
-        value: false
-    sticky:
-      -
-        value: false
-    moderation_state:
-      -
-        value: published
-    path:
-      -
-        alias: /privacy
-        langcode: gsw-berne
-        pathauto: 0
-    content_translation_source:
-      -
-        value: en
-    content_translation_outdated:
-      -
-        value: false
-    body:
-      -
-        value: |-
-          <!-- wp:custom/hero {"headline":"Privatsph\u00e4re","lead":"FADP"} /-->
-
-          <!-- wp:custom/content -->
-          <!-- wp:paragraph -->
-          <p></p>
-          <!-- /wp:paragraph -->
-          <!-- /wp:custom/content -->
-        format: gutenberg
-        summary: ''
   fr:
     status:
       -
