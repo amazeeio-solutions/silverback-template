@@ -2,6 +2,8 @@ import { useIntl } from '@amazeelabs/react-intl';
 import { CardItemFragment, Image, Link } from '@custom/schema';
 import React from 'react';
 
+import { Price } from '../Molecules/Price';
+
 export const CardItem = ({
   id,
   title,
@@ -10,9 +12,14 @@ export const CardItem = ({
   teaserImage,
   readMoreText,
   terms,
+  ...productFields
 }: CardItemFragment & { readMoreText?: string }) => {
   const formattedID = 'heading-' + id;
   const intl = useIntl();
+
+  // Check if this is a product by presence of price field
+  const isProduct =
+    'price' in productFields && productFields.price !== undefined;
 
   return (
     <article
@@ -25,6 +32,18 @@ export const CardItem = ({
         </h5>
         {hero?.headline ? (
           <div className="copy-regular mb-2">{hero?.headline}</div>
+        ) : null}
+        {isProduct && productFields.price ? (
+          <div className="text-gray-dark copy-large mb-2 font-semibold">
+            <Price amount={productFields.price} />
+            {productFields.stock !== undefined && (
+              <span className="copy-small text-gray-medium ml-2">
+                {productFields.stock > 0
+                  ? `${productFields.stock} in stock`
+                  : 'Out of stock'}
+              </span>
+            )}
+          </div>
         ) : null}
         {terms?.length ? (
           <div className={`mb-2 flex flex-wrap`}>
@@ -44,10 +63,15 @@ export const CardItem = ({
         >
           <span className="sr-only size-0 overflow-hidden">{title}</span>
           {readMoreText ||
-            intl.formatMessage({
-              defaultMessage: 'Read more',
-              id: 'S++WdB',
-            })}
+            (isProduct
+              ? intl.formatMessage({
+                  defaultMessage: 'View product',
+                  id: 'gfMPP3',
+                })
+              : intl.formatMessage({
+                  defaultMessage: 'Read more',
+                  id: 'S++WdB',
+                }))}
           <svg
             className="ms-2 size-3.5 rtl:rotate-180"
             aria-hidden="true"
