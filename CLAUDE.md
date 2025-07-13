@@ -144,3 +144,14 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 ## Asset Management
 
 - Always download assets from figma and put them into the `static/public` directory, which is available at the "/" level in the browser.
+
+## Drupal Configuration Management
+
+- Never write Drupal configuration **anywhere**. Use the browser to log into `http://localhost:8888` using username `admin` and password `admin`, do the configuration changes using the web interface and then persist them by running `drush cex -y` in the `apps/cms` folder.
+
+## Drupal Test Content Management
+
+- Never add Drupal test content manually. Use the browser to log into `http://localhost:8888` using username `admin` and password `admin`, do the cotnent changes using the web interface and then persist them by running `pnpm content:export` in the `apps/cms` folder.
+
+### Testing Best Practices
+- Schema tests should use inline snapshots and test concrete values as much as possible.
