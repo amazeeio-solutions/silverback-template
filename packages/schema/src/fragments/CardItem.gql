@@ -15,4 +15,9 @@ fragment CardItem on CardItem {
     termId
     depth
   }
+  ... on Product {
+    price
+    sku
+    stock
+  }
 }

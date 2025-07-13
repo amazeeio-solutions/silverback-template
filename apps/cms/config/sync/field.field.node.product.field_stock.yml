@@ -1,0 +1,23 @@
+uuid: 63645f0e-6b42-44de-94e9-aa2df16cc68c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_stock
+    - node.type.product
+id: node.product.field_stock
+field_name: field_stock
+entity_type: node
+bundle: product
+label: Stock
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

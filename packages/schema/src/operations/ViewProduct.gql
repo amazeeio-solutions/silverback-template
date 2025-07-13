@@ -1,0 +1,5 @@
+query ViewProduct($pathname: String!) {
+  product: viewProduct(path: $pathname) {
+    ...Product
+  }
+}

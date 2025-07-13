@@ -1,0 +1,29 @@
+uuid: 643187fa-6e5f-4434-bfbd-c54392826a51
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_hub_terms
+    - node.type.product
+    - taxonomy.vocabulary.content_hub
+id: node.product.field_content_hub_terms
+field_name: field_content_hub_terms
+entity_type: node
+bundle: product
+label: 'Content Hub Terms'
+description: 'Tag the content to help with filtering on the content hub page.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      content_hub: content_hub
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
