@@ -130,6 +130,8 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - Avoid using useEffect and useContext in React. Try to solve the problem with zustand instead.
 - Test zustand stores with vitest by accessing them directly, not through React hooks.
 - **Never attempt to start storybook. It should already be running in the background.**
+- Make sure to use `intl.formatMessage` in react for any text in the user interface. Don't concatenate strings with variables, but use the variables feature of `intl.formatMessage`.
+- Never use string templates for react classNames. Build dynamic classNames with clsx.
 
 ### Drupal Extensions
 - Create services for Drupal business logic and create PHPUnit tests for them.
