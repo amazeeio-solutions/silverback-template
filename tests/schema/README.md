@@ -30,6 +30,7 @@ We use Vitest for testing:
 ### Steps to Create Tests
 
 1. **Prepare Your Environment**:
+
    - Define your GraphQL schema and add resolvers.
    - **Create default content that will be used in the tests**:
      - Create content in Drupal by navigating to Content > Add content. Choose
@@ -44,6 +45,7 @@ We use Vitest for testing:
        system.
 
 2. **Develop Test Cases**:
+
    - In the `/tests/schema/specs` folder, create or modify a `.spec.ts` file for
      your test.
    - Use the `gql` tag from `noop-tag` for GraphQL queries to benefit from
