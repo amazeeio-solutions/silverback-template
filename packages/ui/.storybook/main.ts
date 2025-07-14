@@ -10,11 +10,7 @@ const fonts = readdirSync(`static/public/fonts/preload`).map((font) => {
 
 // Check if bridge-storybook package is available locally
 const bridgeStorybookPath = resolve(
-  dirname(
-    new URL(
-      import.meta.url,
-    ).pathname,
-  ),
+  dirname(new URL(import.meta.url).pathname),
   '../../@amazeelabs/bridge-storybook/build/src',
 );
 
@@ -32,11 +28,7 @@ const config: StorybookConfig = {
             ? bridgeStorybookPath
             : '@amazeelabs/bridge-storybook',
           '@stories': resolve(
-            dirname(
-              new URL(
-                import.meta.url,
-              ).pathname,
-            ),
+            dirname(new URL(import.meta.url).pathname),
             '../static/stories',
           ),
         },
