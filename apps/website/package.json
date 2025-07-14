@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@8.15.9",
   "dependencies": {
-    "@amazeelabs/bridge-gatsby": "^1.2.18",
+    "@amazeelabs/bridge-gatsby": "workspace:*",
     "@amazeelabs/cloudinary-responsive-image": "^1.6.26",
     "@amazeelabs/decap-cms-backend-token-auth": "^1.2.6",
     "@amazeelabs/gatsby-plugin-operations": "^1.1.12",

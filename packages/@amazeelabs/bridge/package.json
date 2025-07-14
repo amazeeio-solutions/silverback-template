@@ -1,0 +1,34 @@
+{
+  "name": "@amazeelabs/bridge",
+  "version": "1.5.21",
+  "description": "Library for framework agnostic react.",
+  "type": "module",
+  "main": "./build/src/index.js",
+  "types": "./build/src/index.d.ts",
+  "private": false,
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prep": "rm -rf build && swc ./src -d ./build && tsc --emitDeclarationOnly",
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "test:unit": "vitest run --passWithNoTests"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@custom/eslint-config": "workspace:*",
+    "@swc/cli": "0.6.0",
+    "@swc/core": "1.10.11",
+    "@types/react": "18.3.18",
+    "typescript": "5.7.3",
+    "vitest": "2.1.8"
+  },
+  "keywords": [],
+  "author": "AmazeeLabs <development@amazeelabs.com>"
+}
