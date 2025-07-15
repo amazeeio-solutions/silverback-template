@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-template",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "license": "MIT",
   "author": "Amazee Labs <development@amazeelabs.com>",
   "engines": {
@@ -35,6 +35,9 @@
     "graphql": "16.8.1"
   },
   "pnpm": {
-    "patchedDependencies": {}
+    "patchedDependencies": {},
+    "overrides": {
+      "rollup": "4.44.0"
+    }
   }
 }

@@ -79,7 +79,6 @@ We use Vitest for testing:
    and picture data match what we expect.
 
 3. **Running Tests**:
-
    - **Using PHPStorm**: In PHPStorm, you can run a specific test directly from
      the IDE by clicking on the green arrow next to the test name.
    - **Using the Command Line**:
