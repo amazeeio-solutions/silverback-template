@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "prep": "tsc",
+    "prep": "rm -rf dist && tsc",
     "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
     "precommit:fix": "eslint . --fix --quiet",
     "precommit:check": "tsc --noEmit && eslint . --quiet",

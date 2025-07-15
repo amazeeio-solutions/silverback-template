@@ -3,13 +3,14 @@
   "extends": ["//"],
   "tasks": {
     "prep": {
+      "inputs": ["src/**", "tsconfig.json", ".swcrc"],
       "outputs": ["build"]
     },
     "test:static": {
-      "inputs": ["src/**"]
+      "inputs": ["src/**", "tsconfig.json", "eslint.config.mjs"]
     },
     "test:unit": {
-      "inputs": ["src/**"]
+      "inputs": ["src/**", "tsconfig.json", "vitest.config.ts"]
     }
   }
 }
