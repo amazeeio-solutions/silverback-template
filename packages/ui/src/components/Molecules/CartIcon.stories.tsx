@@ -1,0 +1,97 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { useCartStore } from '../../stores/cart';
+import { CartIcon } from './CartIcon';
+
+const meta: Meta<typeof CartIcon> = {
+  title: 'Molecules/CartIcon',
+  component: CartIcon,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    onClick: { action: 'clicked' },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {},
+};
+
+export const WithoutBadge: Story = {
+  args: {
+    showBadge: false,
+  },
+};
+
+export const WithItems: Story = {
+  args: {},
+  play: async () => {
+    const store = useCartStore.getState();
+    // Clear cart first
+    store.clearCart();
+    // Add some items
+    store.addItem({
+      id: '1',
+      title: 'Test Product',
+      price: 19.99,
+      sku: 'TEST-001',
+      stock: 10,
+    });
+    store.addItem({
+      id: '2',
+      title: 'Another Product',
+      price: 29.99,
+      sku: 'TEST-002',
+      stock: 5,
+    });
+  },
+};
+
+export const WithManyItems: Story = {
+  args: {},
+  play: async () => {
+    const store = useCartStore.getState();
+    // Clear cart first
+    store.clearCart();
+    // Add many items to test the 99+ badge
+    for (let i = 0; i < 25; i++) {
+      store.addItem({
+        id: `product-${i}`,
+        title: `Product ${i}`,
+        price: 9.99,
+        sku: `SKU-${i}`,
+        stock: 100,
+      });
+    }
+  },
+};
+
+export const EmptyCart: Story = {
+  args: {},
+  play: async () => {
+    const store = useCartStore.getState();
+    store.clearCart();
+  },
+};
+
+export const CustomStyling: Story = {
+  args: {
+    className: 'text-blue-600 hover:bg-blue-50',
+  },
+  play: async () => {
+    const store = useCartStore.getState();
+    store.clearCart();
+    store.addItem({
+      id: '1',
+      title: 'Test Product',
+      price: 19.99,
+      sku: 'TEST-001',
+      stock: 10,
+    });
+  },
+};

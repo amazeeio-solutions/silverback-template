@@ -1,0 +1,53 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { useCartStore } from '../../stores/cart';
+import { Cart } from './Cart';
+
+const meta: Meta<typeof Cart> = {
+  title: 'Routes/Cart',
+  component: Cart,
+  parameters: {
+    layout: 'fullscreen',
+  },
+  tags: ['autodocs'],
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  play: async () => {
+    const store = useCartStore.getState();
+    store.clearCart();
+    store.addItem({
+      id: '1',
+      title: 'Premium Wireless Headphones',
+      price: 199.99,
+      sku: 'WH-001',
+      stock: 10,
+      teaserImage: {
+        alt: 'Premium Wireless Headphones',
+        source: "https://picsum.photos/200/200?random=1" as ImageSource,
+      },
+    });
+    store.addItem({
+      id: '2',
+      title: 'Smart Watch',
+      price: 299.99,
+      sku: 'SW-002',
+      stock: 5,
+      teaserImage: {
+        alt: 'Smart Watch',
+        source: "https://picsum.photos/200/200?random=2" as ImageSource,
+      },
+    });
+    store.updateQuantity('1', 2);
+  },
+};
+
+export const EmptyCart: Story = {
+  play: async () => {
+    const store = useCartStore.getState();
+    store.clearCart();
+  },
+};

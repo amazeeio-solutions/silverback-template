@@ -539,6 +539,11 @@ type Query {
   contentHubTerms: [TermContentHub!]
     @gatsbyNodes(type: "TermContentHub")
     @loadByVocabulary(bundle: "content_hub")
+
+  """
+  Get the current cart.
+  """
+  cart: Cart!
 }
 
 type Mutation {
@@ -550,6 +555,26 @@ type Mutation {
       webformId: "$webformId"
       submittedData: "$submittedData"
     )
+
+  """
+  Add an item to the cart.
+  """
+  addToCart(input: AddToCartInput!): CartMutationResponse
+
+  """
+  Update the quantity of an item in the cart.
+  """
+  updateCartItem(input: UpdateCartItemInput!): CartMutationResponse
+
+  """
+  Remove an item from the cart.
+  """
+  removeFromCart(productId: String!): CartMutationResponse
+
+  """
+  Clear all items from the cart.
+  """
+  clearCart: CartMutationResponse
 }
 
 type WebformSubmissionCreateResponse {
@@ -613,4 +638,98 @@ type DrupalTranslatableString implements TranslatableString
   source: String!
   language: Locale!
   translation: String
+}
+
+"""
+A single item in the shopping cart.
+"""
+type CartItem @default @value {
+  """
+  The product ID.
+  """
+  id: String!
+  """
+  The product title.
+  """
+  title: String!
+  """
+  The product price per unit.
+  """
+  price: Float!
+  """
+  The quantity of this item in the cart.
+  """
+  quantity: Int!
+  """
+  The product SKU.
+  """
+  sku: String!
+  """
+  The product teaser image.
+  """
+  teaserImage: MediaImage
+  """
+  The maximum stock available for this product.
+  """
+  maxStock: Int!
+}
+
+"""
+The shopping cart containing items and totals.
+"""
+type Cart @default @value {
+  """
+  All items in the cart.
+  """
+  items: [CartItem!]!
+  """
+  Total number of items in the cart.
+  """
+  totalItems: Int!
+  """
+  Total price of all items in the cart.
+  """
+  totalPrice: Float!
+}
+
+"""
+Response type for cart mutations.
+"""
+type CartMutationResponse {
+  """
+  The updated cart.
+  """
+  cart: Cart
+  """
+  Any errors that occurred during the mutation.
+  """
+  errors: [MutationError]
+}
+
+"""
+Input type for adding an item to the cart.
+"""
+input AddToCartInput {
+  """
+  The product ID to add to the cart.
+  """
+  productId: String!
+  """
+  The quantity to add (defaults to 1).
+  """
+  quantity: Int = 1
+}
+
+"""
+Input type for updating cart item quantity.
+"""
+input UpdateCartItemInput {
+  """
+  The product ID to update.
+  """
+  productId: String!
+  """
+  The new quantity for the item.
+  """
+  quantity: Int!
 }

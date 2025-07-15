@@ -75,7 +75,7 @@ export function Carousel({
               key={index}
               onClick={() => onDotButtonClick(index)}
               className={clsx(
-                'embla__dot inline-flex h-6 w-6 cursor-pointer touch-manipulation items-center justify-center rounded-[50%] text-gray-400',
+                'embla__dot inline-flex size-6 cursor-pointer touch-manipulation items-center justify-center rounded-[50%] text-gray-400',
                 {
                   'embla__dot--selected bg-gray-800': index === selectedIndex,
                   'bg-gray-200': index !== selectedIndex,
