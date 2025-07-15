@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm:*)",
+      "Bash(npm:*)",
+      "Bash(git:*)",
+      "Bash(composer:*)",
+      "Bash(drush:*)",
+      "Bash(playwright:*)",
+      "Bash(vitest:*)",
+      "Bash(eslint:*)",
+      "Bash(tsc:*)",
+      "Bash(phpcs:*)",
+      "Bash(phpstan:*)",
+      "Bash(phpunit:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/precommit-hook.sh \"$CLAUDE_TOOL_FILE_PATH\"",
+            "output": "json"
+          }
+        ]
+      }
+    ]
+  }
+}
