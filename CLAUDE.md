@@ -139,3 +139,8 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - Avoid technical Details, keep types and fields technology agnostic and readable to humans.
 - Add GraphQL block comments for describing schema elements. Use markdown for clarity.
 - Run `pnpm prep` in `packages/schema` after changing the schema, operations or fragments to verify correctness.
+
+## Styling and UI Configurations
+
+### CSS and Styling Techniques
+- Content of `SilverbackIframe` is styled in @packages/ui/src/iframe.css , by applying tailwind classes to Drupal classes using `@apply`.
