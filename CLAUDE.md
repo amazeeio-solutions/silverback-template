@@ -39,8 +39,6 @@ pnpm i && pnpm turbo:prep
 ### Pre-commit Quality Checks
 ```bash
 pnpm precommit             # Fix formatting, run linters, and execute unit tests
-pnpm precommit:fix         # Only auto-fix formatting and linting issues
-pnpm precommit:check       # Only validate without fixing
 ```
 
 ### Testing
@@ -129,6 +127,9 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - Implement frontend business logic in Typescript utilities that are tested with vitest.
 - Avoid using useEffect and useContext in React. Try to solve the problem with zustand instead.
 - Test zustand stores with vitest by accessing them directly, not through React hooks.
+- **Never attempt to start storybook. It should already be running in the background.**
+- Make sure to use `intl.formatMessage` in react for any text in the user interface. Don't concatenate strings with variables, but use the variables feature of `intl.formatMessage`.
+- Never use string templates for react classNames. Build dynamic classNames with clsx.
 
 ### Drupal Extensions
 - Create services for Drupal business logic and create PHPUnit tests for them.
@@ -144,3 +145,18 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 
 ### CSS and Styling Techniques
 - Content of `SilverbackIframe` is styled in @packages/ui/src/iframe.css , by applying tailwind classes to Drupal classes using `@apply`.
+
+## Asset Management
+
+- Always download assets from figma and put them into the `packages/ui/static/public` directory, which is available at the "/" level in the browser.
+
+## Drupal Configuration Management
+
+- Never write Drupal configuration **anywhere**. Use the browser to log into `http://localhost:8888` using username `admin` and password `admin`, do the configuration changes using the web interface and then persist them by running `drush cex -y` in the `apps/cms` folder.
+
+## Drupal Test Content Management
+
+- Never add Drupal test content manually. Use the browser to log into `http://localhost:8888` using username `admin` and password `admin`, do the cotnent changes using the web interface and then persist them by running `pnpm content:export` in the `apps/cms` folder.
+
+## Testing Best Practices
+- Schema tests should use inline snapshots and test concrete values as much as possible.
