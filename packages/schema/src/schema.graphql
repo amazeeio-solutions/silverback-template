@@ -32,22 +32,6 @@ directive @createWebformSubmission(
 ) on FIELD_DEFINITION
 
 """
-implementation(drupal): custom.content_moderation::moderateContent
-"""
-directive @moderateContent(
-  contentId: String!
-  entityType: String!
-  revisionId: String!
-  submittedData: JSONString!
-  accessCredentials: AccessCredentialsInput
-) on FIELD_DEFINITION
-
-"""
-implementation(drupal): custom.content_moderation::moderationInfo
-"""
-directive @resolveModerationInfo on FIELD_DEFINITION
-
-"""
 Retrieve an entity from the Gatsby datastore.
 
 implementation(drupal): \Drupal\graphql_directives\Directives\Entities::loadEntity
@@ -528,20 +512,13 @@ type Mutation {
     entityType: String!
     revisionId: String!
     submittedData: JSONString!
-    accessCredentials: AccessCredentialsInput
   ): ModerateContentMutationResponse
     @moderateContent(
       contentId: "$contentId"
       entityType: "$entityType"
       revisionId: "$revisionId"
       submittedData: "$submittedData"
-      accessCredentials: "$accessCredentials"
     )
-}
-
-input AccessCredentialsInput {
-  previewUserId: String!
-  previewAccessToken: String!
 }
 
 type WebformSubmissionCreateResponse {

@@ -11,16 +11,6 @@ services:
   custom.menus:
     class: Drupal\custom\Menus
 
-  custom.content_moderation:
-    class: Drupal\custom\ContentModeration
-    arguments:
-      - '@content_moderation.moderation_information'
-      - '@content_moderation.state_transition_validation'
-      - '@current_user'
-      - '@access_check.silverback_preview_link'
-      - '@account_switcher'
-      - '@datetime.time'
-
   custom.entity_language_redirect_subscriber:
     class: Drupal\custom\EventSubscriber\EntityLanguageRedirectSubscriber
     arguments: ['@language_manager', '@current_route_match']

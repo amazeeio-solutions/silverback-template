@@ -47,3 +47,18 @@ implementation(drupal): \Drupal\custom\Directives::homeRoute
 directive @homeRoute(
   path: String
 ) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+implementation(drupal): \Drupal\custom\ContentModerationDirectives::moderateContent
+"""
+directive @moderateContent(
+  contentId: String!
+  entityType: String!
+  revisionId: String!
+  submittedData: JSONString!
+) on FIELD_DEFINITION
+
+"""
+implementation(drupal): \Drupal\custom\ContentModerationDirectives::moderationInfo
+"""
+directive @resolveModerationInfo on FIELD_DEFINITION
