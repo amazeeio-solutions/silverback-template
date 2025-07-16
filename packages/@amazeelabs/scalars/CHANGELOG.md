@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0 (2025-07-15)
+
+
+### Features
+
+* migrate [@amazeelabs](https://github.com/amazeelabs) packages from silverback-mono ([73792a6](https://github.com/AmazeeLabs/silverback-template/commit/73792a6f0838afbcbd806592212d33e639bb2108))
+
+
+### BREAKING CHANGES
+
+* Package references must now use workspace:* instead of npm versions
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+
+
+
+
+
 ## [1.6.31](https://github.com/AmazeeLabs/silverback-mono/compare/@amazeelabs/scalars@1.6.30...@amazeelabs/scalars@1.6.31) (2025-02-26)
 
 

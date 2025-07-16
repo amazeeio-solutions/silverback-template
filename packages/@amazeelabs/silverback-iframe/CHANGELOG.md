@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.9.0...@amazeelabs/silverback-iframe@1.9.1) (2025-07-15)
+
+
+### Bug Fixes
+
+* formatting ([62fcd5a](https://github.com/AmazeeLabs/silverback-template/commit/62fcd5ae25c07fef1f6e3870232b2b544d965e21))
+* ignore minified iframe resizer file ([7650f5f](https://github.com/AmazeeLabs/silverback-template/commit/7650f5ff4630056e7d121b55e939ccdbeef34f6a))
+
+
+
+
+
 # [1.9.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.8.0...@amazeelabs/silverback-iframe@1.9.0) (2025-07-03)
 
 
