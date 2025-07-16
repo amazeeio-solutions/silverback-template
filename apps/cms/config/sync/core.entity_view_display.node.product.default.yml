@@ -1,0 +1,91 @@
+uuid: fc259ac4-8b44-45b5-80a9-142c3151549a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product.body
+    - field.field.node.product.field_content_hub_terms
+    - field.field.node.product.field_image
+    - field.field.node.product.field_price
+    - field.field.node.product.field_sku
+    - field.field.node.product.field_stock
+    - node.type.product
+  module:
+    - silverback_external_preview
+    - text
+    - user
+id: node.product.default
+targetEntityType: node
+bundle: product
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  external_preview_link:
+    type: external_preview_iframe_formatter
+    label: hidden
+    settings:
+      width: 100%
+      height: 900
+      view_live_link: true
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  field_content_hub_terms:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_price:
+    type: number_decimal
+    label: above
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_sku:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_stock:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

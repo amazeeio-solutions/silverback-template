@@ -1,7 +1,7 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
 import { FrameQuery, Link, Url, useLocation } from '@custom/schema';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { isTruthy } from '../../utils/isTruthy';
@@ -14,7 +14,9 @@ import {
   MobileMenuLink,
   MobileMenuProvider,
 } from '../Client/MobileMenu';
+import { CartIcon } from '../Molecules/CartIcon';
 import { LanguageSwitcher } from '../Molecules/LanguageSwitcher';
+import { MiniCart } from './MiniCart';
 
 function useHeaderNavigation(lang: string = 'en') {
   return (
@@ -35,8 +37,29 @@ function useMetaNavigation(lang: string = 'en') {
 
 export function Header() {
   const intl = useIntl();
+  const [, navigate] = useLocation();
+  const [isMiniCartOpen, setIsMiniCartOpen] = useState(false);
   const items = buildNavigationTree(useHeaderNavigation(intl.locale));
   const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
+
+  const handleCartClick = () => {
+    setIsMiniCartOpen(true);
+  };
+
+  const handleMiniCartClose = () => {
+    setIsMiniCartOpen(false);
+  };
+
+  const handleViewCart = () => {
+    setIsMiniCartOpen(false);
+    navigate('/cart' as Url);
+  };
+
+  const handleCheckout = () => {
+    setIsMiniCartOpen(false);
+    // TODO: Implement checkout navigation
+    console.log('Checkout clicked');
+  };
 
   return (
     <MobileMenuProvider>
@@ -52,7 +75,7 @@ export function Header() {
                 <div className="flex lg:flex-1">
                   <Link
                     href={'/' as Url}
-                    className="relative h-[43px] w-[161.408px] shrink-0 overflow-clip"
+                    className="relative h-[43px] w-[161.408px] shrink-0 text-clip"
                   >
                     <span className="sr-only">
                       {intl.formatMessage({
@@ -87,6 +110,7 @@ export function Header() {
                   ))}
                   <LanguageSwitcher variant="header" />
                   <SearchInput />
+                  <CartIcon onClick={handleCartClick} className="text-white" />
                 </div>
               </div>
 
@@ -102,7 +126,7 @@ export function Header() {
                     >
                       <Link
                         href={item.target}
-                        className="block whitespace-pre leading-[1.25] hover:opacity-80"
+                        className="block whitespace-pre leading-tight hover:opacity-80"
                         activeClassName={'opacity-80'}
                       >
                         {item.title}
@@ -127,7 +151,7 @@ export function Header() {
                       <div className="flex lg:flex-1">
                         <Link
                           href={'/' as Url}
-                          className="relative h-[43px] w-[161.408px] shrink-0 overflow-clip"
+                          className="relative h-[43px] w-[161.408px] shrink-0 text-clip"
                         >
                           <span className="sr-only">
                             {intl.formatMessage({
@@ -223,11 +247,25 @@ export function Header() {
                   </Link>
                 ))}
                 <LanguageSwitcher variant="mobile" />
+                <div className="border-t border-gray-200 pt-6">
+                  <CartIcon
+                    onClick={handleCartClick}
+                    className="text-gray-900"
+                  />
+                </div>
               </nav>
             </div>
           </MobileMenu>
         </header>
       </div>
+
+      {/* Mini Cart */}
+      <MiniCart
+        isOpen={isMiniCartOpen}
+        onClose={handleMiniCartClose}
+        onViewCart={handleViewCart}
+        onCheckout={handleCheckout}
+      />
     </MobileMenuProvider>
   );
 }
@@ -241,7 +279,7 @@ function HomeIconFigma({ locale }: { locale: string }) {
   return (
     <Link
       href={homeUrl as Url}
-      className="relative -mt-1 flex size-[19px] shrink-0 items-center justify-center overflow-clip hover:opacity-80"
+      className="relative -mt-1 flex size-[19px] shrink-0 items-center justify-center text-clip hover:opacity-80"
     >
       <img
         alt={intl.formatMessage({
@@ -285,7 +323,7 @@ function SearchInput() {
             />
             <button
               type="submit"
-              className="relative flex size-4 shrink-0 cursor-pointer items-center justify-center overflow-clip"
+              className="relative flex size-4 shrink-0 cursor-pointer items-center justify-center text-clip"
               data-name="icons / search"
             >
               <div
@@ -414,9 +452,9 @@ function KrebsligaLogo({
 }) {
   return (
     <div
-      className={`relative h-[43px] w-[161.408px] shrink-0 overflow-clip ${className}`}
+      className={`relative h-[43px] w-[161.408px] shrink-0 text-clip ${className}`}
     >
-      <div className="absolute bottom-0 left-0 right-0 top-0">
+      <div className="absolute inset-0">
         <img
           alt="Krebsliga Logo"
           className="block size-full max-w-none"

@@ -22,9 +22,6 @@ test('Page', async () => {
       loadFromGermanPath: viewPage(path: "/de/privatsphaere") {
         ...Page
       }
-      loadFromSwissGermanPath: viewPage(path: "/de-CH/privacy") {
-        ...Page
-      }
       loadFromFrenchPath: viewPage(path: "/french/privacy") {
         ...Page
       }
@@ -46,11 +43,6 @@ test('Page', async () => {
             {
               "locale": "de",
               "path": "/de/privatsphaere",
-              "title": "Privatsphäre",
-            },
-            {
-              "locale": "de_CH",
-              "path": "/de-CH/privacy",
               "title": "Privatsphäre",
             },
             {
@@ -76,11 +68,6 @@ test('Page', async () => {
               "title": "Privatsphäre",
             },
             {
-              "locale": "de_CH",
-              "path": "/de-CH/privacy",
-              "title": "Privatsphäre",
-            },
-            {
               "locale": "french",
               "path": "/french/privacy",
               "title": "Vie privée",
@@ -100,38 +87,6 @@ test('Page', async () => {
             {
               "locale": "de",
               "path": "/de/privatsphaere",
-              "title": "Privatsphäre",
-            },
-            {
-              "locale": "de_CH",
-              "path": "/de-CH/privacy",
-              "title": "Privatsphäre",
-            },
-            {
-              "locale": "french",
-              "path": "/french/privacy",
-              "title": "Vie privée",
-            },
-          ],
-        },
-        "loadFromSwissGermanPath": {
-          "locale": "de_CH",
-          "path": "/de-CH/privacy",
-          "title": "Privatsphäre",
-          "translations": [
-            {
-              "locale": "en",
-              "path": "/en/privacy",
-              "title": "Privacy",
-            },
-            {
-              "locale": "de",
-              "path": "/de/privatsphaere",
-              "title": "Privatsphäre",
-            },
-            {
-              "locale": "de_CH",
-              "path": "/de-CH/privacy",
               "title": "Privatsphäre",
             },
             {

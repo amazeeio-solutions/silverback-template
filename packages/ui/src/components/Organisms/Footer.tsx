@@ -25,7 +25,7 @@ function KrebsligaLogo({
 
   return (
     <div
-      className={`relative h-[43px] w-[161.408px] shrink-0 overflow-clip ${className}`}
+      className={`relative h-[43px] w-[161.408px] shrink-0 text-clip ${className}`}
     >
       <svg
         className="block size-full"

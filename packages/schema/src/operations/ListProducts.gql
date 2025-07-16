@@ -1,0 +1,5 @@
+query ListProducts {
+  allProducts {
+    path
+  }
+}

@@ -184,3 +184,7 @@ h1 {
 .webform-terms-of-service-details {
   @apply text-gray-900 border-gray-300 border rounded-lg p-5 leading-relaxed hidden;
 }
+
+blockquote {
+  @apply text-kls-orange-primary;
+}

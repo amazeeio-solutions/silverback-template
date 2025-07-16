@@ -1,0 +1,23 @@
+uuid: 4d9c87d5-7507-4154-8055-d8abb229dae4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_price
+    - node.type.product
+id: node.product.field_price
+field_name: field_price
+entity_type: node
+bundle: product
+label: Price
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: CHF
+  suffix: ''
+field_type: decimal

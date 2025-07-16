@@ -1,0 +1,21 @@
+uuid: 616f36c5-7d73-40cf-a875-1e368c9d4dc7
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - pate
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  pate:
+    is_templatable: false
+name: Product
+type: product
+description: 'E-commerce product with SKU, price, stock, and description'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

@@ -250,6 +250,51 @@ type DrupalPage implements Page & Editable & CardItem
   terms: [TermContentHub!]! @entityReference(field: "field_content_hub_terms")
 }
 
+"""
+Product interface for e-commerce products.
+"""
+interface Product implements CardItem & Editable @entityBundle {
+  id: ID!
+  translations: [Product]
+  locale: Locale!
+  path: Url!
+  editLink: EditLink
+  title: String!
+  teaserImage: MediaImage
+  hero: Hero
+  description: Markup!
+  """
+  Price in Swiss Francs (CHF)
+  """
+  price: Float!
+  sku: String!
+  stock: Int!
+  metaTags: [MetaTag]
+  terms: [TermContentHub!]!
+}
+
+"""
+A Drupal product entity.
+"""
+type DrupalProduct implements Product & Editable & CardItem
+  @entity(type: "node", bundle: "product")
+  @type(id: "product") {
+  id: ID! @entityUuid
+  locale: Locale! @entityLanguage
+  translations: [Product] @entityTranslations
+  path: Url! @entityPath
+  editLink: EditLink @resolveParent
+  title: String! @property(path: "title.value")
+  teaserImage: MediaImage @entityReference(field: "field_image") @seek(pos: 0)
+  hero: Hero @resolveParent
+  description: Markup! @property(path: "field_description.processed")
+  price: Float! @property(path: "field_price.value")
+  sku: String! @property(path: "field_sku.value")
+  stock: Int! @property(path: "field_stock.value")
+  metaTags: [MetaTag] @property(path: "metatag")
+  terms: [TermContentHub!]! @entityReference(field: "field_content_hub_terms")
+}
+
 type Hero {
   headline: String! @resolveEditorBlockAttribute(key: "headline")
   lead: String @resolveEditorBlockAttribute(key: "lead")
@@ -475,8 +520,10 @@ type Query {
     @menuTranslations(menu_id: "footer")
 
   allPages: [Page] @gatsbyNodes(type: "Page")
+  allProducts: [Product] @gatsbyNodes(type: "Product")
   websiteSettings: WebsiteSettings
   viewPage(path: String!): Page @route(path: "$path") @loadEntity
+  viewProduct(path: String!): Product @route(path: "$path") @loadEntity
 
   contentHub(locale: Locale!, args: String): ContentHubResult!
     @lang(code: "$locale")
@@ -492,6 +539,11 @@ type Query {
   contentHubTerms: [TermContentHub!]
     @gatsbyNodes(type: "TermContentHub")
     @loadByVocabulary(bundle: "content_hub")
+
+  """
+  Get the current cart.
+  """
+  cart: Cart!
 }
 
 type Mutation {
@@ -503,6 +555,26 @@ type Mutation {
       webformId: "$webformId"
       submittedData: "$submittedData"
     )
+
+  """
+  Add an item to the cart.
+  """
+  addToCart(input: AddToCartInput!): CartMutationResponse
+
+  """
+  Update the quantity of an item in the cart.
+  """
+  updateCartItem(input: UpdateCartItemInput!): CartMutationResponse
+
+  """
+  Remove an item from the cart.
+  """
+  removeFromCart(productId: String!): CartMutationResponse
+
+  """
+  Clear all items from the cart.
+  """
+  clearCart: CartMutationResponse
 }
 
 type WebformSubmissionCreateResponse {
@@ -566,4 +638,98 @@ type DrupalTranslatableString implements TranslatableString
   source: String!
   language: Locale!
   translation: String
+}
+
+"""
+A single item in the shopping cart.
+"""
+type CartItem @default @value {
+  """
+  The product ID.
+  """
+  id: String!
+  """
+  The product title.
+  """
+  title: String!
+  """
+  The product price per unit.
+  """
+  price: Float!
+  """
+  The quantity of this item in the cart.
+  """
+  quantity: Int!
+  """
+  The product SKU.
+  """
+  sku: String!
+  """
+  The product teaser image.
+  """
+  teaserImage: MediaImage
+  """
+  The maximum stock available for this product.
+  """
+  maxStock: Int!
+}
+
+"""
+The shopping cart containing items and totals.
+"""
+type Cart @default @value {
+  """
+  All items in the cart.
+  """
+  items: [CartItem!]!
+  """
+  Total number of items in the cart.
+  """
+  totalItems: Int!
+  """
+  Total price of all items in the cart.
+  """
+  totalPrice: Float!
+}
+
+"""
+Response type for cart mutations.
+"""
+type CartMutationResponse {
+  """
+  The updated cart.
+  """
+  cart: Cart
+  """
+  Any errors that occurred during the mutation.
+  """
+  errors: [MutationError]
+}
+
+"""
+Input type for adding an item to the cart.
+"""
+input AddToCartInput {
+  """
+  The product ID to add to the cart.
+  """
+  productId: String!
+  """
+  The quantity to add (defaults to 1).
+  """
+  quantity: Int = 1
+}
+
+"""
+Input type for updating cart item quantity.
+"""
+input UpdateCartItemInput {
+  """
+  The product ID to update.
+  """
+  productId: String!
+  """
+  The new quantity for the item.
+  """
+  quantity: Int!
 }
