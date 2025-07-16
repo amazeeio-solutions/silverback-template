@@ -1,5 +1,27 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.1.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.0.0...@amazeelabs/silverback-template@2.1.0) (2025-07-16)
+
+
+### Bug Fixes
+
+* do not reformat CHANGELOG.md files ([5e25a95](https://github.com/AmazeeLabs/silverback-template/commit/5e25a95e13f6edc6f1eb6b5f1978f21b2a205454))
+
+
+### Features
+
+* add claude code hooks for automated precommit ([f60a4a5](https://github.com/AmazeeLabs/silverback-template/commit/f60a4a5f57de0cbb2ec07b3033a2bb9a66fc9ac6))
+* default mcp configuration with playwright and figma ([a39829f](https://github.com/AmazeeLabs/silverback-template/commit/a39829f3bb9d1abde0af1c673c5014607f38e1be))
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
