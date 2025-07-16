@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm:*)",
+      "Bash(npm:*)",
+      "Bash(git:*)",
+      "Bash(composer:*)",
+      "Bash(drush:*)",
+      "Bash(playwright:*)",
+      "Bash(vitest:*)",
+      "Bash(eslint:*)",
+      "Bash(tsc:*)",
+      "Bash(phpcs:*)",
+      "Bash(phpstan:*)",
+      "Bash(phpunit:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_select_option",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_close",
+      "mcp__figma__get_code",
+      "mcp__figma__get_image"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/precommit-hook.sh \"$CLAUDE_TOOL_FILE_PATH\"",
+            "output": "json"
+          }
+        ]
+      }
+    ]
+  }
+}
