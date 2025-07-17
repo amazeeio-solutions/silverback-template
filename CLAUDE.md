@@ -126,6 +126,9 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - **Storybook note**: Never start storybook - it runs in background
 - **Business logic**: Implement in TypeScript utilities with vitest tests
 - **Storybook Typing**: Always use "satisfies" for typing storybook stories and meta objects. Makes it easier to re-use those values in other stories.
+- **Data Fetching**: React components fetch data using the `<Operation>` component or the `withOperation` higher-order component. For pure client side applications, `useOperation` can be used as well.
+- **Data Submission**: To submit or update data in React components, the `useMutation` hook is used along with a GraphQL mutation.
+- **React Router Navigation**: To retrieve path, query parameters or hash, or programmatically navigate to a new location use the `useLocation` hook.
 
 ### Drupal Development
 - **Services**: Create PHPUnit-tested services for business logic
