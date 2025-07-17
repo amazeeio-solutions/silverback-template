@@ -54,6 +54,7 @@ implementation(drupal): \Drupal\custom\ContentModerationDirectives::moderateCont
 directive @moderateContent(
   contentId: String!
   entityType: String!
+  locale: Locale!
   revisionId: String!
   submittedData: JSONString!
 ) on FIELD_DEFINITION

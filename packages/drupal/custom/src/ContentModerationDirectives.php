@@ -6,8 +6,10 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Entity\RevisionableStorageInterface;
 use Drupal\Core\Entity\RevisionLogInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Utility\Error;
 use Drupal\graphql_directives\Api;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Helper service for managing content moderation with graphql.
@@ -29,7 +31,27 @@ class ContentModerationDirectives {
       if (!$storage instanceof RevisionableStorageInterface) {
         throw new \Exception("The " . $api->args['entityType'] . ' entity storage is not revisionable.');
       }
-      $content = $storage->loadRevision($api->args['revisionId']);
+      $locale = $api->args['locale'] ?? '';
+      $language = self::getLanguageFromLocale($locale) ?? \Drupal::languageManager()->getDefaultLanguage();
+        
+      /* @var \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository */
+      $entityRepository = \Drupal::service('entity.repository');
+      // If a specific revision was requested, then we load that one, otherwise
+      // we load the most up to date revision.
+      if (!empty($api->args['revisionId'])) {
+        $content = $storage->loadRevision($api->args['revisionId']);
+        if ($content->language()->getId() !== $language->getId() && $content->hasTranslation($language->getId())) {
+          $content = $content->getTranslation($language->getId());
+        }
+      }
+      else {
+        $activeEntityContext = [
+          'langcode' => $language->getId(),
+        ];
+        $entity = $entityRepository->loadEntityByUuid($api->args['entityType'], $api->args['contentId']);
+        $content = $entityRepository->getActive($api->args['entityType'], $entity->id(), $activeEntityContext);
+      }
+
       $submittedData = json_decode($api->args['submittedData'], true);
       /* @var \Drupal\content_moderation\ModerationInformationInterface $moderationInformation */
       $moderationInformation = \Drupal::service('content_moderation.moderation_information');
@@ -94,6 +116,31 @@ class ContentModerationDirectives {
       ],
       'availableStates' => $availableStates,
     ];
+  }
+
+  /**
+   * Helper method to get the language from a locale string.
+   * @param string $locale
+   *   The locale string to get the language from. It should be compliant with
+   *   GraphQL enums, so the '-' character should be replaced with '_'.
+   *
+   * @return \Drupal\Core\Language\LanguageInterface|null
+   */
+  protected static function getLanguageFromLocale(string $locale): LanguageInterface | null {
+    // The locales should be stored as language path prefixes. This is how the
+    // Drupal\graphql_directives\Directives\Entities::entityLanguage() directive
+    // builds the locale string for an entity.
+    $prefixes = \Drupal::config('language.negotiation')->get('url.prefixes');
+    /* @var \Drupal\Core\Language\LanguageManagerInterface $languageManager */
+    $languageManager = \Drupal::languageManager();
+    foreach ($prefixes as $languageId => $prefix) {
+      // The locale we get should be compliant with GraphQL enums, so the '-'
+      // character should be replaced with '_'.
+      if ($locale === str_replace('-', '_', $prefix)) {
+        return $languageManager->getLanguage($languageId);
+      }
+    }
+    return NULL;
   }
 
   /**

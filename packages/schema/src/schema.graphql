@@ -510,12 +510,14 @@ type Mutation {
   moderateContent(
     contentId: String!
     entityType: String!
+    locale: Locale!
     revisionId: String!
     submittedData: JSONString!
   ): ModerateContentMutationResponse
     @moderateContent(
       contentId: "$contentId"
       entityType: "$entityType"
+      locale: "$locale"
       revisionId: "$revisionId"
       submittedData: "$submittedData"
     )
