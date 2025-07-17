@@ -46,48 +46,51 @@ export const CardItem = ({
           </div>
         ) : null}
         {terms?.length ? (
-          <div className={`mb-2 flex flex-wrap`}>
+          <div className="mb-2 flex flex-wrap gap-2">
             {terms.map((term) => (
               <span
                 key={term.termId}
-                className="bg-gray-lighter text-gray-dark dark:bg-gray-dark dark:text-gray-lighter me-2 rounded px-2.5 py-0.5 text-xs font-medium"
+                className="bg-[#fff3e6] text-kls-orange-accessible h-6 flex items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap"
+                style={{ minWidth: '2.5rem' }}
               >
                 {term.label}
               </span>
             ))}
           </div>
         ) : null}
-        <Link
-          href={path}
-          className="copy-small border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary row-start-3 inline-flex items-center justify-self-start rounded-full border px-3 py-2 text-center after:absolute after:inset-0 after:content-[''] hover:text-white focus:outline-offset-4"
-        >
-          <span className="sr-only size-0 overflow-hidden">{title}</span>
-          {readMoreText ||
-            (isProduct
-              ? intl.formatMessage({
-                  defaultMessage: 'View product',
-                  id: 'gfMPP3',
-                })
-              : intl.formatMessage({
-                  defaultMessage: 'Read more',
-                  id: 'S++WdB',
-                }))}
-          <svg
-            className="ms-2 size-3.5 rtl:rotate-180"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
+        <div className="mt-auto">
+          <Link
+            href={path}
+            className="copy-small border-kls-orange-primary text-kls-orange-primary hover:bg-kls-orange-primary inline-flex items-center rounded-full border px-3 py-2 text-center after:absolute after:inset-0 after:content-[''] hover:text-white focus:outline-offset-4"
           >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </Link>
+            <span className="sr-only size-0 overflow-hidden">{title}</span>
+            {readMoreText ||
+              (isProduct
+                ? intl.formatMessage({
+                    defaultMessage: 'View product',
+                    id: 'gfMPP3',
+                  })
+                : intl.formatMessage({
+                    defaultMessage: 'Read more',
+                    id: 'S++WdB',
+                  }))}
+            <svg
+              className="ms-2 size-3.5 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
       <div className="row-start-1">
         {teaserImage ? (
