@@ -2,6 +2,7 @@
 
 namespace Drupal\custom\Plugin\views\field;
 
+use Drupal\block_content\BlockContentInterface;
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -77,6 +78,7 @@ final class UsageCount extends FieldPluginBase {
   public function render(ResultRow $values): string|MarkupInterface {
     // @todo Modify or replace the rendered value here.
     $count = 0;
+    $url = NULL;
     $media = $values->_entity;
     if ($media instanceof MediaInterface) {
       $language = $media->language();
@@ -107,7 +109,7 @@ final class UsageCount extends FieldPluginBase {
       $url = Url::fromUserInput("/{$language->getId()}/media/{$media->id()}/edit/usage", []);
     }
 
-    return $count ? Markup::create("<a href='{$url->toString()}'>{$count}</a>") : 0;
+    return $count && $url ? Markup::create("<a href='{$url->toString()}'>{$count}</a>") : 0;
   }
 
   /**

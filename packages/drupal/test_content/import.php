@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Import test content and configuration.
+ */
+
 use AmazeeLabs\DefaultContent\Import;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\locale\StringStorageInterface;
@@ -18,13 +24,17 @@ foreach (glob(__DIR__ . '/webforms/*.yml') as $file) {
 // Create an example string translation for test cases.
 $stringStorage = \Drupal::service('locale.storage');
 if ($stringStorage instanceof StringStorageInterface) {
-  /** @var \Drupal\locale\StringInterface $strings */
+  /**
+   * Get existing strings for translation.
+   *
+   * @var \Drupal\locale\StringInterface $strings
+   */
   $strings = $stringStorage->getStrings([
     'source' => 'Company Name',
     'context' => 'website',
   ]);
   $lid = 0;
-  if (empty($strings)) {
+  if (count($strings) === 0) {
     $lid = $stringStorage->createString([
       'source' => 'Company name',
       'context' => 'website',

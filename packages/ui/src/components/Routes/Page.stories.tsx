@@ -45,6 +45,7 @@ export const Default = {
   },
   args: {
     page: {
+      id: '123',
       title: 'Page Title',
       locale: 'en',
       translations: [

@@ -47,9 +47,9 @@ export const createPages = async ({ actions }) => {
     `);
   });
 
-  // Additionally proxy themes and modules as they can have additional
+  // Additionally, proxy themes and modules as they can have additional
   // non-aggregated assets.
-  ['themes', 'modules', 'core/assets'].forEach((path) => {
+  ['themes', 'modules', 'core/assets', 'core/misc'].forEach((path) => {
     actions.createRedirect({
       fromPath: `/${path}/*`,
       toPath: `${process.env.GATSBY_DRUPAL_URL}/${path}/:splat`,

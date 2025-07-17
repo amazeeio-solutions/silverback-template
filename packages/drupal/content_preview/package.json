@@ -1,5 +1,13 @@
 {
   "name": "@custom/content_preview",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/drupal/content_preview",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/drupal/content_preview",
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/content_preview",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=content_preview",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=content_preview"
+  }
 }

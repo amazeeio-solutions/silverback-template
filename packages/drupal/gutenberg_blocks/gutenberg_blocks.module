@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains hook implementations for the gutenberg_blocks module.
+ */
+
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\silverback_gutenberg\Utils;
@@ -7,8 +12,8 @@ use Drupal\webform\Entity\Webform;
 use Drupal\Core\Url;
 
 /**
-* Implements hook_library_info_alter().
-*/
+ * Implements hook_library_info_alter().
+ */
 function gutenberg_blocks_library_info_alter(&$libraries, $extension) {
   if ($extension === 'gutenberg') {
     $libraries['edit-node']['dependencies'][] = 'gutenberg_blocks/customisations';
@@ -47,7 +52,7 @@ function gutenberg_blocks_form_node_form_alter(&$form, FormStateInterface $form_
     $form['#attached']['drupalSettings']['preview'] = [
       'previewUrl' => $previewUrl,
       // @todo link template does not work out here, check why.
-      //'previewTokenUrl' => $node->toUrl('preview-link-generate')->toString(),
+      // 'previewTokenUrl' => $node->toUrl('preview-link-generate')->toString(),
       'previewTokenUrl' => '/' . $langcode . '/node/' . $node->id() . '/generate-preview-link',
     ];
     $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
@@ -118,7 +123,7 @@ function gutenberg_blocks_toolbar_alter(&$items) {
  * @see template_preprocess_gutenberg_block
  */
 function template_preprocess_gutenberg_block__custom__image_teaser(&$variables) {
-  _template_preprocess_gutenberg_block_add_rendered_image($variables);
+  gutenberg_blocks__template_preprocess_gutenberg_block_add_rendered_image($variables);
 }
 
 /**
@@ -127,17 +132,20 @@ function template_preprocess_gutenberg_block__custom__image_teaser(&$variables) 
  * @see template_preprocess_gutenberg_block
  */
 function template_preprocess_gutenberg_block__custom__image_with_text(&$variables) {
-  _template_preprocess_gutenberg_block_add_rendered_image($variables);
+  gutenberg_blocks__template_preprocess_gutenberg_block_add_rendered_image($variables);
 }
 
 /**
- * Helper function to inject a variable into gutenberg blocks that have a media
- * reference (through the mediaEntityIds block attribute). The injected variable
- * represents the rendered media.
+ * Helper function to inject a variable into gutenberg blocks that have a media reference.
+ *
+ * Injects a variable into gutenberg blocks that have a media reference (through
+ * the mediaEntityIds block attribute). The injected variable represents the
+ * rendered media.
  *
  * @return void
+ *   Returns nothing.
  */
-function _template_preprocess_gutenberg_block_add_rendered_image(&$variables) {
+function gutenberg_blocks__template_preprocess_gutenberg_block_add_rendered_image(&$variables) {
   if (!empty($variables['block_attributes']['mediaEntityIds'])) {
     /** @var \Drupal\gutenberg\MediaEntityRendererInterface $media_entity_renderer */
     $media_entity_renderer = \Drupal::service('gutenberg.media_entity.renderer');

@@ -197,6 +197,7 @@ interface Page implements CardItem & Editable @entityBundle {
   content: [PageContent]
   metaTags: [MetaTag]
   terms: [TermContentHub!]!
+  moderationInfo: ModerationInformation
 }
 
 type DecapPage implements Page & Editable & CardItem
@@ -212,6 +213,7 @@ type DecapPage implements Page & Editable & CardItem
   content: [PageContent]
   metaTags: [MetaTag]
   terms: [TermContentHub!]!
+  moderationInfo: ModerationInformation
 }
 
 """
@@ -248,6 +250,7 @@ type DrupalPage implements Page & Editable & CardItem
     @resolveEditorBlockChildren
   metaTags: [MetaTag] @property(path: "metatag")
   terms: [TermContentHub!]! @entityReference(field: "field_content_hub_terms")
+  moderationInfo: ModerationInformation @resolveModerationInfo
 }
 
 type Hero {
@@ -516,11 +519,31 @@ type Mutation {
       webformId: "$webformId"
       submittedData: "$submittedData"
     )
+
+  moderateContent(
+    contentId: String!
+    entityType: String!
+    locale: Locale!
+    revisionId: String!
+    submittedData: JSONString!
+  ): ModerateContentMutationResponse
+    @moderateContent(
+      contentId: "$contentId"
+      entityType: "$entityType"
+      locale: "$locale"
+      revisionId: "$revisionId"
+      submittedData: "$submittedData"
+    )
 }
 
 type WebformSubmissionCreateResponse {
   errors: [MutationError]
   submission: JSONString
+}
+
+type ModerateContentMutationResponse {
+  errors: [MutationError]
+  result: JSONString
 }
 
 type MutationError {
@@ -540,6 +563,16 @@ type MetaTagAttributes @default @value(json: "{}") {
   property: String
   rel: String
   href: String
+}
+
+type ModerationInformation {
+  currentState: ModerationState
+  availableStates: [ModerationState]
+}
+
+type ModerationState {
+  id: ID
+  label: String
 }
 
 type DemoBlock {

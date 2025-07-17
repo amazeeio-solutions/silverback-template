@@ -26,7 +26,7 @@
       "dependsOn": ["prep"]
     },
     "prep": {
-      "dependsOn": ["test:static"]
+      "dependsOn": ["^prep"]
     },
     "test:static": {
       "dependsOn": ["^prep"]
@@ -36,6 +36,51 @@
     },
     "test:integration": {
       "dependsOn": ["test:unit"]
+    },
+    "precommit": {
+      "dependsOn": ["precommit:fix", "precommit:check", "test:unit"]
+    },
+    "precommit:fix": {
+      "dependsOn": ["^prep"]
+    },
+    "precommit:check": {
+      "dependsOn": ["precommit:fix"]
+    },
+    "drupal:test:static": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:unit": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
+    },
+    "drupal:test:integration": {
+      "inputs": [
+        "**/*.php",
+        "**/*.module",
+        "**/*.inc",
+        "**/*.install",
+        "**/*.profile",
+        "**/*.theme",
+        "**/*.info.yml"
+      ],
+      "dependsOn": ["@custom/cms#prep:composer"]
     }
   }
 }

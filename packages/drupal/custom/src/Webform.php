@@ -167,8 +167,10 @@ class Webform {
   }
 
   /**
-   * Helper method to arrange a set of webform submission errors in a way that
-   * can be used by the MutationError graphl type.
+   * Helper method to arrange webform submission errors for GraphQL.
+   *
+   * Arranges a set of webform submission errors in a way that can be used by
+   * the MutationError GraphQL type.
    */
   protected function formatErrors(array $webformSubmissionErrors) {
     $formattedErrors = [];

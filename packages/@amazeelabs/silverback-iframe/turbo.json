@@ -4,6 +4,16 @@
   "tasks": {
     "prep": {
       "outputs": ["dist"]
+    },
+    "test:static": {
+      "inputs": ["src/**"],
+      "dependsOn": ["drupal:test:static"]
+    },
+    "test:unit": {
+      "dependsOn": ["drupal:test:unit"]
+    },
+    "test:integration": {
+      "dependsOn": ["drupal:test:integration"]
     }
   }
 }

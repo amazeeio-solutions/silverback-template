@@ -1,0 +1,10 @@
+{
+  "name": "@custom/drupal-local",
+  "private": true,
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/drupal-local",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/drupal-local",
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal-local"
+  }
+}

@@ -106,6 +106,49 @@ either (or both), follow these two steps:
   - Please note, this does not trigger an actual PROD deployment
 - PROD deployment can be done by merging `release` branch into `prod`
 
+## Pre-commit Quality Checks
+
+The project includes a comprehensive pre-commit system to catch errors and
+maintain code quality before CI. This system automatically fixes formatting
+issues, reports unfixable problems, and runs unit tests across all packages.
+
+### Available Commands
+
+From the project root:
+
+```bash
+# Run all pre-commit checks (fix, validate, test)
+pnpm precommit
+
+# Only run auto-fixing for formatting and linting
+pnpm precommit:fix
+
+# Only run validation without fixing
+pnpm precommit:check
+```
+
+### What It Does
+
+- **Auto-fixes formatting** with Prettier (TypeScript/JavaScript) and PHPCBF
+  (PHP)
+- **Auto-fixes linting issues** with ESLint (where possible)
+- **Reports unfixable issues** with clear error messages and line numbers
+- **Runs unit tests** across all packages (Vitest for TypeScript, PHPUnit for
+  PHP)
+- **Provides fast feedback** for both developers and AI tools
+
+### Integration
+
+This system is designed to:
+
+- Catch avoidable errors before CI runs
+- Provide immediate feedback during development
+- Automatically maintain consistent code style
+- Work seamlessly with AI development tools
+
+The pre-commit checks leverage Turborepo's caching system for optimal
+performance, typically achieving 80%+ cache hit rates on subsequent runs.
+
 ## Installation
 
 Tip: The easiest way to set up a working environment for the project is
@@ -135,6 +178,14 @@ Running `pnpm turbo:prep` works conditionally for Drupal. If database exists, it
 clears Drupal cache. Otherwise, it re-installs Drupal completely.
 
 If you wish Drupal to be re-installed, run `pnpm turbo:prep:force`.
+
+To work on packages from drupal.org, clone them into `packages/drupal-local`.
+They will have a higher precedence than the versions downloaded by composer.
+
+### Mailpit
+
+Mailpit is installed by default on local development environments and catches
+all Drupal outgoing emails. Available on http://localhost:8025/
 
 ## Environment overrides
 

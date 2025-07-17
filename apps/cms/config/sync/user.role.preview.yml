@@ -2,7 +2,10 @@ uuid: aa9f147f-40e1-4c26-b129-fcc8e52c7573
 langcode: en
 status: true
 dependencies:
+  config:
+    - workflows.workflow.basic
   module:
+    - content_moderation
     - content_preview
     - node
     - silverback_gatsby
@@ -13,4 +16,9 @@ is_admin: null
 permissions:
   - 'access any content revision'
   - 'fetch any autosaved entity'
+  - 'use basic transition create_new_draft'
+  - 'use basic transition publish'
+  - 'use basic transition unpublish'
   - 'view all revisions'
+  - 'view any unpublished content'
+  - 'view latest version'

@@ -2,6 +2,9 @@
 
 namespace Drupal\silverback_search;
 
+/**
+ * Represents the result of fetching content from a remote frontend.
+ */
 class FetchResult {
 
   public function __construct(

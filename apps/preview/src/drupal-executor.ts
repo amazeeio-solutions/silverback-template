@@ -13,6 +13,9 @@ export function drupalExecutor(
     variables?: OperationVariables<OperationId>,
   ) {
     const url = new URL(endpoint, window.location.origin);
+    if (preview_access_token) {
+      url.searchParams.set('preview_access_token', preview_access_token);
+    }
     const isMutation = id.includes('Mutation:');
     if (isMutation) {
       const { data, errors } = await (

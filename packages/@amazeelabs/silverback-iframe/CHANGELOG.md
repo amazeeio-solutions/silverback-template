@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.9.0...@amazeelabs/silverback-iframe@1.9.1) (2025-07-15)
+
+
+### Bug Fixes
+
+* formatting ([62fcd5a](https://github.com/AmazeeLabs/silverback-template/commit/62fcd5ae25c07fef1f6e3870232b2b544d965e21))
+* ignore minified iframe resizer file ([7650f5f](https://github.com/AmazeeLabs/silverback-template/commit/7650f5ff4630056e7d121b55e939ccdbeef34f6a))
+
+
+
+
+
+# [1.9.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.8.0...@amazeelabs/silverback-iframe@1.9.0) (2025-07-03)
+
+
+### Features
+
+* add comprehensive pre-commit quality checks system ([1aec847](https://github.com/AmazeeLabs/silverback-template/commit/1aec847715d81a06db59556352cba25f62201e30))
+
+
+
+
+
+# [1.8.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.7.0...@amazeelabs/silverback-iframe@1.8.0) (2025-07-03)
+
+
+### Bug Fixes
+
+* add missing composer dependency to silverback packages test:static ([6b52a81](https://github.com/AmazeeLabs/silverback-template/commit/6b52a81d09dce0f6ee9c8aba7617a327393ae635))
+* correct relative paths to PHP quality tools in all packages ([40c5140](https://github.com/AmazeeLabs/silverback-template/commit/40c5140df4edcca9c31f9266166abfcf186948aa))
+* resolve static analysis violations across PHP packages ([6242fa6](https://github.com/AmazeeLabs/silverback-template/commit/6242fa6ec3db1b1273b9a8f8d8c76ebd2d83c065))
+* turbo.json formatting ([5d0b48d](https://github.com/AmazeeLabs/silverback-template/commit/5d0b48dec7064039eb03cb550b499362e5cc3894))
+* update package turbo configs and wrapper scripts for renamed CMS commands ([fe0d589](https://github.com/AmazeeLabs/silverback-template/commit/fe0d5890ef89844d0448a4ebdc8c40b2b3880a6a))
+
+
+### Features
+
+* add centralized PHPCS and PHPStan commands with package-specific usage ([25015c9](https://github.com/AmazeeLabs/silverback-template/commit/25015c95a3c8d547e51692061146846e88703abc))
+* implement centralized PHPUnit testsuites with package filtering ([66901e4](https://github.com/AmazeeLabs/silverback-template/commit/66901e4a0850d10f982a1862ebb539757d61a08c))
+
+
+
+
+
 # [1.7.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.6.0...@amazeelabs/silverback-iframe@1.7.0) (2025-06-24)
 
 
