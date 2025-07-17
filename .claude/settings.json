@@ -13,6 +13,7 @@
       "Bash(phpcs:*)",
       "Bash(phpstan:*)",
       "Bash(phpunit:*)",
+      "Bash(gh:*)",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_type",
       "mcp__playwright__browser_click",
@@ -31,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/precommit-hook.sh \"$CLAUDE_TOOL_FILE_PATH\"",
+            "command": "cd \"$(dirname \"$CLAUDE_TOOL_FILE_PATH\")\" && while [[ \"$PWD\" != \"/\" && ! -f \".claude/precommit-hook.sh\" ]]; do cd ..; done && .claude/precommit-hook.sh \"$CLAUDE_TOOL_FILE_PATH\"",
             "output": "json"
           }
         ]
