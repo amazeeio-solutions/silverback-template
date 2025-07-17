@@ -10,6 +10,20 @@ import { usePreviewParameters } from '@custom/ui/routes/Preview';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+function InfoIcon() {
+  return (
+    <svg
+      className="mr-3 size-4 shrink-0"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+    >
+      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+    </svg>
+  )
+}
+
 export default function StateTransitionForm() {
   const [showForm, setShowForm] = useState(false);
   const {
@@ -82,55 +96,72 @@ export default function StateTransitionForm() {
             >
               {/* Error / success messages after the form has been submittd. */}
               {successMessage ? (
-                <ul>
-                  <li>{successMessage}</li>
-                </ul>
+                <div className="my-2 items-center border-t-4 border-blue-300 bg-blue-50 p-2 text-blue-800">
+                  <div className="flex items-center">
+                    <InfoIcon />
+                    <div className="prose-a:font-semibold prose-a:underline text-sm font-medium">
+                      {successMessage}
+                    </div>
+                  </div>
+                </div>
               ) : null}
               {errorMessages ? (
-                <ul>
+                <div className="my-2 items-center border-t-4 border-red-300 bg-red-50 p-2 text-blue-800">
                   {errorMessages.map((message, index) => (
-                    <li key={index}>{message}</li>
+                    <div key={index} className="flex items-center">
+                      <InfoIcon />
+                      <div className="prose-a:font-semibold prose-a:underline text-sm font-medium">
+                        {message}
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
               ) : null}
               {/* Errors from the form validation on client side. */}
-              {errors && (
-                <ul>
+              {Object.keys(errors).length > 0 && (
+                <div className="my-2 items-center border-t-4 border-red-300 bg-red-50 p-2 text-blue-800">
                   {errors.name && (
-                    <li>
-                      {intl.formatMessage(
-                        {
-                          defaultMessage: '{field} is required.',
-                          id: 'pc9YT+',
-                        },
-                        {
-                          field: intl.formatMessage({
-                            defaultMessage: 'Name',
-                            id: 'HAlOn1',
-                          }),
-                        },
-                      )}
-                    </li>
+                    <div className="flex items-center">
+                      <InfoIcon />
+                      <div className="prose-a:font-semibold prose-a:underline text-sm font-medium">
+                        {intl.formatMessage(
+                          {
+                            defaultMessage: '{field} is required.',
+                            id: 'pc9YT+',
+                          },
+                          {
+                            field: intl.formatMessage({
+                              defaultMessage: 'Name',
+                              id: 'HAlOn1',
+                            }),
+                          },
+                        )}
+                      </div>
+                    </div>
                   )}
                   {errors.comment && (
-                    <li>
-                      {intl.formatMessage(
-                        {
-                          defaultMessage: '{field} is required.',
-                          id: 'pc9YT+',
-                        },
-                        {
-                          field: intl.formatMessage({
-                            defaultMessage: 'Comment',
-                            id: 'LgbKvU',
-                          }),
-                        },
-                      )}
-                    </li>
+                    <div className="flex items-center">
+                      <InfoIcon />
+                      <div className="prose-a:font-semibold prose-a:underline text-sm font-medium">
+                        {intl.formatMessage(
+                          {
+                            defaultMessage: '{field} is required.',
+                            id: 'pc9YT+',
+                          },
+                          {
+                            field: intl.formatMessage({
+                              defaultMessage: 'Comment',
+                              id: 'LgbKvU',
+                            }),
+                          },
+                        )}
+                      </div>
+                    </div>
                   )}
-                </ul>
+                </div>
               )}
-              <div className="!mt-0 flex items-center gap-1">
+              <div className="my-2 !mt-0 flex items-center gap-1 border-t-4 border-blue-300 bg-blue-50 p-2 text-blue-800">
+                <InfoIcon />
                 <label className="font-medium">
                   {intl.formatMessage({
                     defaultMessage: 'Current state:',
@@ -197,7 +228,7 @@ export default function StateTransitionForm() {
                 <button
                   type="submit"
                   disabled={isMutating}
-                  className="rounded-md border px-4 py-2"
+                  className="rounded-md border bg-blue-600 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-blue-700"
                 >
                   {isMutating
                     ? intl.formatMessage({
