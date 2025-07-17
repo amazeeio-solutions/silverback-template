@@ -94,7 +94,7 @@ export function MiniCart({
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500 rounded-full p-2"
+              className="rounded-full p-2 text-gray-400 hover:text-gray-500"
               aria-label={intl.formatMessage({
                 id: 'zLqIXZ',
                 defaultMessage: 'Close cart',

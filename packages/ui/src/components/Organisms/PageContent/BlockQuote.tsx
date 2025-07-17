@@ -26,7 +26,9 @@ export function BlockQuote(props: BlockQuoteFragment) {
                     fill="#e65000"
                   />
                 </svg>
-                <p style={{ color: '#e65000' }}>{props.quote && <Html markup={props.quote} />}</p>
+                <p style={{ color: '#e65000' }}>
+                  {props.quote && <Html markup={props.quote} />}
+                </p>
                 <div className="not-prose flex flex-wrap items-center">
                   {props.image && (
                     <Image
@@ -37,9 +39,21 @@ export function BlockQuote(props: BlockQuoteFragment) {
                   )}
                   {(props.author || props.role) && (
                     <div className="not-prose flex items-center text-base not-italic">
-                      {props.author && <span className="font-bold text-gray-dark">{props.author}</span>}
+                      {props.author && (
+                        <span className="text-gray-dark font-bold">
+                          {props.author}
+                        </span>
+                      )}
                       {props.role && (
-                        <span className={props.author ? "ml-3 font-normal text-gray-dark" : "font-normal text-gray-dark"}>{props.role}</span>
+                        <span
+                          className={
+                            props.author
+                              ? 'text-gray-dark ml-3 font-normal'
+                              : 'text-gray-dark font-normal'
+                          }
+                        >
+                          {props.role}
+                        </span>
                       )}
                     </div>
                   )}

@@ -50,7 +50,7 @@ export const CardItem = ({
             {terms.map((term) => (
               <span
                 key={term.termId}
-                className="bg-[#fff3e6] text-kls-orange-accessible h-6 flex items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap"
+                className="text-kls-orange-accessible flex h-6 items-center justify-center whitespace-nowrap rounded-full bg-[#fff3e6] px-3 text-xs font-semibold"
                 style={{ minWidth: '2.5rem' }}
               >
                 {term.label}

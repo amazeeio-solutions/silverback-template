@@ -116,7 +116,7 @@ export function CartPage({
                   <div className="flex items-center justify-between">
                     <button
                       onClick={handleClearCart}
-                      className="text-sm font-medium text-red-600 hover:text-red-500 rounded-full px-4 py-2"
+                      className="rounded-full px-4 py-2 text-sm font-medium text-red-600 hover:text-red-500"
                     >
                       {intl.formatMessage({
                         id: 'rYE5UO',
@@ -127,7 +127,7 @@ export function CartPage({
                     {onContinueShopping && (
                       <button
                         onClick={onContinueShopping}
-                        className="text-kls-orange-primary hover:text-kls-orange-accent text-sm font-medium rounded-full px-4 py-2"
+                        className="text-kls-orange-primary hover:text-kls-orange-accent rounded-full px-4 py-2 text-sm font-medium"
                       >
                         {intl.formatMessage({
                           id: 'Yywm0p',
