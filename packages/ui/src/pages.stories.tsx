@@ -2,10 +2,9 @@ import {
   ContentHubQuery,
   ContentHubTermsQuery,
   FrameQuery,
-  OperationExecutorsProvider,
   ViewPageQuery,
 } from '@custom/schema';
-import { Meta, StoryFn } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
 import { WithResults } from './components/Organisms/ContentHub.stories';
@@ -23,37 +22,29 @@ export default {
       // We don't want to snapshot page examples, that just causes a lot of noise.
       disableSnapshot: true,
     },
+    executors: {
+      [FrameQuery]: FrameStory.parameters.executors[FrameQuery],
+    },
   },
+  decorators: [(Story, ctx) => <Frame>{Story(ctx)}</Frame>],
 } satisfies Meta;
 
-export const ContentPage = (() => {
-  return (
-    <OperationExecutorsProvider
-      executors={[
-        { executor: PageStory.args, id: ViewPageQuery },
-        { executor: FrameStory.args, id: FrameQuery },
-      ]}
-    >
-      <Frame>
-        <Page />
-      </Frame>
-    </OperationExecutorsProvider>
-  );
-}) satisfies StoryFn;
+export const ContentPage = {
+  render: () => <Page />,
+  parameters: {
+    executors: {
+      [ViewPageQuery]: PageStory.parameters.executors[ViewPageQuery],
+    },
+  },
+} satisfies StoryObj;
 
-export const ContentHubPage = (() => {
-  return (
-    <OperationExecutorsProvider
-      executors={[
-        { executor: PageStory.args, id: ViewPageQuery },
-        { executor: WithResults.args?.execQuery, id: ContentHubQuery },
-        { executor: WithResults.args?.execTerms, id: ContentHubTermsQuery },
-        { executor: FrameStory.args, id: FrameQuery },
-      ]}
-    >
-      <Frame>
-        <ContentHub pageSize={6} />
-      </Frame>
-    </OperationExecutorsProvider>
-  );
-}) satisfies StoryFn;
+export const ContentHubPage = {
+  render: () => <ContentHub pageSize={6} />,
+  parameters: {
+    executors: {
+      [ContentHubQuery]: WithResults.parameters?.executors?.[ContentHubQuery],
+      [ContentHubTermsQuery]:
+        WithResults.parameters?.executors?.[ContentHubTermsQuery],
+    },
+  },
+};
