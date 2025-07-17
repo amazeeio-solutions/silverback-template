@@ -6,6 +6,7 @@ import { retry } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { getCookie, setCookie } from 'typescript-cookie';
 
+import StateTransitionForm from './components/StateTransitionForm';
 import { drupalExecutor } from './drupal-executor';
 
 declare global {
@@ -49,6 +50,7 @@ function App() {
     return sub.unsubscribe;
   }, [refresh]);
   const preview_access_token = usePreviewAccessToken();
+
   return (
     <OperationExecutorsProvider
       executors={[
@@ -62,6 +64,7 @@ function App() {
       ]}
     >
       <Frame>
+        <StateTransitionForm />
         <Preview />
       </Frame>
     </OperationExecutorsProvider>

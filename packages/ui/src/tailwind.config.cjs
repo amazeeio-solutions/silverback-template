@@ -4,7 +4,10 @@
 const stylingAssets = require('./stylingAssets.json');
 
 module.exports = {
-  content: ['./src/**/*.{tsx, mdx}'],
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    '../../apps/preview/src/**/*.{js,jsx,ts,tsx}',
+  ],
   theme: {
     extend: {
       typography: ({ theme }) => ({

@@ -38,6 +38,7 @@ export const Default = {
   },
   args: {
     preview: {
+      id: '123',
       title: 'Preview Page Title',
       locale: 'en',
       translations: [

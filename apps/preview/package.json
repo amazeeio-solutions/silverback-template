@@ -14,6 +14,7 @@
     "start": "node build/index.js"
   },
   "dependencies": {
+    "@amazeelabs/react-intl": "^1.1.4",
     "@custom/eslint-config": "workspace:*",
     "@custom/schema": "workspace:*",
     "@custom/ui": "workspace:*",
@@ -24,8 +25,9 @@
     "express-ws": "^5.0.2",
     "memorystore": "^1.6.7",
     "node-fetch": "^3.3.2",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.2",
     "rxjs": "^7.8.1",
     "simple-oauth2": "^5.1.0",
     "typescript-cookie": "^1.0.6"

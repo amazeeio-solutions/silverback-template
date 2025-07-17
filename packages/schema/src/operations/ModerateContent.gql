@@ -1,0 +1,22 @@
+mutation ModerateContent(
+  $contentId: String!
+  $entityType: String!
+  $locale: Locale!
+  $submittedData: JSONString!
+  $revisionId: String!
+) {
+  moderateContent(
+    contentId: $contentId
+    entityType: $entityType
+    locale: $locale
+    revisionId: $revisionId
+    submittedData: $submittedData
+  ) {
+    errors {
+      key
+      field
+      message
+    }
+    result
+  }
+}

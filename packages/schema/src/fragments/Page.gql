@@ -1,6 +1,7 @@
 fragment Page on Page {
   locale
   path
+  id
   editLink {
     url
     type
@@ -55,6 +56,16 @@ fragment Page on Page {
       property
       rel
       href
+    }
+  }
+  moderationInfo {
+    currentState {
+      id
+      label
+    }
+    availableStates {
+      id
+      label
     }
   }
 }
