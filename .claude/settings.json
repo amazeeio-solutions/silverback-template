@@ -13,6 +13,7 @@
       "Bash(phpcs:*)",
       "Bash(phpstan:*)",
       "Bash(phpunit:*)",
+      "Bash(gh:*)",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_type",
       "mcp__playwright__browser_click",
