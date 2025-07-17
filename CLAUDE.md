@@ -125,6 +125,7 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - **Storybook**: Create stories for UI components with play functions
 - **Storybook note**: Never start storybook - it runs in background
 - **Business logic**: Implement in TypeScript utilities with vitest tests
+- **Storybook Typing**: Always use "satisfies" for typing storybook stories and meta objects. Makes it easier to re-use those values in other stories.
 
 ### Drupal Development
 - **Services**: Create PHPUnit-tested services for business logic
@@ -161,3 +162,4 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 
 ### Build Pipeline
 Turborepo stages: `prep → test:static → test:unit → test:integration`
+
