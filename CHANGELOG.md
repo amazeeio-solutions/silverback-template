@@ -1,5 +1,74 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.1.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.0.0...@amazeelabs/silverback-template@2.1.0) (2025-07-16)
+
+
+### Bug Fixes
+
+* do not reformat CHANGELOG.md files ([5e25a95](https://github.com/AmazeeLabs/silverback-template/commit/5e25a95e13f6edc6f1eb6b5f1978f21b2a205454))
+
+
+### Features
+
+* add claude code hooks for automated precommit ([f60a4a5](https://github.com/AmazeeLabs/silverback-template/commit/f60a4a5f57de0cbb2ec07b3033a2bb9a66fc9ac6))
+* default mcp configuration with playwright and figma ([a39829f](https://github.com/AmazeeLabs/silverback-template/commit/a39829f3bb9d1abde0af1c673c5014607f38e1be))
+
+
+
+
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.0.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.16.1...@amazeelabs/silverback-template@2.0.0) (2025-07-15)
+
+### Bug Fixes
+
+- formatting
+  ([b71a0b1](https://github.com/AmazeeLabs/silverback-template/commit/b71a0b16f4a6f8734bacf775764caa654e6f28c7))
+- formatting
+  ([ba91e5e](https://github.com/AmazeeLabs/silverback-template/commit/ba91e5ef87088cbd196e0a7474eb4febaca1a91c))
+- formatting
+  ([62fcd5a](https://github.com/AmazeeLabs/silverback-template/commit/62fcd5ae25c07fef1f6e3870232b2b544d965e21))
+- ignore minified iframe resizer file
+  ([7650f5f](https://github.com/AmazeeLabs/silverback-template/commit/7650f5ff4630056e7d121b55e939ccdbeef34f6a))
+- pin rollup to 4.44.0 to prevent storybook build failures
+  ([6dc4b7d](https://github.com/AmazeeLabs/silverback-template/commit/6dc4b7da6faa654151dc0f9fb47c9ea731ebf08e))
+- schema prep types requires prepped dependencies
+  ([9684aee](https://github.com/AmazeeLabs/silverback-template/commit/9684aeeee0890ee5da5b7c0c339da0bd4474be03))
+- **ui:** resolve workspace bridge alias in storybook
+  ([0e604a7](https://github.com/AmazeeLabs/silverback-template/commit/0e604a7b2434f8adedd0492763ad772a5791e67b))
+
+### Features
+
+- migrate [@amazeelabs](https://github.com/amazeelabs) packages from
+  silverback-mono
+  ([73792a6](https://github.com/AmazeeLabs/silverback-template/commit/73792a6f0838afbcbd806592212d33e639bb2108))
+
+### BREAKING CHANGES
+
+- Package references must now use workspace:\* instead of npm versions
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [1.16.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@1.16.0...@amazeelabs/silverback-template@1.16.1) (2025-07-11)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

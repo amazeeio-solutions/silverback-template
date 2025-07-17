@@ -68,7 +68,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@amazeelabs/bridge-storybook": "^1.2.25",
+    "@amazeelabs/bridge-storybook": "workspace:*",
     "@amazeelabs/cloudinary-responsive-image": "^1.6.26",
     "@custom/eslint-config": "workspace:*",
     "@formatjs/cli": "^6.5.1",
