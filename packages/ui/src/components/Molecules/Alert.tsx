@@ -18,9 +18,9 @@ export function Alert({
 
   // Default colors are the ones for info messages
   const colors = {
-    main: 'border-blue-300 bg-blue-50 p-4 text-blue-800',
+    main: 'border-kls-orange-accent bg-kls-orange-bright-alt p-4 text-kls-orange-accessible',
     button:
-      'bg-blue-50 p-1.5 text-blue-500 hover:bg-blue-200 focus:ring-blue-400',
+      'bg-kls-orange-bright-alt p-1.5 text-kls-orange-accent hover:bg-kls-orange-bright focus:ring-kls-orange-primary',
   };
   let srText = intl.formatMessage({
     defaultMessage: 'Info message',

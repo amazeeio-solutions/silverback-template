@@ -81,7 +81,7 @@ export function CartPage({
             {onContinueShopping && (
               <button
                 onClick={onContinueShopping}
-                className="bg-kls-orange-primary hover:bg-kls-orange-accessible mt-6 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-white"
+                className="bg-kls-orange-primary hover:bg-kls-orange-accessible mt-6 inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-white"
               >
                 {intl.formatMessage({
                   id: 'Yywm0p',
@@ -116,7 +116,7 @@ export function CartPage({
                   <div className="flex items-center justify-between">
                     <button
                       onClick={handleClearCart}
-                      className="text-sm font-medium text-red-600 hover:text-red-500"
+                      className="text-sm font-medium text-red-600 hover:text-red-500 rounded-full px-4 py-2"
                     >
                       {intl.formatMessage({
                         id: 'rYE5UO',
@@ -127,7 +127,7 @@ export function CartPage({
                     {onContinueShopping && (
                       <button
                         onClick={onContinueShopping}
-                        className="text-kls-orange-primary hover:text-kls-orange-accent text-sm font-medium"
+                        className="text-kls-orange-primary hover:text-kls-orange-accent text-sm font-medium rounded-full px-4 py-2"
                       >
                         {intl.formatMessage({
                           id: 'Yywm0p',
@@ -195,7 +195,7 @@ export function CartPage({
                     {onCheckout && (
                       <button
                         onClick={onCheckout}
-                        className="bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent w-full rounded-md px-4 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                        className="bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent w-full rounded-full px-4 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
                       >
                         {intl.formatMessage({
                           id: 'BJ2TKX',

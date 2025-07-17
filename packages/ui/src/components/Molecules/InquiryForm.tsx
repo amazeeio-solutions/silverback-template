@@ -120,7 +120,7 @@ export function InquiryForm() {
             <button
               type="submit"
               disabled={isMutating}
-              className="copy-medium-bold bg-kls-orange-primary hover:bg-kls-orange-accessible focus-visible:outline-kls-orange-primary mt-3 inline-flex w-full items-center justify-center rounded-md px-3 py-2 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:ml-3 sm:mt-0 sm:w-auto"
+              className="copy-medium-bold bg-kls-orange-primary hover:bg-kls-orange-accessible focus-visible:outline-kls-orange-primary mt-3 inline-flex w-full items-center justify-center rounded-full px-3 py-2 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:ml-3 sm:mt-0 sm:w-auto"
             >
               {isMutating
                 ? intl.formatMessage({

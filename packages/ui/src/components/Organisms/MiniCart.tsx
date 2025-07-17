@@ -94,7 +94,7 @@ export function MiniCart({
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500"
+              className="text-gray-400 hover:text-gray-500 rounded-full p-2"
               aria-label={intl.formatMessage({
                 id: 'zLqIXZ',
                 defaultMessage: 'Close cart',
@@ -178,7 +178,7 @@ export function MiniCart({
               <div className="mt-4 space-y-2">
                 <button
                   onClick={onViewCart}
-                  className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
+                  className="w-full rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
                 >
                   {intl.formatMessage({
                     id: '5Mx9oZ',
@@ -189,7 +189,7 @@ export function MiniCart({
                 {onCheckout && (
                   <button
                     onClick={onCheckout}
-                    className="bg-kls-orange-primary hover:bg-kls-orange-accessible w-full rounded-md px-4 py-2 text-sm font-medium text-white"
+                    className="bg-kls-orange-primary hover:bg-kls-orange-accessible w-full rounded-full px-4 py-2 text-sm font-medium text-white"
                   >
                     {intl.formatMessage({
                       id: 'BJ2TKX',

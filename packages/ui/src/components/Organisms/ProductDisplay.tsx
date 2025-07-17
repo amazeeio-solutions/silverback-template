@@ -112,7 +112,7 @@ export function ProductDisplay(product: ProductFragment) {
               <div className="space-y-2">
                 <button
                   className={clsx(
-                    'w-full rounded-lg px-6 py-3 font-semibold text-white transition-colors',
+                    'w-full rounded-full px-6 py-3 font-semibold text-white transition-colors',
                     canAddToCart
                       ? 'bg-kls-orange-primary hover:bg-kls-orange-accessible'
                       : 'cursor-not-allowed bg-gray-400',

@@ -64,7 +64,7 @@ function DefaultHero(props: NonNullable<PageFragment['hero']>) {
             {props.ctaText && props.ctaUrl ? (
               <Link
                 href={props.ctaUrl}
-                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-7 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
+                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-7 inline-flex items-center rounded-full px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 <svg
                   className="-ml-1 mr-2 size-4"
@@ -105,7 +105,7 @@ function FormHero(props: NonNullable<PageFragment['hero']>) {
             {props.ctaText && props.ctaUrl ? (
               <Link
                 href={props.ctaUrl}
-                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-7 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
+                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-7 inline-flex items-center rounded-full px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 <svg
                   className="-ml-1 mr-2 size-4"
@@ -150,7 +150,7 @@ function NoImageHero(props: NonNullable<PageFragment['hero']>) {
             {props.ctaText && props.ctaUrl ? (
               <Link
                 href={props.ctaUrl}
-                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-5 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
+                className="font-open-sans bg-kls-orange-primary hover:bg-kls-orange-accessible focus:ring-kls-orange-accent mt-5 inline-flex items-center rounded-full px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4"
               >
                 <svg
                   className="-ml-1 mr-2 size-4"

@@ -44,7 +44,7 @@ export function ContentHub({ pageSize = 10 }: { pageSize: number }) {
     console.error(error);
   }
   return (
-    <div className="bg-white px-6 py-12 lg:px-8">
+    <div className="px-6 py-12 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <SearchForm
           termOptions={termsResult?.data?.contentHubTerms
