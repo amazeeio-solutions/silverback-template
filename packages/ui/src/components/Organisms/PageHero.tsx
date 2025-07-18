@@ -55,9 +55,7 @@ function DefaultHero(props: NonNullable<PageFragment['hero']>) {
         <HeroImage {...props} />
         <div className="container-content">
           <div className="mx-auto max-w-2xl lg:mx-0">
-            <h1 className="headline-1 text-black">
-              {props.headline}
-            </h1>
+            <h1 className="headline-1 text-black">{props.headline}</h1>
             {props.lead ? (
               <p className="lead-text mt-6 text-black">{props.lead}</p>
             ) : null}
@@ -96,9 +94,7 @@ function FormHero(props: NonNullable<PageFragment['hero']>) {
         <HeroImage {...props} enableOverlay={true} />
         <div className="container-page relative px-4 pb-[22rem] text-center lg:px-6 lg:pb-96">
           <div className="mx-auto max-w-screen-xl">
-            <h1 className="headline-2 text-black">
-              {props.headline}
-            </h1>
+            <h1 className="headline-2 text-black">{props.headline}</h1>
             {props.lead ? (
               <p className="lead-text mt-6 text-black">{props.lead}</p>
             ) : null}

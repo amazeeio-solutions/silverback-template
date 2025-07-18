@@ -117,16 +117,18 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - **Dependencies**: Check package.json for existing libraries before adding new ones
 - **No index files**: Don't create `index.ts` files that aggregate directories
 
-### Storybook and UI Component Development
-- Create Storybook stories for UI components. Cover input property edge cases and create play functions for testing interactions.
-- Visible interface strings have to be translated using 'react-intl'.
-- Never use string concatenation for class attributes, always use 'clsx'.
-- Implement frontend business logic in Typescript utilities that are tested with vitest.
-- Avoid using useEffect and useContext in React. Try to solve the problem with zustand instead.
-- Test zustand stores with vitest by accessing them directly, not through React hooks.
-- **Never attempt to start storybook. It should already be running in the background.**
-- Make sure to use `intl.formatMessage` in react for any text in the user interface. Don't concatenate strings with variables, but use the variables feature of `intl.formatMessage`.
-- Never use string templates for react classNames. Build dynamic classNames with clsx.
+### React & Frontend Development
+- **State management**: Use zustand instead of useEffect/useContext
+- **Testing**: Test zustand stores directly with vitest (not through React hooks)
+- **Styling**: Use clsx for dynamic classNames, never string concatenation
+- **Internationalization**: Use `intl.formatMessage` for all UI text
+- **Storybook**: Create stories for UI components with play functions
+- **Storybook note**: Never start storybook - it runs in background
+- **Business logic**: Implement in TypeScript utilities with vitest tests
+- **Storybook Typing**: Always use "satisfies" for typing storybook stories and meta objects. Makes it easier to re-use those values in other stories.
+- **Data Fetching**: React components fetch data using the `<Operation>` component or the `withOperation` higher-order component. For pure client side applications, `useOperation` can be used as well.
+- **Data Submission**: To submit or update data in React components, the `useMutation` hook is used along with a GraphQL mutation.
+- **React Router Navigation**: To retrieve path, query parameters or hash, or programmatically navigate to a new location use the `useLocation` hook.
 
 ### Drupal Development
 - **Services**: Create PHPUnit-tested services for business logic
@@ -150,7 +152,6 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 
 ## Drupal Test Content Management
 
-- Never add Drupal test content manually. Use the browser to log into `http://localhost:8888` using username `admin` and password `admin`, do the cotnent changes using the web interface and then persist them by running `pnpm content:export` in the `apps/cms` folder.
+### Build Pipeline
+Turborepo stages: `prep → test:static → test:unit → test:integration`
 
-### Testing Best Practices
-- Schema tests should use inline snapshots and test concrete values as much as possible.

@@ -6,6 +6,8 @@ import { Decorator } from '@storybook/react';
 import React from 'react';
 import { SWRConfig, useSWRConfig } from 'swr';
 
+import { ExecutorsDecorator } from '../src/helpers/executors';
+
 // Every story is wrapped in an IntlProvider by default.
 const IntlDecorator: Decorator = (Story) => (
   <IntlProvider locale={'en'} defaultLocale={'en'}>
@@ -131,6 +133,7 @@ export const parameters = {
 
 export const decorators = [
   LocationDecorator,
+  ExecutorsDecorator,
   IntlDecorator,
   SWRCacheDecorator,
   IsStorybookDecorator,

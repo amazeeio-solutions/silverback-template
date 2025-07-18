@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.2.0...@amazeelabs/silverback-template@2.3.0) (2025-07-17)
+
+
+### Features
+
+* **preview:** enable access to UI package static assets ([9fabc86](https://github.com/AmazeeLabs/silverback-template/commit/9fabc86a354082f1d3ff0dd61c98126bc76b441e))
+
+
+
+
+
+# [2.2.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.1.1...@amazeelabs/silverback-template@2.2.0) (2025-07-17)
+
+
+### Bug Fixes
+
+* improve precommit hook path resolution ([f3229c9](https://github.com/AmazeeLabs/silverback-template/commit/f3229c9740110ced7c117778b52c4bf58aeb59a6))
+
+
+### Features
+
+* add storybook operation executors decorator ([5218402](https://github.com/AmazeeLabs/silverback-template/commit/521840228a617bf61cc3a22fda899ad91357db37))
+
+
+
+
+
+## [2.1.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.1.0...@amazeelabs/silverback-template@2.1.1) (2025-07-16)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
 # [2.1.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.0.0...@amazeelabs/silverback-template@2.1.0) (2025-07-16)
 
 

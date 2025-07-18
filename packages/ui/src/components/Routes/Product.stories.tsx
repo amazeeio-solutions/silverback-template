@@ -28,7 +28,10 @@ export const Default = {
       <OperationExecutorsProvider
         executors={[
           { executor: args, id: ViewProductQuery },
-          { id: FrameQuery, executor: FrameStory.args },
+          {
+            id: FrameQuery,
+            executor: FrameStory.parameters.executors[FrameQuery],
+          },
         ]}
       >
         <Product />

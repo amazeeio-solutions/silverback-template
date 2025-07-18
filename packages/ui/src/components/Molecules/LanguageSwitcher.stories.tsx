@@ -1,9 +1,4 @@
-import {
-  FrameQuery,
-  Locale,
-  OperationExecutorsProvider,
-  Url,
-} from '@custom/schema';
+import { FrameQuery, Locale, Url } from '@custom/schema';
 import { Decorator, Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -15,34 +10,10 @@ import { Default } from '../Routes/Frame.stories';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
 const TranslationsDecorator = ((Story, ctx) => {
-  const isHeader = ctx.args.variant === 'header';
   return (
-    <OperationExecutorsProvider
-      executors={[
-        {
-          executor: {
-            ...Default.args,
-            websiteSettings: {
-              homePage: {
-                translations: [
-                  { locale: Locale.En, path: '/en/home' as Url },
-                  { locale: Locale.De, path: '/de/home' as Url },
-                  { locale: Locale.It, path: '/it/home' as Url },
-                  { locale: Locale.French, path: '/french/home' as Url },
-                ],
-              },
-            },
-          },
-          id: FrameQuery,
-        },
-      ]}
-    >
-      <TranslationsProvider defaultTranslations={ctx.args}>
-        <div className={isHeader ? 'bg-kls-orange-accent p-4' : 'p-4'}>
-          <Story args={ctx.args} />
-        </div>
-      </TranslationsProvider>
-    </OperationExecutorsProvider>
+    <TranslationsProvider defaultTranslations={ctx.args}>
+      <Story />
+    </TranslationsProvider>
   );
 }) as Decorator<TranslationPaths & { variant?: 'header' | 'mobile' }>;
 
@@ -52,6 +23,21 @@ export default {
   parameters: {
     location: new URL('local:/en/english-version'),
     layout: 'centered',
+    executors: {
+      [FrameQuery]: {
+        ...Default.parameters.executors[FrameQuery],
+        websiteSettings: {
+          homePage: {
+            translations: [
+              { locale: Locale.En, path: '/en/home' as Url },
+              { locale: Locale.De, path: '/de/home' as Url },
+              { locale: Locale.It, path: '/it/home' as Url },
+              { locale: Locale.French, path: '/french/home' as Url },
+            ],
+          },
+        },
+      },
+    },
   },
   argTypes: {
     variant: {

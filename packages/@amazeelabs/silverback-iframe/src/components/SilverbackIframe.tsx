@@ -30,7 +30,13 @@ export const SilverbackIframe = ({
   const silverbackIframeReference = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<IFrameObject>(null);
   const [iframeSeed, setIframeSeed] = useState<string | null>(null);
-  const [iframeSrc, setIframeSrc] = useState<string>('');
+  const initialSrc = iframeResizerProps.src
+    ? updateUrlParameters(iframeResizerProps.src, {
+        iframe: 'true',
+        iframeSeed: iframeSeed,
+      })
+    : '';
+  const [iframeSrc, setIframeSrc] = useState<string>(initialSrc);
   const [currentCommand, setCurrentCommand] = useState<
     IframeCommandOther | IframeCommandScroll
   >();

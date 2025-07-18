@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-iframe",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "Display Drupal content/forms in iframes.",
   "author": "Amazee Labs",
   "main": "./dist/cjs/index.js",
