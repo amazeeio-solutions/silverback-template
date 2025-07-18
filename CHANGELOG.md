@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.2.0...@amazeelabs/silverback-template@2.3.0) (2025-07-17)
+
+
+### Features
+
+* **preview:** enable access to UI package static assets ([9fabc86](https://github.com/AmazeeLabs/silverback-template/commit/9fabc86a354082f1d3ff0dd61c98126bc76b441e))
+
+
+
+
+
 # [2.2.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.1.1...@amazeelabs/silverback-template@2.2.0) (2025-07-17)
 
 
