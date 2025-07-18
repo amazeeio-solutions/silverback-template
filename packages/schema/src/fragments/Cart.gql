@@ -1,0 +1,16 @@
+fragment Cart on Cart {
+  items {
+    id
+    title
+    price
+    quantity
+    sku
+    teaserImage {
+      alt
+      source
+    }
+    maxStock
+  }
+  totalItems
+  totalPrice
+}

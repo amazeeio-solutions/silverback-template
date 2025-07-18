@@ -1,0 +1,49 @@
+query Cart {
+  cart {
+    ...Cart
+  }
+}
+
+mutation AddToCart($input: AddToCartInput!) {
+  addToCart(input: $input) {
+    cart {
+      ...Cart
+    }
+    errors {
+      message
+    }
+  }
+}
+
+mutation UpdateCartItem($input: UpdateCartItemInput!) {
+  updateCartItem(input: $input) {
+    cart {
+      ...Cart
+    }
+    errors {
+      message
+    }
+  }
+}
+
+mutation RemoveFromCart($productId: String!) {
+  removeFromCart(productId: $productId) {
+    cart {
+      ...Cart
+    }
+    errors {
+      message
+    }
+  }
+}
+
+mutation ClearCart {
+  clearCart {
+    cart {
+      ...Cart
+    }
+    errors {
+      message
+    }
+  }
+}

@@ -1,7 +1,13 @@
-import { ImageSource } from '@custom/schema';
+import {
+  CartQuery,
+  ClearCartMutation,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+} from '@custom/schema';
+import Landscape from '@stories/landscape.jpg?as=metadata';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { useCartStore } from '../../stores/cart';
+import { image } from '../../helpers/image';
 import { CartPage } from '../Organisms/CartPage';
 
 const meta: Meta<typeof CartPage> = {
@@ -9,6 +15,11 @@ const meta: Meta<typeof CartPage> = {
   component: CartPage,
   parameters: {
     layout: 'fullscreen',
+    executors: {
+      [ClearCartMutation]: () => {},
+      [UpdateCartItemMutation]: () => {},
+      [RemoveFromCartMutation]: () => {},
+    },
   },
   tags: ['autodocs'],
 };
@@ -20,32 +31,41 @@ export const Default: Story = {
   args: {
     showBreadcrumbs: false,
   },
-  play: async () => {
-    const store = useCartStore.getState();
-    store.clearCart();
-    store.addItem({
-      id: '1',
-      title: 'Premium Wireless Headphones',
-      price: 199.99,
-      sku: 'WH-001',
-      stock: 10,
-      teaserImage: {
-        alt: 'Premium Wireless Headphones',
-        source: 'https://picsum.photos/200/200?random=1' as ImageSource,
+  parameters: {
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: [
+            {
+              id: '1',
+              title: 'Premium Wireless Headphones',
+              price: 199.99,
+              quantity: 2,
+              sku: 'WH-001',
+              maxStock: 10,
+              teaserImage: {
+                alt: 'Premium Wireless Headphones',
+                source: image(Landscape, { width: 200, height: 200 }),
+              },
+            },
+            {
+              id: '2',
+              title: 'Smart Watch',
+              price: 299.99,
+              quantity: 1,
+              sku: 'SW-002',
+              maxStock: 5,
+              teaserImage: {
+                alt: 'Smart Watch',
+                source: image(Landscape, { width: 200, height: 200 }),
+              },
+            },
+          ],
+          totalItems: 3,
+          totalPrice: 699.97,
+        },
       },
-    });
-    store.addItem({
-      id: '2',
-      title: 'Smart Watch',
-      price: 299.99,
-      sku: 'SW-002',
-      stock: 5,
-      teaserImage: {
-        alt: 'Smart Watch',
-        source: 'https://picsum.photos/200/200?random=2' as ImageSource,
-      },
-    });
-    store.updateQuantity('1', 2);
+    } as const,
   },
 };
 
@@ -53,8 +73,15 @@ export const EmptyCart: Story = {
   args: {
     showBreadcrumbs: false,
   },
-  play: async () => {
-    const store = useCartStore.getState();
-    store.clearCart();
+  parameters: {
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+        },
+      },
+    } as const,
   },
 };

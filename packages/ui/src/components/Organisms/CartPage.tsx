@@ -1,13 +1,16 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
+import { CartQuery, ClearCartMutation } from '@custom/schema';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
-import { useCartStore } from '../../stores/cart';
+import { useMutation, useOperation } from '../../utils/operation';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
 import { CartItem } from '../Molecules/CartItem';
 import { PageTransition } from '../Molecules/PageTransition';
 import { Price } from '../Molecules/Price';
+
+type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
 
 export interface CartPageProps {
   onContinueShopping?: () => void;
@@ -21,9 +24,11 @@ export function CartPage({
   showBreadcrumbs = true,
 }: CartPageProps) {
   const intl = useIntl();
-  const { items, getTotalItems, getTotalPrice, clearCart } = useCartStore();
-  const totalItems = getTotalItems();
-  const totalPrice = getTotalPrice();
+  const { data: cart } = useOperation(CartQuery);
+  const { trigger: clearCart } = useMutation(ClearCartMutation);
+  const items = cart?.cart?.items || [];
+  const totalItems = cart?.cart?.totalItems || 0;
+  const totalPrice = cart?.cart?.totalPrice || 0;
 
   const handleClearCart = () => {
     if (
@@ -98,7 +103,7 @@ export function CartPage({
                 <div className="px-4 py-6 sm:px-6">
                   <div className="flow-root">
                     <ul className="-my-6 divide-y divide-gray-200">
-                      {items.map((item) => (
+                      {items.map((item: CartItemFromQuery) => (
                         <li key={item.id} className="py-6">
                           <CartItem
                             item={item}

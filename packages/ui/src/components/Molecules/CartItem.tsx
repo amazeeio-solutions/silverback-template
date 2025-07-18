@@ -1,15 +1,22 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import { Image } from '@custom/schema';
+import {
+  CartQuery,
+  Image,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+} from '@custom/schema';
 import { MinusIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import React from 'react';
 
-import { type CartItem as CartItemType, useCartStore } from '../../stores/cart';
+import { useMutation } from '../../utils/operation';
 import { Price } from './Price';
 
+type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+
 export interface CartItemProps {
-  item: CartItemType;
+  item: CartItemFromQuery;
   showImage?: boolean;
   compact?: boolean;
   onRemove?: (id: string) => void;
@@ -24,13 +31,14 @@ export function CartItem({
   onUpdateQuantity,
 }: CartItemProps) {
   const intl = useIntl();
-  const { removeItem, updateQuantity } = useCartStore();
+  const { trigger: updateCartItem } = useMutation(UpdateCartItemMutation);
+  const { trigger: removeFromCart } = useMutation(RemoveFromCartMutation);
 
   const handleRemove = () => {
     if (onRemove) {
       onRemove(item.id);
     } else {
-      removeItem(item.id);
+      removeFromCart({ productId: item.id });
     }
   };
 
@@ -38,7 +46,12 @@ export function CartItem({
     if (onUpdateQuantity) {
       onUpdateQuantity(item.id, newQuantity);
     } else {
-      updateQuantity(item.id, newQuantity);
+      updateCartItem({
+        input: {
+          productId: item.id,
+          quantity: newQuantity,
+        },
+      });
     }
   };
 

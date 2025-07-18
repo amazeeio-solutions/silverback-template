@@ -1,6 +1,6 @@
+import { CartQuery } from '@custom/schema';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { useCartStore } from '../../stores/cart';
 import { CartIcon } from './CartIcon';
 
 const meta: Meta<typeof CartIcon> = {
@@ -8,6 +8,15 @@ const meta: Meta<typeof CartIcon> = {
   component: CartIcon,
   parameters: {
     layout: 'centered',
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0.0,
+        },
+      },
+    } as const,
   },
   tags: ['autodocs'],
   argTypes: {
@@ -30,52 +39,82 @@ export const WithoutBadge: Story = {
 
 export const WithItems: Story = {
   args: {},
-  play: async () => {
-    const store = useCartStore.getState();
-    // Clear cart first
-    store.clearCart();
-    // Add some items
-    store.addItem({
-      id: '1',
-      title: 'Test Product',
-      price: 19.99,
-      sku: 'TEST-001',
-      stock: 10,
-    });
-    store.addItem({
-      id: '2',
-      title: 'Another Product',
-      price: 29.99,
-      sku: 'TEST-002',
-      stock: 5,
-    });
+  parameters: {
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: [
+            {
+              id: '1',
+              title: 'Test Product',
+              price: 19.99,
+              quantity: 1,
+              sku: 'TEST-001',
+              maxStock: 10,
+              teaserImage: {
+                alt: 'Test Product Image',
+                source: '/test-product.jpg',
+              },
+            },
+            {
+              id: '2',
+              title: 'Another Product',
+              price: 29.99,
+              quantity: 1,
+              sku: 'TEST-002',
+              maxStock: 5,
+              teaserImage: {
+                alt: 'Another Product Image',
+                source: '/another-product.jpg',
+              },
+            },
+          ],
+          totalItems: 2,
+          totalPrice: 49.98,
+        },
+      },
+    } as const,
   },
 };
 
 export const WithManyItems: Story = {
   args: {},
-  play: async () => {
-    const store = useCartStore.getState();
-    // Clear cart first
-    store.clearCart();
-    // Add many items to test the 99+ badge
-    for (let i = 0; i < 25; i++) {
-      store.addItem({
-        id: `product-${i}`,
-        title: `Product ${i}`,
-        price: 9.99,
-        sku: `SKU-${i}`,
-        stock: 100,
-      });
-    }
+  parameters: {
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: Array.from({ length: 25 }, (_, i) => ({
+            id: `product-${i}`,
+            title: `Product ${i}`,
+            price: 9.99,
+            quantity: 4,
+            sku: `SKU-${i}`,
+            maxStock: 100,
+            teaserImage: {
+              alt: `Product ${i} Image`,
+              source: `/product-${i}.jpg`,
+            },
+          })),
+          totalItems: 100,
+          totalPrice: 999.0,
+        },
+      },
+    } as const,
   },
 };
 
 export const EmptyCart: Story = {
   args: {},
-  play: async () => {
-    const store = useCartStore.getState();
-    store.clearCart();
+  parameters: {
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+        },
+      },
+    } as const,
   },
 };
 
@@ -83,15 +122,28 @@ export const CustomStyling: Story = {
   args: {
     className: 'text-blue-600 hover:bg-blue-50',
   },
-  play: async () => {
-    const store = useCartStore.getState();
-    store.clearCart();
-    store.addItem({
-      id: '1',
-      title: 'Test Product',
-      price: 19.99,
-      sku: 'TEST-001',
-      stock: 10,
-    });
+  parameters: {
+    executors: {
+      [CartQuery]: {
+        cart: {
+          items: [
+            {
+              id: '1',
+              title: 'Test Product',
+              price: 19.99,
+              quantity: 1,
+              sku: 'TEST-001',
+              maxStock: 10,
+              teaserImage: {
+                alt: 'Test Product Image',
+                source: '/test-product.jpg',
+              },
+            },
+          ],
+          totalItems: 1,
+          totalPrice: 19.99,
+        },
+      },
+    } as const,
   },
 };

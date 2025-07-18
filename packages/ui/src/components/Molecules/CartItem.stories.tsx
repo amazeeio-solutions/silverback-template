@@ -1,15 +1,25 @@
+import {
+  CartQuery,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+} from '@custom/schema';
 import Portrait from '@stories/portrait.jpg?as=metadata';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { image } from '../../helpers/image';
-import { type CartItem as CartItemType } from '../../stores/cart';
 import { CartItem } from './CartItem';
+
+type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
 
 const meta: Meta<typeof CartItem> = {
   title: 'Molecules/CartItem',
   component: CartItem,
   parameters: {
     layout: 'padded',
+    executors: {
+      [UpdateCartItemMutation]: () => {},
+      [RemoveFromCartMutation]: () => {},
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -21,7 +31,7 @@ const meta: Meta<typeof CartItem> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockCartItem: CartItemType = {
+const mockCartItem: CartItemFromQuery = {
   id: '1',
   title: 'Premium Wireless Headphones',
   price: 199.99,
@@ -34,7 +44,7 @@ const mockCartItem: CartItemType = {
   },
 };
 
-const mockCartItemWithoutImage: CartItemType = {
+const mockCartItemWithoutImage: CartItemFromQuery = {
   id: '2',
   title: 'Digital Download - Software License',
   price: 49.99,

@@ -1,10 +1,11 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
+import { CartQuery } from '@custom/schema';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import React from 'react';
 
-import { useCartStore } from '../../stores/cart';
+import { useOperation } from '../../utils/operation';
 
 export interface CartIconProps {
   className?: string;
@@ -18,8 +19,8 @@ export function CartIcon({
   showBadge = true,
 }: CartIconProps) {
   const intl = useIntl();
-  const { getTotalItems } = useCartStore();
-  const totalItems = getTotalItems();
+  const { data: cart } = useOperation(CartQuery);
+  const totalItems = cart?.cart?.totalItems || 0;
 
   return (
     <button

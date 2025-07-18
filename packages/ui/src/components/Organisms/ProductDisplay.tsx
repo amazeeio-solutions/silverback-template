@@ -1,19 +1,28 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import { Html, Image, ProductFragment } from '@custom/schema';
+import {
+  AddToCartMutation,
+  CartQuery,
+  Html,
+  Image,
+  ProductFragment,
+} from '@custom/schema';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
-import { useCartStore } from '../../stores/cart';
+import { useMutation, useOperation } from '../../utils/operation';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
 import { ContentEditLink } from '../Molecules/ContentEditLink';
 import { PageTransition } from '../Molecules/PageTransition';
 import { Price } from '../Molecules/Price';
 import { PageHero } from './PageHero';
 
+type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+
 export function ProductDisplay(product: ProductFragment) {
   const intl = useIntl();
-  const { addItem, getCartItem } = useCartStore();
+  const { data: cart } = useOperation(CartQuery);
+  const { trigger: addToCart } = useMutation(AddToCartMutation);
   const [isAdding, setIsAdding] = useState(false);
 
   const stockStatus =
@@ -23,7 +32,9 @@ export function ProductDisplay(product: ProductFragment) {
   const stockStatusColor =
     product.stock > 0 ? 'text-green-600' : 'text-red-600';
 
-  const cartItem = getCartItem(product.id);
+  const cartItem = cart?.cart?.items.find(
+    (item: CartItemFromQuery) => item.id === product.id,
+  );
   const canAddToCart =
     product.stock > 0 && (!cartItem || cartItem.quantity < product.stock);
 
@@ -32,17 +43,11 @@ export function ProductDisplay(product: ProductFragment) {
 
     setIsAdding(true);
     try {
-      addItem({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        sku: product.sku,
-        stock: product.stock,
-        teaserImage: product.teaserImage,
+      await addToCart({
+        input: {
+          productId: product.id,
+        },
       });
-
-      // Small delay to show loading state
-      await new Promise((resolve) => setTimeout(resolve, 200));
     } finally {
       setIsAdding(false);
     }

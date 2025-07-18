@@ -1,12 +1,15 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
+import { CartQuery } from '@custom/schema';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
 
-import { useCartStore } from '../../stores/cart';
+import { useOperation } from '../../utils/operation';
 import { CartItem } from '../Molecules/CartItem';
 import { Price } from '../Molecules/Price';
+
+type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
 
 export interface MiniCartProps {
   isOpen: boolean;
@@ -22,9 +25,10 @@ export function MiniCart({
   onCheckout,
 }: MiniCartProps) {
   const intl = useIntl();
-  const { items, getTotalItems, getTotalPrice } = useCartStore();
-  const totalItems = getTotalItems();
-  const totalPrice = getTotalPrice();
+  const { data: cart } = useOperation(CartQuery);
+  const items = cart?.cart?.items || [];
+  const totalItems = cart?.cart?.totalItems || 0;
+  const totalPrice = cart?.cart?.totalPrice || 0;
   const miniCartRef = useRef<HTMLDivElement>(null);
 
   // Close mini cart when clicking outside
@@ -142,7 +146,7 @@ export function MiniCart({
               </div>
             ) : (
               <div className="p-4">
-                {items.map((item) => (
+                {items.map((item: CartItemFromQuery) => (
                   <CartItem
                     key={item.id}
                     item={item}
