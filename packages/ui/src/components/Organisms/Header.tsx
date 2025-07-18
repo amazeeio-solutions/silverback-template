@@ -1,7 +1,7 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
 import { FrameQuery, Link, Url, useLocation } from '@custom/schema';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { isTruthy } from '../../utils/isTruthy';
@@ -37,26 +37,24 @@ function useMetaNavigation(lang: string = 'en') {
 
 export function Header() {
   const intl = useIntl();
-  const [, navigate] = useLocation();
-  const [isMiniCartOpen, setIsMiniCartOpen] = useState(false);
+  const [location, navigate] = useLocation();
   const items = buildNavigationTree(useHeaderNavigation(intl.locale));
   const metaItems = buildNavigationTree(useMetaNavigation(intl.locale));
 
   const handleCartClick = () => {
-    setIsMiniCartOpen(true);
+    navigate(location, undefined, 'cart');
   };
 
   const handleMiniCartClose = () => {
-    setIsMiniCartOpen(false);
+    navigate(location, undefined, '');
   };
 
   const handleViewCart = () => {
-    setIsMiniCartOpen(false);
     navigate('/cart' as Url);
   };
 
   const handleCheckout = () => {
-    setIsMiniCartOpen(false);
+    navigate(`/checkout` as Url);
     // TODO: Implement checkout navigation
     console.log('Checkout clicked');
   };
@@ -261,7 +259,6 @@ export function Header() {
 
       {/* Mini Cart */}
       <MiniCart
-        isOpen={isMiniCartOpen}
         onClose={handleMiniCartClose}
         onViewCart={handleViewCart}
         onCheckout={handleCheckout}

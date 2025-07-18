@@ -1,6 +1,6 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import { CartQuery } from '@custom/schema';
+import { CartQuery, useLocation } from '@custom/schema';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
@@ -12,24 +12,23 @@ import { Price } from '../Molecules/Price';
 type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
 
 export interface MiniCartProps {
-  isOpen: boolean;
   onClose: () => void;
   onViewCart: () => void;
   onCheckout?: () => void;
 }
 
-export function MiniCart({
-  isOpen,
-  onClose,
-  onViewCart,
-  onCheckout,
-}: MiniCartProps) {
+export function MiniCart({ onClose, onViewCart, onCheckout }: MiniCartProps) {
   const intl = useIntl();
+  const [location] = useLocation();
   const { data: cart } = useOperation(CartQuery);
   const items = cart?.cart?.items || [];
   const totalItems = cart?.cart?.totalItems || 0;
   const totalPrice = cart?.cart?.totalPrice || 0;
   const miniCartRef = useRef<HTMLDivElement>(null);
+
+  // Toggle cart display based on #cart hash in URL
+  const isCartHashPresent = location.hash === '#cart';
+  const shouldShowCart = isCartHashPresent;
 
   // Close mini cart when clicking outside
   useEffect(() => {
@@ -42,14 +41,14 @@ export function MiniCart({
       }
     };
 
-    if (isOpen) {
+    if (shouldShowCart) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen, onClose]);
+  }, [shouldShowCart, onClose]);
 
   // Close mini cart on escape key
   useEffect(() => {
@@ -59,16 +58,16 @@ export function MiniCart({
       }
     };
 
-    if (isOpen) {
+    if (shouldShowCart) {
       document.addEventListener('keydown', handleEscape);
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen, onClose]);
+  }, [shouldShowCart, onClose]);
 
-  if (!isOpen) return null;
+  if (!shouldShowCart) return null;
 
   return (
     <>
@@ -81,7 +80,7 @@ export function MiniCart({
         className={clsx(
           'fixed right-0 top-0 z-50 size-full max-w-md bg-white shadow-xl transition-transform duration-300 ease-in-out',
           '',
-          isOpen ? 'translate-x-0' : 'translate-x-full',
+          shouldShowCart ? 'translate-x-0' : 'translate-x-full',
         )}
       >
         <div className="flex h-full flex-col">

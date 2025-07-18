@@ -31,10 +31,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    isOpen: true,
-  },
   parameters: {
+    location: new URL('local:/#cart'),
     executors: {
       [CartQuery]: {
         cart: {
@@ -73,10 +71,8 @@ export const Default: Story = {
 };
 
 export const EmptyCart: Story = {
-  args: {
-    isOpen: true,
-  },
   parameters: {
+    location: new URL('local:/#cart'),
     executors: {
       [CartQuery]: {
         cart: {
@@ -90,10 +86,8 @@ export const EmptyCart: Story = {
 };
 
 export const SingleItem: Story = {
-  args: {
-    isOpen: true,
-  },
   parameters: {
+    location: new URL('local:/#cart'),
     executors: {
       [CartQuery]: {
         cart: {
@@ -120,10 +114,8 @@ export const SingleItem: Story = {
 };
 
 export const ManyItems: Story = {
-  args: {
-    isOpen: true,
-  },
   parameters: {
+    location: new URL('local:/#cart'),
     executors: {
       [CartQuery]: {
         cart: {
@@ -211,10 +203,10 @@ export const ManyItems: Story = {
 
 export const WithoutCheckout: Story = {
   args: {
-    isOpen: true,
     onCheckout: undefined,
   },
   parameters: {
+    location: new URL('local:/#cart'),
     executors: {
       [CartQuery]: {
         cart: {
@@ -241,10 +233,8 @@ export const WithoutCheckout: Story = {
 };
 
 export const Closed: Story = {
-  args: {
-    isOpen: false,
-  },
   parameters: {
+    location: new URL('local:/'),
     executors: {
       [CartQuery]: {
         cart: {
@@ -271,10 +261,8 @@ export const Closed: Story = {
 };
 
 export const ExpensiveItems: Story = {
-  args: {
-    isOpen: true,
-  },
   parameters: {
+    location: new URL('local:/#cart'),
     executors: {
       [CartQuery]: {
         cart: {

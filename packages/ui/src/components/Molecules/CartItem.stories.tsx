@@ -4,7 +4,9 @@ import {
   UpdateCartItemMutation,
 } from '@custom/schema';
 import Portrait from '@stories/portrait.jpg?as=metadata';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within } from '@storybook/test';
 
 import { image } from '../../helpers/image';
 import { CartItem } from './CartItem';
@@ -132,3 +134,33 @@ export const CompactWithoutImage: Story = {
     showImage: false,
   },
 };
+
+export const InteractionTests = {
+  parameters: {
+    executors: {
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation')(variables);
+        return { updateCartItem: { success: true } };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation')(variables);
+        return { removeFromCart: { success: true } };
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Test increasing quantity
+    const increaseButton = canvas.getByLabelText('Increase quantity');
+    await userEvent.click(increaseButton);
+
+    // Test decreasing quantity
+    const decreaseButton = canvas.getByLabelText('Decrease quantity');
+    await userEvent.click(decreaseButton);
+
+    // Test removing item
+    const removeButton = canvas.getByLabelText('Remove item');
+    await userEvent.click(removeButton);
+  },
+} satisfies Story;

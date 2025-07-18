@@ -6,7 +6,9 @@ import {
 } from '@custom/schema';
 import Landscape from '@stories/landscape.jpg?as=metadata';
 import Portrait from '@stories/portrait.jpg?as=metadata';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within } from '@storybook/test';
 
 import { image } from '../../helpers/image';
 import { CartPage } from './CartPage';
@@ -32,7 +34,7 @@ const meta: Meta<typeof CartPage> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Default = {
   args: {
     showBreadcrumbs: false,
   },
@@ -72,9 +74,9 @@ export const Default: Story = {
       },
     } as const,
   },
-};
+} satisfies Story;
 
-export const EmptyCart: Story = {
+export const EmptyCart = {
   args: {
     showBreadcrumbs: false,
   },
@@ -89,9 +91,9 @@ export const EmptyCart: Story = {
       },
     } as const,
   },
-};
+} satisfies Story;
 
-export const SingleItem: Story = {
+export const SingleItem = {
   args: {
     showBreadcrumbs: false,
   },
@@ -119,7 +121,7 @@ export const SingleItem: Story = {
       },
     } as const,
   },
-};
+} satisfies Story;
 
 export const ManyItems: Story = {
   args: {
@@ -302,7 +304,7 @@ export const ExpensiveItems: Story = {
   },
 };
 
-export const ItemsWithoutImages: Story = {
+export const ItemsWithoutImages = {
   args: {
     showBreadcrumbs: false,
   },
@@ -334,4 +336,49 @@ export const ItemsWithoutImages: Story = {
       },
     } as const,
   },
-};
+} satisfies Story;
+
+export const InteractionTests = {
+  parameters: {
+    executors: {
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation')();
+        return { clearCart: { success: true } };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation')(variables);
+        return { updateCartItem: { success: true } };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation')(variables);
+        return { removeFromCart: { success: true } };
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Test cart item quantity changes
+    const increaseButton = canvas.getByLabelText('Increase quantity');
+    await userEvent.click(increaseButton);
+
+    const decreaseButton = canvas.getByLabelText('Decrease quantity');
+    await userEvent.click(decreaseButton);
+
+    // Test item removal
+    const removeButton = canvas.getByLabelText('Remove item');
+    await userEvent.click(removeButton);
+
+    // Test continue shopping button
+    const continueShoppingButton = canvas.getByText('Continue shopping');
+    await userEvent.click(continueShoppingButton);
+
+    // Test checkout button
+    const checkoutButton = canvas.getByText('Checkout');
+    await userEvent.click(checkoutButton);
+
+    // Test clear cart button
+    const clearCartButton = canvas.getByText('Clear cart');
+    await userEvent.click(clearCartButton);
+  },
+} satisfies Story;

@@ -1,4 +1,5 @@
 import {
+  CartQuery,
   ContentHubQuery,
   ContentHubTermsQuery,
   FrameQuery,
@@ -7,6 +8,7 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
+import { EmptyCart as CartStory } from './components/Organisms/CartPage.stories';
 import { WithResults } from './components/Organisms/ContentHub.stories';
 import { ContentHub } from './components/Routes/ContentHub';
 import { Frame } from './components/Routes/Frame';
@@ -24,6 +26,7 @@ export default {
     },
     executors: {
       [FrameQuery]: FrameStory.parameters.executors[FrameQuery],
+      [CartQuery]: CartStory.parameters.executors[CartQuery],
     },
   },
   decorators: [(Story, ctx) => <Frame>{Story(ctx)}</Frame>],
