@@ -53,7 +53,7 @@ function DefaultHero(props: NonNullable<PageFragment['hero']>) {
     <>
       <section className="default-hero container-page relative isolate h-[50rem] min-h-80 overflow-hidden bg-gray-900 pb-24 pt-12 lg:h-auto lg:min-h-[33rem]">
         <HeroImage {...props} />
-        <div className="container-content">
+        <div className="container-content flex flex-col justify-center h-full">
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h1 className="headline-1 text-black">{props.headline}</h1>
             {props.lead ? (
