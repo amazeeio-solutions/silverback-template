@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.2...@amazeelabs/silverback-template@2.3.3) (2025-07-18)
+
+
+### Bug Fixes
+
+* ensure precommit hook runs from repository root ([feb2a4a](https://github.com/AmazeeLabs/silverback-template/commit/feb2a4a8ead3212106052812843eaf929f67a970))
+
+
+
+
+
 ## [2.3.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.1...@amazeelabs/silverback-template@2.3.2) (2025-07-18)
 
 
