@@ -32,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/scripts/precommit-hook.js",
+            "command": "cd \"$(git rev-parse --show-toplevel)\" && node .claude/scripts/precommit-hook.js",
             "output": "json"
           }
         ]
