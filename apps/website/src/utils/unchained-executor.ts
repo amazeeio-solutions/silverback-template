@@ -1,7 +1,7 @@
 import { AnyOperationId, OperationVariables } from '@custom/schema';
 import {
   createAddToCartExecutor,
-  createCartExecutor, 
+  createCartExecutor,
   createCheckoutExecutor,
   createClearCartExecutor,
   createRemoveFromCartExecutor,
@@ -13,13 +13,15 @@ import {
 function getUnchainedApiUrl(): string {
   // Check if we're in development mode
   const isDevelopment = process.env.GATSBY_DEVELOPMENT === 'true';
-  
+
   if (isDevelopment) {
     // Use local development server
     return 'http://localhost:8080/graphql';
   } else {
     // Use production URL - this should be set in environment variables
-    return process.env.GATSBY_UNCHAINED_API_URL || 'https://your-production-unchained-api.com/graphql';
+    return (
+      process.env.GATSBY_UNCHAINED_API_URL || 'https://kls.nöd.live/graphql'
+    );
   }
 }
 
@@ -35,13 +37,14 @@ const clearCartExecutor = createClearCartExecutor(unchainedClient);
 const checkoutExecutor = createCheckoutExecutor(unchainedClient);
 
 // Cart operation IDs that should be handled by Unchained
+// TODO: use operation-id's exported from @custom/schema instead of this.
 const CART_OPERATIONS = [
   'Cart',
-  'AddToCart', 
+  'AddToCart',
   'UpdateCartItem',
   'RemoveFromCart',
   'ClearCart',
-  'Checkout'
+  'Checkout',
 ] as const;
 
 /**
@@ -55,8 +58,12 @@ export function unchainedExecutor() {
   ) {
     // Check if this is a cart operation
     const operationName = id.split(':')[0];
-    
-    if (CART_OPERATIONS.includes(operationName as (typeof CART_OPERATIONS)[number])) {
+
+    if (
+      CART_OPERATIONS.includes(
+        operationName as (typeof CART_OPERATIONS)[number],
+      )
+    ) {
       // Route to appropriate Unchained executor
       switch (operationName) {
         case 'Cart':
@@ -75,8 +82,9 @@ export function unchainedExecutor() {
           throw new Error(`Unknown cart operation: ${operationName}`);
       }
     }
-    
+
     // For non-cart operations, return null to let other executors handle them
     return null;
   };
 }
+
