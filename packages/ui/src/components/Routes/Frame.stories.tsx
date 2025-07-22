@@ -1,4 +1,4 @@
-import { FrameQuery } from '@custom/schema';
+import { CartQuery, FrameQuery } from '@custom/schema';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Footer as FooterStory } from '../Organisms/Footer.stories';
@@ -23,6 +23,13 @@ export const Default = {
         metaNavigation:
           HeaderStory.parameters.executors[FrameQuery].metaNavigation,
         stringTranslations: [],
+      },
+      [CartQuery]: {
+        cart: {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+        },
       },
     },
   },

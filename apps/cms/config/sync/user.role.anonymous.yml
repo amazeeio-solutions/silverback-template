@@ -14,5 +14,6 @@ weight: -10
 is_admin: false
 permissions:
   - 'access content'
+  - 'execute main arbitrary graphql requests'
   - 'execute main persisted graphql requests'
   - 'view media'

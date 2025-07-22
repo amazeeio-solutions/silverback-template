@@ -1,0 +1,4 @@
+{
+  "schema": "https://kls.nöd.live/graphql",
+  "output": "./src/graphql-env.d.ts"
+}

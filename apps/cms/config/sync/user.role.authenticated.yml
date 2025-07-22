@@ -21,6 +21,7 @@ is_admin: false
 permissions:
   - 'access content'
   - 'delete own files'
+  - 'execute main arbitrary graphql requests'
   - 'execute main persisted graphql requests'
   - 'grant simple_oauth codes'
   - 'use text format webform_default'

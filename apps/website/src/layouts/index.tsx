@@ -4,6 +4,7 @@ import { Frame } from '@custom/ui/routes/Frame';
 import React, { PropsWithChildren } from 'react';
 
 import { drupalExecutor } from '../utils/drupal-executor';
+import { unchainedExecutor } from '../utils/unchained-executor';
 
 export default function Layout({
   children,
@@ -14,6 +15,7 @@ export default function Layout({
   return (
     <OperationExecutorsProvider
       executors={[
+        { executor: unchainedExecutor() },
         { executor: drupalExecutor(`/graphql`) },
         { executor: data, id: FrameQuery },
       ]}

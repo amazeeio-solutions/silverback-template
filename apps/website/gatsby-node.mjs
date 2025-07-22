@@ -98,21 +98,14 @@ export const createPages = async ({ actions }) => {
     });
   });
 
-  // Create the content hub page in each language.
-  Object.values(Locale).forEach((locale) => {
-    actions.createPage({
-      path: `/${formatLocalePath(locale)}/content-hub`,
-      component: resolve(`./src/templates/content-hub.tsx`),
-    });
-  });
-
-  // Create a inquiry page in each language.
-  Object.values(Locale).forEach((locale) => {
-    actions.createPage({
-      path: `/${formatLocalePath(locale)}/inquiry`,
-      component: resolve(`./src/templates/inquiry.tsx`),
-    });
-  });
+  // Create multi-lingual static pages
+  createMultiLingualPage(actions, 'content-hub', 'content-hub');
+  createMultiLingualPage(actions, 'inquiry', 'inquiry');
+  createMultiLingualPage(actions, 'cart', 'cart');
+  createMultiLingualPage(actions, 'checkout', 'checkout');
+  createMultiLingualPage(actions, 'checkout/success', 'checkout-success');
+  createMultiLingualPage(actions, 'checkout/cancelled', 'checkout-cancelled');
+  createMultiLingualPage(actions, 'checkout/failed', 'checkout-failed');
 
   // Broken Gatsby links will attempt to load page-data.json files, which don't exist
   // and also should not be piped into the strangler function. Thats why they
@@ -178,6 +171,21 @@ function removeIndentation(str) {
     .map((line) => line.slice(minIndent))
     .join('\n')
     .trim();
+}
+
+/**
+ * Create a multi-lingual static page for each locale.
+ * @param {import('gatsby').Actions} actions
+ * @param {string} pagePath - The path segment for the page (e.g., 'inquiry', 'cart')
+ * @param {string} templateName - The template file name (e.g., 'inquiry', 'cart')
+ */
+function createMultiLingualPage(actions, pagePath, templateName) {
+  Object.values(Locale).forEach((locale) => {
+    actions.createPage({
+      path: `/${formatLocalePath(locale)}/${pagePath}`,
+      component: resolve(`./src/templates/${templateName}.tsx`),
+    });
+  });
 }
 
 /**

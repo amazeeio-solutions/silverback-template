@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/graphql-config@5.0.3/config-schema.json",
+  "schema": "https://kls.nöd.live/graphql",
+  "documents": ["src/**/*.ts", "src/**/*.tsx"],
+  "extensions": {
+    "endpoints": {
+      "unchained": {
+        "url": "https://kls.nöd.live/graphql"
+      }
+    }
+  }
+}

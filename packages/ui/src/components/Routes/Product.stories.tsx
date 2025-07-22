@@ -1,4 +1,6 @@
 import {
+  AddToCartMutation,
+  CartQuery,
   FrameQuery,
   Locale,
   Markup,
@@ -8,6 +10,7 @@ import {
 } from '@custom/schema';
 import Landscape from '@stories/landscape.jpg?as=metadata';
 import Portrait from '@stories/portrait.jpg?as=metadata';
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -31,6 +34,41 @@ export const Default = {
           {
             id: FrameQuery,
             executor: FrameStory.parameters.executors[FrameQuery],
+          },
+          {
+            id: CartQuery,
+            executor: {
+              cart: {
+                items: [],
+                totalItems: 0,
+                totalPrice: 0,
+              },
+            },
+          },
+          {
+            id: AddToCartMutation,
+            executor: async (variables: { input?: { productId?: string } }) => {
+              action('AddToCartMutation')(variables);
+              return {
+                addToCart: {
+                  cart: {
+                    items: [
+                      {
+                        id: variables?.input?.productId || 'product-1',
+                        title: 'Wireless Bluetooth Headphones',
+                        price: 149.99,
+                        quantity: 1,
+                        sku: 'WBH-2024-001',
+                        maxStock: 25,
+                      },
+                    ],
+                    totalItems: 1,
+                    totalPrice: 149.99,
+                  },
+                  errors: [],
+                },
+              };
+            },
           },
         ]}
       >
@@ -102,7 +140,56 @@ Perfect for music lovers, professionals, and anyone who values exceptional audio
 } satisfies StoryObj<ViewProductQuery>;
 
 export const WithHero = {
-  ...Default,
+  render: (args) => {
+    return (
+      <OperationExecutorsProvider
+        executors={[
+          { executor: args, id: ViewProductQuery },
+          {
+            id: FrameQuery,
+            executor: FrameStory.parameters.executors[FrameQuery],
+          },
+          {
+            id: CartQuery,
+            executor: {
+              cart: {
+                items: [],
+                totalItems: 0,
+                totalPrice: 0,
+              },
+            },
+          },
+          {
+            id: AddToCartMutation,
+            executor: async (variables: { input?: { productId?: string } }) => {
+              action('AddToCartMutation')(variables);
+              return {
+                addToCart: {
+                  cart: {
+                    items: [
+                      {
+                        id: variables?.input?.productId || 'product-1',
+                        title: 'Wireless Bluetooth Headphones',
+                        price: 149.99,
+                        quantity: 1,
+                        sku: 'WBH-2024-001',
+                        maxStock: 25,
+                      },
+                    ],
+                    totalItems: 1,
+                    totalPrice: 149.99,
+                  },
+                  errors: [],
+                },
+              };
+            },
+          },
+        ]}
+      >
+        <Product />
+      </OperationExecutorsProvider>
+    );
+  },
   args: {
     ...Default.args,
     product: {
@@ -124,7 +211,56 @@ export const WithHero = {
 } satisfies StoryObj<ViewProductQuery>;
 
 export const OutOfStock = {
-  ...Default,
+  render: (args) => {
+    return (
+      <OperationExecutorsProvider
+        executors={[
+          { executor: args, id: ViewProductQuery },
+          {
+            id: FrameQuery,
+            executor: FrameStory.parameters.executors[FrameQuery],
+          },
+          {
+            id: CartQuery,
+            executor: {
+              cart: {
+                items: [],
+                totalItems: 0,
+                totalPrice: 0,
+              },
+            },
+          },
+          {
+            id: AddToCartMutation,
+            executor: async (variables: { input?: { productId?: string } }) => {
+              action('AddToCartMutation')(variables);
+              return {
+                addToCart: {
+                  cart: {
+                    items: [
+                      {
+                        id: variables?.input?.productId || 'product-1',
+                        title: 'Wireless Bluetooth Headphones',
+                        price: 149.99,
+                        quantity: 1,
+                        sku: 'WBH-2024-001',
+                        maxStock: 25,
+                      },
+                    ],
+                    totalItems: 1,
+                    totalPrice: 149.99,
+                  },
+                  errors: [],
+                },
+              };
+            },
+          },
+        ]}
+      >
+        <Product />
+      </OperationExecutorsProvider>
+    );
+  },
   args: {
     ...Default.args,
     product: {
@@ -137,7 +273,56 @@ export const OutOfStock = {
 } satisfies StoryObj<ViewProductQuery>;
 
 export const HighPriceProduct = {
-  ...Default,
+  render: (args) => {
+    return (
+      <OperationExecutorsProvider
+        executors={[
+          { executor: args, id: ViewProductQuery },
+          {
+            id: FrameQuery,
+            executor: FrameStory.parameters.executors[FrameQuery],
+          },
+          {
+            id: CartQuery,
+            executor: {
+              cart: {
+                items: [],
+                totalItems: 0,
+                totalPrice: 0,
+              },
+            },
+          },
+          {
+            id: AddToCartMutation,
+            executor: async (variables: { input?: { productId?: string } }) => {
+              action('AddToCartMutation')(variables);
+              return {
+                addToCart: {
+                  cart: {
+                    items: [
+                      {
+                        id: variables?.input?.productId || 'product-1',
+                        title: 'Wireless Bluetooth Headphones',
+                        price: 149.99,
+                        quantity: 1,
+                        sku: 'WBH-2024-001',
+                        maxStock: 25,
+                      },
+                    ],
+                    totalItems: 1,
+                    totalPrice: 149.99,
+                  },
+                  errors: [],
+                },
+              };
+            },
+          },
+        ]}
+      >
+        <Product />
+      </OperationExecutorsProvider>
+    );
+  },
   args: {
     ...Default.args,
     product: {
@@ -156,7 +341,56 @@ export const HighPriceProduct = {
 } satisfies StoryObj<ViewProductQuery>;
 
 export const GamingKeyboard = {
-  ...Default,
+  render: (args) => {
+    return (
+      <OperationExecutorsProvider
+        executors={[
+          { executor: args, id: ViewProductQuery },
+          {
+            id: FrameQuery,
+            executor: FrameStory.parameters.executors[FrameQuery],
+          },
+          {
+            id: CartQuery,
+            executor: {
+              cart: {
+                items: [],
+                totalItems: 0,
+                totalPrice: 0,
+              },
+            },
+          },
+          {
+            id: AddToCartMutation,
+            executor: async (variables: { input?: { productId?: string } }) => {
+              action('AddToCartMutation')(variables);
+              return {
+                addToCart: {
+                  cart: {
+                    items: [
+                      {
+                        id: variables?.input?.productId || 'product-1',
+                        title: 'Wireless Bluetooth Headphones',
+                        price: 149.99,
+                        quantity: 1,
+                        sku: 'WBH-2024-001',
+                        maxStock: 25,
+                      },
+                    ],
+                    totalItems: 1,
+                    totalPrice: 149.99,
+                  },
+                  errors: [],
+                },
+              };
+            },
+          },
+        ]}
+      >
+        <Product />
+      </OperationExecutorsProvider>
+    );
+  },
   args: {
     ...Default.args,
     product: {
@@ -184,4 +418,75 @@ export const GamingKeyboard = {
   parameters: {
     location: new URL('local:/products/gaming-keyboard'),
   },
+} satisfies StoryObj<ViewProductQuery>;
+
+export const WithProductInCart = {
+  render: (args) => {
+    return (
+      <OperationExecutorsProvider
+        executors={[
+          { executor: args, id: ViewProductQuery },
+          {
+            id: FrameQuery,
+            executor: FrameStory.parameters.executors[FrameQuery],
+          },
+          {
+            id: CartQuery,
+            executor: {
+              cart: {
+                items: [
+                  {
+                    id: 'product-1',
+                    title: 'Wireless Bluetooth Headphones',
+                    price: 149.99,
+                    quantity: 2,
+                    sku: 'WBH-2024-001',
+                    maxStock: 25,
+                    teaserImage: {
+                      source: image(Landscape, { width: 200, height: 200 }),
+                      alt: 'Premium wireless headphones',
+                    },
+                  },
+                ],
+                totalItems: 2,
+                totalPrice: 299.98,
+              },
+            },
+          },
+          {
+            id: AddToCartMutation,
+            executor: async (variables: { input?: { productId?: string } }) => {
+              action('AddToCartMutation - With Product In Cart')(variables);
+              return {
+                addToCart: {
+                  cart: {
+                    items: [
+                      {
+                        id: variables?.input?.productId || 'product-1',
+                        title: 'Wireless Bluetooth Headphones',
+                        price: 149.99,
+                        quantity: 3,
+                        sku: 'WBH-2024-001',
+                        maxStock: 25,
+                        teaserImage: {
+                          source: image(Landscape, { width: 200, height: 200 }),
+                          alt: 'Premium wireless headphones',
+                        },
+                      },
+                    ],
+                    totalItems: 3,
+                    totalPrice: 449.97,
+                  },
+                  errors: [],
+                },
+              };
+            },
+          },
+        ]}
+      >
+        <Product />
+      </OperationExecutorsProvider>
+    );
+  },
+  args: Default.args,
 } satisfies StoryObj<ViewProductQuery>;

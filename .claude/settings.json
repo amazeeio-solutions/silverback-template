@@ -32,8 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd \"$(git rev-parse --show-toplevel)\" && node .claude/scripts/precommit-hook.js",
-            "output": "json"
+            "command": "pnpm precommit"
           }
         ]
       }

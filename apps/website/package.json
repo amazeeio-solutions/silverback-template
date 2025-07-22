@@ -15,6 +15,7 @@
     "@custom/decap": "workspace:*",
     "@custom/schema": "workspace:*",
     "@custom/ui": "workspace:*",
+    "@custom/unchained": "workspace:*",
     "gatsby": "^5.14.1",
     "gatsby-plugin-layout": "^4.14.0",
     "gatsby-plugin-manifest": "^5.14.0",

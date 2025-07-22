@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^prep"],
+      "outputs": ["dist/**"]
+    },
+    "prep": {
+      "dependsOn": ["^prep"],
+      "outputs": ["dist/**"]
+    },
+    "test:unit": {
+      "dependsOn": ["prep"]
+    },
+    "precommit": {
+      "dependsOn": ["prep"]
+    }
+  }
+}

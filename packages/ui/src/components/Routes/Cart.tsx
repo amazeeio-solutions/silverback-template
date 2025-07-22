@@ -11,8 +11,7 @@ export function Cart() {
   };
 
   const handleCheckout = () => {
-    // TODO: Implement checkout functionality
-    console.log('Checkout functionality to be implemented');
+    navigate('/checkout' as Url);
   };
 
   return (

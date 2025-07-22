@@ -47,3 +47,25 @@ mutation ClearCart {
     }
   }
 }
+
+mutation Checkout($input: CheckoutInput!) {
+  checkout(input: $input) {
+    order {
+      id
+      orderNumber
+      status
+      totalAmount
+      items {
+        id
+        title
+        price
+        quantity
+        sku
+      }
+    }
+    errors {
+      message
+    }
+    paymentRedirectUrl
+  }
+}

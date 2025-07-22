@@ -575,6 +575,10 @@ type Mutation {
   Clear all items from the cart.
   """
   clearCart: CartMutationResponse
+  """
+  Process checkout and create an order.
+  """
+  checkout(input: CheckoutInput!): CheckoutResponse
 }
 
 type WebformSubmissionCreateResponse {
@@ -732,4 +736,146 @@ input UpdateCartItemInput {
   The new quantity for the item.
   """
   quantity: Int!
+}
+
+"""
+Input type for checkout process.
+"""
+input CheckoutInput {
+  """
+  Customer contact information.
+  """
+  contactInfo: ContactInfoInput!
+  """
+  Customer billing address.
+  """
+  billingAddress: BillingAddressInput!
+  """
+  Additional meta data for the order.
+  """
+  metaData: OrderMetaDataInput!
+}
+
+"""
+Contact information input.
+"""
+input ContactInfoInput {
+  """
+  Customer's email address.
+  """
+  emailAddress: String!
+}
+
+"""
+Billing address input.
+"""
+input BillingAddressInput {
+  """
+  Customer's first name.
+  """
+  firstName: String!
+  """
+  Customer's last name.
+  """
+  lastName: String!
+  """
+  Company name (optional).
+  """
+  company: String
+  """
+  Street address.
+  """
+  addressLine: String!
+  """
+  Postal/ZIP code.
+  """
+  postalCode: String!
+  """
+  City name.
+  """
+  city: String!
+  """
+  Country code (e.g., "CH" for Switzerland).
+  """
+  countryCode: String!
+}
+
+"""
+Order meta data input.
+"""
+input OrderMetaDataInput {
+  """
+  Donation amount in CHF (Swiss Francs).
+  """
+  donation: Float!
+}
+
+"""
+Order information returned after successful checkout.
+"""
+type Order @default @value {
+  """
+  Order ID.
+  """
+  id: String!
+  """
+  Human-readable order number.
+  """
+  orderNumber: String!
+  """
+  Order status.
+  """
+  status: String!
+  """
+  Total order amount.
+  """
+  totalAmount: Float!
+  """
+  Items in the order.
+  """
+  items: [OrderItem!]!
+}
+
+"""
+A single item in an order.
+"""
+type OrderItem @default @value {
+  """
+  The product ID.
+  """
+  id: String!
+  """
+  The product title.
+  """
+  title: String!
+  """
+  The price of the product.
+  """
+  price: Float!
+  """
+  The quantity ordered.
+  """
+  quantity: Int!
+  """
+  The product SKU.
+  """
+  sku: String!
+}
+
+"""
+Response type for checkout mutation.
+"""
+type CheckoutResponse {
+  """
+  The created order.
+  """
+  order: Order
+  """
+  Any errors that occurred during checkout.
+  """
+  errors: [MutationError]
+  """
+  Redirect URL for payment processing (when payment is required).
+  """
+  paymentRedirectUrl: String
 }
