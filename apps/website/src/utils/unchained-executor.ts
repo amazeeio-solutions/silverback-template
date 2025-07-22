@@ -58,6 +58,7 @@ export function unchainedExecutor() {
   ) {
     // Check if this is a cart operation
     const operationName = id.split(':')[0];
+    console.log('unchained executor', { id, variables });
 
     if (
       CART_OPERATIONS.includes(
