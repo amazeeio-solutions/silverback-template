@@ -15,8 +15,8 @@ export default function Layout({
   return (
     <OperationExecutorsProvider
       executors={[
-        { executor: unchainedExecutor() },
         { executor: drupalExecutor(`/graphql`) },
+        { executor: unchainedExecutor() },
         { executor: data, id: FrameQuery },
       ]}
     >
