@@ -45,7 +45,7 @@ export function ProductDisplay(product: ProductFragment) {
     try {
       await addToCart({
         input: {
-          productId: product.id,
+          productId: product.uuid,
         },
       });
     } finally {

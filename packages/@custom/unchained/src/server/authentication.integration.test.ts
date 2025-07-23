@@ -176,7 +176,7 @@ describe('Authentication Integration Tests', () => {
         query Cart {
           cart {
             items {
-              uuid
+              id
               quantity
             }
             totalItems

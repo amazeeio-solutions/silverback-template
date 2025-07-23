@@ -79,6 +79,7 @@ export const Default = {
   args: {
     product: {
       id: 'product-1',
+      uuid: 'product-1',
       locale: 'en',
       path: '/products/wireless-headphones' as Url,
       editLink: {

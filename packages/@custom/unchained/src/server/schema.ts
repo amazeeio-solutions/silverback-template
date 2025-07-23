@@ -9,7 +9,7 @@ export const typeDefs = gql`
 
   # Cart Types
   type CartItem {
-    uuid: String!
+    id: String!
     title: String!
     price: Float!
     quantity: Int!
@@ -58,7 +58,7 @@ export const typeDefs = gql`
   }
 
   type OrderItem {
-    uuid: String!
+    id: String!
     title: String!
     price: Float!
     quantity: Int!

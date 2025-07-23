@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 // Types
 export interface CartItem {
-  uuid: string;
+  id: string;
   title: string;
   price: number;
   quantity: number;
@@ -21,7 +21,7 @@ export interface Cart {
 }
 
 export interface Product {
-  uuid: string;
+  id: string;
   title: string;
   price: number;
   sku: string;
@@ -93,7 +93,7 @@ export class CartService {
       const query = `
         query GetProducts {
           allProducts {
-            uuid
+            id
             title
             price
             sku
@@ -135,7 +135,7 @@ export class CartService {
         console.log('📝 Product details:');
         products.forEach((product: Product, index) => {
           console.log(
-            `  ${index + 1}. UUID: '${product.uuid}' | Title: '${product.title}' | SKU: '${product.sku}' | Stock: ${product.stock}`,
+            `  ${index + 1}. ID: '${product.id}' | Title: '${product.title}' | SKU: '${product.sku}' | Stock: ${product.stock}`,
           );
         });
       }
@@ -143,7 +143,7 @@ export class CartService {
       // Update cache
       productCache.clear();
       products.forEach((product: Product) => {
-        productCache.set(product.uuid, product);
+        productCache.set(product.id, product);
       });
       cacheExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes
 
@@ -170,7 +170,7 @@ export class CartService {
       console.log(`🔍 Product '${productId}' not found. Available products:`);
       availableProducts.forEach((p, index) => {
         console.log(
-          `  ${index + 1}. UUID: '${p.uuid}' | Title: '${p.title}' | SKU: '${p.sku}' | Stock: ${p.stock}`,
+          `  ${index + 1}. ID: '${p.id}' | Title: '${p.title}' | SKU: '${p.sku}' | Stock: ${p.stock}`,
         );
       });
       if (availableProducts.length === 0) {
@@ -212,7 +212,7 @@ export class CartService {
 
     const cart = this.getCart(sessionId);
     const existingItemIndex = cart.items.findIndex(
-      (item) => item.uuid === productId,
+      (item) => item.id === productId,
     );
 
     if (existingItemIndex >= 0) {
@@ -233,7 +233,7 @@ export class CartService {
       }
 
       cart.items.push({
-        uuid: product.uuid,
+        id: product.id,
         title: product.title,
         price: product.price,
         quantity,
@@ -250,7 +250,7 @@ export class CartService {
 
   async updateCartItem(
     sessionId: string,
-    itemId: string,
+    productId: string,
     quantity: number,
   ): Promise<Cart> {
     if (!this.validateSession(sessionId)) {
@@ -258,17 +258,17 @@ export class CartService {
     }
 
     const cart = this.getCart(sessionId);
-    const itemIndex = cart.items.findIndex((item) => item.uuid === itemId);
+    const itemIndex = cart.items.findIndex((item) => item.id === productId);
 
     if (itemIndex === -1) {
-      throw new Error(`Item with ID ${itemId} not found in cart`);
+      throw new Error(`Item with ID ${productId} not found in cart`);
     }
 
     if (quantity <= 0) {
       // Remove item if quantity is 0 or less
       cart.items.splice(itemIndex, 1);
     } else {
-      const product = await this.getProduct(itemId);
+      const product = await this.getProduct(productId);
       if (product && quantity > product.stock) {
         throw new Error(
           `Insufficient stock. Available: ${product.stock}, Requested: ${quantity}`,
@@ -288,7 +288,7 @@ export class CartService {
     }
 
     const cart = this.getCart(sessionId);
-    cart.items = cart.items.filter((item) => item.uuid !== productId);
+    cart.items = cart.items.filter((item) => item.id !== productId);
 
     this.recalculateCart(cart);
     carts.set(sessionId, cart);
@@ -342,7 +342,7 @@ export class CartService {
       status: 'pending',
       totalAmount: cart.totalPrice,
       items: cart.items.map((item) => ({
-        uuid: item.uuid,
+        id: item.id,
         title: item.title,
         price: item.price,
         quantity: item.quantity,

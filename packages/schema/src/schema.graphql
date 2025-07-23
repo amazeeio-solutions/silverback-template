@@ -255,6 +255,7 @@ Product interface for e-commerce products.
 """
 interface Product implements CardItem & Editable @entityBundle {
   id: ID!
+  uuid: ID!
   translations: [Product]
   locale: Locale!
   path: Url!
