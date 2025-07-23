@@ -521,7 +521,10 @@ type Query {
     @menuTranslations(menu_id: "footer")
 
   allPages: [Page] @gatsbyNodes(type: "Page")
-  allProducts: [Product] @gatsbyNodes(type: "Product")
+  allProducts: [Product]
+    @gatsbyNodes(type: "Product")
+    @drupalView(id: "products:default", args: "$args")
+    @prop(key: "rows")
   websiteSettings: WebsiteSettings
   viewPage(path: String!): Page @route(path: "$path") @loadEntity
   viewProduct(path: String!): Product @route(path: "$path") @loadEntity
