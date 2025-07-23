@@ -1,68 +1,116 @@
-import { AnyOperationId, OperationVariables, OperationResult, CartQuery as CartQuery$1, AddToCartMutation as AddToCartMutation$1, UpdateCartItemMutation as UpdateCartItemMutation$1, RemoveFromCartMutation as RemoveFromCartMutation$1, ClearCartMutation as ClearCartMutation$1, CheckoutMutation as CheckoutMutation$1 } from '@custom/schema';
+import {
+  AnyOperationId,
+  OperationVariables,
+  OperationResult,
+  CartQuery as CartQuery$1,
+  AddToCartMutation as AddToCartMutation$1,
+  UpdateCartItemMutation as UpdateCartItemMutation$1,
+  RemoveFromCartMutation as RemoveFromCartMutation$1,
+  ClearCartMutation as ClearCartMutation$1,
+  CheckoutMutation as CheckoutMutation$1,
+} from '@custom/schema';
 import * as gql_tada from 'gql.tada';
 import { VariablesOf, ResultOf, initGraphQLTada } from 'gql.tada';
 export { readFragment } from 'gql.tada';
 import { DocumentNode } from 'graphql';
 
 interface GraphQLClient {
-    request<TDocument extends DocumentNode>(query: TDocument, variables: VariablesOf<TDocument>): Promise<ResultOf<TDocument>>;
-    request<TDocument extends DocumentNode>(query: TDocument, variables?: VariablesOf<TDocument> extends Record<string, never> ? never : VariablesOf<TDocument>): Promise<ResultOf<TDocument>>;
-    request<TResult = any, TVariables = any>(query: string, variables?: TVariables): Promise<TResult>;
+  request<TDocument extends DocumentNode>(
+    query: TDocument,
+    variables: VariablesOf<TDocument>,
+  ): Promise<ResultOf<TDocument>>;
+  request<TDocument extends DocumentNode>(
+    query: TDocument,
+    variables?: VariablesOf<TDocument> extends Record<string, never>
+      ? never
+      : VariablesOf<TDocument>,
+  ): Promise<ResultOf<TDocument>>;
+  request<TResult = any, TVariables = any>(
+    query: string,
+    variables?: TVariables,
+  ): Promise<TResult>;
 }
 declare class UnchainedGraphQLClient implements GraphQLClient {
-    private endpoint;
-    private isGuestLoggedIn;
-    private loginPromise;
-    constructor(endpoint?: string);
-    /**
-     * Ensures a guest session exists by performing guest login if necessary
-     */
-    private ensureGuestLogin;
-    /**
-     * Performs the actual guest login request
-     */
-    private performGuestLogin;
-    /**
-     * Helper method to detect if an error indicates authentication is required
-     */
-    private isAuthenticationError;
-    /**
-     * Helper method to check if query is the guest login mutation
-     */
-    private isGuestLoginQuery;
-    request<TDocument extends DocumentNode>(query: TDocument | string, variables?: VariablesOf<TDocument> | any): Promise<ResultOf<TDocument> | any>;
-    /**
-     * Internal request method that handles authentication retry logic
-     */
-    private requestWithRetry;
+  private endpoint;
+  private isGuestLoggedIn;
+  private loginPromise;
+  constructor(endpoint?: string);
+  /**
+   * Ensures a guest session exists by performing guest login if necessary
+   */
+  private ensureGuestLogin;
+  /**
+   * Performs the actual guest login request
+   */
+  private performGuestLogin;
+  /**
+   * Helper method to detect if an error indicates authentication is required
+   */
+  private isAuthenticationError;
+  /**
+   * Helper method to check if query is the guest login mutation
+   */
+  private isGuestLoginQuery;
+  request<TDocument extends DocumentNode>(
+    query: TDocument | string,
+    variables?: VariablesOf<TDocument> | any,
+  ): Promise<ResultOf<TDocument> | any>;
+  /**
+   * Internal request method that handles authentication retry logic
+   */
+  private requestWithRetry;
 }
 declare const defaultClient: UnchainedGraphQLClient;
 
-type Executor<T extends AnyOperationId> = (id: T, vars: OperationVariables<T>) => Promise<{
-    data: OperationResult<T>;
-    error: any;
-}> | {
-    data: OperationResult<T>;
-    error: any;
-};
-type UnchainedOperationId = typeof CartQuery$1 | typeof AddToCartMutation$1 | typeof UpdateCartItemMutation$1 | typeof RemoveFromCartMutation$1 | typeof ClearCartMutation$1 | typeof CheckoutMutation$1 | 'GuestLogin';
+type Executor<T extends AnyOperationId> = (
+  id: T,
+  vars: OperationVariables<T>,
+) =>
+  | Promise<{
+      data: OperationResult<T>;
+      error: any;
+    }>
+  | {
+      data: OperationResult<T>;
+      error: any;
+    };
+type UnchainedOperationId =
+  | typeof CartQuery$1
+  | typeof AddToCartMutation$1
+  | typeof UpdateCartItemMutation$1
+  | typeof RemoveFromCartMutation$1
+  | typeof ClearCartMutation$1
+  | typeof CheckoutMutation$1
+  | 'GuestLogin';
 
-declare function createCartExecutor(client?: GraphQLClient): Executor<typeof CartQuery$1>;
+declare function createCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof CartQuery$1>;
 declare const cartExecutor: Executor<typeof CartQuery$1>;
 
-declare function createAddToCartExecutor(client?: GraphQLClient): Executor<typeof AddToCartMutation$1>;
+declare function createAddToCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof AddToCartMutation$1>;
 declare const addToCartExecutor: Executor<typeof AddToCartMutation$1>;
 
-declare function createUpdateCartItemExecutor(client?: GraphQLClient): Executor<typeof UpdateCartItemMutation$1>;
+declare function createUpdateCartItemExecutor(
+  client?: GraphQLClient,
+): Executor<typeof UpdateCartItemMutation$1>;
 declare const updateCartItemExecutor: Executor<typeof UpdateCartItemMutation$1>;
 
-declare function createRemoveFromCartExecutor(client?: GraphQLClient): Executor<typeof RemoveFromCartMutation$1>;
+declare function createRemoveFromCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof RemoveFromCartMutation$1>;
 declare const removeFromCartExecutor: Executor<typeof RemoveFromCartMutation$1>;
 
-declare function createClearCartExecutor(client?: GraphQLClient): Executor<typeof ClearCartMutation$1>;
+declare function createClearCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof ClearCartMutation$1>;
 declare const clearCartExecutor: Executor<typeof ClearCartMutation$1>;
 
-declare function createCheckoutExecutor(client?: GraphQLClient): Executor<typeof CheckoutMutation$1>;
+declare function createCheckoutExecutor(
+  client?: GraphQLClient,
+): Executor<typeof CheckoutMutation$1>;
 declare const checkoutExecutor: Executor<typeof CheckoutMutation$1>;
 
 declare function createGuestLoginExecutor(client?: GraphQLClient): any;
@@ -71,7 +119,9 @@ declare const guestLoginExecutor: any;
 /**
  * Creates a session-aware cart executor that automatically handles guest login
  */
-declare function createSessionAwareCartExecutor(client?: GraphQLClient): Executor<typeof CartQuery$1>;
+declare function createSessionAwareCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof CartQuery$1>;
 /**
  * Default session-aware cart executor that automatically handles guest login
  */
@@ -80,43 +130,61 @@ declare const sessionAwareCartExecutor: Executor<typeof CartQuery$1>;
 /**
  * Creates a session-aware add-to-cart executor that automatically handles guest login
  */
-declare function createSessionAwareAddToCartExecutor(client?: GraphQLClient): Executor<typeof AddToCartMutation$1>;
+declare function createSessionAwareAddToCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof AddToCartMutation$1>;
 /**
  * Default session-aware add-to-cart executor that automatically handles guest login
  */
-declare const sessionAwareAddToCartExecutor: Executor<typeof AddToCartMutation$1>;
+declare const sessionAwareAddToCartExecutor: Executor<
+  typeof AddToCartMutation$1
+>;
 
 /**
  * Creates a session-aware update-cart-item executor that automatically handles guest login
  */
-declare function createSessionAwareUpdateCartItemExecutor(client?: GraphQLClient): Executor<typeof UpdateCartItemMutation$1>;
+declare function createSessionAwareUpdateCartItemExecutor(
+  client?: GraphQLClient,
+): Executor<typeof UpdateCartItemMutation$1>;
 /**
  * Default session-aware update-cart-item executor that automatically handles guest login
  */
-declare const sessionAwareUpdateCartItemExecutor: Executor<typeof UpdateCartItemMutation$1>;
+declare const sessionAwareUpdateCartItemExecutor: Executor<
+  typeof UpdateCartItemMutation$1
+>;
 
 /**
  * Creates a session-aware remove-from-cart executor that automatically handles guest login
  */
-declare function createSessionAwareRemoveFromCartExecutor(client?: GraphQLClient): Executor<typeof RemoveFromCartMutation$1>;
+declare function createSessionAwareRemoveFromCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof RemoveFromCartMutation$1>;
 /**
  * Default session-aware remove-from-cart executor that automatically handles guest login
  */
-declare const sessionAwareRemoveFromCartExecutor: Executor<typeof RemoveFromCartMutation$1>;
+declare const sessionAwareRemoveFromCartExecutor: Executor<
+  typeof RemoveFromCartMutation$1
+>;
 
 /**
  * Creates a session-aware clear-cart executor that automatically handles guest login
  */
-declare function createSessionAwareClearCartExecutor(client?: GraphQLClient): Executor<typeof ClearCartMutation$1>;
+declare function createSessionAwareClearCartExecutor(
+  client?: GraphQLClient,
+): Executor<typeof ClearCartMutation$1>;
 /**
  * Default session-aware clear-cart executor that automatically handles guest login
  */
-declare const sessionAwareClearCartExecutor: Executor<typeof ClearCartMutation$1>;
+declare const sessionAwareClearCartExecutor: Executor<
+  typeof ClearCartMutation$1
+>;
 
 /**
  * Creates a session-aware checkout executor that automatically handles guest login
  */
-declare function createSessionAwareCheckoutExecutor(client?: GraphQLClient): Executor<typeof CheckoutMutation$1>;
+declare function createSessionAwareCheckoutExecutor(
+  client?: GraphQLClient,
+): Executor<typeof CheckoutMutation$1>;
 /**
  * Default session-aware checkout executor that automatically handles guest login
  */
@@ -706,173 +774,263 @@ type introspection = {
 };
 
 declare const graphql: initGraphQLTada<{
-    introspection: introspection;
-    scalars: {
-        ID: string;
-        String: string;
-        Boolean: boolean;
-        Int: number;
-        Float: number;
-        DateTime: string;
-        JSON: any;
-    };
+  introspection: introspection;
+  scalars: {
+    ID: string;
+    String: string;
+    Boolean: boolean;
+    Int: number;
+    Float: number;
+    DateTime: string;
+    JSON: any;
+  };
 }>;
 
-declare const CartQuery: gql_tada.TadaDocumentNode<{
+declare const CartQuery: gql_tada.TadaDocumentNode<
+  {
     cart: {
-        items: ({
+      items:
+        | ({
             id: string | null;
             title: string | null;
             price: number | null;
             quantity: number | null;
             sku: string | null;
             teaserImage: {
-                alt: string | null;
-                source: string | null;
+              alt: string | null;
+              source: string | null;
             } | null;
             maxStock: number | null;
-        } | null)[] | null;
+          } | null)[]
+        | null;
+      totalItems: number | null;
+      totalPrice: number | null;
+    } | null;
+  },
+  {},
+  void
+>;
+declare const AddToCartMutation: gql_tada.TadaDocumentNode<
+  {
+    addToCart: {
+      cart: {
+        items:
+          | ({
+              id: string | null;
+              title: string | null;
+              price: number | null;
+              quantity: number | null;
+              sku: string | null;
+              teaserImage: {
+                alt: string | null;
+                source: string | null;
+              } | null;
+              maxStock: number | null;
+            } | null)[]
+          | null;
         totalItems: number | null;
         totalPrice: number | null;
-    } | null;
-}, {}, void>;
-declare const AddToCartMutation: gql_tada.TadaDocumentNode<{
-    addToCart: {
-        cart: {
-            items: ({
-                id: string | null;
-                title: string | null;
-                price: number | null;
-                quantity: number | null;
-                sku: string | null;
-                teaserImage: {
-                    alt: string | null;
-                    source: string | null;
-                } | null;
-                maxStock: number | null;
-            } | null)[] | null;
-            totalItems: number | null;
-            totalPrice: number | null;
-        } | null;
-        errors: ({
+      } | null;
+      errors:
+        | ({
             message: string | null;
-        } | null)[] | null;
+          } | null)[]
+        | null;
     } | null;
-}, {
+  },
+  {
     input: {
-        quantity?: number | null | undefined;
-        productId: string;
+      quantity?: number | null | undefined;
+      productId: string;
     };
-}, void>;
-declare const UpdateCartItemMutation: gql_tada.TadaDocumentNode<{
+  },
+  void
+>;
+declare const UpdateCartItemMutation: gql_tada.TadaDocumentNode<
+  {
     updateCartItem: {
-        cart: {
-            items: ({
-                id: string | null;
-                title: string | null;
-                price: number | null;
-                quantity: number | null;
-                sku: string | null;
-                teaserImage: {
-                    alt: string | null;
-                    source: string | null;
-                } | null;
-                maxStock: number | null;
-            } | null)[] | null;
-            totalItems: number | null;
-            totalPrice: number | null;
-        } | null;
-        errors: ({
+      cart: {
+        items:
+          | ({
+              id: string | null;
+              title: string | null;
+              price: number | null;
+              quantity: number | null;
+              sku: string | null;
+              teaserImage: {
+                alt: string | null;
+                source: string | null;
+              } | null;
+              maxStock: number | null;
+            } | null)[]
+          | null;
+        totalItems: number | null;
+        totalPrice: number | null;
+      } | null;
+      errors:
+        | ({
             message: string | null;
-        } | null)[] | null;
+          } | null)[]
+        | null;
     } | null;
-}, {
+  },
+  {
     input: {
-        quantity: number;
-        itemId: string;
+      quantity: number;
+      itemId: string;
     };
-}, void>;
-declare const RemoveFromCartMutation: gql_tada.TadaDocumentNode<{
+  },
+  void
+>;
+declare const RemoveFromCartMutation: gql_tada.TadaDocumentNode<
+  {
     removeFromCart: {
-        cart: {
-            items: ({
-                id: string | null;
-                title: string | null;
-                price: number | null;
-                quantity: number | null;
-                sku: string | null;
-                teaserImage: {
-                    alt: string | null;
-                    source: string | null;
-                } | null;
-                maxStock: number | null;
-            } | null)[] | null;
-            totalItems: number | null;
-            totalPrice: number | null;
-        } | null;
-        errors: ({
+      cart: {
+        items:
+          | ({
+              id: string | null;
+              title: string | null;
+              price: number | null;
+              quantity: number | null;
+              sku: string | null;
+              teaserImage: {
+                alt: string | null;
+                source: string | null;
+              } | null;
+              maxStock: number | null;
+            } | null)[]
+          | null;
+        totalItems: number | null;
+        totalPrice: number | null;
+      } | null;
+      errors:
+        | ({
             message: string | null;
-        } | null)[] | null;
+          } | null)[]
+        | null;
     } | null;
-}, {
+  },
+  {
     productId: string;
-}, void>;
-declare const ClearCartMutation: gql_tada.TadaDocumentNode<{
+  },
+  void
+>;
+declare const ClearCartMutation: gql_tada.TadaDocumentNode<
+  {
     clearCart: {
-        cart: {
-            items: ({
-                id: string | null;
-                title: string | null;
-                price: number | null;
-                quantity: number | null;
-                sku: string | null;
-                teaserImage: {
-                    alt: string | null;
-                    source: string | null;
-                } | null;
-                maxStock: number | null;
-            } | null)[] | null;
-            totalItems: number | null;
-            totalPrice: number | null;
-        } | null;
-        errors: ({
+      cart: {
+        items:
+          | ({
+              id: string | null;
+              title: string | null;
+              price: number | null;
+              quantity: number | null;
+              sku: string | null;
+              teaserImage: {
+                alt: string | null;
+                source: string | null;
+              } | null;
+              maxStock: number | null;
+            } | null)[]
+          | null;
+        totalItems: number | null;
+        totalPrice: number | null;
+      } | null;
+      errors:
+        | ({
             message: string | null;
-        } | null)[] | null;
+          } | null)[]
+        | null;
     } | null;
-}, {}, void>;
-declare const CheckoutMutation: gql_tada.TadaDocumentNode<{
+  },
+  {},
+  void
+>;
+declare const CheckoutMutation: gql_tada.TadaDocumentNode<
+  {
     checkout: {
-        order: {
-            id: string | null;
-            orderNumber: string | null;
-            status: string | null;
-            totalAmount: number | null;
-            items: ({
-                id: string | null;
-                title: string | null;
-                price: number | null;
-                quantity: number | null;
-                sku: string | null;
-            } | null)[] | null;
-        } | null;
-        errors: ({
+      order: {
+        id: string | null;
+        orderNumber: string | null;
+        status: string | null;
+        totalAmount: number | null;
+        items:
+          | ({
+              id: string | null;
+              title: string | null;
+              price: number | null;
+              quantity: number | null;
+              sku: string | null;
+            } | null)[]
+          | null;
+      } | null;
+      errors:
+        | ({
             message: string | null;
-        } | null)[] | null;
-        paymentRedirectUrl: string | null;
+          } | null)[]
+        | null;
+      paymentRedirectUrl: string | null;
     } | null;
-}, {
+  },
+  {
     input: {
-        country?: string | null | undefined;
-        postalCode?: string | null | undefined;
-        city?: string | null | undefined;
-        address?: string | null | undefined;
-        lastName: string;
-        firstName: string;
-        email: string;
+      country?: string | null | undefined;
+      postalCode?: string | null | undefined;
+      city?: string | null | undefined;
+      address?: string | null | undefined;
+      lastName: string;
+      firstName: string;
+      email: string;
     };
-}, void>;
-declare const GuestLoginMutation: gql_tada.TadaDocumentNode<{
+  },
+  void
+>;
+declare const GuestLoginMutation: gql_tada.TadaDocumentNode<
+  {
     loginAsGuest: unknown;
-}, {}, void>;
+  },
+  {},
+  void
+>;
 
-export { AddToCartMutation, CartQuery, CheckoutMutation, ClearCartMutation, type Executor, type GraphQLClient, GuestLoginMutation, RemoveFromCartMutation, UnchainedGraphQLClient, type UnchainedOperationId, UpdateCartItemMutation, addToCartExecutor, cartExecutor, checkoutExecutor, clearCartExecutor, createAddToCartExecutor, createCartExecutor, createCheckoutExecutor, createClearCartExecutor, createGuestLoginExecutor, createRemoveFromCartExecutor, createSessionAwareAddToCartExecutor, createSessionAwareCartExecutor, createSessionAwareCheckoutExecutor, createSessionAwareClearCartExecutor, createSessionAwareRemoveFromCartExecutor, createSessionAwareUpdateCartItemExecutor, createUpdateCartItemExecutor, defaultClient, graphql, guestLoginExecutor, removeFromCartExecutor, sessionAwareAddToCartExecutor, sessionAwareCartExecutor, sessionAwareCheckoutExecutor, sessionAwareClearCartExecutor, sessionAwareRemoveFromCartExecutor, sessionAwareUpdateCartItemExecutor, updateCartItemExecutor };
+export {
+  AddToCartMutation,
+  CartQuery,
+  CheckoutMutation,
+  ClearCartMutation,
+  type Executor,
+  type GraphQLClient,
+  GuestLoginMutation,
+  RemoveFromCartMutation,
+  UnchainedGraphQLClient,
+  type UnchainedOperationId,
+  UpdateCartItemMutation,
+  addToCartExecutor,
+  cartExecutor,
+  checkoutExecutor,
+  clearCartExecutor,
+  createAddToCartExecutor,
+  createCartExecutor,
+  createCheckoutExecutor,
+  createClearCartExecutor,
+  createGuestLoginExecutor,
+  createRemoveFromCartExecutor,
+  createSessionAwareAddToCartExecutor,
+  createSessionAwareCartExecutor,
+  createSessionAwareCheckoutExecutor,
+  createSessionAwareClearCartExecutor,
+  createSessionAwareRemoveFromCartExecutor,
+  createSessionAwareUpdateCartItemExecutor,
+  createUpdateCartItemExecutor,
+  defaultClient,
+  graphql,
+  guestLoginExecutor,
+  removeFromCartExecutor,
+  sessionAwareAddToCartExecutor,
+  sessionAwareCartExecutor,
+  sessionAwareCheckoutExecutor,
+  sessionAwareClearCartExecutor,
+  sessionAwareRemoveFromCartExecutor,
+  sessionAwareUpdateCartItemExecutor,
+  updateCartItemExecutor,
+};

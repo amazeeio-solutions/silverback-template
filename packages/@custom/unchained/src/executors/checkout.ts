@@ -11,7 +11,7 @@ export function createCheckoutExecutor(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await client.request(CheckoutMutation, vars as any);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return { data: result as any, error: null };
+    return result as any;
   };
 }
 

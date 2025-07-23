@@ -24,11 +24,12 @@ export function CartPage({
   showBreadcrumbs = true,
 }: CartPageProps) {
   const intl = useIntl();
-  const { data: cart } = useOperation(CartQuery);
+  const { data } = useOperation(CartQuery);
   const { trigger: clearCart } = useMutation(ClearCartMutation);
-  const items = cart?.cart?.items || [];
-  const totalItems = cart?.cart?.totalItems || 0;
-  const totalPrice = cart?.cart?.totalPrice || 0;
+  const items = data?.cart?.items || [];
+  const totalItems = data?.cart?.totalItems || 0;
+  const totalPrice = data?.cart?.totalPrice || 0;
+  console.log({ data, items, totalItems });
 
   const handleClearCart = () => {
     if (
