@@ -16,7 +16,8 @@ process.env.NOINDEX = process.env.NOINDEX || 'false';
 
 // Unchained Commerce API configuration
 process.env.GATSBY_DEVELOPMENT = process.env.GATSBY_DEVELOPMENT || 'true';
-process.env.GATSBY_UNCHAINED_API_URL = process.env.GATSBY_UNCHAINED_API_URL || 'https://kls.nöd.live/graphql';
+process.env.GATSBY_UNCHAINED_API_URL =
+  process.env.GATSBY_UNCHAINED_API_URL || 'https://kls.nöd.live/graphql';
 
 /**
  *

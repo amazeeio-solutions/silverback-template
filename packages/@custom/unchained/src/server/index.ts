@@ -18,19 +18,21 @@ async function startServer() {
   const app = express();
 
   // Session configuration
-  app.use(session({
-    store: new MemoryStore({
-      checkPeriod: 86400000, // Prune expired entries every 24h
+  app.use(
+    session({
+      store: new MemoryStore({
+        checkPeriod: 86400000, // Prune expired entries every 24h
+      }),
+      secret: process.env.SESSION_SECRET || 'unchained-demo-secret',
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: false, // Set to true in production with HTTPS
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      },
     }),
-    secret: process.env.SESSION_SECRET || 'unchained-demo-secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: false, // Set to true in production with HTTPS
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    },
-  }));
+  );
 
   app.use(cookieParser());
 
@@ -45,7 +47,8 @@ async function startServer() {
   await server.start();
 
   // Apply middleware
-  app.use('/graphql', 
+  app.use(
+    '/graphql',
     cors<cors.CorsRequest>({
       origin: [
         'http://localhost:3000',
@@ -55,24 +58,26 @@ async function startServer() {
       credentials: true,
     }),
     express.json({ limit: '50mb' }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expressMiddleware(server, {
       context: async ({ req, res }): Promise<Context> => {
-        const customReq = req as CustomRequest;
+        const customReq = req as unknown as CustomRequest;
         return {
           req: customReq,
-          res,
+          res: res as any, // eslint-disable-line @typescript-eslint/no-explicit-any
           sessionId: customReq.session?.guestId,
         };
       },
-    })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }) as any,
   );
 
   // Health check endpoint
   app.get('/health', (_, res) => {
-    res.json({ 
-      status: 'ok', 
+    res.json({
+      status: 'ok',
       timestamp: new Date().toISOString(),
-      service: 'unchained-mock-api'
+      service: 'unchained-mock-api',
     });
   });
 
@@ -89,7 +94,9 @@ async function startServer() {
   const HOST = process.env.HOST || 'localhost';
 
   app.listen(PORT, () => {
-    console.log(`🚀 Unchained Commerce Mock API running at http://${HOST}:${PORT}`);
+    console.log(
+      `🚀 Unchained Commerce Mock API running at http://${HOST}:${PORT}`,
+    );
     console.log(`📊 GraphQL endpoint: http://${HOST}:${PORT}/graphql`);
     console.log(`🔍 GraphQL Playground: http://${HOST}:${PORT}/graphql`);
   });
@@ -106,7 +113,7 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-startServer().catch(error => {
+startServer().catch((error) => {
   console.error('Failed to start server:', error);
   process.exit(1);
 });

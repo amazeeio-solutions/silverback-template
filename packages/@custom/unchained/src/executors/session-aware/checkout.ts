@@ -1,3 +1,8 @@
+import {
+  CheckoutMutation as CheckoutMutationId,
+  OperationVariables,
+} from '@custom/schema';
+
 import { type GraphQLClient, UnchainedGraphQLClient } from '../../client';
 import { CheckoutMutation } from '../../operations';
 import type { Executor } from '../../types';
@@ -7,28 +12,20 @@ import type { Executor } from '../../types';
  */
 export function createSessionAwareCheckoutExecutor(
   client: GraphQLClient = new UnchainedGraphQLClient(),
-): Executor<'Checkout'> {
+): Executor<typeof CheckoutMutationId> {
   return async (
-    id: 'Checkout',
-    vars: {
-      input: {
-        email: string;
-        firstName: string;
-        lastName: string;
-        address?: string;
-        city?: string;
-        postalCode?: string;
-        country?: string;
-      };
-    },
+    id: typeof CheckoutMutationId,
+    vars: OperationVariables<typeof CheckoutMutationId>,
   ) => {
-    const result = await client.request(CheckoutMutation, vars);
-    return { data: result, error: null };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await client.request(CheckoutMutation, vars as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return { data: result as any, error: null };
   };
 }
 
 /**
  * Default session-aware checkout executor that automatically handles guest login
  */
-export const sessionAwareCheckoutExecutor =
+export const sessionAwareCheckoutExecutor: Executor<typeof CheckoutMutationId> =
   createSessionAwareCheckoutExecutor();

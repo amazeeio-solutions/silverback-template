@@ -1,4 +1,13 @@
-import { AnyOperationId, OperationVariables } from '@custom/schema';
+import {
+  AddToCartMutation,
+  AnyOperationId,
+  CartQuery,
+  CheckoutMutation,
+  ClearCartMutation,
+  OperationVariables,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+} from '@custom/schema';
 import {
   createAddToCartExecutor,
   createCartExecutor,
@@ -37,14 +46,13 @@ const clearCartExecutor = createClearCartExecutor(unchainedClient);
 const checkoutExecutor = createCheckoutExecutor(unchainedClient);
 
 // Cart operation IDs that should be handled by Unchained
-// TODO: use operation-id's exported from @custom/schema instead of this.
 const CART_OPERATIONS = [
-  'Cart',
-  'AddToCart',
-  'UpdateCartItem',
-  'RemoveFromCart',
-  'ClearCart',
-  'Checkout',
+  CartQuery,
+  AddToCartMutation,
+  UpdateCartItemMutation,
+  RemoveFromCartMutation,
+  ClearCartMutation,
+  CheckoutMutation,
 ] as const;
 
 /**
@@ -57,30 +65,29 @@ export function unchainedExecutor() {
     variables?: OperationVariables<OperationId>,
   ) {
     // Check if this is a cart operation
-    const operationName = id.split(':')[0];
     console.log('unchained executor', { id, variables });
 
-    if (
-      CART_OPERATIONS.includes(
-        operationName as (typeof CART_OPERATIONS)[number],
-      )
-    ) {
+    if (CART_OPERATIONS.includes(id as (typeof CART_OPERATIONS)[number])) {
       // Route to appropriate Unchained executor
-      switch (operationName) {
-        case 'Cart':
-          return cartExecutor(id as 'Cart', variables);
-        case 'AddToCart':
-          return addToCartExecutor(id as 'AddToCart', variables);
-        case 'UpdateCartItem':
-          return updateCartItemExecutor(id as 'UpdateCartItem', variables);
-        case 'RemoveFromCart':
-          return removeFromCartExecutor(id as 'RemoveFromCart', variables);
-        case 'ClearCart':
-          return clearCartExecutor(id as 'ClearCart', variables);
-        case 'Checkout':
-          return checkoutExecutor(id as 'Checkout', variables);
+      switch (id) {
+        case CartQuery:
+          return cartExecutor(id, variables);
+        case AddToCartMutation:
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return addToCartExecutor(id, variables as any);
+        case UpdateCartItemMutation:
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return updateCartItemExecutor(id, variables as any);
+        case RemoveFromCartMutation:
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return removeFromCartExecutor(id, variables as any);
+        case ClearCartMutation:
+          return clearCartExecutor(id, variables);
+        case CheckoutMutation:
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          return checkoutExecutor(id, variables as any);
         default:
-          throw new Error(`Unknown cart operation: ${operationName}`);
+          throw new Error(`Unknown cart operation: ${id}`);
       }
     }
 
@@ -88,4 +95,3 @@ export function unchainedExecutor() {
     return null;
   };
 }
-

@@ -280,6 +280,7 @@ type DrupalProduct implements Product & Editable & CardItem
   @entity(type: "node", bundle: "product")
   @type(id: "product") {
   id: ID! @entityUuid
+  uuid: ID! @entityUuid
   locale: Locale! @entityLanguage
   translations: [Product] @entityTranslations
   path: Url! @entityPath

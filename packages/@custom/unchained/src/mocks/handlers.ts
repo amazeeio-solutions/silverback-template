@@ -20,6 +20,8 @@ type ClearCartMutationResult = ResultOf<typeof ClearCartMutation>;
 type CheckoutMutationResult = ResultOf<typeof CheckoutMutation>;
 type GuestLoginMutationResult = ResultOf<typeof GuestLoginMutation>;
 
+// These handlers mock the Unchained Commerce API for unit tests
+// They should NOT mock external Drupal endpoints - those are mocked in drupal-handlers.ts
 export const handlers = [
   mswGraphql.query('Cart', () => {
     const data: CartQueryResult = {
@@ -163,7 +165,7 @@ export const handlers = [
   }),
 ];
 
-// Authentication error handlers for testing retry logic
+// Additional handlers for testing error scenarios in unit tests
 export const authErrorHandlers = [
   // Cart query that returns authentication error
   mswGraphql.query('Cart', () => {

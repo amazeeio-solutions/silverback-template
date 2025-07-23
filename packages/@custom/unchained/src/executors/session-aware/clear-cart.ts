@@ -1,3 +1,8 @@
+import {
+  ClearCartMutation as ClearCartMutationId,
+  OperationVariables,
+} from '@custom/schema';
+
 import { type GraphQLClient, UnchainedGraphQLClient } from '../../client';
 import { ClearCartMutation } from '../../operations';
 import type { Executor } from '../../types';
@@ -7,15 +12,21 @@ import type { Executor } from '../../types';
  */
 export function createSessionAwareClearCartExecutor(
   client: GraphQLClient = new UnchainedGraphQLClient(),
-): Executor<'ClearCart'> {
-  return async (id: 'ClearCart', vars: {}) => {
-    const result = await client.request(ClearCartMutation, vars);
-    return { data: result, error: null };
+): Executor<typeof ClearCartMutationId> {
+  return async (
+    id: typeof ClearCartMutationId,
+    vars: OperationVariables<typeof ClearCartMutationId>,
+  ) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await client.request(ClearCartMutation, vars as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return { data: result as any, error: null };
   };
 }
 
 /**
  * Default session-aware clear-cart executor that automatically handles guest login
  */
-export const sessionAwareClearCartExecutor =
-  createSessionAwareClearCartExecutor();
+export const sessionAwareClearCartExecutor: Executor<
+  typeof ClearCartMutationId
+> = createSessionAwareClearCartExecutor();

@@ -1,17 +1,25 @@
+import {
+  OperationVariables,
+  UpdateCartItemMutation as UpdateCartItemMutationId,
+} from '@custom/schema';
+
 import { defaultClient, type GraphQLClient } from '../client';
 import { UpdateCartItemMutation } from '../operations';
 import type { Executor } from '../types';
 
 export function createUpdateCartItemExecutor(
   client: GraphQLClient = defaultClient,
-): Executor<'UpdateCartItem'> {
+): Executor<typeof UpdateCartItemMutationId> {
   return async (
-    id: 'UpdateCartItem',
-    vars: { input: { itemId: string; quantity: number } },
+    id: typeof UpdateCartItemMutationId,
+    vars: OperationVariables<typeof UpdateCartItemMutationId>,
   ) => {
-    const result = await client.request(UpdateCartItemMutation, vars);
-    return { data: result, error: null };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await client.request(UpdateCartItemMutation, vars as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return { data: result as any, error: null };
   };
 }
 
-export const updateCartItemExecutor = createUpdateCartItemExecutor();
+export const updateCartItemExecutor: Executor<typeof UpdateCartItemMutationId> =
+  createUpdateCartItemExecutor();

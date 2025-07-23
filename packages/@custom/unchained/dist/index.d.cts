@@ -1,3 +1,4 @@
+import { AnyOperationId, OperationVariables, OperationResult, CartQuery as CartQuery$1, AddToCartMutation as AddToCartMutation$1, UpdateCartItemMutation as UpdateCartItemMutation$1, RemoveFromCartMutation as RemoveFromCartMutation$1, ClearCartMutation as ClearCartMutation$1, CheckoutMutation as CheckoutMutation$1 } from '@custom/schema';
 import * as gql_tada from 'gql.tada';
 import { VariablesOf, ResultOf, initGraphQLTada } from 'gql.tada';
 export { readFragment } from 'gql.tada';
@@ -37,89 +38,89 @@ declare class UnchainedGraphQLClient implements GraphQLClient {
 }
 declare const defaultClient: UnchainedGraphQLClient;
 
-type Executor<T extends string> = (id: T, vars: any) => Promise<{
-    data: any;
+type Executor<T extends AnyOperationId> = (id: T, vars: OperationVariables<T>) => Promise<{
+    data: OperationResult<T>;
     error: any;
 }> | {
-    data: any;
+    data: OperationResult<T>;
     error: any;
 };
-type UnchainedOperationId = 'Cart' | 'AddToCart' | 'UpdateCartItem' | 'RemoveFromCart' | 'ClearCart' | 'Checkout' | 'GuestLogin';
+type UnchainedOperationId = typeof CartQuery$1 | typeof AddToCartMutation$1 | typeof UpdateCartItemMutation$1 | typeof RemoveFromCartMutation$1 | typeof ClearCartMutation$1 | typeof CheckoutMutation$1 | 'GuestLogin';
 
-declare function createCartExecutor(client?: GraphQLClient): Executor<'Cart'>;
-declare const cartExecutor: Executor<"Cart">;
+declare function createCartExecutor(client?: GraphQLClient): Executor<typeof CartQuery$1>;
+declare const cartExecutor: Executor<typeof CartQuery$1>;
 
-declare function createAddToCartExecutor(client?: GraphQLClient): Executor<'AddToCart'>;
-declare const addToCartExecutor: Executor<"AddToCart">;
+declare function createAddToCartExecutor(client?: GraphQLClient): Executor<typeof AddToCartMutation$1>;
+declare const addToCartExecutor: Executor<typeof AddToCartMutation$1>;
 
-declare function createUpdateCartItemExecutor(client?: GraphQLClient): Executor<'UpdateCartItem'>;
-declare const updateCartItemExecutor: Executor<"UpdateCartItem">;
+declare function createUpdateCartItemExecutor(client?: GraphQLClient): Executor<typeof UpdateCartItemMutation$1>;
+declare const updateCartItemExecutor: Executor<typeof UpdateCartItemMutation$1>;
 
-declare function createRemoveFromCartExecutor(client?: GraphQLClient): Executor<'RemoveFromCart'>;
-declare const removeFromCartExecutor: Executor<"RemoveFromCart">;
+declare function createRemoveFromCartExecutor(client?: GraphQLClient): Executor<typeof RemoveFromCartMutation$1>;
+declare const removeFromCartExecutor: Executor<typeof RemoveFromCartMutation$1>;
 
-declare function createClearCartExecutor(client?: GraphQLClient): Executor<'ClearCart'>;
-declare const clearCartExecutor: Executor<"ClearCart">;
+declare function createClearCartExecutor(client?: GraphQLClient): Executor<typeof ClearCartMutation$1>;
+declare const clearCartExecutor: Executor<typeof ClearCartMutation$1>;
 
-declare function createCheckoutExecutor(client?: GraphQLClient): Executor<'Checkout'>;
-declare const checkoutExecutor: Executor<"Checkout">;
+declare function createCheckoutExecutor(client?: GraphQLClient): Executor<typeof CheckoutMutation$1>;
+declare const checkoutExecutor: Executor<typeof CheckoutMutation$1>;
 
-declare function createGuestLoginExecutor(client?: GraphQLClient): Executor<'GuestLogin'>;
-declare const guestLoginExecutor: Executor<"GuestLogin">;
+declare function createGuestLoginExecutor(client?: GraphQLClient): any;
+declare const guestLoginExecutor: any;
 
 /**
  * Creates a session-aware cart executor that automatically handles guest login
  */
-declare function createSessionAwareCartExecutor(client?: GraphQLClient): Executor<'Cart'>;
+declare function createSessionAwareCartExecutor(client?: GraphQLClient): Executor<typeof CartQuery$1>;
 /**
  * Default session-aware cart executor that automatically handles guest login
  */
-declare const sessionAwareCartExecutor: Executor<"Cart">;
+declare const sessionAwareCartExecutor: Executor<typeof CartQuery$1>;
 
 /**
  * Creates a session-aware add-to-cart executor that automatically handles guest login
  */
-declare function createSessionAwareAddToCartExecutor(client?: GraphQLClient): Executor<'AddToCart'>;
+declare function createSessionAwareAddToCartExecutor(client?: GraphQLClient): Executor<typeof AddToCartMutation$1>;
 /**
  * Default session-aware add-to-cart executor that automatically handles guest login
  */
-declare const sessionAwareAddToCartExecutor: Executor<"AddToCart">;
+declare const sessionAwareAddToCartExecutor: Executor<typeof AddToCartMutation$1>;
 
 /**
  * Creates a session-aware update-cart-item executor that automatically handles guest login
  */
-declare function createSessionAwareUpdateCartItemExecutor(client?: GraphQLClient): Executor<'UpdateCartItem'>;
+declare function createSessionAwareUpdateCartItemExecutor(client?: GraphQLClient): Executor<typeof UpdateCartItemMutation$1>;
 /**
  * Default session-aware update-cart-item executor that automatically handles guest login
  */
-declare const sessionAwareUpdateCartItemExecutor: Executor<"UpdateCartItem">;
+declare const sessionAwareUpdateCartItemExecutor: Executor<typeof UpdateCartItemMutation$1>;
 
 /**
  * Creates a session-aware remove-from-cart executor that automatically handles guest login
  */
-declare function createSessionAwareRemoveFromCartExecutor(client?: GraphQLClient): Executor<'RemoveFromCart'>;
+declare function createSessionAwareRemoveFromCartExecutor(client?: GraphQLClient): Executor<typeof RemoveFromCartMutation$1>;
 /**
  * Default session-aware remove-from-cart executor that automatically handles guest login
  */
-declare const sessionAwareRemoveFromCartExecutor: Executor<"RemoveFromCart">;
+declare const sessionAwareRemoveFromCartExecutor: Executor<typeof RemoveFromCartMutation$1>;
 
 /**
  * Creates a session-aware clear-cart executor that automatically handles guest login
  */
-declare function createSessionAwareClearCartExecutor(client?: GraphQLClient): Executor<'ClearCart'>;
+declare function createSessionAwareClearCartExecutor(client?: GraphQLClient): Executor<typeof ClearCartMutation$1>;
 /**
  * Default session-aware clear-cart executor that automatically handles guest login
  */
-declare const sessionAwareClearCartExecutor: Executor<"ClearCart">;
+declare const sessionAwareClearCartExecutor: Executor<typeof ClearCartMutation$1>;
 
 /**
  * Creates a session-aware checkout executor that automatically handles guest login
  */
-declare function createSessionAwareCheckoutExecutor(client?: GraphQLClient): Executor<'Checkout'>;
+declare function createSessionAwareCheckoutExecutor(client?: GraphQLClient): Executor<typeof CheckoutMutation$1>;
 /**
  * Default session-aware checkout executor that automatically handles guest login
  */
-declare const sessionAwareCheckoutExecutor: Executor<"Checkout">;
+declare const sessionAwareCheckoutExecutor: Executor<typeof CheckoutMutation$1>;
 
 /* prettier-ignore */
 

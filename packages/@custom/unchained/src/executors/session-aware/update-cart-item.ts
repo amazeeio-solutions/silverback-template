@@ -1,3 +1,8 @@
+import {
+  OperationVariables,
+  UpdateCartItemMutation as UpdateCartItemMutationId,
+} from '@custom/schema';
+
 import { type GraphQLClient, UnchainedGraphQLClient } from '../../client';
 import { UpdateCartItemMutation } from '../../operations';
 import type { Executor } from '../../types';
@@ -7,18 +12,21 @@ import type { Executor } from '../../types';
  */
 export function createSessionAwareUpdateCartItemExecutor(
   client: GraphQLClient = new UnchainedGraphQLClient(),
-): Executor<'UpdateCartItem'> {
+): Executor<typeof UpdateCartItemMutationId> {
   return async (
-    id: 'UpdateCartItem',
-    vars: { input: { itemId: string; quantity: number } },
+    id: typeof UpdateCartItemMutationId,
+    vars: OperationVariables<typeof UpdateCartItemMutationId>,
   ) => {
-    const result = await client.request(UpdateCartItemMutation, vars);
-    return { data: result, error: null };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await client.request(UpdateCartItemMutation, vars as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return { data: result as any, error: null };
   };
 }
 
 /**
  * Default session-aware update-cart-item executor that automatically handles guest login
  */
-export const sessionAwareUpdateCartItemExecutor =
-  createSessionAwareUpdateCartItemExecutor();
+export const sessionAwareUpdateCartItemExecutor: Executor<
+  typeof UpdateCartItemMutationId
+> = createSessionAwareUpdateCartItemExecutor();

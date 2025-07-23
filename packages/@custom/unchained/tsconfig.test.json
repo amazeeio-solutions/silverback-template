@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.test.ts", "src/test-setup.ts", "vitest.config.ts"],
+  "exclude": ["src/server/**/*", "node_modules"]
+}
