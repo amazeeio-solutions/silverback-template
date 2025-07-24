@@ -24,18 +24,5 @@
       "mcp__figma__get_code",
       "mcp__figma__get_image"
     ]
-  },
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pnpm precommit"
-          }
-        ]
-      }
-    ]
   }
 }
