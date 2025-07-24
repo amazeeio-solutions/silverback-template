@@ -8,7 +8,9 @@ import { Product } from '@custom/ui/routes/Product';
 import { HeadProps, PageProps } from 'gatsby';
 import React from 'react';
 
+import { drupalExecutor } from '../utils/drupal-executor';
 import { Metatags } from '../utils/metatags';
+import { unchainedExecutor } from '../utils/unchained-executor';
 
 export const query = graphql(ViewProductQuery);
 
@@ -32,6 +34,8 @@ export default function ProductTemplate({ data }: PageProps<typeof query>) {
   return (
     <OperationExecutorsProvider
       executors={[
+        { executor: drupalExecutor(`/graphql`) },
+        { executor: unchainedExecutor() },
         {
           id: ViewProductQuery,
           executor: data,
