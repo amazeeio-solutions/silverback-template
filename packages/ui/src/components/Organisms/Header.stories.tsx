@@ -1,13 +1,35 @@
-import { FrameQuery, Locale, Url } from '@custom/schema';
+import {
+  AddToCartMutation,
+  CartQuery,
+  ClearCartMutation,
+  FrameQuery,
+  Locale,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+  Url,
+} from '@custom/schema';
 import { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/test';
 
+import CartPageStories from './CartPage.stories';
 import { Header } from './Header';
+import ProductDisplayStories from './ProductDisplay.stories';
 
 export default {
   component: Header,
   parameters: {
     layout: 'fullscreen',
+    executors: {
+      [CartQuery]: ProductDisplayStories.parameters?.executors?.[CartQuery],
+      [AddToCartMutation]:
+        ProductDisplayStories.parameters?.executors?.[AddToCartMutation],
+      [UpdateCartItemMutation]:
+        CartPageStories.parameters?.executors?.[UpdateCartItemMutation],
+      [RemoveFromCartMutation]:
+        CartPageStories.parameters?.executors?.[RemoveFromCartMutation],
+      [ClearCartMutation]:
+        CartPageStories.parameters?.executors?.[ClearCartMutation],
+    },
   },
   excludeStories: /^Fixture/,
 } satisfies Meta<typeof Header>;

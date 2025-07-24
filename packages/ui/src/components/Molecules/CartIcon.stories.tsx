@@ -1,6 +1,15 @@
-import { CartQuery } from '@custom/schema';
+import {
+  AddToCartMutation,
+  CartQuery,
+  ClearCartMutation,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+} from '@custom/schema';
+import Portrait from '@stories/portrait.jpg?as=metadata';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { image } from '../../helpers/image';
 import { CartIcon } from './CartIcon';
 
 const meta: Meta<typeof CartIcon> = {
@@ -13,8 +22,88 @@ const meta: Meta<typeof CartIcon> = {
         cart: {
           items: [],
           totalItems: 0,
-          totalPrice: 0.0,
+          totalPrice: 0,
         },
+      },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation')(variables);
+        return {
+          updateCartItem: {
+            cart: {
+              items: [
+                {
+                  id: 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 2,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 2,
+              totalPrice: 299.98,
+            },
+            errors: [],
+          },
+        };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation')(variables);
+        return {
+          removeFromCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
       },
     } as const,
   },
@@ -73,6 +162,86 @@ export const WithItems: Story = {
           totalPrice: 49.98,
         },
       },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation - story')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation - story')(variables);
+        return {
+          updateCartItem: {
+            cart: {
+              items: [
+                {
+                  id: 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 2,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 2,
+              totalPrice: 299.98,
+            },
+            errors: [],
+          },
+        };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation - story')(variables);
+        return {
+          removeFromCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation - story')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
     } as const,
   },
 };
@@ -99,6 +268,86 @@ export const WithManyItems: Story = {
           totalPrice: 999.0,
         },
       },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation - story')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation - story')(variables);
+        return {
+          updateCartItem: {
+            cart: {
+              items: [
+                {
+                  id: 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 2,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 2,
+              totalPrice: 299.98,
+            },
+            errors: [],
+          },
+        };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation - story')(variables);
+        return {
+          removeFromCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation - story')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
     } as const,
   },
 };
@@ -113,6 +362,86 @@ export const EmptyCart: Story = {
           totalItems: 0,
           totalPrice: 0,
         },
+      },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation - story')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation - story')(variables);
+        return {
+          updateCartItem: {
+            cart: {
+              items: [
+                {
+                  id: 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 2,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 2,
+              totalPrice: 299.98,
+            },
+            errors: [],
+          },
+        };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation - story')(variables);
+        return {
+          removeFromCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation - story')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
       },
     } as const,
   },
@@ -143,6 +472,86 @@ export const CustomStyling: Story = {
           totalItems: 1,
           totalPrice: 19.99,
         },
+      },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation - story')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation - story')(variables);
+        return {
+          updateCartItem: {
+            cart: {
+              items: [
+                {
+                  id: 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 2,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 2,
+              totalPrice: 299.98,
+            },
+            errors: [],
+          },
+        };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation - story')(variables);
+        return {
+          removeFromCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation - story')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
       },
     } as const,
   },

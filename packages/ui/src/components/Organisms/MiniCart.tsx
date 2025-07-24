@@ -5,7 +5,7 @@ import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
 
-import { useOperation } from '../../utils/operation';
+import { useCart } from '../../stores/cart.store';
 import { CartItem } from '../Molecules/CartItem';
 import { Price } from '../Molecules/Price';
 
@@ -20,10 +20,12 @@ export interface MiniCartProps {
 export function MiniCart({ onClose, onViewCart, onCheckout }: MiniCartProps) {
   const intl = useIntl();
   const [location] = useLocation();
-  const { data: cart } = useOperation(CartQuery);
-  const items = cart?.cart?.items || [];
-  const totalItems = cart?.cart?.totalItems || 0;
-  const totalPrice = cart?.cart?.totalPrice || 0;
+
+  const { cart, error } = useCart();
+
+  const items = cart?.items || [];
+  const totalItems = cart?.totalItems || 0;
+  const totalPrice = cart?.totalPrice || 0;
   const miniCartRef = useRef<HTMLDivElement>(null);
 
   // Toggle cart display based on #cart hash in URL
@@ -127,6 +129,11 @@ export function MiniCart({ onClose, onViewCart, onCheckout }: MiniCartProps) {
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto">
+            {error && (
+              <div className="mx-4 mt-4 rounded-md bg-red-50 p-3">
+                <div className="text-sm text-red-700">{error}</div>
+              </div>
+            )}
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center p-8 text-center">
                 <ShoppingBagIcon className="size-12 text-gray-400" />

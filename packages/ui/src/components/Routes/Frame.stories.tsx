@@ -1,8 +1,17 @@
-import { CartQuery, FrameQuery } from '@custom/schema';
+import {
+  AddToCartMutation,
+  CartQuery,
+  ClearCartMutation,
+  FrameQuery,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
+} from '@custom/schema';
 import { Meta, StoryObj } from '@storybook/react';
 
+import CartPageStories from '../Organisms/CartPage.stories';
 import { Footer as FooterStory } from '../Organisms/Footer.stories';
 import { Idle as HeaderStory } from '../Organisms/Header.stories';
+import ProductDisplayStories from '../Organisms/ProductDisplay.stories';
 import { Frame } from './Frame';
 
 export default {
@@ -24,13 +33,15 @@ export const Default = {
           HeaderStory.parameters.executors[FrameQuery].metaNavigation,
         stringTranslations: [],
       },
-      [CartQuery]: {
-        cart: {
-          items: [],
-          totalItems: 0,
-          totalPrice: 0,
-        },
-      },
+      [CartQuery]: ProductDisplayStories.parameters?.executors?.[CartQuery],
+      [AddToCartMutation]:
+        ProductDisplayStories.parameters?.executors?.[AddToCartMutation],
+      [UpdateCartItemMutation]:
+        CartPageStories.parameters?.executors?.[UpdateCartItemMutation],
+      [RemoveFromCartMutation]:
+        CartPageStories.parameters?.executors?.[RemoveFromCartMutation],
+      [ClearCartMutation]:
+        CartPageStories.parameters?.executors?.[ClearCartMutation],
     },
   },
 } satisfies StoryObj<FrameQuery>;

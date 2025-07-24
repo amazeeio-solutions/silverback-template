@@ -1,9 +1,12 @@
 import {
+  AddToCartMutation,
   CartQuery,
+  ClearCartMutation,
   RemoveFromCartMutation,
   UpdateCartItemMutation,
 } from '@custom/schema';
 import Portrait from '@stories/portrait.jpg?as=metadata';
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { image } from '../../helpers/image';
@@ -15,8 +18,37 @@ const meta: Meta<typeof MiniCart> = {
   parameters: {
     layout: 'fullscreen',
     executors: {
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
       [UpdateCartItemMutation]: () => {},
       [RemoveFromCartMutation]: () => {},
+      [ClearCartMutation]: () => {},
     },
   },
   tags: ['autodocs'],
@@ -248,7 +280,7 @@ export const Closed: Story = {
               maxStock: 10,
               teaserImage: {
                 alt: 'Premium Wireless Headphones',
-                source: '/headphones.jpg',
+                source: image(Portrait, { width: 200, height: 200 }),
               },
             },
           ],

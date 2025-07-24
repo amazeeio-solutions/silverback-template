@@ -1,10 +1,10 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import { CartQuery, ClearCartMutation } from '@custom/schema';
+import { CartQuery } from '@custom/schema';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
-import { useMutation, useOperation } from '../../utils/operation';
+import { useCart } from '../../stores/cart.store';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
 import { CartItem } from '../Molecules/CartItem';
 import { PageTransition } from '../Molecules/PageTransition';
@@ -24,14 +24,14 @@ export function CartPage({
   showBreadcrumbs = true,
 }: CartPageProps) {
   const intl = useIntl();
-  const { data } = useOperation(CartQuery);
-  const { trigger: clearCart } = useMutation(ClearCartMutation);
-  const items = data?.cart?.items || [];
-  const totalItems = data?.cart?.totalItems || 0;
-  const totalPrice = data?.cart?.totalPrice || 0;
-  console.log({ data, items, totalItems });
 
-  const handleClearCart = () => {
+  const { cart, error, clearCart } = useCart();
+
+  const items = cart?.items || [];
+  const totalItems = cart?.totalItems || 0;
+  const totalPrice = cart?.totalPrice || 0;
+
+  const handleClearCart = async () => {
     if (
       window.confirm(
         intl.formatMessage({
@@ -40,7 +40,7 @@ export function CartPage({
         }),
       )
     ) {
-      clearCart();
+      await clearCart();
     }
   };
 
@@ -48,6 +48,12 @@ export function CartPage({
     <PageTransition>
       <div className="container mx-auto px-4 py-8">
         {showBreadcrumbs && <BreadCrumbs />}
+
+        {error && (
+          <div className="mb-4 rounded-md bg-red-50 p-4">
+            <div className="text-sm text-red-700">{error}</div>
+          </div>
+        )}
 
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">

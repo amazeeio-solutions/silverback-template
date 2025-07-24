@@ -1,20 +1,28 @@
 import {
+  AddToCartMutation,
   CartQuery,
+  ClearCartMutation,
   ContentHubQuery,
   ContentHubTermsQuery,
   FrameQuery,
+  RemoveFromCartMutation,
+  UpdateCartItemMutation,
   ViewPageQuery,
+  ViewProductQuery,
 } from '@custom/schema';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-import { EmptyCart as CartStory } from './components/Organisms/CartPage.stories';
+import CartPageStories from './components/Organisms/CartPage.stories';
 import { WithResults } from './components/Organisms/ContentHub.stories';
+import ProductDisplayStories from './components/Organisms/ProductDisplay.stories';
 import { ContentHub } from './components/Routes/ContentHub';
 import { Frame } from './components/Routes/Frame';
 import { Default as FrameStory } from './components/Routes/Frame.stories';
 import { Page } from './components/Routes/Page';
 import { Default as PageStory } from './components/Routes/Page.stories';
+import { Product } from './components/Routes/Product';
+import { Default as ProductStory } from './components/Routes/Product.stories';
 
 export default {
   title: 'Pages',
@@ -26,7 +34,15 @@ export default {
     },
     executors: {
       [FrameQuery]: FrameStory.parameters.executors[FrameQuery],
-      [CartQuery]: CartStory.parameters.executors[CartQuery],
+      [CartQuery]: ProductDisplayStories.parameters?.executors?.[CartQuery],
+      [AddToCartMutation]:
+        ProductDisplayStories.parameters?.executors?.[AddToCartMutation],
+      [UpdateCartItemMutation]:
+        CartPageStories.parameters?.executors?.[UpdateCartItemMutation],
+      [RemoveFromCartMutation]:
+        CartPageStories.parameters?.executors?.[RemoveFromCartMutation],
+      [ClearCartMutation]:
+        CartPageStories.parameters?.executors?.[ClearCartMutation],
     },
   },
   decorators: [(Story, ctx) => <Frame>{Story(ctx)}</Frame>],
@@ -51,3 +67,13 @@ export const ContentHubPage = {
     },
   },
 };
+
+export const ProductPage = {
+  render: () => <Product />,
+  parameters: {
+    executors: {
+      [ViewProductQuery]: ProductStory.args,
+    },
+    location: ProductStory.parameters.location,
+  },
+} satisfies StoryObj;

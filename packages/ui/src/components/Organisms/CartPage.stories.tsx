@@ -1,4 +1,5 @@
 import {
+  AddToCartMutation,
   CartQuery,
   ClearCartMutation,
   RemoveFromCartMutation,
@@ -19,6 +20,34 @@ const meta: Meta<typeof CartPage> = {
   parameters: {
     layout: 'fullscreen',
     executors: {
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
       [ClearCartMutation]: () => {},
       [UpdateCartItemMutation]: () => {},
       [RemoveFromCartMutation]: () => {},
@@ -341,6 +370,34 @@ export const ItemsWithoutImages = {
 export const InteractionTests = {
   parameters: {
     executors: {
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation - InteractionTests')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
       [ClearCartMutation]: async () => {
         action('ClearCartMutation')();
         return { clearCart: { success: true } };

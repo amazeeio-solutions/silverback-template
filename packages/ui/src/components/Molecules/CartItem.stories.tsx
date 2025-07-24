@@ -1,5 +1,7 @@
 import {
+  AddToCartMutation,
   CartQuery,
+  ClearCartMutation,
   RemoveFromCartMutation,
   UpdateCartItemMutation,
 } from '@custom/schema';
@@ -19,8 +21,93 @@ const meta: Meta<typeof CartItem> = {
   parameters: {
     layout: 'padded',
     executors: {
-      [UpdateCartItemMutation]: () => {},
-      [RemoveFromCartMutation]: () => {},
+      [CartQuery]: {
+        cart: {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+        },
+      },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
+      [UpdateCartItemMutation]: async (variables: unknown) => {
+        action('UpdateCartItemMutation')(variables);
+        return {
+          updateCartItem: {
+            cart: {
+              items: [
+                {
+                  id: 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 2,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 2,
+              totalPrice: 299.98,
+            },
+            errors: [],
+          },
+        };
+      },
+      [RemoveFromCartMutation]: async (variables: unknown) => {
+        action('RemoveFromCartMutation')(variables);
+        return {
+          removeFromCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
+      },
     },
   },
   tags: ['autodocs'],
@@ -138,13 +225,61 @@ export const CompactWithoutImage: Story = {
 export const InteractionTests = {
   parameters: {
     executors: {
+      [CartQuery]: {
+        cart: {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+        },
+      },
+      [AddToCartMutation]: async (variables: {
+        input?: { productId?: string };
+      }) => {
+        action('AddToCartMutation - InteractionTests')(variables);
+        return {
+          addToCart: {
+            cart: {
+              items: [
+                {
+                  id: variables?.input?.productId || 'product-1',
+                  title: 'Wireless Bluetooth Headphones',
+                  price: 149.99,
+                  quantity: 1,
+                  sku: 'WBH-2024-001',
+                  maxStock: 25,
+                  teaserImage: {
+                    source: image(Portrait, { width: 200, height: 200 }),
+                    alt: 'Premium wireless headphones',
+                  },
+                },
+              ],
+              totalItems: 1,
+              totalPrice: 149.99,
+            },
+            errors: [],
+          },
+        };
+      },
       [UpdateCartItemMutation]: async (variables: unknown) => {
-        action('UpdateCartItemMutation')(variables);
+        action('UpdateCartItemMutation - InteractionTests')(variables);
         return { updateCartItem: { success: true } };
       },
       [RemoveFromCartMutation]: async (variables: unknown) => {
-        action('RemoveFromCartMutation')(variables);
+        action('RemoveFromCartMutation - InteractionTests')(variables);
         return { removeFromCart: { success: true } };
+      },
+      [ClearCartMutation]: async () => {
+        action('ClearCartMutation - InteractionTests')();
+        return {
+          clearCart: {
+            cart: {
+              items: [],
+              totalItems: 0,
+              totalPrice: 0,
+            },
+            errors: [],
+          },
+        };
       },
     },
   },

@@ -1,16 +1,10 @@
 'use client';
 import { useIntl } from '@amazeelabs/react-intl';
-import {
-  AddToCartMutation,
-  CartQuery,
-  Html,
-  Image,
-  ProductFragment,
-} from '@custom/schema';
+import { CartQuery, Html, Image, ProductFragment } from '@custom/schema';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 
-import { useMutation, useOperation } from '../../utils/operation';
+import { useCart } from '../../stores/cart.store';
 import { BreadCrumbs } from '../Molecules/Breadcrumbs';
 import { ContentEditLink } from '../Molecules/ContentEditLink';
 import { PageTransition } from '../Molecules/PageTransition';
@@ -21,9 +15,9 @@ type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
 
 export function ProductDisplay(product: ProductFragment) {
   const intl = useIntl();
-  const { data: cart } = useOperation(CartQuery);
-  const { trigger: addToCart } = useMutation(AddToCartMutation);
   const [isAdding, setIsAdding] = useState(false);
+
+  const { cart, error, addToCart } = useCart();
 
   const stockStatus =
     product.stock > 0
@@ -32,7 +26,7 @@ export function ProductDisplay(product: ProductFragment) {
   const stockStatusColor =
     product.stock > 0 ? 'text-green-600' : 'text-red-600';
 
-  const cartItem = cart?.cart?.items.find(
+  const cartItem = cart?.items.find(
     (item: CartItemFromQuery) => item.id === product.id,
   );
   const canAddToCart =
@@ -43,11 +37,7 @@ export function ProductDisplay(product: ProductFragment) {
 
     setIsAdding(true);
     try {
-      await addToCart({
-        input: {
-          productId: product.uuid,
-        },
-      });
+      await addToCart(product.uuid, 1);
     } finally {
       setIsAdding(false);
     }
@@ -59,6 +49,12 @@ export function ProductDisplay(product: ProductFragment) {
         {product.editLink ? <ContentEditLink {...product.editLink} /> : null}
         {!product.hero && <BreadCrumbs />}
         {product.hero && <PageHero {...product.hero} />}
+
+        {error && (
+          <div className="mb-4 rounded-md bg-red-50 p-4">
+            <div className="text-sm text-red-700">{error}</div>
+          </div>
+        )}
 
         <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Product Image */}
