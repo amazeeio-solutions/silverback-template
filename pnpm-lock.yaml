@@ -1069,6 +1069,9 @@ importers:
       '@formatjs/cli':
         specifier: ^6.5.1
         version: 6.5.1
+      '@redux-devtools/extension':
+        specifier: ^3.3.0
+        version: 3.3.0(redux@4.2.1)
       '@storybook/addon-a11y':
         specifier: ^8.5.2
         version: 8.5.2(storybook@8.5.2)(vitest@3.0.4)
@@ -9482,6 +9485,16 @@ packages:
     dependencies:
       react: 18.3.1
     dev: false
+
+  /@redux-devtools/extension@3.3.0(redux@4.2.1):
+    resolution: {integrity: sha512-X34S/rC8S/M1BIrkYD1mJ5f8vlH0BDqxXrs96cvxSBo4FhMdbhU+GUGsmNYov1xjSyLMHgo8NYrUG8bNX7525g==}
+    peerDependencies:
+      redux: ^3.1.0 || ^4.0.0 || ^5.0.0
+    dependencies:
+      '@babel/runtime': 7.24.4
+      immutable: 4.3.7
+      redux: 4.2.1
+    dev: true
 
   /@reduxjs/toolkit@1.9.7(react-redux@7.2.9)(react@18.3.1):
     resolution: {integrity: sha512-t7v8ZPxhhKgOKtU+uyJT13lu4vL7az5aFi4IdoDs/eS548edn2M8Ik9h8fxgvMjGoAUVFSt6ZC1P5cWmQ014QQ==}
@@ -22843,6 +22856,10 @@ packages:
   /immutable@3.8.2:
     resolution: {integrity: sha512-15gZoQ38eYjEjxkorfbcgBKBL6R7T459OuK+CpcWt7O3KF4uPCx2tD0uFETlUDIyo+1789crbMhTvQBSR5yBMg==}
     engines: {node: '>=0.10.0'}
+
+  /immutable@4.3.7:
+    resolution: {integrity: sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==}
+    dev: true
 
   /import-fresh@3.3.1:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}

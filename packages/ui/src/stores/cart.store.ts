@@ -9,6 +9,7 @@ import {
 } from '@custom/schema';
 import { useEffect, useMemo } from 'react';
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 import { clear } from '../utils/operation';
 
@@ -87,282 +88,352 @@ const calculateCartTotals = (items: CartItem[]) => {
   return { totalItems, totalPrice };
 };
 
-const useCartStore = create<CartStore>((set, get) => ({
-  ...initialState,
+const useCartStore = create<CartStore>()(
+  devtools(
+    (set, get) => ({
+      ...initialState,
 
-  setCart: (cart) => {
-    set({
-      cart,
-      isOptimistic: false,
-      optimisticItems: [],
-    });
-  },
-
-  setLoading: (isLoading) => set({ isLoading }),
-
-  setError: (error) => set({ error }),
-
-  clearError: () => set({ error: undefined }),
-
-  addToCart: async (productId, quantity = 1, executor) => {
-    const { cart } = get();
-
-    set({ error: undefined });
-
-    const existingItem = cart.items.find((item) => item.id === productId);
-    console.log('existingItem', existingItem);
-    let optimisticItems: CartItem[];
-
-    if (existingItem) {
-      const newQuantity = Math.min(
-        existingItem.quantity + quantity,
-        existingItem.maxStock,
-      );
-      optimisticItems = cart.items.map((item) =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item,
-      );
-    } else {
-      const newItem: CartItem = {
-        id: productId,
-        title: 'Loading...',
-        price: 0,
-        quantity,
-        sku: '',
-        teaserImage: undefined,
-        maxStock: 999,
-      };
-      optimisticItems = [...cart.items, newItem];
-    }
-
-    const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
-    const optimisticCart: CartData = {
-      items: optimisticItems,
-      totalItems,
-      totalPrice,
-    };
-
-    set({
-      cart: optimisticCart,
-      isOptimistic: true,
-      optimisticItems,
-    });
-
-    try {
-      if (executor) {
-        const result = await executor(AddToCartMutation, {
-          input: { productId, quantity },
-        });
-
-        const typedResult = result as AddToCartResult;
-        if (
-          typedResult?.addToCart?.errors?.length &&
-          typedResult.addToCart.errors.length > 0
-        ) {
-          throw new Error(typedResult.addToCart.errors[0].message);
-        }
-
-        if (typedResult?.addToCart?.cart) {
-          set({
-            cart: typedResult.addToCart.cart,
+      setCart: (cart) => {
+        set(
+          {
+            cart,
             isOptimistic: false,
             optimisticItems: [],
-          });
+          },
+          false,
+          'cart/setCart',
+        );
+      },
+
+      setLoading: (isLoading) => set({ isLoading }, false, 'cart/setLoading'),
+
+      setError: (error) => set({ error }, false, 'cart/setError'),
+
+      clearError: () => set({ error: undefined }, false, 'cart/clearError'),
+
+      addToCart: async (productId, quantity = 1, executor) => {
+        const { cart } = get();
+
+        set({ error: undefined }, false, 'cart/addToCart:start');
+
+        const existingItem = cart.items.find((item) => item.id === productId);
+        let optimisticItems: CartItem[];
+
+        if (existingItem) {
+          const newQuantity = Math.min(
+            existingItem.quantity + quantity,
+            existingItem.maxStock,
+          );
+          optimisticItems = cart.items.map((item) =>
+            item.id === productId ? { ...item, quantity: newQuantity } : item,
+          );
+        } else {
+          const newItem: CartItem = {
+            id: productId,
+            title: 'Loading...',
+            price: 0,
+            quantity,
+            sku: '',
+            teaserImage: undefined,
+            maxStock: 999,
+          };
+          optimisticItems = [...cart.items, newItem];
         }
-      }
 
-      clear(CartQuery);
-    } catch (error) {
-      set({
-        cart: get().cart,
-        error:
-          error instanceof Error ? error.message : 'Failed to add item to cart',
-        isOptimistic: false,
-        optimisticItems: [],
-      });
-    }
-  },
+        const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
+        const optimisticCart: CartData = {
+          items: optimisticItems,
+          totalItems,
+          totalPrice,
+        };
 
-  updateCartItem: async (productId, quantity, executor) => {
-    const { cart } = get();
+        set(
+          {
+            cart: optimisticCart,
+            isOptimistic: true,
+            optimisticItems,
+          },
+          false,
+          'cart/addToCart:optimistic',
+        );
 
-    if (!cart) return;
+        try {
+          if (executor) {
+            const result = await executor(AddToCartMutation, {
+              input: { productId, quantity },
+            });
 
-    set({ error: undefined });
-
-    const optimisticItems = cart.items
-      .map((item) =>
-        item.id === productId
-          ? {
-              ...item,
-              quantity: Math.max(0, Math.min(quantity, item.maxStock)),
+            const typedResult = result as AddToCartResult;
+            if (
+              typedResult?.addToCart?.errors?.length &&
+              typedResult.addToCart.errors.length > 0
+            ) {
+              throw new Error(typedResult.addToCart.errors[0].message);
             }
-          : item,
-      )
-      .filter((item) => item.quantity > 0);
 
-    const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
-    const optimisticCart: CartData = {
-      items: optimisticItems,
-      totalItems,
-      totalPrice,
-    };
+            if (typedResult?.addToCart?.cart) {
+              set(
+                {
+                  cart: typedResult.addToCart.cart,
+                  isOptimistic: false,
+                  optimisticItems: [],
+                },
+                false,
+                'cart/addToCart:success',
+              );
+            }
+          }
 
-    set({
-      cart: optimisticCart,
-      isOptimistic: true,
-      optimisticItems,
-    });
-
-    try {
-      if (executor) {
-        const result = await executor(UpdateCartItemMutation, {
-          input: { productId, quantity },
-        });
-
-        const typedResult = result as UpdateCartItemResult;
-        if (
-          typedResult?.updateCartItem?.errors?.length &&
-          typedResult.updateCartItem.errors.length > 0
-        ) {
-          throw new Error(typedResult.updateCartItem.errors[0].message);
+          clear(CartQuery);
+        } catch (error) {
+          set(
+            {
+              cart: get().cart,
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to add item to cart',
+              isOptimistic: false,
+              optimisticItems: [],
+            },
+            false,
+            'cart/addToCart:error',
+          );
         }
+      },
 
-        if (typedResult?.updateCartItem?.cart) {
-          set({
-            cart: typedResult.updateCartItem.cart,
-            isOptimistic: false,
+      updateCartItem: async (productId, quantity, executor) => {
+        const { cart } = get();
+
+        if (!cart) return;
+
+        set({ error: undefined }, false, 'cart/updateCartItem:start');
+
+        const optimisticItems = cart.items
+          .map((item) =>
+            item.id === productId
+              ? {
+                  ...item,
+                  quantity: Math.max(0, Math.min(quantity, item.maxStock)),
+                }
+              : item,
+          )
+          .filter((item) => item.quantity > 0);
+
+        const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
+        const optimisticCart: CartData = {
+          items: optimisticItems,
+          totalItems,
+          totalPrice,
+        };
+
+        set(
+          {
+            cart: optimisticCart,
+            isOptimistic: true,
+            optimisticItems,
+          },
+          false,
+          'cart/updateCartItem:optimistic',
+        );
+
+        try {
+          if (executor) {
+            const result = await executor(UpdateCartItemMutation, {
+              input: { productId, quantity },
+            });
+
+            const typedResult = result as UpdateCartItemResult;
+            if (
+              typedResult?.updateCartItem?.errors?.length &&
+              typedResult.updateCartItem.errors.length > 0
+            ) {
+              throw new Error(typedResult.updateCartItem.errors[0].message);
+            }
+
+            if (typedResult?.updateCartItem?.cart) {
+              set(
+                {
+                  cart: typedResult.updateCartItem.cart,
+                  isOptimistic: false,
+                  optimisticItems: [],
+                },
+                false,
+                'cart/updateCartItem:success',
+              );
+            }
+          }
+
+          clear(CartQuery);
+        } catch (error) {
+          set(
+            {
+              cart: get().cart,
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to update cart item',
+              isOptimistic: false,
+              optimisticItems: [],
+            },
+            false,
+            'cart/updateCartItem:error',
+          );
+        }
+      },
+
+      removeFromCart: async (productId, executor) => {
+        const { cart } = get();
+
+        if (!cart) return;
+
+        set({ error: undefined }, false, 'cart/removeFromCart:start');
+
+        const optimisticItems = cart.items.filter(
+          (item) => item.id !== productId,
+        );
+        const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
+        const optimisticCart: CartData = {
+          items: optimisticItems,
+          totalItems,
+          totalPrice,
+        };
+
+        set(
+          {
+            cart: optimisticCart,
+            isOptimistic: true,
+            optimisticItems,
+          },
+          false,
+          'cart/removeFromCart:optimistic',
+        );
+
+        try {
+          if (executor) {
+            const result = await executor(RemoveFromCartMutation, {
+              productId,
+            });
+
+            const typedResult = result as RemoveFromCartResult;
+            if (
+              typedResult?.removeFromCart?.errors?.length &&
+              typedResult.removeFromCart.errors.length > 0
+            ) {
+              throw new Error(typedResult.removeFromCart.errors[0].message);
+            }
+
+            if (typedResult?.removeFromCart?.cart) {
+              set(
+                {
+                  cart: typedResult.removeFromCart.cart,
+                  isOptimistic: false,
+                  optimisticItems: [],
+                },
+                false,
+                'cart/removeFromCart:success',
+              );
+            }
+          }
+
+          clear(CartQuery);
+        } catch (error) {
+          set(
+            {
+              cart: get().cart,
+              error:
+                error instanceof Error
+                  ? error.message
+                  : 'Failed to remove item from cart',
+              isOptimistic: false,
+              optimisticItems: [],
+            },
+            false,
+            'cart/removeFromCart:error',
+          );
+        }
+      },
+
+      clearCart: async (executor) => {
+        const { cart } = get();
+
+        if (!cart) return;
+
+        set({ error: undefined }, false, 'cart/clearCart:start');
+
+        const optimisticCart: CartData = {
+          items: [],
+          totalItems: 0,
+          totalPrice: 0,
+        };
+
+        set(
+          {
+            cart: optimisticCart,
+            isOptimistic: true,
             optimisticItems: [],
-          });
+          },
+          false,
+          'cart/clearCart:optimistic',
+        );
+
+        try {
+          if (executor) {
+            const result = await executor(ClearCartMutation, {});
+
+            const typedResult = result as ClearCartResult;
+            if (
+              typedResult?.clearCart?.errors?.length &&
+              typedResult.clearCart.errors.length > 0
+            ) {
+              throw new Error(typedResult.clearCart.errors[0].message);
+            }
+
+            if (typedResult?.clearCart?.cart) {
+              set(
+                {
+                  cart: typedResult.clearCart.cart,
+                  isOptimistic: false,
+                  optimisticItems: [],
+                },
+                false,
+                'cart/clearCart:success',
+              );
+            }
+          }
+
+          clear(CartQuery);
+        } catch (error) {
+          set(
+            {
+              cart: get().cart,
+              error:
+                error instanceof Error ? error.message : 'Failed to clear cart',
+              isOptimistic: false,
+              optimisticItems: [],
+            },
+            false,
+            'cart/clearCart:error',
+          );
         }
-      }
+      },
 
-      clear(CartQuery);
-    } catch (error) {
-      set({
-        cart: get().cart,
-        error:
-          error instanceof Error ? error.message : 'Failed to update cart item',
-        isOptimistic: false,
-        optimisticItems: [],
-      });
-    }
-  },
+      refreshCart: () => {
+        clear(CartQuery);
+      },
 
-  removeFromCart: async (productId, executor) => {
-    const { cart } = get();
-
-    if (!cart) return;
-
-    set({ error: undefined });
-
-    const optimisticItems = cart.items.filter((item) => item.id !== productId);
-    const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
-    const optimisticCart: CartData = {
-      items: optimisticItems,
-      totalItems,
-      totalPrice,
-    };
-
-    set({
-      cart: optimisticCart,
-      isOptimistic: true,
-      optimisticItems,
-    });
-
-    try {
-      if (executor) {
-        const result = await executor(RemoveFromCartMutation, { productId });
-
-        const typedResult = result as RemoveFromCartResult;
-        if (
-          typedResult?.removeFromCart?.errors?.length &&
-          typedResult.removeFromCart.errors.length > 0
-        ) {
-          throw new Error(typedResult.removeFromCart.errors[0].message);
-        }
-
-        if (typedResult?.removeFromCart?.cart) {
-          set({
-            cart: typedResult.removeFromCart.cart,
-            isOptimistic: false,
-            optimisticItems: [],
-          });
-        }
-      }
-
-      clear(CartQuery);
-    } catch (error) {
-      set({
-        cart: get().cart,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'Failed to remove item from cart',
-        isOptimistic: false,
-        optimisticItems: [],
-      });
-    }
-  },
-
-  clearCart: async (executor) => {
-    const { cart } = get();
-
-    if (!cart) return;
-
-    set({ error: undefined });
-
-    const optimisticCart: CartData = {
-      items: [],
-      totalItems: 0,
-      totalPrice: 0,
-    };
-
-    set({
-      cart: optimisticCart,
-      isOptimistic: true,
-      optimisticItems: [],
-    });
-
-    try {
-      if (executor) {
-        const result = await executor(ClearCartMutation, {});
-
-        const typedResult = result as ClearCartResult;
-        if (
-          typedResult?.clearCart?.errors?.length &&
-          typedResult.clearCart.errors.length > 0
-        ) {
-          throw new Error(typedResult.clearCart.errors[0].message);
-        }
-
-        if (typedResult?.clearCart?.cart) {
-          set({
-            cart: typedResult.clearCart.cart,
-            isOptimistic: false,
-            optimisticItems: [],
-          });
-        }
-      }
-
-      clear(CartQuery);
-    } catch (error) {
-      set({
-        cart: get().cart,
-        error: error instanceof Error ? error.message : 'Failed to clear cart',
-        isOptimistic: false,
-        optimisticItems: [],
-      });
-    }
-  },
-
-  refreshCart: () => {
-    clear(CartQuery);
-  },
-
-  reset: () => {
-    set(initialState);
-  },
-}));
+      reset: () => {
+        set(initialState, false, 'cart/reset');
+      },
+    }),
+    {
+      name: 'CartStore',
+      enabled:
+        // typeof window !== 'undefined' && process.env.NODE_ENV === 'development',
+        typeof window !== 'undefined',
+    },
+  ),
+);
 
 /**
  * Unified cart hook that handles all cart operations with automatic executor injection.
@@ -498,3 +569,4 @@ export function useCart() {
 
 export type Cart = ReturnType<typeof useCart>;
 export type { CartItem, CartData };
+

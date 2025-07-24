@@ -72,6 +72,7 @@
     "@amazeelabs/cloudinary-responsive-image": "^1.6.26",
     "@custom/eslint-config": "workspace:*",
     "@formatjs/cli": "^6.5.1",
+    "@redux-devtools/extension": "^3.3.0",
     "@storybook/addon-a11y": "^8.5.2",
     "@storybook/addon-actions": "^8.5.2",
     "@storybook/addon-coverage": "^1.0.5",
