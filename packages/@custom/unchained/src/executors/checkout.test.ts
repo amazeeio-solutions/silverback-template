@@ -22,17 +22,16 @@ describe('checkoutExecutor', () => {
       input: checkoutInput,
     });
 
-    expect(result.data).toBeDefined();
-    expect(result.data.checkout).toBeDefined();
-    expect(result.data.checkout.order).toBeDefined();
-    expect(result.data.checkout.order.id).toBe('12345');
-    expect(result.data.checkout.order.orderNumber).toBe('ORD-2024-001');
-    expect(result.data.checkout.order.status).toBe('pending');
-    expect(result.data.checkout.paymentRedirectUrl).toBe(
+    expect(result).toBeDefined();
+    expect(result.checkout).toBeDefined();
+    expect(result.checkout.order).toBeDefined();
+    expect(result.checkout.order.id).toBe('12345');
+    expect(result.checkout.order.orderNumber).toBe('ORD-2024-001');
+    expect(result.checkout.order.status).toBe('pending');
+    expect(result.checkout.paymentRedirectUrl).toBe(
       'https://payment.example.com/redirect',
     );
-    expect(result.data.checkout.errors).toEqual([]);
-    expect(result.error).toBeNull();
+    expect(result.checkout.errors).toEqual([]);
   });
 
   it('should handle order details correctly', async () => {
@@ -43,7 +42,7 @@ describe('checkoutExecutor', () => {
       input: checkoutInput,
     });
 
-    const order = result.data.checkout.order;
+    const order = result.checkout.order;
     expect(order.totalAmount).toBe(89.97);
     expect(order.items).toHaveLength(1);
 
@@ -68,7 +67,6 @@ describe('checkoutExecutor', () => {
       input: minimalInput,
     });
 
-    expect(result.data.checkout.order).toBeDefined();
-    expect(result.error).toBeNull();
+    expect(result.checkout.order).toBeDefined();
   });
 });

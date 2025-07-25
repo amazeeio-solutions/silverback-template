@@ -3,12 +3,17 @@ import { type DocumentNode, print } from 'graphql';
 
 import { GuestLoginMutation } from './operations';
 
+export interface GraphQLResponse<TData = unknown> {
+  data: TData;
+  error: Error | null;
+}
+
 export interface GraphQLClient {
   // Generic overload for typed DocumentNode from gql.tada
   request<TDocument extends DocumentNode>(
     query: TDocument,
     variables: VariablesOf<TDocument>,
-  ): Promise<ResultOf<TDocument>>;
+  ): Promise<GraphQLResponse<ResultOf<TDocument>>>;
 
   // Overload for when variables are optional (no variables required)
   request<TDocument extends DocumentNode>(
@@ -16,14 +21,14 @@ export interface GraphQLClient {
     variables?: VariablesOf<TDocument> extends Record<string, never>
       ? never
       : VariablesOf<TDocument>,
-  ): Promise<ResultOf<TDocument>>;
+  ): Promise<GraphQLResponse<ResultOf<TDocument>>>;
 
   // Fallback overload for plain strings (no type checking)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   request<TResult = any, TVariables = any>(
     query: string,
     variables?: TVariables,
-  ): Promise<TResult>;
+  ): Promise<GraphQLResponse<TResult>>;
 }
 
 export class UnchainedGraphQLClient implements GraphQLClient {
@@ -132,14 +137,26 @@ export class UnchainedGraphQLClient implements GraphQLClient {
     return queryString.includes('loginAsGuest');
   }
 
-  // Implementation that handles all overloads
+  // Implementation that handles all overloads - returns { data, error } wrapper
   async request<TDocument extends DocumentNode>(
     query: TDocument | string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variables?: VariablesOf<TDocument> | any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<ResultOf<TDocument> | any> {
-    return this.requestWithRetry(query, variables, false);
+  ): Promise<GraphQLResponse<ResultOf<TDocument> | any>> {
+    try {
+      const data = await this.requestWithRetry(query, variables, false);
+      return {
+        data,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: null as any,
+        error: error instanceof Error ? error : new Error(String(error)),
+      };
+    }
   }
 
   /**

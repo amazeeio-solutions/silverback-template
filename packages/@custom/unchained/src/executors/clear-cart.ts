@@ -3,20 +3,17 @@ import { ClearCartMutation as ClearCartMutationId } from '@custom/schema';
 import { defaultClient, type GraphQLClient } from '../client';
 import { ClearCartMutation } from '../operations';
 import type { Executor } from '../types';
+import { handleGraphQLResponse, mapClearCartResult } from '../utils';
 
 export function createClearCartExecutor(
   client: GraphQLClient = defaultClient,
 ): Executor<typeof ClearCartMutationId> {
   return async (id: typeof ClearCartMutationId, vars) => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = await client.request(ClearCartMutation, vars as any);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return { data: data as any, error: null };
-    } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return { data: null as any, error: error as Error };
-    }
+    // Clear cart mutation has no variables, pass empty object if vars is undefined
+    const response = await client.request(ClearCartMutation, vars || {});
+    const data = handleGraphQLResponse(response);
+    // Map gql.tada result to schema result type
+    return mapClearCartResult(data);
   };
 }
 

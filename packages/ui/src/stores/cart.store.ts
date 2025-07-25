@@ -456,8 +456,8 @@ export function useCart() {
         try {
           store.setLoading(true);
           const data = await cartQueryExecutor(CartQuery, undefined);
-          console.log('cart data', data);
           if (data?.cart) {
+            console.log('cart data', data);
             store.setCart(data.cart);
           }
         } catch (error) {
@@ -569,4 +569,3 @@ export function useCart() {
 
 export type Cart = ReturnType<typeof useCart>;
 export type { CartItem, CartData };
-

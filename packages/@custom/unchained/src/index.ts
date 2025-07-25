@@ -22,9 +22,6 @@ export {
   createGuestLoginExecutor,
 } from './executors/guest-login';
 
-// Export session-aware executors (automatically handle guest login)
-export * from './executors/session-aware';
-
 // Export client and types
 export {
   UnchainedGraphQLClient,

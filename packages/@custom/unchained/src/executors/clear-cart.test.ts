@@ -10,13 +10,12 @@ describe('clearCartExecutor', () => {
 
     const result = await executor('ClearCart', {});
 
-    expect(result.data).toBeDefined();
-    expect(result.data.clearCart).toBeDefined();
-    expect(result.data.clearCart.cart.totalItems).toBe(0);
-    expect(result.data.clearCart.cart.totalPrice).toBe(0);
-    expect(result.data.clearCart.cart.items).toEqual([]);
-    expect(result.data.clearCart.errors).toEqual([]);
-    expect(result.error).toBeNull();
+    expect(result).toBeDefined();
+    expect(result.clearCart).toBeDefined();
+    expect(result.clearCart.cart.totalItems).toBe(0);
+    expect(result.clearCart.cart.totalPrice).toBe(0);
+    expect(result.clearCart.cart.items).toEqual([]);
+    expect(result.clearCart.errors).toEqual([]);
   });
 
   it('should return empty cart state', async () => {
@@ -25,7 +24,7 @@ describe('clearCartExecutor', () => {
 
     const result = await executor('ClearCart', {});
 
-    const cart = result.data.clearCart.cart;
+    const cart = result.clearCart.cart;
     expect(cart.items).toHaveLength(0);
     expect(cart.totalItems).toBe(0);
     expect(cart.totalPrice).toBe(0);

@@ -10,11 +10,10 @@ describe('guestLoginExecutor', () => {
 
     const result = await executor('GuestLogin', {});
 
-    expect(result.data).toBeDefined();
-    expect(result.data.loginAsGuest).toBeDefined();
-    expect(result.data.loginAsGuest._id).toBe('guest-user-123');
-    expect(result.data.loginAsGuest.tokenExpires).toBeDefined();
-    expect(result.error).toBeNull();
+    expect(result).toBeDefined();
+    expect(result.loginAsGuest).toBeDefined();
+    expect(result.loginAsGuest._id).toBe('guest-user-123');
+    expect(result.loginAsGuest.tokenExpires).toBeDefined();
   });
 
   it('should handle guest login response correctly', async () => {
@@ -23,7 +22,7 @@ describe('guestLoginExecutor', () => {
 
     const result = await executor('GuestLogin', {});
 
-    const guestUser = result.data.loginAsGuest;
+    const guestUser = result.loginAsGuest;
     expect(guestUser._id).toBe('guest-user-123');
     expect(typeof guestUser.tokenExpires).toBe('string');
     expect(guestUser.tokenExpires).toMatch(

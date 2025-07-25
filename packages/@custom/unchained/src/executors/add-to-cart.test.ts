@@ -15,12 +15,11 @@ describe('addToCartExecutor', () => {
       },
     });
 
-    expect(result.data).toBeDefined();
-    expect(result.data.addToCart).toBeDefined();
-    expect(result.data.addToCart.cart.totalItems).toBe(3);
-    expect(result.data.addToCart.cart.totalPrice).toBe(89.97);
-    expect(result.data.addToCart.errors).toEqual([]);
-    expect(result.error).toBeNull();
+    expect(result).toBeDefined();
+    expect(result.addToCart).toBeDefined();
+    expect(result.addToCart.cart.totalItems).toBe(3);
+    expect(result.addToCart.cart.totalPrice).toBe(89.97);
+    expect(result.addToCart.errors).toEqual([]);
   });
 
   it('should handle cart updates correctly', async () => {
@@ -34,7 +33,7 @@ describe('addToCartExecutor', () => {
       },
     });
 
-    const cart = result.data.addToCart.cart;
+    const cart = result.addToCart.cart;
     expect(cart.items).toHaveLength(1);
 
     const item = cart.items[0];

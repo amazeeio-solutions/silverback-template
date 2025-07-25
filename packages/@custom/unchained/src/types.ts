@@ -10,14 +10,11 @@ import type {
   UpdateCartItemMutation,
 } from '@custom/schema';
 
-// Generic executor type for any operation
+// Generic executor type that uses proper schema types for input/output
 export type Executor<T extends AnyOperationId> = (
   id: T,
   vars: OperationVariables<T>,
-) => // eslint-disable-next-line @typescript-eslint/no-explicit-any
-| Promise<{ data: OperationResult<T>; error: any }>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | { data: OperationResult<T>; error: any };
+) => Promise<OperationResult<T>> | OperationResult<T>;
 
 export type UnchainedOperationId =
   | typeof CartQuery

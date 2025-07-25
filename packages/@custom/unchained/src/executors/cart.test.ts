@@ -10,12 +10,11 @@ describe('cartExecutor', () => {
 
     const result = await executor('Cart', {});
 
-    expect(result.data).toBeDefined();
-    expect(result.data.cart).toBeDefined();
-    expect(result.data.cart.items).toBeInstanceOf(Array);
-    expect(result.data.cart.totalItems).toBe(2);
-    expect(result.data.cart.totalPrice).toBe(59.98);
-    expect(result.error).toBeNull();
+    expect(result).toBeDefined();
+    expect(result.cart).toBeDefined();
+    expect(result.cart.items).toBeInstanceOf(Array);
+    expect(result.cart.totalItems).toBe(2);
+    expect(result.cart.totalPrice).toBe(59.98);
   });
 
   it('should handle cart items correctly', async () => {
@@ -24,7 +23,7 @@ describe('cartExecutor', () => {
 
     const result = await executor('Cart', {});
 
-    const firstItem = result.data.cart.items[0];
+    const firstItem = result.cart.items[0];
     expect(firstItem.id).toBe('1');
     expect(firstItem.title).toBe('Test Product');
     expect(firstItem.price).toBe(29.99);

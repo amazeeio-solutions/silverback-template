@@ -3,20 +3,18 @@ import { RemoveFromCartMutation as RemoveFromCartMutationId } from '@custom/sche
 import { defaultClient, type GraphQLClient } from '../client';
 import { RemoveFromCartMutation } from '../operations';
 import type { Executor } from '../types';
+import { handleGraphQLResponse, mapRemoveFromCartResult, mapVariablesToGqlTada } from '../utils';
 
 export function createRemoveFromCartExecutor(
   client: GraphQLClient = defaultClient,
 ): Executor<typeof RemoveFromCartMutationId> {
   return async (id: typeof RemoveFromCartMutationId, vars) => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = await client.request(RemoveFromCartMutation, vars as any);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return { data: data as any, error: null };
-    } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return { data: null as any, error: error as Error };
-    }
+    // Map schema variables to gql.tada variables
+    const gqlTadaVars = mapVariablesToGqlTada(RemoveFromCartMutation, vars);
+    const response = await client.request(RemoveFromCartMutation, gqlTadaVars);
+    const data = handleGraphQLResponse(response);
+    // Map gql.tada result to schema result type
+    return mapRemoveFromCartResult(data);
   };
 }
 

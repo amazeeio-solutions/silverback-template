@@ -15,12 +15,11 @@ describe('updateCartItemExecutor', () => {
       },
     });
 
-    expect(result.data).toBeDefined();
-    expect(result.data.updateCartItem).toBeDefined();
-    expect(result.data.updateCartItem.cart.totalItems).toBe(1);
-    expect(result.data.updateCartItem.cart.totalPrice).toBe(29.99);
-    expect(result.data.updateCartItem.errors).toEqual([]);
-    expect(result.error).toBeNull();
+    expect(result).toBeDefined();
+    expect(result.updateCartItem).toBeDefined();
+    expect(result.updateCartItem.cart.totalItems).toBe(1);
+    expect(result.updateCartItem.cart.totalPrice).toBe(29.99);
+    expect(result.updateCartItem.errors).toEqual([]);
   });
 
   it('should handle quantity updates correctly', async () => {
@@ -34,7 +33,7 @@ describe('updateCartItemExecutor', () => {
       },
     });
 
-    const cart = result.data.updateCartItem.cart;
+    const cart = result.updateCartItem.cart;
     expect(cart.items).toHaveLength(1);
 
     const item = cart.items[0];

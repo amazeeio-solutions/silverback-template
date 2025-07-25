@@ -12,13 +12,12 @@ describe('removeFromCartExecutor', () => {
       productId: 'TEST-001',
     });
 
-    expect(result.data).toBeDefined();
-    expect(result.data.removeFromCart).toBeDefined();
-    expect(result.data.removeFromCart.cart.totalItems).toBe(0);
-    expect(result.data.removeFromCart.cart.totalPrice).toBe(0);
-    expect(result.data.removeFromCart.cart.items).toEqual([]);
-    expect(result.data.removeFromCart.errors).toEqual([]);
-    expect(result.error).toBeNull();
+    expect(result).toBeDefined();
+    expect(result.removeFromCart).toBeDefined();
+    expect(result.removeFromCart.cart.totalItems).toBe(0);
+    expect(result.removeFromCart.cart.totalPrice).toBe(0);
+    expect(result.removeFromCart.cart.items).toEqual([]);
+    expect(result.removeFromCart.errors).toEqual([]);
   });
 
   it('should handle empty cart after removal', async () => {
@@ -29,7 +28,7 @@ describe('removeFromCartExecutor', () => {
       productId: 'TEST-001',
     });
 
-    const cart = result.data.removeFromCart.cart;
+    const cart = result.removeFromCart.cart;
     expect(cart.items).toHaveLength(0);
     expect(cart.totalItems).toBe(0);
     expect(cart.totalPrice).toBe(0);

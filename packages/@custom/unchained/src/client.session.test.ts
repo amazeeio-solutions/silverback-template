@@ -76,8 +76,10 @@ describe('UnchainedGraphQLClient Session Management', () => {
       const result = await client.request(CartQuery);
 
       expect(result).toBeDefined();
-      expect(result.cart).toBeDefined();
-      expect(result.cart.totalItems).toBe(2);
+      expect(result.error).toBeNull();
+      expect(result.data).toBeDefined();
+      expect(result.data.cart).toBeDefined();
+      expect(result.data.cart.totalItems).toBe(2);
       expect(authErrorReturned).toBe(true); // Verify auth error was returned first
     });
 
@@ -143,8 +145,10 @@ describe('UnchainedGraphQLClient Session Management', () => {
       });
 
       expect(result).toBeDefined();
-      expect(result.addToCart.cart).toBeDefined();
-      expect(result.addToCart.cart.totalItems).toBe(3);
+      expect(result.error).toBeNull();
+      expect(result.data).toBeDefined();
+      expect(result.data.addToCart.cart).toBeDefined();
+      expect(result.data.addToCart.cart.totalItems).toBe(3);
     });
 
     it('should not retry guest login requests', async () => {
@@ -163,9 +167,11 @@ describe('UnchainedGraphQLClient Session Management', () => {
         }),
       );
 
-      await expect(client.request(GuestLoginMutation)).rejects.toThrow(
-        'Guest login failed',
-      );
+      const result = await client.request(GuestLoginMutation);
+      
+      expect(result.error).toBeDefined();
+      expect(result.error?.message).toContain('Guest login failed');
+      expect(result.data).toBeNull();
     });
   });
 
@@ -209,7 +215,9 @@ describe('UnchainedGraphQLClient Session Management', () => {
       const result = await client.request(CartQuery);
 
       expect(result).toBeDefined();
-      expect(result.cart).toBeDefined();
+      expect(result.error).toBeNull();
+      expect(result.data).toBeDefined();
+      expect(result.data.cart).toBeDefined();
       expect(httpErrorReturned).toBe(true);
     });
 
@@ -221,9 +229,11 @@ describe('UnchainedGraphQLClient Session Management', () => {
         }),
       );
 
-      await expect(client.request(GuestLoginMutation)).rejects.toThrow(
-        'HTTP error! status: 401',
-      );
+      const result = await client.request(GuestLoginMutation);
+      
+      expect(result.error).toBeDefined();
+      expect(result.error?.message).toContain('HTTP error! status: 401');
+      expect(result.data).toBeNull();
     });
   });
 
@@ -246,9 +256,11 @@ describe('UnchainedGraphQLClient Session Management', () => {
         }),
       );
 
-      await expect(client.request(CartQuery)).rejects.toThrow(
-        'Guest login failed',
-      );
+      const result = await client.request(CartQuery);
+      
+      expect(result.error).toBeDefined();
+      expect(result.error?.message).toContain('Guest login failed');
+      expect(result.data).toBeNull();
     });
 
     it('should throw error if retry still fails after guest login', async () => {
@@ -278,9 +290,11 @@ describe('UnchainedGraphQLClient Session Management', () => {
         }),
       );
 
-      await expect(client.request(CartQuery)).rejects.toThrow(
-        'Authentication required',
-      );
+      const result = await client.request(CartQuery);
+      
+      expect(result.error).toBeDefined();
+      expect(result.error?.message).toContain('Authentication required');
+      expect(result.data).toBeNull();
     });
   });
 });
