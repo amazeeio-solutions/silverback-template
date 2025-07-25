@@ -1,7 +1,7 @@
 # @custom/unchained
 
 A TypeScript package for communicating with the Unchained GraphQL endpoint at
-`https://kls.nöd.live/graphql`.
+`https://kls.xn--nd-fka.live/graphql`.
 
 ## Features
 

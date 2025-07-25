@@ -1,4 +1,4 @@
 {
-  "schema": "https://kls.nöd.live/graphql",
+  "schema": "https://kls.xn--nd-fka.live/graphql",
   "output": "./src/graphql-env.d.ts"
 }

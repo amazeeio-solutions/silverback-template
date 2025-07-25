@@ -36,7 +36,7 @@ export class UnchainedGraphQLClient implements GraphQLClient {
   private isGuestLoggedIn: boolean = false;
   private loginPromise: Promise<void> | null = null;
 
-  constructor(endpoint: string = 'https://kls.nöd.live/graphql') {
+  constructor(endpoint: string = 'https://kls.xn--nd-fka.live/graphql') {
     this.endpoint = endpoint;
   }
 
@@ -130,6 +130,22 @@ export class UnchainedGraphQLClient implements GraphQLClient {
   }
 
   /**
+   * Helper method to detect if result indicates no authentication (me is null)
+   */
+  private isUnauthenticatedResponse(
+    result: { data?: { me?: unknown } },
+    query: DocumentNode | string,
+  ): boolean {
+    // Only check for cart-related queries that would need authentication
+    const queryString = typeof query === 'string' ? query : print(query);
+    const isCartQuery =
+      queryString.includes('me') && queryString.includes('cart');
+
+    // If it's a cart query and me is null, we need authentication
+    return isCartQuery && result.data?.me === null;
+  }
+
+  /**
    * Helper method to check if query is the guest login mutation
    */
   private isGuestLoginQuery(query: DocumentNode | string): boolean {
@@ -216,6 +232,18 @@ export class UnchainedGraphQLClient implements GraphQLClient {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         `GraphQL error: ${result.errors.map((e: any) => e.message).join(', ')}`,
       );
+    }
+
+    // Check for unauthenticated responses (me is null for cart queries)
+    if (
+      !isRetry &&
+      !this.isGuestLoginQuery(query) &&
+      this.isUnauthenticatedResponse(result, query)
+    ) {
+      // Reset login state and ensure guest login
+      this.isGuestLoggedIn = false;
+      await this.ensureGuestLogin();
+      return this.requestWithRetry(query, variables, true);
     }
 
     return result.data;

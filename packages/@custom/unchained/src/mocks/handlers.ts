@@ -25,23 +25,42 @@ type GuestLoginMutationResult = ResultOf<typeof GuestLoginMutation>;
 export const handlers = [
   mswGraphql.query('Cart', () => {
     const data: CartQueryResult = {
-      cart: {
-        items: [
-          {
-            id: '1',
-            title: 'Test Product',
-            price: 29.99,
-            quantity: 2,
-            sku: 'TEST-001',
-            teaserImage: {
-              alt: 'Test Product Image',
-              source: 'https://example.com/test.jpg',
+      me: {
+        cart: {
+          items: [
+            {
+              _id: '1',
+              product: {
+                _id: 'prod-1',
+                texts: {
+                  title: 'Test Product',
+                },
+              },
+              quantity: 2,
+              originalProduct: {
+                _id: 'prod-1',
+                texts: {
+                  title: 'Test Product',
+                },
+                media: [
+                  {
+                    file: {
+                      url: 'https://example.com/test.jpg',
+                    },
+                  },
+                ],
+              },
+              unitPrice: {
+                amount: 2999,
+                currencyCode: 'USD',
+              },
             },
-            maxStock: 10,
+          ],
+          total: {
+            amount: 5998,
+            currencyCode: 'USD',
           },
-        ],
-        totalItems: 2,
-        totalPrice: 59.98,
+        },
       },
     };
     return HttpResponse.json({ data });
@@ -49,26 +68,32 @@ export const handlers = [
 
   mswGraphql.mutation('AddToCart', () => {
     const data: AddToCartMutationResult = {
-      addToCart: {
-        cart: {
-          items: [
+      addCartProduct: {
+        _id: '2',
+        product: {
+          _id: 'prod-1',
+          texts: {
+            title: 'Test Product',
+          },
+        },
+        quantity: 3,
+        originalProduct: {
+          _id: 'prod-1',
+          texts: {
+            title: 'Test Product',
+          },
+          media: [
             {
-              id: '1',
-              title: 'Test Product',
-              price: 29.99,
-              quantity: 3,
-              sku: 'TEST-001',
-              teaserImage: {
-                alt: 'Test Product Image',
-                source: 'https://example.com/test.jpg',
+              file: {
+                url: 'https://example.com/test.jpg',
               },
-              maxStock: 10,
             },
           ],
-          totalItems: 3,
-          totalPrice: 89.97,
         },
-        errors: [],
+        unitPrice: {
+          amount: 2999,
+          currencyCode: 'USD',
+        },
       },
     };
     return HttpResponse.json({ data });
@@ -77,25 +102,31 @@ export const handlers = [
   mswGraphql.mutation('UpdateCartItem', () => {
     const data: UpdateCartItemMutationResult = {
       updateCartItem: {
-        cart: {
-          items: [
+        _id: '1',
+        product: {
+          _id: 'prod-1',
+          texts: {
+            title: 'Test Product',
+          },
+        },
+        quantity: 1,
+        originalProduct: {
+          _id: 'prod-1',
+          texts: {
+            title: 'Test Product',
+          },
+          media: [
             {
-              id: '1',
-              title: 'Test Product',
-              price: 29.99,
-              quantity: 1,
-              sku: 'TEST-001',
-              teaserImage: {
-                alt: 'Test Product Image',
-                source: 'https://example.com/test.jpg',
+              file: {
+                url: 'https://example.com/test.jpg',
               },
-              maxStock: 10,
             },
           ],
-          totalItems: 1,
-          totalPrice: 29.99,
         },
-        errors: [],
+        unitPrice: {
+          amount: 2999,
+          currencyCode: 'USD',
+        },
       },
     };
     return HttpResponse.json({ data });
@@ -103,13 +134,32 @@ export const handlers = [
 
   mswGraphql.mutation('RemoveFromCart', () => {
     const data: RemoveFromCartMutationResult = {
-      removeFromCart: {
-        cart: {
-          items: [],
-          totalItems: 0,
-          totalPrice: 0,
+      removeCartItem: {
+        _id: '1',
+        product: {
+          _id: 'prod-1',
+          texts: {
+            title: 'Test Product',
+          },
         },
-        errors: [],
+        quantity: 0,
+        originalProduct: {
+          _id: 'prod-1',
+          texts: {
+            title: 'Test Product',
+          },
+          media: [
+            {
+              file: {
+                url: 'https://example.com/test.jpg',
+              },
+            },
+          ],
+        },
+        unitPrice: {
+          amount: 2999,
+          currencyCode: 'USD',
+        },
       },
     };
     return HttpResponse.json({ data });
@@ -117,13 +167,13 @@ export const handlers = [
 
   mswGraphql.mutation('ClearCart', () => {
     const data: ClearCartMutationResult = {
-      clearCart: {
-        cart: {
-          items: [],
-          totalItems: 0,
-          totalPrice: 0,
+      emptyCart: {
+        _id: 'cart-123',
+        items: [],
+        total: {
+          amount: 0,
+          currencyCode: 'USD',
         },
-        errors: [],
       },
     };
     return HttpResponse.json({ data });
@@ -131,24 +181,30 @@ export const handlers = [
 
   mswGraphql.mutation('Checkout', () => {
     const data: CheckoutMutationResult = {
-      checkout: {
-        order: {
-          id: '12345',
-          orderNumber: 'ORD-2024-001',
-          status: 'pending',
-          totalAmount: 89.97,
-          items: [
-            {
-              id: '1',
-              title: 'Test Product',
-              price: 29.99,
-              quantity: 3,
-              sku: 'TEST-001',
-            },
-          ],
+      checkoutCart: {
+        _id: '12345',
+        orderNumber: 'ORD-2024-001',
+        status: 'PENDING',
+        total: {
+          amount: 8997,
+          currencyCode: 'USD',
         },
-        errors: [],
-        paymentRedirectUrl: 'https://payment.example.com/redirect',
+        items: [
+          {
+            _id: '1',
+            product: {
+              _id: 'prod-1',
+              texts: {
+                title: 'Test Product',
+              },
+            },
+            quantity: 3,
+            unitPrice: {
+              amount: 2999,
+              currencyCode: 'USD',
+            },
+          },
+        ],
       },
     };
     return HttpResponse.json({ data });

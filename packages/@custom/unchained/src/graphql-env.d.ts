@@ -22,11 +22,33 @@ export type introspection = {
         name: 'Query';
         fields: readonly [
           {
+            name: 'me';
+            type: {
+              kind: 'OBJECT';
+              name: 'User';
+            };
+          }
+        ];
+      },
+      {
+        kind: 'OBJECT';
+        name: 'User';
+        fields: readonly [
+          {
             name: 'cart';
             type: {
               kind: 'OBJECT';
-              name: 'Cart';
+              name: 'Order';
             };
+            args: readonly [
+              {
+                name: 'orderNumber';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'String';
+                };
+              }
+            ];
           }
         ];
       },
@@ -35,20 +57,37 @@ export type introspection = {
         name: 'Mutation';
         fields: readonly [
           {
-            name: 'addToCart';
+            name: 'addCartProduct';
             type: {
-              kind: 'OBJECT';
-              name: 'AddToCartResult';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'OBJECT';
+                name: 'OrderItem';
+              };
             };
             args: readonly [
               {
-                name: 'input';
+                name: 'orderId';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'ID';
+                };
+              },
+              {
+                name: 'productId';
                 type: {
                   kind: 'NON_NULL';
                   ofType: {
-                    kind: 'INPUT_OBJECT';
-                    name: 'AddToCartInput';
+                    kind: 'SCALAR';
+                    name: 'ID';
                   };
+                };
+              },
+              {
+                name: 'quantity';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Int';
                 };
               }
             ];
@@ -56,405 +95,108 @@ export type introspection = {
           {
             name: 'updateCartItem';
             type: {
-              kind: 'OBJECT';
-              name: 'UpdateCartItemResult';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'OBJECT';
+                name: 'OrderItem';
+              };
             };
             args: readonly [
               {
-                name: 'input';
-                type: {
-                  kind: 'NON_NULL';
-                  ofType: {
-                    kind: 'INPUT_OBJECT';
-                    name: 'UpdateCartItemInput';
-                  };
-                };
-              }
-            ];
-          },
-          {
-            name: 'removeFromCart';
-            type: {
-              kind: 'OBJECT';
-              name: 'RemoveFromCartResult';
-            };
-            args: readonly [
-              {
-                name: 'productId';
+                name: 'itemId';
                 type: {
                   kind: 'NON_NULL';
                   ofType: {
                     kind: 'SCALAR';
-                    name: 'String';
+                    name: 'ID';
                   };
+                };
+              },
+              {
+                name: 'quantity';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Int';
                 };
               }
             ];
           },
           {
-            name: 'clearCart';
+            name: 'removeCartItem';
             type: {
-              kind: 'OBJECT';
-              name: 'ClearCartResult';
-            };
-          },
-          {
-            name: 'checkout';
-            type: {
-              kind: 'OBJECT';
-              name: 'CheckoutResult';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'OBJECT';
+                name: 'OrderItem';
+              };
             };
             args: readonly [
               {
-                name: 'input';
+                name: 'itemId';
                 type: {
                   kind: 'NON_NULL';
                   ofType: {
-                    kind: 'INPUT_OBJECT';
-                    name: 'CheckoutInput';
+                    kind: 'SCALAR';
+                    name: 'ID';
                   };
                 };
               }
             ];
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'Cart';
-        fields: readonly [
-          {
-            name: 'items';
-            type: {
-              kind: 'LIST';
-              ofType: {
-                kind: 'OBJECT';
-                name: 'CartItem';
-              };
-            };
           },
           {
-            name: 'totalItems';
-            type: {
-              kind: 'SCALAR';
-              name: 'Int';
-            };
-          },
-          {
-            name: 'totalPrice';
-            type: {
-              kind: 'SCALAR';
-              name: 'Float';
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'CartItem';
-        fields: readonly [
-          {
-            name: 'id';
-            type: {
-              kind: 'SCALAR';
-              name: 'ID';
-            };
-          },
-          {
-            name: 'title';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'price';
-            type: {
-              kind: 'SCALAR';
-              name: 'Float';
-            };
-          },
-          {
-            name: 'quantity';
-            type: {
-              kind: 'SCALAR';
-              name: 'Int';
-            };
-          },
-          {
-            name: 'sku';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'teaserImage';
-            type: {
-              kind: 'OBJECT';
-              name: 'Image';
-            };
-          },
-          {
-            name: 'maxStock';
-            type: {
-              kind: 'SCALAR';
-              name: 'Int';
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'Image';
-        fields: readonly [
-          {
-            name: 'alt';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'source';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          }
-        ];
-      },
-      {
-        kind: 'INPUT_OBJECT';
-        name: 'AddToCartInput';
-        inputFields: readonly [
-          {
-            name: 'productId';
-            type: {
-              kind: 'NON_NULL';
-              ofType: {
-                kind: 'SCALAR';
-                name: 'String';
-              };
-            };
-          },
-          {
-            name: 'quantity';
-            type: {
-              kind: 'SCALAR';
-              name: 'Int';
-            };
-          }
-        ];
-      },
-      {
-        kind: 'INPUT_OBJECT';
-        name: 'UpdateCartItemInput';
-        inputFields: readonly [
-          {
-            name: 'itemId';
-            type: {
-              kind: 'NON_NULL';
-              ofType: {
-                kind: 'SCALAR';
-                name: 'String';
-              };
-            };
-          },
-          {
-            name: 'quantity';
-            type: {
-              kind: 'NON_NULL';
-              ofType: {
-                kind: 'SCALAR';
-                name: 'Int';
-              };
-            };
-          }
-        ];
-      },
-      {
-        kind: 'INPUT_OBJECT';
-        name: 'CheckoutInput';
-        inputFields: readonly [
-          {
-            name: 'email';
-            type: {
-              kind: 'NON_NULL';
-              ofType: {
-                kind: 'SCALAR';
-                name: 'String';
-              };
-            };
-          },
-          {
-            name: 'firstName';
-            type: {
-              kind: 'NON_NULL';
-              ofType: {
-                kind: 'SCALAR';
-                name: 'String';
-              };
-            };
-          },
-          {
-            name: 'lastName';
-            type: {
-              kind: 'NON_NULL';
-              ofType: {
-                kind: 'SCALAR';
-                name: 'String';
-              };
-            };
-          },
-          {
-            name: 'address';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'city';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'postalCode';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'country';
-            type: {
-              kind: 'SCALAR';
-              name: 'String';
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'AddToCartResult';
-        fields: readonly [
-          {
-            name: 'cart';
-            type: {
-              kind: 'OBJECT';
-              name: 'Cart';
-            };
-          },
-          {
-            name: 'errors';
-            type: {
-              kind: 'LIST';
-              ofType: {
-                kind: 'OBJECT';
-                name: 'Error';
-              };
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'UpdateCartItemResult';
-        fields: readonly [
-          {
-            name: 'cart';
-            type: {
-              kind: 'OBJECT';
-              name: 'Cart';
-            };
-          },
-          {
-            name: 'errors';
-            type: {
-              kind: 'LIST';
-              ofType: {
-                kind: 'OBJECT';
-                name: 'Error';
-              };
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'RemoveFromCartResult';
-        fields: readonly [
-          {
-            name: 'cart';
-            type: {
-              kind: 'OBJECT';
-              name: 'Cart';
-            };
-          },
-          {
-            name: 'errors';
-            type: {
-              kind: 'LIST';
-              ofType: {
-                kind: 'OBJECT';
-                name: 'Error';
-              };
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'ClearCartResult';
-        fields: readonly [
-          {
-            name: 'cart';
-            type: {
-              kind: 'OBJECT';
-              name: 'Cart';
-            };
-          },
-          {
-            name: 'errors';
-            type: {
-              kind: 'LIST';
-              ofType: {
-                kind: 'OBJECT';
-                name: 'Error';
-              };
-            };
-          }
-        ];
-      },
-      {
-        kind: 'OBJECT';
-        name: 'CheckoutResult';
-        fields: readonly [
-          {
-            name: 'order';
+            name: 'emptyCart';
             type: {
               kind: 'OBJECT';
               name: 'Order';
             };
+            args: readonly [
+              {
+                name: 'orderId';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'ID';
+                };
+              }
+            ];
           },
           {
-            name: 'errors';
+            name: 'checkoutCart';
             type: {
-              kind: 'LIST';
+              kind: 'NON_NULL';
               ofType: {
                 kind: 'OBJECT';
-                name: 'Error';
+                name: 'Order';
               };
             };
+            args: readonly [
+              {
+                name: 'orderId';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'ID';
+                };
+              },
+              {
+                name: 'paymentContext';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'JSON';
+                };
+              },
+              {
+                name: 'deliveryContext';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'JSON';
+                };
+              }
+            ];
           },
           {
-            name: 'paymentRedirectUrl';
+            name: 'loginAsGuest';
             type: {
-              kind: 'SCALAR';
-              name: 'String';
+              kind: 'OBJECT';
+              name: 'LoginMethodResponse';
             };
           }
         ];
@@ -464,10 +206,13 @@ export type introspection = {
         name: 'Order';
         fields: readonly [
           {
-            name: 'id';
+            name: '_id';
             type: {
-              kind: 'SCALAR';
-              name: 'ID';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'ID';
+              };
             };
           },
           {
@@ -481,25 +226,47 @@ export type introspection = {
             name: 'status';
             type: {
               kind: 'SCALAR';
-              name: 'String';
-            };
-          },
-          {
-            name: 'totalAmount';
-            type: {
-              kind: 'SCALAR';
-              name: 'Float';
+              name: 'OrderStatus';
             };
           },
           {
             name: 'items';
             type: {
-              kind: 'LIST';
+              kind: 'NON_NULL';
               ofType: {
-                kind: 'OBJECT';
-                name: 'OrderItem';
+                kind: 'LIST';
+                ofType: {
+                  kind: 'NON_NULL';
+                  ofType: {
+                    kind: 'OBJECT';
+                    name: 'OrderItem';
+                  };
+                };
               };
             };
+          },
+          {
+            name: 'total';
+            type: {
+              kind: 'OBJECT';
+              name: 'Price';
+            };
+            args: readonly [
+              {
+                name: 'category';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'OrderPriceCategory';
+                };
+              },
+              {
+                name: 'useNetPrice';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Boolean';
+                };
+              }
+            ];
           }
         ];
       },
@@ -508,35 +275,146 @@ export type introspection = {
         name: 'OrderItem';
         fields: readonly [
           {
-            name: 'id';
+            name: '_id';
             type: {
-              kind: 'SCALAR';
-              name: 'ID';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'ID';
+              };
             };
           },
           {
-            name: 'title';
+            name: 'product';
             type: {
-              kind: 'SCALAR';
-              name: 'String';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'INTERFACE';
+                name: 'Product';
+              };
             };
           },
           {
-            name: 'price';
+            name: 'originalProduct';
             type: {
-              kind: 'SCALAR';
-              name: 'Float';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'INTERFACE';
+                name: 'Product';
+              };
             };
           },
           {
             name: 'quantity';
             type: {
-              kind: 'SCALAR';
-              name: 'Int';
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'Int';
+              };
             };
           },
           {
-            name: 'sku';
+            name: 'unitPrice';
+            type: {
+              kind: 'OBJECT';
+              name: 'Price';
+            };
+            args: readonly [
+              {
+                name: 'useNetPrice';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Boolean';
+                };
+              }
+            ];
+          }
+        ];
+      },
+      {
+        kind: 'INTERFACE';
+        name: 'Product';
+        fields: readonly [
+          {
+            name: '_id';
+            type: {
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'ID';
+              };
+            };
+          },
+          {
+            name: 'texts';
+            type: {
+              kind: 'OBJECT';
+              name: 'ProductTexts';
+            };
+            args: readonly [
+              {
+                name: 'forceLocale';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Locale';
+                };
+              }
+            ];
+          },
+          {
+            name: 'media';
+            type: {
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'LIST';
+                ofType: {
+                  kind: 'NON_NULL';
+                  ofType: {
+                    kind: 'OBJECT';
+                    name: 'ProductMedia';
+                  };
+                };
+              };
+            };
+            args: readonly [
+              {
+                name: 'limit';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Int';
+                };
+              },
+              {
+                name: 'offset';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'Int';
+                };
+              },
+              {
+                name: 'tags';
+                type: {
+                  kind: 'LIST';
+                  ofType: {
+                    kind: 'NON_NULL';
+                    ofType: {
+                      kind: 'SCALAR';
+                      name: 'LowerCaseString';
+                    };
+                  };
+                };
+              }
+            ];
+          }
+        ];
+      },
+      {
+        kind: 'OBJECT';
+        name: 'ProductTexts';
+        fields: readonly [
+          {
+            name: 'title';
             type: {
               kind: 'SCALAR';
               name: 'String';
@@ -546,13 +424,94 @@ export type introspection = {
       },
       {
         kind: 'OBJECT';
-        name: 'Error';
+        name: 'ProductMedia';
         fields: readonly [
           {
-            name: 'message';
+            name: 'file';
+            type: {
+              kind: 'OBJECT';
+              name: 'Media';
+            };
+          }
+        ];
+      },
+      {
+        kind: 'OBJECT';
+        name: 'Media';
+        fields: readonly [
+          {
+            name: 'url';
             type: {
               kind: 'SCALAR';
               name: 'String';
+            };
+            args: readonly [
+              {
+                name: 'version';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'String';
+                };
+              },
+              {
+                name: 'baseUrl';
+                type: {
+                  kind: 'SCALAR';
+                  name: 'String';
+                };
+              }
+            ];
+          }
+        ];
+      },
+      {
+        kind: 'OBJECT';
+        name: 'Price';
+        fields: readonly [
+          {
+            name: 'amount';
+            type: {
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'Int';
+              };
+            };
+          },
+          {
+            name: 'currencyCode';
+            type: {
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'String';
+              };
+            };
+          }
+        ];
+      },
+      {
+        kind: 'OBJECT';
+        name: 'LoginMethodResponse';
+        fields: readonly [
+          {
+            name: '_id';
+            type: {
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'String';
+              };
+            };
+          },
+          {
+            name: 'tokenExpires';
+            type: {
+              kind: 'NON_NULL';
+              ofType: {
+                kind: 'SCALAR';
+                name: 'DateTimeISO';
+              };
             };
           }
         ];
@@ -576,6 +535,64 @@ export type introspection = {
       {
         kind: 'SCALAR';
         name: 'Float';
+      },
+      {
+        kind: 'SCALAR';
+        name: 'JSON';
+      },
+      {
+        kind: 'SCALAR';
+        name: 'DateTimeISO';
+      },
+      {
+        kind: 'SCALAR';
+        name: 'Locale';
+      },
+      {
+        kind: 'SCALAR';
+        name: 'LowerCaseString';
+      },
+      {
+        kind: 'ENUM';
+        name: 'OrderStatus';
+        enumValues: readonly [
+          {
+            name: 'OPEN';
+          },
+          {
+            name: 'PENDING';
+          },
+          {
+            name: 'REJECTED';
+          },
+          {
+            name: 'CONFIRMED';
+          },
+          {
+            name: 'FULLFILLED';
+          }
+        ];
+      },
+      {
+        kind: 'ENUM';
+        name: 'OrderPriceCategory';
+        enumValues: readonly [
+          {
+            name: 'ITEMS';
+          },
+          {
+            name: 'PAYMENT';
+          },
+          {
+            name: 'DELIVERY';
+          },
+          {
+            name: 'TAXES';
+          },
+          {
+            name: 'DISCOUNTS';
+          }
+        ];
       }
     ];
   };

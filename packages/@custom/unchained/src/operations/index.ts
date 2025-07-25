@@ -3,47 +3,68 @@ import { graphql } from '../gql.tada';
 // Cart Query
 export const CartQuery = graphql(`
   query Cart {
-    cart {
-      items {
-        id
-        title
-        price
-        quantity
-        sku
-        teaserImage {
-          alt
-          source
+    me {
+      cart {
+        items {
+          _id
+          product {
+            _id
+            texts {
+              title
+            }
+          }
+          quantity
+          originalProduct {
+            _id
+            texts {
+              title
+            }
+            media {
+              file {
+                url
+              }
+            }
+          }
+          unitPrice {
+            amount
+            currencyCode
+          }
         }
-        maxStock
+        total {
+          amount
+          currencyCode
+        }
       }
-      totalItems
-      totalPrice
     }
   }
 `);
 
 // Add to Cart Mutation
 export const AddToCartMutation = graphql(`
-  mutation AddToCart($input: AddToCartInput!) {
-    addToCart(input: $input) {
-      cart {
-        items {
-          id
+  mutation AddToCart($productId: ID!, $quantity: Int) {
+    addCartProduct(productId: $productId, quantity: $quantity) {
+      _id
+      product {
+        _id
+        texts {
           title
-          price
-          quantity
-          sku
-          teaserImage {
-            alt
-            source
-          }
-          maxStock
         }
-        totalItems
-        totalPrice
       }
-      errors {
-        message
+      quantity
+      originalProduct {
+        _id
+        texts {
+          title
+        }
+        media {
+          file {
+            url
+          }
+        }
+      }
+      unitPrice {
+        amount
+        currencyCode
       }
     }
   }
@@ -51,26 +72,30 @@ export const AddToCartMutation = graphql(`
 
 // Update Cart Item Mutation
 export const UpdateCartItemMutation = graphql(`
-  mutation UpdateCartItem($input: UpdateCartItemInput!) {
-    updateCartItem(input: $input) {
-      cart {
-        items {
-          id
+  mutation UpdateCartItem($itemId: ID!, $quantity: Int) {
+    updateCartItem(itemId: $itemId, quantity: $quantity) {
+      _id
+      product {
+        _id
+        texts {
           title
-          price
-          quantity
-          sku
-          teaserImage {
-            alt
-            source
-          }
-          maxStock
         }
-        totalItems
-        totalPrice
       }
-      errors {
-        message
+      quantity
+      originalProduct {
+        _id
+        texts {
+          title
+        }
+        media {
+          file {
+            url
+          }
+        }
+      }
+      unitPrice {
+        amount
+        currencyCode
       }
     }
   }
@@ -78,26 +103,30 @@ export const UpdateCartItemMutation = graphql(`
 
 // Remove from Cart Mutation
 export const RemoveFromCartMutation = graphql(`
-  mutation RemoveFromCart($productId: String!) {
-    removeFromCart(productId: $productId) {
-      cart {
-        items {
-          id
+  mutation RemoveFromCart($itemId: ID!) {
+    removeCartItem(itemId: $itemId) {
+      _id
+      product {
+        _id
+        texts {
           title
-          price
-          quantity
-          sku
-          teaserImage {
-            alt
-            source
-          }
-          maxStock
         }
-        totalItems
-        totalPrice
       }
-      errors {
-        message
+      quantity
+      originalProduct {
+        _id
+        texts {
+          title
+        }
+        media {
+          file {
+            url
+          }
+        }
+      }
+      unitPrice {
+        amount
+        currencyCode
       }
     }
   }
@@ -106,25 +135,36 @@ export const RemoveFromCartMutation = graphql(`
 // Clear Cart Mutation
 export const ClearCartMutation = graphql(`
   mutation ClearCart {
-    clearCart {
-      cart {
-        items {
-          id
-          title
-          price
-          quantity
-          sku
-          teaserImage {
-            alt
-            source
+    emptyCart {
+      _id
+      items {
+        _id
+        product {
+          _id
+          texts {
+            title
           }
-          maxStock
         }
-        totalItems
-        totalPrice
+        quantity
+        originalProduct {
+          _id
+          texts {
+            title
+          }
+          media {
+            file {
+              url
+            }
+          }
+        }
+        unitPrice {
+          amount
+          currencyCode
+        }
       }
-      errors {
-        message
+      total {
+        amount
+        currencyCode
       }
     }
   }
@@ -132,25 +172,37 @@ export const ClearCartMutation = graphql(`
 
 // Checkout Mutation
 export const CheckoutMutation = graphql(`
-  mutation Checkout($input: CheckoutInput!) {
-    checkout(input: $input) {
-      order {
-        id
-        orderNumber
-        status
-        totalAmount
-        items {
-          id
-          title
-          price
-          quantity
-          sku
+  mutation Checkout(
+    $orderId: ID
+    $paymentContext: JSON
+    $deliveryContext: JSON
+  ) {
+    checkoutCart(
+      orderId: $orderId
+      paymentContext: $paymentContext
+      deliveryContext: $deliveryContext
+    ) {
+      _id
+      orderNumber
+      status
+      total {
+        amount
+        currencyCode
+      }
+      items {
+        _id
+        product {
+          _id
+          texts {
+            title
+          }
+        }
+        quantity
+        unitPrice {
+          amount
+          currencyCode
         }
       }
-      errors {
-        message
-      }
-      paymentRedirectUrl
     }
   }
 `);
