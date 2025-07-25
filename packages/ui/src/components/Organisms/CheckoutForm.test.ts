@@ -9,7 +9,6 @@ describe('CheckoutForm', () => {
         emailAddress: 'test@example.com',
         firstName: 'John',
         lastName: 'Doe',
-        company: 'Example Corp',
         addressLine: '123 Main St',
         postalCode: '8001',
         city: 'Zurich',
@@ -20,27 +19,11 @@ describe('CheckoutForm', () => {
       expect(formData.emailAddress).toBe('test@example.com');
       expect(formData.firstName).toBe('John');
       expect(formData.lastName).toBe('Doe');
-      expect(formData.company).toBe('Example Corp');
       expect(formData.addressLine).toBe('123 Main St');
       expect(formData.postalCode).toBe('8001');
       expect(formData.city).toBe('Zurich');
       expect(formData.countryCode).toBe('CH');
       expect(formData.donation).toBe(5.0);
-    });
-
-    it('should allow optional company field', () => {
-      const formData: CheckoutFormData = {
-        emailAddress: 'test@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        addressLine: '123 Main St',
-        postalCode: '8001',
-        city: 'Zurich',
-        countryCode: 'CH',
-        donation: 0,
-      };
-
-      expect(formData.company).toBeUndefined();
     });
 
     it('should handle minimum donation amount', () => {
@@ -157,7 +140,6 @@ describe('CheckoutForm', () => {
         emailAddress: 'test@example.com',
         firstName: 'John',
         lastName: 'Doe',
-        company: 'Example Corp',
         addressLine: '123 Main St',
         postalCode: '8001',
         city: 'Zurich',
@@ -165,72 +147,27 @@ describe('CheckoutForm', () => {
         donation: 5.0,
       };
 
-      const expectedInput = {
-        contactInfo: {
-          emailAddress: 'test@example.com',
-        },
-        billingAddress: {
-          firstName: 'John',
-          lastName: 'Doe',
-          company: 'Example Corp',
-          addressLine: '123 Main St',
-          postalCode: '8001',
-          city: 'Zurich',
-          countryCode: 'CH',
-        },
-        metaData: {
-          donation: 5.0,
-        },
-      };
-
+      // Test the new flat structure that matches the updated CheckoutInput
       const actualInput = {
-        contactInfo: {
-          emailAddress: formData.emailAddress,
-        },
-        billingAddress: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          company: formData.company || null,
-          addressLine: formData.addressLine,
-          postalCode: formData.postalCode,
-          city: formData.city,
-          countryCode: formData.countryCode,
-        },
-        metaData: {
-          donation: formData.donation,
-        },
+        email: formData.emailAddress,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.addressLine,
+        postalCode: formData.postalCode,
+        city: formData.city,
+        country: formData.countryCode,
       };
 
-      expect(actualInput.contactInfo.emailAddress).toBe(
-        expectedInput.contactInfo.emailAddress,
-      );
-      expect(actualInput.billingAddress.firstName).toBe(
-        expectedInput.billingAddress.firstName,
-      );
-      expect(actualInput.billingAddress.lastName).toBe(
-        expectedInput.billingAddress.lastName,
-      );
-      expect(actualInput.billingAddress.company).toBe(
-        expectedInput.billingAddress.company,
-      );
-      expect(actualInput.billingAddress.addressLine).toBe(
-        expectedInput.billingAddress.addressLine,
-      );
-      expect(actualInput.billingAddress.postalCode).toBe(
-        expectedInput.billingAddress.postalCode,
-      );
-      expect(actualInput.billingAddress.city).toBe(
-        expectedInput.billingAddress.city,
-      );
-      expect(actualInput.billingAddress.countryCode).toBe(
-        expectedInput.billingAddress.countryCode,
-      );
-      expect(actualInput.metaData.donation).toBe(
-        expectedInput.metaData.donation,
-      );
+      expect(actualInput.email).toBe('test@example.com');
+      expect(actualInput.firstName).toBe('John');
+      expect(actualInput.lastName).toBe('Doe');
+      expect(actualInput.address).toBe('123 Main St');
+      expect(actualInput.postalCode).toBe('8001');
+      expect(actualInput.city).toBe('Zurich');
+      expect(actualInput.country).toBe('CH');
     });
 
-    it('should handle empty company field', () => {
+    it('should handle donation amount transformation', () => {
       const formData: CheckoutFormData = {
         emailAddress: 'test@example.com',
         firstName: 'John',
@@ -239,11 +176,10 @@ describe('CheckoutForm', () => {
         postalCode: '8001',
         city: 'Zurich',
         countryCode: 'CH',
-        donation: 0,
+        donation: 25.5,
       };
 
-      const transformedCompany = formData.company || null;
-      expect(transformedCompany).toBeNull();
+      expect(formData.donation).toBe(25.5);
     });
   });
 });

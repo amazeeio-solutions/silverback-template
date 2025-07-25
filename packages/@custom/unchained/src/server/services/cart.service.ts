@@ -1,3 +1,4 @@
+import { Locale } from '@custom/schema';
 import fetch from 'node-fetch';
 
 // Types
@@ -323,8 +324,20 @@ export class CartService {
     cart.totalPrice = Math.round(cart.totalPrice * 100) / 100;
   }
 
+  private getLanguagePrefix(language: string): string {
+    // All locales use /{locale-value} prefix pattern
+    const languageMap: Record<string, string> = {
+      [Locale.En]: '/en',
+      [Locale.De]: '/de',
+      [Locale.It]: '/it',
+      [Locale.French]: '/french',
+    };
+
+    return languageMap[language] || '/en'; // Default to English if language unknown
+  }
+
   // Checkout
-  async processCheckout(sessionId: string) {
+  async processCheckout(sessionId: string, userLanguage: string = Locale.En) {
     if (!this.validateSession(sessionId)) {
       throw new Error('Invalid or expired session');
     }
@@ -353,11 +366,30 @@ export class CartService {
     // Clear cart after successful checkout
     this.clearCart(sessionId);
 
-    // For demo purposes, return a mock payment URL
-    const paymentRedirectUrl =
-      cart.totalPrice > 0
-        ? `https://payment.example.com/pay/${order.id}`
-        : null;
+    // Generate payment URL with language-aware redirect URLs
+    let paymentRedirectUrl: string | null = null;
+
+    if (cart.totalPrice > 0) {
+      // Generate language-aware redirect URLs
+      const languagePrefix = this.getLanguagePrefix(userLanguage);
+      const baseUrl = process.env.FRONTEND_BASE_URL || 'http://localhost:8000';
+
+      const redirectUrls = {
+        successUrl: `${baseUrl}${languagePrefix}/checkout/success`,
+        cancelUrl: `${baseUrl}${languagePrefix}/checkout/cancelled`,
+        failureUrl: `${baseUrl}${languagePrefix}/checkout/failed`,
+      };
+
+      // Create a realistic payment URL that includes the redirect URLs
+      const paymentParams = new URLSearchParams({
+        orderId: order.id,
+        amount: cart.totalPrice.toString(),
+        successUrl: redirectUrls.successUrl,
+        cancelUrl: redirectUrls.cancelUrl,
+        failureUrl: redirectUrls.failureUrl,
+      });
+      paymentRedirectUrl = `https://payment.example.com/pay?${paymentParams.toString()}`;
+    }
 
     return {
       order,

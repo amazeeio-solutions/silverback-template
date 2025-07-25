@@ -1,3 +1,4 @@
+import { Locale } from '@custom/schema';
 import type { Response } from 'express';
 
 import { CartService } from '../services/cart.service.js';
@@ -24,6 +25,40 @@ export interface Context {
 // Helper to get session ID from request
 function getSessionId(context: Context): string | undefined {
   return context.sessionId || context.req.session?.guestId;
+}
+
+// Helper to extract language from Accept-Language header
+function extractLanguageFromHeaders(acceptLanguage: string): string {
+  // Parse Accept-Language header (e.g., "en-US,en;q=0.9,de;q=0.8")
+  const languages = acceptLanguage
+    .split(',')
+    .map((lang) => {
+      const [code, qValue] = lang.trim().split(';q=');
+      return {
+        code: code.toLowerCase(),
+        quality: qValue ? parseFloat(qValue) : 1.0,
+      };
+    })
+    .sort((a, b) => b.quality - a.quality);
+
+  // Map common language codes to our supported Locale values
+  for (const lang of languages) {
+    if (lang.code.startsWith('de')) {
+      return Locale.De;
+    }
+    if (lang.code.startsWith('fr')) {
+      return Locale.French;
+    }
+    if (lang.code.startsWith('it')) {
+      return Locale.It;
+    }
+    if (lang.code.startsWith('en')) {
+      return Locale.En;
+    }
+  }
+
+  // Default to English
+  return Locale.En;
 }
 
 // Resolvers
@@ -216,7 +251,14 @@ export const resolvers = {
       }
 
       try {
-        const result = await cartService.processCheckout(sessionId);
+        // Extract user language from request headers or default to 'en'
+        const acceptLanguage = context.req.headers['accept-language'] || '';
+        const userLanguage = extractLanguageFromHeaders(acceptLanguage);
+
+        const result = await cartService.processCheckout(
+          sessionId,
+          userLanguage,
+        );
         return {
           order: result.order,
           errors: [],

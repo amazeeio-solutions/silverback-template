@@ -9,14 +9,16 @@ export function Cart() {
   const intl = useIntl();
 
   const handleContinueShopping = () => {
-    const homeUrl =
-      intl.locale === 'en' ? '/' : `/${intl.locale.replace('_', '-')}`;
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const homeUrl = `/${localePrefix}`;
     navigate(homeUrl as Url);
   };
 
   const handleCheckout = () => {
-    const checkoutUrl =
-      intl.locale === 'en' ? '/cart' : `/${intl.locale.replace('_', '-')}/cart`;
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const checkoutUrl = `/${localePrefix}/checkout`;
     navigate(checkoutUrl as Url);
   };
 

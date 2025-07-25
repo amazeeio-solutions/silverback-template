@@ -50,14 +50,16 @@ export function Header() {
   };
 
   const handleViewCart = () => {
-    const cartUrl =
-      intl.locale === 'en' ? '/cart' : `/${intl.locale.replace('_', '-')}/cart`;
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const cartUrl = `/${localePrefix}/cart`;
     navigate(cartUrl as Url);
   };
 
   const handleCheckout = () => {
-    const checkoutUrl =
-      intl.locale === 'en' ? '/cart' : `/${intl.locale.replace('_', '-')}/cart`;
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const checkoutUrl = `/${localePrefix}/checkout`;
     navigate(checkoutUrl as Url);
   };
 

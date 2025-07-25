@@ -748,33 +748,9 @@ Input type for checkout process.
 """
 input CheckoutInput {
   """
-  Customer contact information.
-  """
-  contactInfo: ContactInfoInput!
-  """
-  Customer billing address.
-  """
-  billingAddress: BillingAddressInput!
-  """
-  Additional meta data for the order.
-  """
-  metaData: OrderMetaDataInput!
-}
-
-"""
-Contact information input.
-"""
-input ContactInfoInput {
-  """
   Customer's email address.
   """
-  emailAddress: String!
-}
-
-"""
-Billing address input.
-"""
-input BillingAddressInput {
+  email: String!
   """
   Customer's first name.
   """
@@ -784,35 +760,21 @@ input BillingAddressInput {
   """
   lastName: String!
   """
-  Company name (optional).
-  """
-  company: String
-  """
   Street address.
   """
-  addressLine: String!
-  """
-  Postal/ZIP code.
-  """
-  postalCode: String!
+  address: String
   """
   City name.
   """
-  city: String!
+  city: String
+  """
+  Postal/ZIP code.
+  """
+  postalCode: String
   """
   Country code (e.g., "CH" for Switzerland).
   """
-  countryCode: String!
-}
-
-"""
-Order meta data input.
-"""
-input OrderMetaDataInput {
-  """
-  Donation amount in CHF (Swiss Francs).
-  """
-  donation: Float!
+  country: String
 }
 
 """

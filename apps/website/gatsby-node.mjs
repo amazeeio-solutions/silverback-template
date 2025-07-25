@@ -9,6 +9,10 @@ import {
 import fs from 'fs';
 import { resolve } from 'path';
 
+// Set GATSBY_UNCHAINED_DEV based on SB_ENVIRONMENT
+process.env.GATSBY_UNCHAINED_DEV =
+  process.env.SB_ENVIRONMENT === '1' ? 'true' : 'false';
+
 // @ts-expect-error Not typed.
 global.netlifyTomlParts ??= [];
 

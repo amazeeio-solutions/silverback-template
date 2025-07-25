@@ -25,21 +25,32 @@ export function Checkout() {
 
   // Handle payment provider redirects
   React.useEffect(() => {
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
     if (paymentStatus === 'success' && orderNumber) {
-      navigate(`/checkout/success?orderNumber=${orderNumber}` as Url);
+      navigate(
+        `/${localePrefix}/checkout/success?orderNumber=${orderNumber}` as Url,
+      );
     } else if (paymentStatus === 'cancelled') {
-      navigate('/checkout/cancelled' as Url);
+      navigate(`/${localePrefix}/checkout/cancelled` as Url);
     } else if (paymentStatus === 'failed') {
-      navigate('/checkout/failed' as Url);
+      navigate(`/${localePrefix}/checkout/failed` as Url);
     }
-  }, [paymentStatus, orderNumber, navigate]);
+  }, [paymentStatus, orderNumber, navigate, intl.locale]);
 
   const handleCancel = () => {
-    navigate('/cart' as Url);
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const cartUrl = `/${localePrefix}/cart`;
+    navigate(cartUrl as Url);
   };
 
   const handleSuccess = (orderNumber: string) => {
-    navigate(`/checkout/success?orderNumber=${orderNumber}` as Url);
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    navigate(
+      `/${localePrefix}/checkout/success?orderNumber=${orderNumber}` as Url,
+    );
   };
 
   // If cart is empty, redirect to cart page
@@ -65,7 +76,14 @@ export function Checkout() {
               })}
             </p>
             <button
-              onClick={() => navigate('/' as Url)}
+              onClick={() => {
+                const localePrefix =
+                  intl.locale === 'french'
+                    ? 'french'
+                    : intl.locale.replace('_', '-');
+                const homeUrl = `/${localePrefix}`;
+                navigate(homeUrl as Url);
+              }}
               className="bg-kls-orange-primary hover:bg-kls-orange-accessible mt-6 inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-white"
             >
               {intl.formatMessage({

@@ -11,11 +11,17 @@ export function CheckoutCancelled() {
   const [, navigate] = useLocation();
 
   const handleBackToCart = () => {
-    navigate('/cart' as Url);
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const cartUrl = `/${localePrefix}/cart`;
+    navigate(cartUrl as Url);
   };
 
   const handleContinueShopping = () => {
-    navigate('/' as Url);
+    const localePrefix =
+      intl.locale === 'french' ? 'french' : intl.locale.replace('_', '-');
+    const homeUrl = `/${localePrefix}`;
+    navigate(homeUrl as Url);
   };
 
   return (

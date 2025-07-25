@@ -14,7 +14,6 @@ export interface CheckoutFormData {
   // Billing Address
   firstName: string;
   lastName: string;
-  company?: string;
   addressLine: string;
   postalCode: string;
   city: string;
@@ -55,21 +54,13 @@ export function CheckoutForm({ onSuccess, onCancel }: CheckoutFormProps) {
   const onSubmit = async (formData: CheckoutFormData) => {
     const result = await trigger({
       input: {
-        contactInfo: {
-          emailAddress: formData.emailAddress,
-        },
-        billingAddress: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          company: formData.company || undefined,
-          addressLine: formData.addressLine,
-          postalCode: formData.postalCode,
-          city: formData.city,
-          countryCode: formData.countryCode,
-        },
-        metaData: {
-          donation: formData.donation,
-        },
+        email: formData.emailAddress,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.addressLine,
+        postalCode: formData.postalCode,
+        city: formData.city,
+        country: formData.countryCode,
       },
     });
 
@@ -203,32 +194,6 @@ export function CheckoutForm({ onSuccess, onCancel }: CheckoutFormProps) {
                   {errors.lastName.message}
                 </p>
               )}
-            </div>
-
-            <div className="sm:col-span-2">
-              <label
-                htmlFor="company"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                {intl.formatMessage({
-                  id: '9YazHG',
-                  defaultMessage: 'Company',
-                })}
-                <span className="ml-1 text-gray-500">
-                  (
-                  {intl.formatMessage({
-                    id: 'V4KNjk',
-                    defaultMessage: 'optional',
-                  })}
-                  )
-                </span>
-              </label>
-              <input
-                type="text"
-                id="company"
-                {...register('company')}
-                className="focus:border-kls-orange-primary focus:ring-kls-orange-primary block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-              />
             </div>
 
             <div className="sm:col-span-2">

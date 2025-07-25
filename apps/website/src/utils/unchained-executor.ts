@@ -20,8 +20,8 @@ import {
 
 // Determine the Unchained API URL based on environment
 function getUnchainedApiUrl(): string {
-  // Check if we're in development mode
-  const isDevelopment = process.env.GATSBY_DEVELOPMENT === 'true';
+  // Check if we're in development mode based on SB_ENVIRONMENT
+  const isDevelopment = process.env.GATSBY_UNCHAINED_DEV === 'true';
 
   if (isDevelopment) {
     // Use local development server
