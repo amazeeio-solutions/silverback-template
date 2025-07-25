@@ -3,7 +3,11 @@ import { UpdateCartItemMutation as UpdateCartItemMutationId } from '@custom/sche
 import { defaultClient, type GraphQLClient } from '../client';
 import { UpdateCartItemMutation } from '../operations';
 import type { Executor } from '../types';
-import { handleGraphQLResponse, mapUpdateCartItemResult, mapVariablesToGqlTada } from '../utils';
+import {
+  handleGraphQLResponse,
+  mapUpdateCartItemResult,
+  mapVariablesToGqlTada,
+} from '../utils';
 
 export function createUpdateCartItemExecutor(
   client: GraphQLClient = defaultClient,

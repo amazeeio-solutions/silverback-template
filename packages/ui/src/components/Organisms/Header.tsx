@@ -50,13 +50,15 @@ export function Header() {
   };
 
   const handleViewCart = () => {
-    navigate('/cart' as Url);
+    const cartUrl =
+      intl.locale === 'en' ? '/cart' : `/${intl.locale.replace('_', '-')}/cart`;
+    navigate(cartUrl as Url);
   };
 
   const handleCheckout = () => {
-    navigate(`/checkout` as Url);
-    // TODO: Implement checkout navigation
-    console.log('Checkout clicked');
+    const checkoutUrl =
+      intl.locale === 'en' ? '/cart' : `/${intl.locale.replace('_', '-')}/cart`;
+    navigate(checkoutUrl as Url);
   };
 
   return (

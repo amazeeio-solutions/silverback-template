@@ -3,7 +3,11 @@ import { CheckoutMutation as CheckoutMutationId } from '@custom/schema';
 import { defaultClient, type GraphQLClient } from '../client';
 import { CheckoutMutation } from '../operations';
 import type { Executor } from '../types';
-import { handleGraphQLResponse, mapCheckoutResult, mapVariablesToGqlTada } from '../utils';
+import {
+  handleGraphQLResponse,
+  mapCheckoutResult,
+  mapVariablesToGqlTada,
+} from '../utils';
 
 export function createCheckoutExecutor(
   client: GraphQLClient = defaultClient,

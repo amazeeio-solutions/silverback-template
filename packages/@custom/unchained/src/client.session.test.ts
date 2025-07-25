@@ -168,7 +168,7 @@ describe('UnchainedGraphQLClient Session Management', () => {
       );
 
       const result = await client.request(GuestLoginMutation);
-      
+
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain('Guest login failed');
       expect(result.data).toBeNull();
@@ -230,7 +230,7 @@ describe('UnchainedGraphQLClient Session Management', () => {
       );
 
       const result = await client.request(GuestLoginMutation);
-      
+
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain('HTTP error! status: 401');
       expect(result.data).toBeNull();
@@ -257,7 +257,7 @@ describe('UnchainedGraphQLClient Session Management', () => {
       );
 
       const result = await client.request(CartQuery);
-      
+
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain('Guest login failed');
       expect(result.data).toBeNull();
@@ -291,7 +291,7 @@ describe('UnchainedGraphQLClient Session Management', () => {
       );
 
       const result = await client.request(CartQuery);
-      
+
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain('Authentication required');
       expect(result.data).toBeNull();

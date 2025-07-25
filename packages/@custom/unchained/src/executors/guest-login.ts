@@ -2,7 +2,11 @@ import type { ResultOf } from 'gql.tada';
 
 import { defaultClient, type GraphQLClient } from '../client';
 import { GuestLoginMutation } from '../operations';
-import { type GuestLoginResult,handleGraphQLResponse, mapGuestLoginResult } from '../utils';
+import {
+  type GuestLoginResult,
+  handleGraphQLResponse,
+  mapGuestLoginResult,
+} from '../utils';
 
 // Guest login executor type since it's not yet in the schema
 export type GuestLoginExecutor = (

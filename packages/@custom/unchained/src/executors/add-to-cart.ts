@@ -3,7 +3,11 @@ import { AddToCartMutation as AddToCartMutationId } from '@custom/schema';
 import { defaultClient, type GraphQLClient } from '../client';
 import { AddToCartMutation } from '../operations';
 import type { Executor } from '../types';
-import { handleGraphQLResponse, mapAddToCartResult, mapVariablesToGqlTada } from '../utils';
+import {
+  handleGraphQLResponse,
+  mapAddToCartResult,
+  mapVariablesToGqlTada,
+} from '../utils';
 
 export function createAddToCartExecutor(
   client: GraphQLClient = defaultClient,

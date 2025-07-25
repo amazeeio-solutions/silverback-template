@@ -3,7 +3,11 @@ import { RemoveFromCartMutation as RemoveFromCartMutationId } from '@custom/sche
 import { defaultClient, type GraphQLClient } from '../client';
 import { RemoveFromCartMutation } from '../operations';
 import type { Executor } from '../types';
-import { handleGraphQLResponse, mapRemoveFromCartResult, mapVariablesToGqlTada } from '../utils';
+import {
+  handleGraphQLResponse,
+  mapRemoveFromCartResult,
+  mapVariablesToGqlTada,
+} from '../utils';
 
 export function createRemoveFromCartExecutor(
   client: GraphQLClient = defaultClient,

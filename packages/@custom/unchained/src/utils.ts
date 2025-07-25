@@ -1,4 +1,4 @@
-import type { 
+import type {
   AddToCartMutation as AddToCartMutationType,
   CartQuery as CartQueryType,
   CheckoutMutation as CheckoutMutationType,
@@ -7,7 +7,7 @@ import type {
   RemoveFromCartMutation as RemoveFromCartMutationType,
   UpdateCartItemMutation as UpdateCartItemMutationType,
 } from '@custom/schema';
-import type { ResultOf,VariablesOf } from 'gql.tada';
+import type { ResultOf, VariablesOf } from 'gql.tada';
 import type { DocumentNode } from 'graphql';
 
 import type { GraphQLResponse } from './client';
@@ -53,7 +53,9 @@ export function mapVariablesToGqlTada<T extends DocumentNode>(
 ): VariablesOf<T> {
   // Handle UpdateCartItemMutation variable mapping
   if (operation === UpdateCartItemMutation) {
-    const updateVars = schemaVars as { input: { productId: string; quantity: number } };
+    const updateVars = schemaVars as {
+      input: { productId: string; quantity: number };
+    };
     return {
       input: {
         itemId: updateVars.input.productId, // Map productId to itemId
@@ -95,7 +97,10 @@ function mapCartItem(item: NonNullable<GqlTadaCartItem>): SchemaCartItem {
     teaserImage: item.teaserImage
       ? {
           alt: assertNonNull(item.teaserImage.alt, 'item.teaserImage.alt'),
-          source: assertNonNull(item.teaserImage.source, 'item.teaserImage.source') as ImageSource,
+          source: assertNonNull(
+            item.teaserImage.source,
+            'item.teaserImage.source',
+          ) as ImageSource,
         }
       : undefined,
   };
@@ -108,17 +113,23 @@ function mapCart(cart: GqlTadaCart): SchemaCart {
   if (!cart) {
     throw new Error('Cart data is null');
   }
-  
+
   return {
     totalItems: assertNonNull(cart.totalItems, 'cart.totalItems'),
     totalPrice: assertNonNull(cart.totalPrice, 'cart.totalPrice'),
-    items: cart.items ? cart.items.filter((item): item is NonNullable<GqlTadaCartItem> => item !== null).map(mapCartItem) : [],
+    items: cart.items
+      ? cart.items
+          .filter((item): item is NonNullable<GqlTadaCartItem> => item !== null)
+          .map(mapCartItem)
+      : [],
   };
 }
 
 // Extract error types for mapping
 type SchemaError = { message: string };
-type GqlTadaError = NonNullable<NonNullable<GqlTadaAddToCartResult['addToCart']>['errors']>[number];
+type GqlTadaError = NonNullable<
+  NonNullable<GqlTadaAddToCartResult['addToCart']>['errors']
+>[number];
 
 /**
  * Maps gql.tada error result to schema error type
@@ -126,7 +137,7 @@ type GqlTadaError = NonNullable<NonNullable<GqlTadaAddToCartResult['addToCart']>
 function mapErrors(errors: (GqlTadaError | null)[]): SchemaError[] {
   return errors
     .filter((error): error is NonNullable<GqlTadaError> => error !== null)
-    .map(error => ({
+    .map((error) => ({
       message: assertNonNull(error.message, 'error.message'),
     }));
 }
@@ -134,7 +145,9 @@ function mapErrors(errors: (GqlTadaError | null)[]): SchemaError[] {
 /**
  * Maps gql.tada AddToCart result to schema AddToCartMutation type
  */
-export function mapAddToCartResult(data: GqlTadaAddToCartResult): AddToCartMutationType {
+export function mapAddToCartResult(
+  data: GqlTadaAddToCartResult,
+): AddToCartMutationType {
   if (!data.addToCart) {
     return { addToCart: undefined };
   }
@@ -142,7 +155,9 @@ export function mapAddToCartResult(data: GqlTadaAddToCartResult): AddToCartMutat
   return {
     addToCart: {
       cart: data.addToCart.cart ? mapCart(data.addToCart.cart) : undefined,
-      errors: data.addToCart.errors ? mapErrors(data.addToCart.errors) : undefined,
+      errors: data.addToCart.errors
+        ? mapErrors(data.addToCart.errors)
+        : undefined,
     },
   };
 }
@@ -161,7 +176,7 @@ export function mapCartResult(data: GqlTadaCartResult): CartQueryType {
       },
     };
   }
-  
+
   return {
     cart: mapCart(data.cart),
   };
@@ -170,15 +185,21 @@ export function mapCartResult(data: GqlTadaCartResult): CartQueryType {
 /**
  * Maps gql.tada UpdateCartItem result to schema UpdateCartItemMutation type
  */
-export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): UpdateCartItemMutationType {
+export function mapUpdateCartItemResult(
+  data: GqlTadaUpdateCartItemResult,
+): UpdateCartItemMutationType {
   if (!data.updateCartItem) {
     return { updateCartItem: undefined };
   }
 
   return {
     updateCartItem: {
-      cart: data.updateCartItem.cart ? mapCart(data.updateCartItem.cart) : undefined,
-      errors: data.updateCartItem.errors ? mapErrors(data.updateCartItem.errors) : undefined,
+      cart: data.updateCartItem.cart
+        ? mapCart(data.updateCartItem.cart)
+        : undefined,
+      errors: data.updateCartItem.errors
+        ? mapErrors(data.updateCartItem.errors)
+        : undefined,
     },
   };
 }
@@ -186,15 +207,21 @@ export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): Upda
 /**
  * Maps gql.tada RemoveFromCart result to schema RemoveFromCartMutation type
  */
-export function mapRemoveFromCartResult(data: GqlTadaRemoveFromCartResult): RemoveFromCartMutationType {
+export function mapRemoveFromCartResult(
+  data: GqlTadaRemoveFromCartResult,
+): RemoveFromCartMutationType {
   if (!data.removeFromCart) {
     return { removeFromCart: undefined };
   }
 
   return {
     removeFromCart: {
-      cart: data.removeFromCart.cart ? mapCart(data.removeFromCart.cart) : undefined,
-      errors: data.removeFromCart.errors ? mapErrors(data.removeFromCart.errors) : undefined,
+      cart: data.removeFromCart.cart
+        ? mapCart(data.removeFromCart.cart)
+        : undefined,
+      errors: data.removeFromCart.errors
+        ? mapErrors(data.removeFromCart.errors)
+        : undefined,
     },
   };
 }
@@ -202,7 +229,9 @@ export function mapRemoveFromCartResult(data: GqlTadaRemoveFromCartResult): Remo
 /**
  * Maps gql.tada ClearCart result to schema ClearCartMutation type
  */
-export function mapClearCartResult(data: GqlTadaClearCartResult): ClearCartMutationType {
+export function mapClearCartResult(
+  data: GqlTadaClearCartResult,
+): ClearCartMutationType {
   if (!data.clearCart) {
     return { clearCart: undefined };
   }
@@ -210,7 +239,9 @@ export function mapClearCartResult(data: GqlTadaClearCartResult): ClearCartMutat
   return {
     clearCart: {
       cart: data.clearCart.cart ? mapCart(data.clearCart.cart) : undefined,
-      errors: data.clearCart.errors ? mapErrors(data.clearCart.errors) : undefined,
+      errors: data.clearCart.errors
+        ? mapErrors(data.clearCart.errors)
+        : undefined,
     },
   };
 }
@@ -219,7 +250,9 @@ export function mapClearCartResult(data: GqlTadaClearCartResult): ClearCartMutat
  * Maps gql.tada Checkout result to schema CheckoutMutation type
  */
 // Extract checkout-specific types
-type SchemaOrderItem = NonNullable<NonNullable<CheckoutMutationType['checkout']>['order']>['items'][number];
+type SchemaOrderItem = NonNullable<
+  NonNullable<CheckoutMutationType['checkout']>['order']
+>['items'][number];
 type GqlTadaOrder = NonNullable<GqlTadaCheckoutResult['checkout']>['order'];
 type GqlTadaOrderItem = NonNullable<NonNullable<GqlTadaOrder>['items']>[number];
 
@@ -233,25 +266,39 @@ function mapOrderItem(item: NonNullable<GqlTadaOrderItem>): SchemaOrderItem {
   };
 }
 
-export function mapCheckoutResult(data: GqlTadaCheckoutResult): CheckoutMutationType {
+export function mapCheckoutResult(
+  data: GqlTadaCheckoutResult,
+): CheckoutMutationType {
   if (!data.checkout) {
     return { checkout: undefined };
   }
 
-  const orderItems = data.checkout.order?.items 
-    ? data.checkout.order.items.filter((item): item is NonNullable<GqlTadaOrderItem> => item !== null).map(mapOrderItem)
+  const orderItems = data.checkout.order?.items
+    ? data.checkout.order.items
+        .filter((item): item is NonNullable<GqlTadaOrderItem> => item !== null)
+        .map(mapOrderItem)
     : [];
 
   return {
     checkout: {
-      order: data.checkout.order ? {
-        id: assertNonNull(data.checkout.order.id, 'order.id'),
-        orderNumber: assertNonNull(data.checkout.order.orderNumber, 'order.orderNumber'),
-        status: assertNonNull(data.checkout.order.status, 'order.status'),
-        totalAmount: assertNonNull(data.checkout.order.totalAmount, 'order.totalAmount'),
-        items: orderItems,
-      } : undefined,
-      errors: data.checkout.errors ? mapErrors(data.checkout.errors) : undefined,
+      order: data.checkout.order
+        ? {
+            id: assertNonNull(data.checkout.order.id, 'order.id'),
+            orderNumber: assertNonNull(
+              data.checkout.order.orderNumber,
+              'order.orderNumber',
+            ),
+            status: assertNonNull(data.checkout.order.status, 'order.status'),
+            totalAmount: assertNonNull(
+              data.checkout.order.totalAmount,
+              'order.totalAmount',
+            ),
+            items: orderItems,
+          }
+        : undefined,
+      errors: data.checkout.errors
+        ? mapErrors(data.checkout.errors)
+        : undefined,
       paymentRedirectUrl: data.checkout.paymentRedirectUrl || undefined,
     },
   };
@@ -269,15 +316,20 @@ export type GuestLoginResult = {
  * Maps gql.tada GuestLogin result to a simplified result type
  * Since GuestLogin is not yet in the schema, we use a basic structure
  */
-export function mapGuestLoginResult(data: GqlTadaGuestLoginResult): GuestLoginResult {
+export function mapGuestLoginResult(
+  data: GqlTadaGuestLoginResult,
+): GuestLoginResult {
   const loginData = data.loginAsGuest;
   if (!loginData) {
     return { loginAsGuest: undefined };
   }
 
   // Since the gql.tada type might not have the right structure, we need to cast it
-  const typedLoginData = loginData as { _id: string | null; tokenExpires?: string | null };
-  
+  const typedLoginData = loginData as {
+    _id: string | null;
+    tokenExpires?: string | null;
+  };
+
   return {
     loginAsGuest: {
       _id: assertNonNull(typedLoginData._id, 'loginAsGuest._id'),
