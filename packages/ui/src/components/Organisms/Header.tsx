@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { isTruthy } from '../../utils/isTruthy';
 import { buildNavigationTree } from '../../utils/navigation';
 import { useOperation } from '../../utils/operation';
+import { ClientOnlyMiniCart } from '../Client/ClientOnlyMiniCart';
 import {
   MobileMenu,
   MobileMenuButton,
@@ -16,7 +17,6 @@ import {
 } from '../Client/MobileMenu';
 import { CartIcon } from '../Molecules/CartIcon';
 import { LanguageSwitcher } from '../Molecules/LanguageSwitcher';
-import { MiniCart } from './MiniCart';
 
 function useHeaderNavigation(lang: string = 'en') {
   return (
@@ -262,7 +262,7 @@ export function Header() {
       </div>
 
       {/* Mini Cart */}
-      <MiniCart
+      <ClientOnlyMiniCart
         onClose={handleMiniCartClose}
         onViewCart={handleViewCart}
         onCheckout={handleCheckout}
