@@ -11,7 +11,7 @@ describe('transformUrlToImageSource', () => {
 
     expect(typeof result).toBe('string');
     const parsed = JSON.parse(result);
-    expect(parsed.url).toBe(url);
+    expect(parsed.src).toBe(url);
     expect(parsed.alt).toBe(alt);
     expect(parsed).toHaveProperty('width');
     expect(parsed).toHaveProperty('height');
@@ -55,7 +55,7 @@ describe('transformUrlToImageSource', () => {
     const result = transformUrlToImageSource(url, alt);
 
     const parsed = JSON.parse(result);
-    expect(parsed.url).toBe('https://example.com/image.jpg');
+    expect(parsed.src).toBe('https://example.com/image.jpg');
   });
 
   it('should handle missing alt text with default empty string', () => {
@@ -64,7 +64,7 @@ describe('transformUrlToImageSource', () => {
     const result = transformUrlToImageSource(url);
 
     const parsed = JSON.parse(result);
-    expect(parsed.url).toBe(url);
+    expect(parsed.src).toBe(url);
     expect(parsed.alt).toBe('');
   });
 });

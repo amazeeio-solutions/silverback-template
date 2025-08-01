@@ -34,10 +34,10 @@ describe('cartExecutor', () => {
     // Verify that source is properly JSON-encoded ImageSource
     expect(typeof firstItem.teaserImage.source).toBe('string');
     const parsedSource = JSON.parse(firstItem.teaserImage.source);
-    expect(parsedSource).toHaveProperty('url');
+    expect(parsedSource).toHaveProperty('src');
     expect(parsedSource).toHaveProperty('alt');
     expect(parsedSource.alt).toBe('Test Product Image');
-    expect(parsedSource.url).toBe('https://example.com/test.jpg');
+    expect(parsedSource.src).toBe('https://example.com/test.jpg');
 
     expect(firstItem.maxStock).toBe(10);
   });

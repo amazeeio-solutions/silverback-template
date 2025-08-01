@@ -33,7 +33,7 @@ export function transformUrlToImageSource(
 
   // Create a structured ImageSource object with the URL and metadata
   const imageData = {
-    url: url.trim(),
+    src: url.trim(),
     alt,
     // Add placeholder dimensions - in a real implementation these could be fetched
     // or provided by the Unchained API
@@ -179,7 +179,7 @@ export function mapCartResult(data: GqlTadaCartResult): { cart: Cart } {
       // Type assertion to access the properties safely
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const typedItem = item as any;
-      
+
       // Debug logging for media structure
       console.debug('[mapCartResult] Processing cart item:', {
         itemId: typedItem._id,
@@ -215,19 +215,22 @@ export function mapCartResult(data: GqlTadaCartResult): { cart: Cart } {
                   urlLength: url?.length || 0,
                   trimmedUrl: url?.trim(),
                 });
-                
+
                 const result = {
                   alt: 'Test Product Image', // Expected by tests
                   source: transformUrlToImageSource(url, 'Test Product Image'),
                 };
-                
-                console.debug('[mapCartResult] teaserImage created successfully:', {
-                  itemId: typedItem._id,
-                  alt: result.alt,
-                  sourceType: typeof result.source,
-                  sourceLength: result.source?.length || 0,
-                });
-                
+
+                console.debug(
+                  '[mapCartResult] teaserImage created successfully:',
+                  {
+                    itemId: typedItem._id,
+                    alt: result.alt,
+                    sourceType: typeof result.source,
+                    sourceLength: result.source?.length || 0,
+                  },
+                );
+
                 return result;
               } catch (error) {
                 console.warn('[mapCartResult] Failed to create teaserImage:', {
@@ -281,7 +284,7 @@ export function mapAddToCartResult(data: GqlTadaAddToCartResult): {
   // Type assertion to access the properties safely
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const typedItem = item as any;
-  
+
   // Debug logging for media structure
   console.debug('[mapAddToCartResult] Processing added cart product:', {
     itemId: typedItem._id,
@@ -311,7 +314,7 @@ export function mapAddToCartResult(data: GqlTadaAddToCartResult): {
               typedItem.product?.texts?.title ||
               typedItem.originalProduct?.texts?.title ||
               'Product Image';
-            
+
             console.debug('[mapAddToCartResult] Creating teaserImage:', {
               itemId: typedItem._id,
               rawUrl: url,
@@ -320,19 +323,22 @@ export function mapAddToCartResult(data: GqlTadaAddToCartResult): {
               trimmedUrl: url?.trim(),
               altText: altText,
             });
-            
+
             const result = {
               alt: altText,
               source: transformUrlToImageSource(url, altText),
             };
-            
-            console.debug('[mapAddToCartResult] teaserImage created successfully:', {
-              itemId: typedItem._id,
-              alt: result.alt,
-              sourceType: typeof result.source,
-              sourceLength: result.source?.length || 0,
-            });
-            
+
+            console.debug(
+              '[mapAddToCartResult] teaserImage created successfully:',
+              {
+                itemId: typedItem._id,
+                alt: result.alt,
+                sourceType: typeof result.source,
+                sourceLength: result.source?.length || 0,
+              },
+            );
+
             return result;
           } catch (error) {
             console.warn('[mapAddToCartResult] Failed to create teaserImage:', {
@@ -388,7 +394,7 @@ export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): {
   // Type assertion to access the properties safely
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const typedItem = item as any;
-  
+
   // Debug logging for media structure
   console.debug('[mapUpdateCartItemResult] Processing updated cart item:', {
     itemId: typedItem._id,
@@ -418,7 +424,7 @@ export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): {
               typedItem.product?.texts?.title ||
               typedItem.originalProduct?.texts?.title ||
               'Product Image';
-            
+
             console.debug('[mapUpdateCartItemResult] Creating teaserImage:', {
               itemId: typedItem._id,
               rawUrl: url,
@@ -427,26 +433,32 @@ export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): {
               trimmedUrl: url?.trim(),
               altText: altText,
             });
-            
+
             const result = {
               alt: altText,
               source: transformUrlToImageSource(url, altText),
             };
-            
-            console.debug('[mapUpdateCartItemResult] teaserImage created successfully:', {
-              itemId: typedItem._id,
-              alt: result.alt,
-              sourceType: typeof result.source,
-              sourceLength: result.source?.length || 0,
-            });
-            
+
+            console.debug(
+              '[mapUpdateCartItemResult] teaserImage created successfully:',
+              {
+                itemId: typedItem._id,
+                alt: result.alt,
+                sourceType: typeof result.source,
+                sourceLength: result.source?.length || 0,
+              },
+            );
+
             return result;
           } catch (error) {
-            console.warn('[mapUpdateCartItemResult] Failed to create teaserImage:', {
-              itemId: typedItem._id,
-              error: error,
-              url: typedItem.originalProduct.media[0].file.url,
-            });
+            console.warn(
+              '[mapUpdateCartItemResult] Failed to create teaserImage:',
+              {
+                itemId: typedItem._id,
+                error: error,
+                url: typedItem.originalProduct.media[0].file.url,
+              },
+            );
             return undefined;
           }
         })()

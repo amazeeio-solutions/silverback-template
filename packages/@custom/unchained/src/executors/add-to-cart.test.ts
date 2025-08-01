@@ -44,7 +44,7 @@ describe('addToCartExecutor', () => {
     if (item.teaserImage) {
       expect(typeof item.teaserImage.source).toBe('string');
       const parsedSource = JSON.parse(item.teaserImage.source);
-      expect(parsedSource).toHaveProperty('url');
+      expect(parsedSource).toHaveProperty('src');
       expect(parsedSource).toHaveProperty('alt');
     }
   });
