@@ -1,7 +1,7 @@
 import { CheckoutMutation as CheckoutMutationId } from '@custom/schema';
 
 import { defaultClient, type GraphQLClient } from '../client';
-import { CheckoutMutation } from '../operations';
+import { CheckoutMutation, UpdateCartMutation } from '../operations';
 import type { Executor } from '../types';
 import {
   handleGraphQLResponse,
@@ -13,7 +13,11 @@ export function createCheckoutExecutor(
   client: GraphQLClient = defaultClient,
 ): Executor<typeof CheckoutMutationId> {
   return async (id: typeof CheckoutMutationId, vars) => {
-    // Map schema variables to gql.tada variables
+    // First, update the cart with billing address and contact information
+    const updateCartVars = mapVariablesToGqlTada(UpdateCartMutation, vars);
+    await client.request(UpdateCartMutation, updateCartVars);
+
+    // Then proceed with checkout
     const gqlTadaVars = mapVariablesToGqlTada(CheckoutMutation, vars);
     const response = await client.request(CheckoutMutation, gqlTadaVars);
     const data = handleGraphQLResponse(response);

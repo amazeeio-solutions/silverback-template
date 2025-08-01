@@ -207,6 +207,39 @@ export const CheckoutMutation = graphql(`
   }
 `);
 
+// Update Cart Mutation (for setting billing address)
+export const UpdateCartMutation = graphql(`
+  mutation UpdateCart(
+    $orderId: ID
+    $billingAddress: AddressInput
+    $contact: ContactInput
+  ) {
+    updateCart(
+      orderId: $orderId
+      billingAddress: $billingAddress
+      contact: $contact
+    ) {
+      _id
+      orderNumber
+      billingAddress {
+        firstName
+        lastName
+        company
+        addressLine
+        addressLine2
+        postalCode
+        regionCode
+        city
+        countryCode
+      }
+      contact {
+        emailAddress
+        telNumber
+      }
+    }
+  }
+`);
+
 // Guest Login Mutation
 export const GuestLoginMutation = graphql(`
   mutation GuestLogin {

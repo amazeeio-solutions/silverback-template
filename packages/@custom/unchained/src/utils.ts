@@ -11,6 +11,7 @@ import {
   GuestLoginMutation,
   RemoveFromCartMutation,
   UpdateCartItemMutation,
+  UpdateCartMutation,
 } from './operations';
 
 /**
@@ -117,6 +118,35 @@ export function mapVariablesToGqlTada<T extends DocumentNode>(
       orderId: undefined, // Will use default cart
       paymentContext: checkoutVars.input,
       deliveryContext: null,
+    } as VariablesOf<T>;
+  }
+
+  // Handle UpdateCart variable mapping - this operation is not in schema yet
+  if (operation === UpdateCartMutation) {
+    const updateCartVars = schemaVars as {
+      input: {
+        email: string;
+        firstName: string;
+        lastName: string;
+        address?: string;
+        city?: string;
+        postalCode?: string;
+        country?: string;
+      };
+    };
+    return {
+      orderId: undefined, // Will use default cart
+      billingAddress: {
+        firstName: updateCartVars.input.firstName,
+        lastName: updateCartVars.input.lastName,
+        addressLine: updateCartVars.input.address,
+        city: updateCartVars.input.city,
+        postalCode: updateCartVars.input.postalCode,
+        countryCode: updateCartVars.input.country,
+      },
+      contact: {
+        emailAddress: updateCartVars.input.email,
+      },
     } as VariablesOf<T>;
   }
 

@@ -23,6 +23,7 @@ export type UnchainedOperationId =
   | typeof RemoveFromCartMutation
   | typeof ClearCartMutation
   | typeof CheckoutMutation
+  | 'UpdateCart' // UpdateCart operation for setting billing address
   | 'GuestLogin'; // Keep GuestLogin as string since it might not be in the schema yet
 
 // Authentication-related error types

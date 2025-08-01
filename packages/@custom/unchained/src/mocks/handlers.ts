@@ -9,6 +9,7 @@ import {
   GuestLoginMutation,
   RemoveFromCartMutation,
   UpdateCartItemMutation,
+  UpdateCartMutation,
 } from '../operations';
 
 // Define types using gql.tada for type-safe mock responses
@@ -18,6 +19,7 @@ type UpdateCartItemMutationResult = ResultOf<typeof UpdateCartItemMutation>;
 type RemoveFromCartMutationResult = ResultOf<typeof RemoveFromCartMutation>;
 type ClearCartMutationResult = ResultOf<typeof ClearCartMutation>;
 type CheckoutMutationResult = ResultOf<typeof CheckoutMutation>;
+type UpdateCartMutationResult = ResultOf<typeof UpdateCartMutation>;
 type GuestLoginMutationResult = ResultOf<typeof GuestLoginMutation>;
 
 // These handlers mock the Unchained Commerce API for unit tests
@@ -205,6 +207,31 @@ export const handlers = [
             },
           },
         ],
+      },
+    };
+    return HttpResponse.json({ data });
+  }),
+
+  mswGraphql.mutation('UpdateCart', () => {
+    const data: UpdateCartMutationResult = {
+      updateCart: {
+        _id: '12345',
+        orderNumber: 'ORD-2024-001',
+        billingAddress: {
+          firstName: 'John',
+          lastName: 'Doe',
+          company: null,
+          addressLine: '123 Main Street',
+          addressLine2: null,
+          postalCode: '10001',
+          regionCode: null,
+          city: 'New York',
+          countryCode: 'US',
+        },
+        contact: {
+          emailAddress: 'test@example.com',
+          telNumber: null,
+        },
       },
     };
     return HttpResponse.json({ data });

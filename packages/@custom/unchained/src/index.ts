@@ -18,6 +18,10 @@ export {
 } from './executors/clear-cart';
 export { checkoutExecutor, createCheckoutExecutor } from './executors/checkout';
 export {
+  updateCartExecutor,
+  createUpdateCartExecutor,
+} from './executors/update-cart';
+export {
   guestLoginExecutor,
   createGuestLoginExecutor,
 } from './executors/guest-login';
@@ -41,5 +45,6 @@ export {
   RemoveFromCartMutation,
   ClearCartMutation,
   CheckoutMutation,
+  UpdateCartMutation,
   GuestLoginMutation,
 } from './operations';
