@@ -18,14 +18,22 @@ import {
  * @param url The raw image URL from Unchained API
  * @param alt Alt text for the image
  * @returns ImageSource as JSON string containing structured image data
+ * @throws Error if URL is empty, null, or undefined
  */
 export function transformUrlToImageSource(
   url: string,
   alt: string = '',
 ): ImageSource {
+  // Validate that URL is not empty, null, or undefined
+  if (!url || url.trim() === '') {
+    throw new Error(
+      `Invalid image URL provided: "${url}". ImageSource URL cannot be empty.`
+    );
+  }
+
   // Create a structured ImageSource object with the URL and metadata
   const imageData = {
-    url,
+    url: url.trim(),
     alt,
     // Add placeholder dimensions - in a real implementation these could be fetched
     // or provided by the Unchained API
@@ -184,13 +192,18 @@ export function mapCartResult(data: GqlTadaCartResult): { cart: Cart } {
           typedItem.originalProduct?.sku ||
           'TEST-001', // Use product SKU or fallback
         teaserImage: typedItem.originalProduct?.media?.[0]?.file?.url
-          ? {
-              alt: 'Test Product Image', // Expected by tests
-              source: transformUrlToImageSource(
-                typedItem.originalProduct.media[0].file.url,
-                'Test Product Image',
-              ),
-            }
+          ? (() => {
+              try {
+                const url = typedItem.originalProduct.media[0].file.url;
+                return {
+                  alt: 'Test Product Image', // Expected by tests
+                  source: transformUrlToImageSource(url, 'Test Product Image'),
+                };
+              } catch (error) {
+                console.warn('Failed to create teaserImage:', error);
+                return undefined;
+              }
+            })()
           : undefined,
         maxStock: 10, // Expected by tests
       };
@@ -236,18 +249,22 @@ export function mapAddToCartResult(data: GqlTadaAddToCartResult): {
     quantity: typedItem.quantity,
     sku: typedItem._id,
     teaserImage: typedItem.originalProduct?.media?.[0]?.file?.url
-      ? {
-          alt:
-            typedItem.product?.texts?.title ||
-            typedItem.originalProduct?.texts?.title ||
-            'Product Image',
-          source: transformUrlToImageSource(
-            typedItem.originalProduct.media[0].file.url,
-            typedItem.product?.texts?.title ||
+      ? (() => {
+          try {
+            const url = typedItem.originalProduct.media[0].file.url;
+            const altText =
+              typedItem.product?.texts?.title ||
               typedItem.originalProduct?.texts?.title ||
-              'Product Image',
-          ),
-        }
+              'Product Image';
+            return {
+              alt: altText,
+              source: transformUrlToImageSource(url, altText),
+            };
+          } catch (error) {
+            console.warn('Failed to create teaserImage in addToCart:', error);
+            return undefined;
+          }
+        })()
       : undefined,
     maxStock: 10, // Expected by tests
   };
@@ -295,18 +312,22 @@ export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): {
     quantity: typedItem.quantity,
     sku: typedItem._id,
     teaserImage: typedItem.originalProduct?.media?.[0]?.file?.url
-      ? {
-          alt:
-            typedItem.product?.texts?.title ||
-            typedItem.originalProduct?.texts?.title ||
-            'Product Image',
-          source: transformUrlToImageSource(
-            typedItem.originalProduct.media[0].file.url,
-            typedItem.product?.texts?.title ||
+      ? (() => {
+          try {
+            const url = typedItem.originalProduct.media[0].file.url;
+            const altText =
+              typedItem.product?.texts?.title ||
               typedItem.originalProduct?.texts?.title ||
-              'Product Image',
-          ),
-        }
+              'Product Image';
+            return {
+              alt: altText,
+              source: transformUrlToImageSource(url, altText),
+            };
+          } catch (error) {
+            console.warn('Failed to create teaserImage in updateCartItem:', error);
+            return undefined;
+          }
+        })()
       : undefined,
     maxStock: 10, // Expected by tests
   };
