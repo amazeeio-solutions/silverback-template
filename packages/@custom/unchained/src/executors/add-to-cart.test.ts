@@ -39,5 +39,13 @@ describe('addToCartExecutor', () => {
     const item = cart.items[0];
     expect(item.quantity).toBe(3);
     expect(item.title).toBe('Test Product');
+
+    // Verify that teaserImage source is properly JSON-encoded
+    if (item.teaserImage) {
+      expect(typeof item.teaserImage.source).toBe('string');
+      const parsedSource = JSON.parse(item.teaserImage.source);
+      expect(parsedSource).toHaveProperty('url');
+      expect(parsedSource).toHaveProperty('alt');
+    }
   });
 });

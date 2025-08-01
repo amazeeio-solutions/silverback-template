@@ -14,6 +14,33 @@ import {
 } from './operations';
 
 /**
+ * Transforms a raw URL string into a properly structured ImageSource JSON object
+ * @param url The raw image URL from Unchained API
+ * @param alt Alt text for the image
+ * @returns ImageSource as JSON string containing structured image data
+ */
+export function transformUrlToImageSource(
+  url: string,
+  alt: string = '',
+): ImageSource {
+  // Create a structured ImageSource object with the URL and metadata
+  const imageData = {
+    url,
+    alt,
+    // Add placeholder dimensions - in a real implementation these could be fetched
+    // or provided by the Unchained API
+    width: null,
+    height: null,
+    // Add any transformation parameters if needed
+    transform: null,
+    sizes: null,
+  };
+
+  // Return as JSON string since ImageSource is a scalar expecting JSON
+  return JSON.stringify(imageData) as ImageSource;
+}
+
+/**
  * Helper function to handle GraphQL responses by extracting data or throwing errors
  * @param response The GraphQL response containing data and error
  * @returns The data from the response
@@ -159,8 +186,10 @@ export function mapCartResult(data: GqlTadaCartResult): { cart: Cart } {
         teaserImage: typedItem.originalProduct?.media?.[0]?.file?.url
           ? {
               alt: 'Test Product Image', // Expected by tests
-              source: typedItem.originalProduct.media[0].file
-                .url as ImageSource,
+              source: transformUrlToImageSource(
+                typedItem.originalProduct.media[0].file.url,
+                'Test Product Image',
+              ),
             }
           : undefined,
         maxStock: 10, // Expected by tests
@@ -212,7 +241,12 @@ export function mapAddToCartResult(data: GqlTadaAddToCartResult): {
             typedItem.product?.texts?.title ||
             typedItem.originalProduct?.texts?.title ||
             'Product Image',
-          source: typedItem.originalProduct.media[0].file.url,
+          source: transformUrlToImageSource(
+            typedItem.originalProduct.media[0].file.url,
+            typedItem.product?.texts?.title ||
+              typedItem.originalProduct?.texts?.title ||
+              'Product Image',
+          ),
         }
       : undefined,
     maxStock: 10, // Expected by tests
@@ -266,7 +300,12 @@ export function mapUpdateCartItemResult(data: GqlTadaUpdateCartItemResult): {
             typedItem.product?.texts?.title ||
             typedItem.originalProduct?.texts?.title ||
             'Product Image',
-          source: typedItem.originalProduct.media[0].file.url,
+          source: transformUrlToImageSource(
+            typedItem.originalProduct.media[0].file.url,
+            typedItem.product?.texts?.title ||
+              typedItem.originalProduct?.texts?.title ||
+              'Product Image',
+          ),
         }
       : undefined,
     maxStock: 10, // Expected by tests
