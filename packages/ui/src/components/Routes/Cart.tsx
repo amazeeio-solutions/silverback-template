@@ -2,7 +2,7 @@ import { useIntl } from '@amazeelabs/react-intl';
 import { Url, useLocation } from '@custom/schema';
 import React from 'react';
 
-import { CartPage } from '../Organisms/CartPage';
+import { ClientOnlyCartPage } from '../Client/ClientOnlyCartPage';
 
 export function Cart() {
   const [, navigate] = useLocation();
@@ -23,7 +23,7 @@ export function Cart() {
   };
 
   return (
-    <CartPage
+    <ClientOnlyCartPage
       onContinueShopping={handleContinueShopping}
       onCheckout={handleCheckout}
       showBreadcrumbs={true}

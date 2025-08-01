@@ -3,7 +3,7 @@ import { useIntl } from '@amazeelabs/react-intl';
 import { CartQuery, useLocation } from '@custom/schema';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useCart } from '../../stores/cart.store';
 import { CartItem } from '../Molecules/CartItem';
@@ -20,6 +20,7 @@ export interface MiniCartProps {
 export function MiniCart({ onClose, onViewCart, onCheckout }: MiniCartProps) {
   const intl = useIntl();
   const [location] = useLocation();
+  const [isMounted, setIsMounted] = useState(false);
 
   const { cart, error } = useCart();
 
@@ -28,9 +29,14 @@ export function MiniCart({ onClose, onViewCart, onCheckout }: MiniCartProps) {
   const totalPrice = cart?.totalPrice || 0;
   const miniCartRef = useRef<HTMLDivElement>(null);
 
-  // Toggle cart display based on #cart hash in URL
-  const isCartHashPresent = location.hash === '#cart';
+  // Toggle cart display based on #cart hash in URL (client-side only)
+  const isCartHashPresent = isMounted && location.hash === '#cart';
   const shouldShowCart = isCartHashPresent;
+
+  // Set mounted state after hydration
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Close mini cart when clicking outside
   useEffect(() => {

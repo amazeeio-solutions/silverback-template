@@ -449,15 +449,19 @@ export function useCart() {
 
   const store = useCartStore();
 
-  // Auto-load cart data on mount when executor is available
+  // Auto-load cart data on mount when executor is available (client-side only)
   useEffect(() => {
+    // Skip cart loading during SSR to prevent hydration mismatch
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const loadCart = async () => {
       if (cartQueryExecutor instanceof Function) {
         try {
           store.setLoading(true);
           const data = await cartQueryExecutor(CartQuery, undefined);
           if (data?.cart) {
-            console.log('cart data', data);
             store.setCart(data.cart);
           }
         } catch (error) {
@@ -492,13 +496,31 @@ export function useCart() {
 
       // Enhanced methods with executors pre-injected
       addToCart: async (productId: string, quantity = 1) => {
+        // Skip during SSR to prevent hydration issues
+        if (typeof window === 'undefined') {
+          console.warn('Cart operation attempted during SSR');
+          return;
+        }
+
         if (addToCartExecutor instanceof Function) {
           return store.addToCart(productId, quantity, addToCartExecutor);
         }
-        throw new Error('Add to cart executor not available');
+
+        // More informative error for debugging
+        const errorMsg =
+          process.env.NODE_ENV === 'development'
+            ? `Add to cart executor not available. Executor type: ${typeof addToCartExecutor}`
+            : 'Add to cart is currently unavailable';
+        throw new Error(errorMsg);
       },
 
       updateCartItem: async (productId: string, quantity: number) => {
+        // Skip during SSR to prevent hydration issues
+        if (typeof window === 'undefined') {
+          console.warn('Cart operation attempted during SSR');
+          return;
+        }
+
         if (updateCartItemExecutor instanceof Function) {
           return store.updateCartItem(
             productId,
@@ -506,24 +528,56 @@ export function useCart() {
             updateCartItemExecutor,
           );
         }
-        throw new Error('Update cart item executor not available');
+
+        const errorMsg =
+          process.env.NODE_ENV === 'development'
+            ? `Update cart item executor not available. Executor type: ${typeof updateCartItemExecutor}`
+            : 'Update cart item is currently unavailable';
+        throw new Error(errorMsg);
       },
 
       removeFromCart: async (productId: string) => {
+        // Skip during SSR to prevent hydration issues
+        if (typeof window === 'undefined') {
+          console.warn('Cart operation attempted during SSR');
+          return;
+        }
+
         if (removeFromCartExecutor instanceof Function) {
           return store.removeFromCart(productId, removeFromCartExecutor);
         }
-        throw new Error('Remove from cart executor not available');
+
+        const errorMsg =
+          process.env.NODE_ENV === 'development'
+            ? `Remove from cart executor not available. Executor type: ${typeof removeFromCartExecutor}`
+            : 'Remove from cart is currently unavailable';
+        throw new Error(errorMsg);
       },
 
       clearCart: async () => {
+        // Skip during SSR to prevent hydration issues
+        if (typeof window === 'undefined') {
+          console.warn('Cart operation attempted during SSR');
+          return;
+        }
+
         if (clearCartExecutor instanceof Function) {
           return store.clearCart(clearCartExecutor);
         }
-        throw new Error('Clear cart executor not available');
+
+        const errorMsg =
+          process.env.NODE_ENV === 'development'
+            ? `Clear cart executor not available. Executor type: ${typeof clearCartExecutor}`
+            : 'Clear cart is currently unavailable';
+        throw new Error(errorMsg);
       },
 
       refreshCart: async () => {
+        // Skip during SSR to prevent hydration mismatch
+        if (typeof window === 'undefined') {
+          return;
+        }
+
         if (cartQueryExecutor instanceof Function) {
           try {
             store.setLoading(true);
