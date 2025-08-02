@@ -207,17 +207,21 @@ export const CheckoutMutation = graphql(`
   }
 `);
 
-// Update Cart Mutation (for setting billing address)
+// Update Cart Mutation (for setting billing address and payment/delivery providers)
 export const UpdateCartMutation = graphql(`
   mutation UpdateCart(
     $orderId: ID
     $billingAddress: AddressInput
     $contact: ContactInput
+    $paymentProviderId: ID
+    $deliveryProviderId: ID
   ) {
     updateCart(
       orderId: $orderId
       billingAddress: $billingAddress
       contact: $contact
+      paymentProviderId: $paymentProviderId
+      deliveryProviderId: $deliveryProviderId
     ) {
       _id
       orderNumber

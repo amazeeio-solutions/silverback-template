@@ -147,6 +147,8 @@ export function mapVariablesToGqlTada<T extends DocumentNode>(
       contact: {
         emailAddress: updateCartVars.input.email,
       },
+      paymentProviderId: 'shop.unchained.invoice',
+      deliveryProviderId: 'shop.unchained.delivery',
     } as VariablesOf<T>;
   }
 
