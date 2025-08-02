@@ -8,7 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm i && pnpm turbo:prep` - Initial setup after branch switch
 - `pnpm precommit` - Fix formatting, run linters, and execute unit tests  
 - `pnpm turbo:test` - Full test suite (unit + integration)
-- `pnpm turbo:test:integration` - Integration tests only
 
 ### Development URLs
 - Drupal backend: `http://localhost:8888` (admin/admin)
@@ -16,7 +15,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Testing Commands
 - E2E tests: `cd tests/e2e && playwright test`
-- Interactive E2E: `cd tests/e2e && playwright test --ui`
 - Unit tests: `pnpm turbo:test:unit`
 
 ## Project Architecture
@@ -108,39 +106,16 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - Follow existing code conventions and patterns when making changes
 - Check package.json for available libraries before adding new dependencies
 
-## Development Best Practices
+## Development workflow
 
-### General Development
-- **GraphQL-first**: Start with schema/operations for new features
-- **Quality checks**: Run `pnpm precommit` after code changes
-- **Branch switching**: Run `pnpm install && pnpm turbo:prep` after switching branches
-- **Dependencies**: Check package.json for existing libraries before adding new ones
-- **No index files**: Don't create `index.ts` files that aggregate directories
+Implementing a feature should follow these steps using the respective agents.
 
-### React & Frontend Development
-- **State management**: Use zustand instead of useEffect/useContext
-- **Testing**: Test zustand stores directly with vitest (not through React hooks)
-- **Styling**: Use clsx for dynamic classNames, never string concatenation
-- **Internationalization**: Use `intl.formatMessage` for all UI text
-- **Storybook**: Create stories for UI components with play functions
-- **Storybook note**: Never start storybook - it runs in background
-- **Business logic**: Implement in TypeScript utilities with vitest tests
-- **Storybook Typing**: Always use "satisfies" for typing storybook stories and meta objects. Makes it easier to re-use those values in other stories.
-- **Data Fetching**: React components fetch data using the `<Operation>` component or the `withOperation` higher-order component. For pure client side applications, `useOperation` can be used as well.
-- **Data Submission**: To submit or update data in React components, the `useMutation` hook is used along with a GraphQL mutation.
-- **React Router Navigation**: To retrieve path, query parameters or hash, or programmatically navigate to a new location use the `useLocation` hook.
-
-### Drupal Development
-- **Services**: Create PHPUnit-tested services for business logic
-- **Hooks**: Keep simple, delegate complex logic to services
-- **Testing**: Use Kernel tests for interconnected services
-- **Configuration**: Use web UI + `drush cex -y` (never write config files)
-- **Content**: Use web UI + `pnpm content:export` (never add content manually)
-
-### GraphQL Schema
-- Avoid technical Details, keep types and fields technology agnostic and readable to humans.
-- Add GraphQL block comments for describing schema elements. Use markdown for clarity.
-- Run `pnpm prep` in `packages/schema` after changing the schema, operations or fragments to verify correctness.
+1. GraphQL schema and operations
+2. UI components
+3. Drupal module development
+4. Drupal configuration and schema implementation
+5. Schema tests
+6. E2E tests
 
 ## Asset Management
 
