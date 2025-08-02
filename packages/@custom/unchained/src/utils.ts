@@ -83,10 +83,10 @@ export function mapVariablesToGqlTada<T extends DocumentNode>(
   // Handle UpdateCartItemMutation variable mapping
   if (operation === UpdateCartItemMutation) {
     const updateVars = schemaVars as {
-      input: { itemId: string; quantity: number };
+      input: { productId: string; quantity: number };
     };
     return {
-      itemId: updateVars.input.itemId,
+      itemId: updateVars.input.productId, // Map productId to itemId for the actual GraphQL operation
       quantity: updateVars.input.quantity,
     } as VariablesOf<T>;
   }

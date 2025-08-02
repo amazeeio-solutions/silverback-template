@@ -10,7 +10,7 @@ describe('updateCartItemExecutor', () => {
 
     const result = await executor('UpdateCartItem', {
       input: {
-        itemId: '1',
+        productId: '1',
         quantity: 1,
       },
     });
@@ -28,7 +28,7 @@ describe('updateCartItemExecutor', () => {
 
     const result = await executor('UpdateCartItem', {
       input: {
-        itemId: '1',
+        productId: '1',
         quantity: 1,
       },
     });
