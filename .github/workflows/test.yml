@@ -32,9 +32,6 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Check formatting
-        run: pnpm test:format
-
       - name: TurboRepo local server
         if: github.event.inputs.turborepo_caching != 'Off'
         uses: felixmosh/turborepo-gh-artifacts@v3
@@ -48,19 +45,34 @@ jobs:
           cd apps/cms
           pnpm turbo prep
           pnpm content:export
-          if [[ $(git status --porcelain) ]]; then
+          if [[ $(git status --porcelain web/modules/custom/test_content) ]]; then
             echo "Error: Content export is not up to date"
             echo "Please run 'pnpm content:export' from apps/cms and commit the changes"
             echo "Detected changes:"
-            git status --porcelain
+            git status --porcelain web/modules/custom/test_content
             echo "Diff:"
-            git diff
+            git diff web/modules/custom/test_content
             exit 1
           fi
         env:
           TURBO_API: 'http://127.0.0.1:9080'
           TURBO_TOKEN: 'local'
           TURBO_TEAM: 'local'
+
+      - name: Precommit to catch early errors
+        run: pnpm precommit
+
+      - name: Verify precommit did not change anything
+        run: |
+          set -ex
+          if [[ $(git status --porcelain .) ]]; then
+            echo "Error: Formatting changes found. Run 'pnpm precommit' before committing"
+            echo "Detected changes:"
+            git status --porcelain .
+            echo "Diff:"
+            git diff .
+            exit 1
+          fi
 
       - name: Test
         run: pnpm turbo:test

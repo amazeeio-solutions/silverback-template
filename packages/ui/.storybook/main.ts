@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/react-vite';
-import { readdirSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { mergeConfig, UserConfig } from 'vite';
 import { imagetools } from 'vite-imagetools';
@@ -7,6 +7,14 @@ import { imagetools } from 'vite-imagetools';
 const fonts = readdirSync(`static/public/fonts/preload`).map((font) => {
   return `/fonts/preload/${font}`;
 });
+
+// Check if bridge-storybook package is available locally
+const bridgeStorybookPath = resolve(
+  dirname(new URL(import.meta.url).pathname),
+  '../../@amazeelabs/bridge-storybook/build/src',
+);
+
+const isLocalBridgeAvailable = existsSync(bridgeStorybookPath);
 
 const config: StorybookConfig = {
   viteFinal: (config) =>
@@ -16,14 +24,11 @@ const config: StorybookConfig = {
       },
       resolve: {
         alias: {
-          '@amazeelabs/bridge': '@amazeelabs/bridge-storybook',
+          '@amazeelabs/bridge': isLocalBridgeAvailable
+            ? bridgeStorybookPath
+            : '@amazeelabs/bridge-storybook',
           '@stories': resolve(
-            dirname(
-              new URL(
-                // @ts-expect-error It works.
-                import.meta.url,
-              ).pathname,
-            ),
+            dirname(new URL(import.meta.url).pathname),
             '../static/stories',
           ),
         },

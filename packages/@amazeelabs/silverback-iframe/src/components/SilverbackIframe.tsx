@@ -1,5 +1,5 @@
 import IframeResizer, { IFrameObject } from 'iframe-resizer-react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   IframeCommandOther,
@@ -30,9 +30,33 @@ export const SilverbackIframe = ({
   const silverbackIframeReference = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<IFrameObject>(null);
   const [iframeSeed, setIframeSeed] = useState<string | null>(null);
+  const initialSrc = iframeResizerProps.src
+    ? updateUrlParameters(iframeResizerProps.src, {
+        iframe: 'true',
+        iframeSeed: iframeSeed,
+      })
+    : '';
+  const [iframeSrc, setIframeSrc] = useState<string>(initialSrc);
   const [currentCommand, setCurrentCommand] = useState<
     IframeCommandOther | IframeCommandScroll
   >();
+  const encodedCurrentUrl = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    return btoa(encodeURIComponent(window.location.href));
+  }, []);
+
+  // Update iframe src whenever dependencies change
+  useEffect(() => {
+    if (iframeResizerProps.src) {
+      const newSrc = updateUrlParameters(iframeResizerProps.src, {
+        iframe: 'true',
+        iframeSeed: iframeSeed,
+        ref: encodedCurrentUrl,
+      });
+
+      setIframeSrc(newSrc);
+    }
+  }, [iframeResizerProps.src, iframeSeed, encodedCurrentUrl]);
 
   return (
     <div className="silverback-iframe" ref={silverbackIframeReference}>
@@ -44,14 +68,8 @@ export const SilverbackIframe = ({
       {currentCommand?.action !== 'replaceWithMessages' && (
         <IframeResizer
           {...iframeResizerProps}
+          src={iframeSrc}
           forwardRef={iframeRef}
-          src={
-            iframeResizerProps.src &&
-            updateUrlParameters(iframeResizerProps.src, {
-              iframe: 'true',
-              iframeSeed: iframeSeed,
-            })
-          }
           onMessage={({ message }) => {
             if (!isIframeCommand(message)) {
               return;
@@ -119,32 +137,47 @@ const updateUrlParameters = (
   return result;
 };
 
-// From https://gist.github.com/niyazpk/f8ac616f181f6042d1e0#gistcomment-3797774
 const updateUrlParameter = (
   uri: string,
   key: string,
   value: string | null,
 ): string => {
-  // remove the hash part before operating on the uri
-  const i = uri.indexOf('#');
-  const hash = i === -1 ? '' : uri.substr(i);
-  uri = i === -1 ? uri : uri.substr(0, i);
+  try {
+    // Create URL object for easy manipulation
+    const url = new URL(uri);
 
-  const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
-  const separator = uri.indexOf('?') !== -1 ? '&' : '?';
+    // Get current search params
+    const searchParams = url.searchParams;
 
-  if (value === null) {
-    // remove key-value pair if value is specifically null
-    uri = uri.replace(new RegExp(`([?&]?)${key}=[^&]*`, 'i'), '');
-    if (uri.slice(-1) === '?') {
-      uri = uri.slice(0, -1);
+    if (value === null) {
+      // Remove parameter if value is null
+      searchParams.delete(key);
+    } else {
+      // Set or update parameter
+      searchParams.set(key, value);
     }
-    // replace first occurrence of & by ? if no ? is present
-    if (uri.indexOf('?') === -1) uri = uri.replace(/&/, '?');
-  } else if (uri.match(re)) {
-    uri = uri.replace(re, `$1${key}=${value}$2`);
-  } else {
-    uri = `${uri + separator + key}=${value}`;
+
+    // Construct the new URL
+    url.search = searchParams.toString();
+
+    return url.toString();
+  } catch (e) {
+    console.error('Error updating URL parameter:', e);
+
+    // Fallback for relative URLs
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    const isAbsolute = /^https?:\/\//i.test(uri);
+    const base = isAbsolute ? '' : baseUrl;
+    const fullUrl = new URL(uri, base);
+
+    if (value === null) {
+      fullUrl.searchParams.delete(key);
+    } else {
+      fullUrl.searchParams.set(key, value);
+    }
+
+    // For relative URLs, remove the base part
+    const result = fullUrl.toString();
+    return isAbsolute ? result : result.slice(base.length);
   }
-  return uri + hash;
 };

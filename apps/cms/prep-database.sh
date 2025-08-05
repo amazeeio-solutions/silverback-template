@@ -9,6 +9,11 @@ fi
 
 set -e
 
+# Ensure symlink to drupal-local modules exists
+if [ ! -L web/sites/default/modules ]; then
+  ln -sf ../../../../../packages/drupal-local web/sites/default/modules
+fi
+
 if ! test -f web/sites/default/files/.sqlite; then
   pnpm drupal-install
   pnpm export-webforms

@@ -5,16 +5,22 @@ namespace Drupal\entity_create_split\Controller;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
 
+/**
+ * Controller for entity creation split functionality.
+ */
 class EntityCreateSplitController extends ControllerBase {
 
   /**
-   * Route callback to show the first part of the entity create form, which
-   * contains the required fields.
+   * Route callback to show the first part of the entity create form.
    *
    * @param string $entity_type
+   *   The entity type ID.
    * @param string $bundle
+   *   The bundle ID.
    *
    * @return array
+   *   A render array containing the form.
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
@@ -58,4 +64,5 @@ class EntityCreateSplitController extends ControllerBase {
       ->getAccessControlHandler($entity_type)
       ->createAccess($bundle, NULL, [], TRUE);
   }
+
 }

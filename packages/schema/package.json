@@ -34,6 +34,9 @@
     }
   },
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
     "watch": "concurrently \"npm run watch:codegen\" \"npm run watch:swc\" \"npm run watch:tsc\"",
     "watch:codegen": "graphql-codegen --verbose --watch",
@@ -67,7 +70,7 @@
     "@amazeelabs/executors": "^3.1.13",
     "@amazeelabs/gatsby-silverback-cloudinary": "^1.2.29",
     "@amazeelabs/gatsby-source-silverback": "^1.15.3",
-    "@amazeelabs/scalars": "^1.6.30",
+    "@amazeelabs/scalars": "workspace:*",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.11",
     "gatsby-plugin-sharp": "5.14.0",

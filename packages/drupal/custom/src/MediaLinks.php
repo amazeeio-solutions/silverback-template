@@ -16,6 +16,9 @@ use Drupal\file\Entity\File;
 use Drupal\file\FileUsage\DatabaseFileUsageBackend;
 use Drupal\media\Entity\Media;
 
+/**
+ * Provides media link processing functionality.
+ */
 final class MediaLinks {
 
   /**
@@ -37,12 +40,14 @@ final class MediaLinks {
    *   The language of the Media translation to use.
    * @param array $media_bundles
    *   An array of allowed media bundles.
+   *
    * @return string
+   *   The processed media file URL.
    */
   public function getMediaFileUrl(
     string $url,
     LanguageInterface $language,
-    array $media_bundles = ['document']
+    array $media_bundles = ['document'],
   ): string {
     if (preg_match('#^(/[a-z]{2})?/media/([0-9]+)(/edit)?$#', $url, $matches)) {
       $this->renderer->executeInRenderContext(
@@ -97,8 +102,11 @@ final class MediaLinks {
    * data-id and data-entity-type attributes are checked).
    *
    * @param \DOMElement $link
+   *   The DOM element to process.
    *
    * @return void
+   *   Returns nothing.
+   *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */

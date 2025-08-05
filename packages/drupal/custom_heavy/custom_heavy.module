@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains hook implementations for the custom_heavy module.
+ */
+
+/**
  * Implements hook_module_implements_alter().
  */
 function custom_heavy_module_implements_alter(&$implementations, $hook) {

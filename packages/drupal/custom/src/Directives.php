@@ -109,4 +109,73 @@ class Directives {
     }, $translations);
   }
 
+  /**
+   * Resolves the home route for a path argument.
+   *
+   * Checks if the path argument matches the frontend url, like '/' for example.
+   */
+  public static function homeRoute(Api $api) : string {
+    $path = $api->args['path'];
+    $pathValidator = \Drupal::pathValidator();
+    // The idea is to check if the path url route matches the frontend url
+    // route. For that, we need first to construct a URL object for both.
+    $url = $pathValidator->getUrlIfValidWithoutAccessCheck($path);
+    $frontendUrl = $pathValidator->getUrlIfValidWithoutAccessCheck('/');
+    try {
+      // If we could not get a valid URL out of the path (or if the url is not
+      // routed), then we just return the original path.
+      if (!$url || !$url->isRouted()) {
+        return $path;
+      }
+      if ($url->getInternalPath() === $frontendUrl->getInternalPath()) {
+        $websiteSettings = \Drupal::entityTypeManager()->getStorage('config_pages')
+          ->loadByProperties(['type' => 'website_settings']);
+        if (empty($websiteSettings)) {
+          // No website settings found, just return the original path.
+          return $path;
+        }
+
+        // The website settings entities are currently not translated (they do
+        // not have the language context set). In case we will set this, then we
+        // will have to adapt this code so that it loads the proper translation.
+        // However, for our case here, it does not matter, because we only have
+        // to load a node reference (the home page), which should be the same
+        // for all languages (usually).
+        $websiteSettings = reset($websiteSettings);
+        if (!$websiteSettings->hasField('field_home_page') || $websiteSettings->get('field_home_page')->isEmpty()) {
+          // No home page node reference found, just return the original path.
+          return $path;
+        }
+
+        $homePage = $websiteSettings->get('field_home_page')->referencedEntities()[0]->toUrl()->getInternalPath();
+        // If we found a home page, then we have to construct the path in a way
+        // that it will keep the language prefix (or any other frontend prefixes
+        // that might be set). For the home page, we have a special case: the
+        // home page can be accessed either by the path "/", or by the path
+        // "/en" or "/de" (so the language prefix). In any of the cases, we can
+        // just keep the original path as the path prefix and use the internal
+        // path for the home page (the internal path of a url does not contain
+        // the path prefix).
+        // Examples (assuming the homepage internal path is 'node/1'):
+        // - if the path is '/', the result will be '/node/1'
+        // - if the path is '/en' (or '/en/'), the result will be '/en/node/1'
+        // - if the path is '/de' (or '/de/'), the result will be '/de/node/1'
+        // In all the cases, if a url prefix is set, it will be kept for the
+        // resulting path.
+        return implode('/', [
+          '',
+          trim($path, '/'),
+          trim($homePage, '/'),
+        ]);
+      }
+    }
+    catch (\Exception $e) {
+      // Just return the original path in case we get any exception.
+      return $path;
+    }
+    // If we get here, then the path did not match the frontend URL, so we just
+    // return it as it is.
+    return $path;
+  }
+
 }

@@ -9,8 +9,20 @@ use Drupal\views\Views;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Controller for Coffee module global search integration.
+ */
 class GlobalSearchCoffeeController extends ControllerBase {
 
+  /**
+   * Provides search results for Coffee module.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   JSON response with search results.
+   */
   public function search(Request $request) {
     $commands = [];
     $search = $request->query->get('search');
@@ -28,7 +40,8 @@ class GlobalSearchCoffeeController extends ControllerBase {
         $url = '';
         try {
           $url = $entity->toUrl()->toString();
-        } catch (UndefinedLinkTemplateException|EntityMalformedException $e) {
+        }
+        catch (UndefinedLinkTemplateException | EntityMalformedException $e) {
           // Just do nothing here, in case we could not build a URL we will just
           // show an empty value there.
         }
@@ -40,4 +53,5 @@ class GlobalSearchCoffeeController extends ControllerBase {
     }
     return new JsonResponse($commands);
   }
+
 }

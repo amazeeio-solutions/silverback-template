@@ -13,6 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
+ * Adds remotely rendered content to search index items.
+ *
  * @SearchApiProcessor(
  *   id = "silverback_remote_rendered_item",
  *   label = @Translation("Remote rendered item (Silverback)"),
@@ -26,6 +28,9 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class RemoteRenderedItem extends ProcessorPluginBase {
 
+  /**
+   * Cached UUID of the 404 page.
+   */
   private ?string $cached404PageUuid = NULL;
 
   public function __construct(
@@ -33,13 +38,16 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     $plugin_id,
     array $plugin_definition,
     protected LoggerInterface $logger,
-    protected RemoteFrontend $remoteFrontend
+    protected RemoteFrontend $remoteFrontend,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
@@ -48,6 +56,9 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     );
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getPropertyDefinitions(?DatasourceInterface $datasource = NULL) {
     $properties = [];
 
@@ -64,6 +75,9 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     return $properties;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function addFieldValues(ItemInterface $item) {
     if (getenv('SB_SETUP')) {
       // When Drupal is being setup, FE isn't available yet.
@@ -83,7 +97,8 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       $this->remoteFrontend->setNetlifyPassword($configuration['netlify_password']);
       if ($this->is404Page($entity)) {
         $field->addValue('');
-      } else {
+      }
+      else {
         $result = $this->remoteFrontend->getEntityHtml($entity);
         $debug = json_encode([
           'entity_type' => $entity->getEntityTypeId(),
@@ -98,16 +113,19 @@ class RemoteRenderedItem extends ProcessorPluginBase {
               ['status_code' => $result->statusCode, 'debug' => $debug],
             );
             $field->addValue('');
-          } else {
+          }
+          else {
             $this->logger->error(
-              'Could not get HTML: {error}. Debug:<pre>{debug}</pre>',
-              ['error' => $result->error, 'debug' => $debug],
-            );
+                        'Could not get HTML: {error}. Debug:<pre>{debug}</pre>',
+                        ['error' => $result->error, 'debug' => $debug],
+                      );
             $field->addValue('');
           }
-        } elseif ($result->isSkipped) {
+        }
+        elseif ($result->isSkipped) {
           $field->addValue('');
-        } else {
+        }
+        else {
           $html = $this->filterHtml($result->content, $configuration, $debug);
           $field->addValue($html);
           if ($html && $this->remoteFrontend->isOutdated($entity)) {
@@ -121,6 +139,19 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
   }
 
+  /**
+   * Filters HTML content based on configuration.
+   *
+   * @param string $html
+   *   The HTML content to filter.
+   * @param array $configuration
+   *   The configuration array.
+   * @param string $debug
+   *   Debug information.
+   *
+   * @return string
+   *   The filtered HTML content.
+   */
   private function filterHtml(string $html, array $configuration, string $debug): string {
     $crawler = new Crawler($html);
     $rootSelector = $configuration['root_selector'] ?: 'body';
@@ -134,14 +165,15 @@ class RemoteRenderedItem extends ProcessorPluginBase {
       }
       $html = $result->outerHtml();
       return $html;
-    } else {
+    }
+    else {
       $this->logger->error(
         'Root selector `{root_selector}` did not match any elements on the page. Debug:<pre>{debug}</pre>',
         [
           'root_selector' => $rootSelector,
           'debug' => $debug,
         ]
-      );
+          );
       return '';
     }
   }
@@ -169,4 +201,5 @@ class RemoteRenderedItem extends ProcessorPluginBase {
     }
     return $entity->uuid() === $this->cached404PageUuid;
   }
+
 }

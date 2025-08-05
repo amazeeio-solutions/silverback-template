@@ -1,6 +1,39 @@
 <?php
 
+/**
+ * @file
+ * Custom module deployment scripts.
+ */
+
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\user\Entity\User;
+
+/**
+ * Sets the default preview user for Silverback.
+ */
+function custom_deploy_set_default_preview_user(array &$sandbox): string {
+  $defaultPreviewUser = \Drupal::state()->get('silverback_preview_link.default_preview_user');
+  // If there is no preview user set, then we want to just search for the first
+  // user having the `preview` role.
+  if (empty($defaultPreviewUser)) {
+    $query = \Drupal::entityQuery('user')
+      ->condition('roles', 'preview')
+      ->accessCheck(FALSE)
+      ->range(0, 1);
+    $defaultPreviewUser = $query->execute();
+    if (!empty($defaultPreviewUser)) {
+      $defaultPreviewUser = reset($defaultPreviewUser);
+    }
+    if (empty($defaultPreviewUser)) {
+      return t('No preview user found. For the preview links to work properly, you need to create a user having the `preview` role and set it as the default preview user at /admin/config/content/silverback_preview_link');
+    }
+    \Drupal::state()->set('silverback_preview_link.default_preview_user', $defaultPreviewUser);
+
+    $previewUser = User::load($defaultPreviewUser);
+    return t('Default preview user set to @user', ['@user' => $previewUser->getAccountName()]);
+  }
+  return t('Default preview user already set.');
+}
 
 /**
  * Create the Publisher OAuth Consumer.
@@ -30,11 +63,17 @@ function custom_deploy_create_preview_consumer(array &$sandbox): string {
  * Helper function to create an OAuth Consumer if it does not exist.
  *
  * @param string $label
+ *   The label for the OAuth consumer.
  * @param string $client_id
+ *   The client ID for the OAuth consumer.
  * @param string $client_secret_env_var
+ *   The environment variable containing the client secret.
  * @param string $redirect_base_url_env_var
+ *   The environment variable containing the redirect base URL.
  *
  * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
+ *   A status message indicating the result of the operation.
+ *
  * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
  * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
  * @throws \Drupal\Core\Entity\EntityStorageException
@@ -43,7 +82,7 @@ function _custom_deploy_create_consumer(
   string $label,
   string $client_id,
   string $client_secret_env_var,
-  string $redirect_base_url_env_var
+  string $redirect_base_url_env_var,
 ): string|TranslatableMarkup {
   // Skip for Silverback environments.
   // It might be used for OAuth development purpose only in Silverback
