@@ -1,17 +1,39 @@
 <?php
 
+/**
+ * @file
+ * Contains hook implementations for the silverback_iframe module.
+ */
+
 use Drupal\silverback_iframe\WebformSubmissionForm;
 use Drupal\webform\WebformInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 
-function silverback_iframe_inject_resizer() {
+/**
+ * Checks if iframe resizer should be injected.
+ */
+function silverback_iframe_should_inject_resizer() : bool {
   if (!getenv('SB_ENVIRONMENT')) {
     return FALSE;
   }
-  return \Drupal::request()->query->get('iframe_resizer') === 'true';
+  // Using $_GET directly to prevent possible service circular dependencies.
+  // We have to ignore this because phpcs does not like direct access to $_GET.
+  // phpcs:ignore
+  return ($_GET['iframe_resizer'] ?? '') === 'true';
 }
 
+/**
+ * Checks if iframe theme is enabled.
+ *
+ * @return bool
+ *   TRUE if iframe theme is enabled, FALSE otherwise.
+ */
 function silverback_iframe_theme_enabled() {
-  return \Drupal::request()->get('iframe') === 'true';
+  // Using $_GET directly to prevent possible service circular dependencies.
+  // We have to ignore this because phpcs does not like direct access to $_GET.
+  // phpcs:ignore
+  return ($_GET['iframe'] ?? '') === 'true';
 }
 
 /**
@@ -27,7 +49,7 @@ function silverback_iframe_preprocess_page(&$variables) {
 
   if (getenv('SB_ENVIRONMENT')) {
     $variables['page']['#cache']['contexts'][] = 'url.query_args:iframe_resizer';
-    if (silverback_iframe_inject_resizer()) {
+    if (silverback_iframe_should_inject_resizer()) {
       $injectJs = TRUE;
     }
   }
@@ -60,7 +82,7 @@ function silverback_iframe_page_top(array &$page_top) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function silverback_iframe_form_webform_settings_confirmation_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function silverback_iframe_form_webform_settings_confirmation_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if (\Drupal::config('silverback_iframe.settings')->get('limit_webform_confirmation_options') ?? TRUE) {
     $allowed = [
       WebformInterface::CONFIRMATION_URL,
@@ -87,5 +109,39 @@ function silverback_iframe_form_webform_settings_confirmation_form_alter(&$form,
 function silverback_iframe_entity_type_build(array &$entity_types) {
   if (isset($entity_types['webform_submission'])) {
     $entity_types['webform_submission']->setFormClass('add', WebformSubmissionForm::class);
+  }
+}
+
+/**
+ * Implements hook_webform_submission_form_alter().
+ */
+function silverback_iframe_webform_submission_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Only proceed for webform submissions in iframe mode.
+  if (!silverback_iframe_theme_enabled()) {
+    return NULL;
+  }
+
+  $form_object = $form_state->getFormObject();
+  if (!$form_object instanceof WebformSubmissionForm) {
+    return;
+  }
+
+  $request = \Drupal::request();
+  $source_entity = $form_object->getEntity()->getSourceEntity();
+
+  // Store source entity ID in hidden field.
+  if ($source_entity instanceof EntityInterface) {
+    $form['silverback_iframe_source_entity_id'] = [
+      '#type' => 'hidden',
+      '#value' => $source_entity->id(),
+    ];
+  }
+  // Handle source entity ID from POST data.
+  if (!$source_entity && $request->request->get('silverback_iframe_source_entity_id')) {
+    $node_id = $request->request->get('silverback_iframe_source_entity_id');
+    $form['silverback_iframe_source_entity_id'] = [
+      '#type' => 'hidden',
+      '#value' => $node_id,
+    ];
   }
 }

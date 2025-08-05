@@ -3,7 +3,11 @@ import { AnyOperationId, OperationVariables } from '@custom/schema';
 /**
  * Create an executor that operates against a Drupal endpoint.
  */
-export function drupalExecutor(endpoint: string, forward: boolean = true) {
+export function drupalExecutor(
+  endpoint: string,
+  forward: boolean = true,
+  preview_access_token?: string,
+) {
   return async function <OperationId extends AnyOperationId>(
     id: OperationId,
     variables?: OperationVariables<OperationId>,
@@ -38,6 +42,9 @@ export function drupalExecutor(endpoint: string, forward: boolean = true) {
     } else {
       url.searchParams.set('queryId', id);
       url.searchParams.set('variables', JSON.stringify(variables || {}));
+      if (preview_access_token) {
+        url.searchParams.set('preview_access_token', preview_access_token);
+      }
       const { data, errors } = await (
         await fetch(url, {
           credentials: 'include',

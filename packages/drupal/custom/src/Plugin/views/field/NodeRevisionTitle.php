@@ -12,7 +12,7 @@ use Drupal\views\ResultRow;
  *  Can be used to provide the same EX as the core 'content' view
  *  when it's replaced by the 'moderated_content' view for the same purpose:
  *  - Use the latest revision route if the node has a pending revision
- *  - Otherwise, use the canonical node route
+ *  - Otherwise, use the canonical node route.
  *
  * @ingroup views_field_handlers
  *

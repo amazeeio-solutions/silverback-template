@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@8.15.9",
   "dependencies": {
-    "@amazeelabs/bridge-gatsby": "^1.2.18",
+    "@amazeelabs/bridge-gatsby": "workspace:*",
     "@amazeelabs/cloudinary-responsive-image": "^1.6.26",
     "@amazeelabs/decap-cms-backend-token-auth": "^1.2.6",
     "@amazeelabs/gatsby-plugin-operations": "^1.1.12",
@@ -45,6 +45,9 @@
     "vitest": "^3.0.4"
   },
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
     "full-rebuild": "pnpm clean && pnpm build:gatsby",
     "start:drupal": "pnpm run --filter @custom/cms start >> /tmp/cms.log 2>&1",

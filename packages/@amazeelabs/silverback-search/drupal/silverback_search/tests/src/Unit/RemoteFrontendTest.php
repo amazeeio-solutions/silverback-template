@@ -18,6 +18,9 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * Tests for the RemoteFrontend service.
+ */
 class RemoteFrontendTest extends TestCase {
 
   use ProphecyTrait;
@@ -126,6 +129,8 @@ class RemoteFrontendTest extends TestCase {
   }
 
   /**
+   * Tests the getFromRemote method with various inputs.
+   *
    * @dataProvider getFromRemoteDataProvider
    */
   public function testGetFromRemote($requests, $password, $url, $expected) {
@@ -141,19 +146,21 @@ class RemoteFrontendTest extends TestCase {
           $args[2] = Argument::that(function ($arg) use ($options) {
             foreach ($options as $key => $value) {
               if (!isset($arg[$key]) || $arg[$key] !== $value) {
-                return false;
+                return FALSE;
               }
             }
-            return true;
+            return TRUE;
           });
         }
         if ($request['response'] instanceof \Exception) {
           $httpClient->request(...$args)->willThrow($request['response']);
-        } else {
+        }
+        else {
           $httpClient->request(...$args)->willReturn($request['response']);
         }
       }
-    } else {
+    }
+    else {
       $httpClient->request(Argument::cetera())->shouldNotBeCalled();
     }
 
@@ -173,13 +180,13 @@ class RemoteFrontendTest extends TestCase {
 
     $reflection = new \ReflectionClass($remoteFrontend);
     $property = $reflection->getProperty('httpClient');
-    $property->setAccessible(true);
+    $property->setAccessible(TRUE);
     $property->setValue($remoteFrontend, $httpClient->reveal());
 
     $remoteFrontend->setNetlifyPassword($password);
 
     $method = new \ReflectionMethod(RemoteFrontend::class, 'getFromRemote');
-    $method->setAccessible(true);
+    $method->setAccessible(TRUE);
 
     $result = $method->invoke($remoteFrontend, $url);
 
@@ -189,4 +196,5 @@ class RemoteFrontendTest extends TestCase {
     $this->assertEquals($expected->isSkipped, $result->isSkipped);
     $this->assertEquals($expected->statusCode, $result->statusCode);
   }
+
 }

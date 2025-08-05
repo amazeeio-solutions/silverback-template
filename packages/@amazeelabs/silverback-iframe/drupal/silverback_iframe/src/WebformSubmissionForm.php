@@ -9,8 +9,14 @@ use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformMessageManagerInterface;
 use Drupal\webform\WebformSubmissionForm as Original;
 
+/**
+ * Extended webform submission form for iframe functionality.
+ */
 class WebformSubmissionForm extends Original {
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $form = parent::buildForm($form, $form_state);
 
@@ -26,7 +32,7 @@ class WebformSubmissionForm extends Original {
     }
     $form['#cache']['contexts'][] = 'url.query_args';
 
-    // @todo: there is one case which is not handled here: if the form fails
+    // @todo there is one case which is not handled here: if the form fails
     // validation, then the scroll command is not triggered. This is a bit
     // trickier to implement, maybe we can do this by adding a custom form
     // validation callback where we can check if the form already failed
@@ -42,6 +48,9 @@ class WebformSubmissionForm extends Original {
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function confirmForm(array &$form, FormStateInterface $form_state): void {
     if (!silverback_iframe_theme_enabled()) {
       parent::confirmForm($form, $form_state);
@@ -69,7 +78,7 @@ class WebformSubmissionForm extends Original {
         // Redirect with message.
         $this->respondWithCommand([
           'action' => 'redirect',
-          'path' =>  $this->getRedirectPath(),
+          'path' => $this->getRedirectPath(),
           'messages' => [$this->getMessage()],
         ], $form_state);
         break;
@@ -84,7 +93,7 @@ class WebformSubmissionForm extends Original {
         if (strpos($message, 'js-iframe-parent-message') !== FALSE) {
           // Fallback to the default behavior if we see a special class in the
           // message HTML.
-          // See Drupal.behaviors.silverbackIframeRedirect
+          // See Drupal.behaviors.silverbackIframeRedirect.
           $this->getMessageManager()->display(WebformMessageManagerInterface::SUBMISSION_CONFIRMATION_MESSAGE);
           $form_state->setRedirectUrl($url);
         }
@@ -121,6 +130,14 @@ class WebformSubmissionForm extends Original {
     }
   }
 
+  /**
+   * Respond with a command.
+   *
+   * @param array $command
+   *   The command to respond with.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
   private function respondWithCommand(array $command, FormStateInterface $form_state): void {
     $content = [
       '#type' => 'page',
@@ -137,12 +154,24 @@ class WebformSubmissionForm extends Original {
     $form_state->setResponse($response);
   }
 
+  /**
+   * Get the message.
+   *
+   * @return string
+   *   The message.
+   */
   private function getMessage(): string {
     $message = $this->getMessageManager()
       ->render(WebformMessageManagerInterface::SUBMISSION_CONFIRMATION_MESSAGE);
     return $message;
   }
 
+  /**
+   * Get the redirect URL.
+   *
+   * @return string
+   *   The redirect URL.
+   */
   private function getRedirectPath(): string {
     // Don't use $this->getConfirmationUrl() because it returns absolute URL.
     $url = trim($this->getWebformSetting('confirmation_url', ''));
@@ -155,7 +184,8 @@ class WebformSubmissionForm extends Original {
       if (empty($parts['path']) && empty($parts['host'])) {
         throw new \Exception('URL contains no host nor path.');
       }
-    } catch (\Throwable $e) {
+    }
+    catch (\Throwable $e) {
       $this->logger('silverback_iframe')->warning('Bad webform redirect URL. Debug: {debug}', [
         'debug' => json_encode([
           'url' => $url,

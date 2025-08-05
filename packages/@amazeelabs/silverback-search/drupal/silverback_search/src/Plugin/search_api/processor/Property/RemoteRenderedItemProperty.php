@@ -8,10 +8,16 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\search_api\Item\FieldInterface;
 use Drupal\search_api\Processor\ConfigurablePropertyBase;
 
+/**
+ * Provides remote rendered item property for Search API.
+ */
 class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
 
   use StringTranslationTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   public function defaultConfiguration() {
     return [
       'root_selector' => '#main-content',
@@ -21,6 +27,9 @@ class RemoteRenderedItemProperty extends ConfigurablePropertyBase {
     ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildConfigurationForm(FieldInterface $field, array $form, FormStateInterface $form_state) {
     $config = $field->getConfiguration() + $this->defaultConfiguration();
 
