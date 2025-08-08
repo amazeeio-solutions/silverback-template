@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.3...@amazeelabs/silverback-template@2.3.4) (2025-08-05)
+
+
+### Reverts
+
+* Revert "fix(SLB-512): adding prep for ui" ([0f4bbab](https://github.com/AmazeeLabs/silverback-template/commit/0f4bbab6836d782c21d0ce3fa5547d8ab4a87f22))
+
+
+
+
+
 ## [2.3.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.2...@amazeelabs/silverback-template@2.3.3) (2025-07-18)
 
 
