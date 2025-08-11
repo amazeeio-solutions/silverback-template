@@ -61,6 +61,7 @@ export function CheckoutForm({ onSuccess, onCancel }: CheckoutFormProps) {
         postalCode: formData.postalCode,
         city: formData.city,
         country: formData.countryCode,
+        donation: formData.donation,
       },
     });
 

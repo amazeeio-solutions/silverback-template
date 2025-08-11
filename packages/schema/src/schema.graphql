@@ -877,6 +877,10 @@ input CheckoutInput {
   Country code (e.g., "CH" for Switzerland).
   """
   country: String
+  """
+  Donation amount in Swiss Francs (CHF).
+  """
+  donation: Float
 }
 
 """

@@ -215,6 +215,7 @@ export const UpdateCartMutation = graphql(`
     $contact: ContactInput
     $paymentProviderId: ID
     $deliveryProviderId: ID
+    $meta: JSON
   ) {
     updateCart(
       orderId: $orderId
@@ -222,6 +223,7 @@ export const UpdateCartMutation = graphql(`
       contact: $contact
       paymentProviderId: $paymentProviderId
       deliveryProviderId: $deliveryProviderId
+      meta: $meta
     ) {
       _id
       orderNumber
@@ -240,6 +242,20 @@ export const UpdateCartMutation = graphql(`
         emailAddress
         telNumber
       }
+      payment {
+        _id
+        provider {
+          _id
+          type
+          interface {
+            _id
+          }
+        }
+      }
+      total {
+        amount
+        currencyCode
+      }
     }
   }
 `);
@@ -251,5 +267,16 @@ export const GuestLoginMutation = graphql(`
       _id
       tokenExpires
     }
+  }
+`);
+
+// Sign Payment Provider For Checkout Mutation (for generic payment providers)
+export const SignPaymentProviderForCheckoutMutation = graphql(`
+  mutation SignPaymentProviderForCheckout(
+    $transactionContext: JSON
+  ) {
+    signPaymentProviderForCheckout(
+      transactionContext: $transactionContext
+    )
   }
 `);

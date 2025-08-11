@@ -84,6 +84,10 @@ export const typeDefs = gql`
     city: String
     postalCode: String
     country: String
+    donation: Float
+    successRedirectUrl: String
+    cancelRedirectUrl: String
+    failedRedirectUrl: String
   }
 
   # Queries
