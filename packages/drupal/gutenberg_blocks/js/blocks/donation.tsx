@@ -8,6 +8,7 @@ import {
   ToggleControl,
 } from 'wordpress__components';
 import { dispatch } from 'wordpress__data';
+import * as React from 'react';
 
 import { DrupalMediaEntity } from '../utils/drupal-media';
 
@@ -23,11 +24,13 @@ interface DonationBlockAttributes {
 }
 
 const DONATION_TYPES = [
-  { label: 'General Donation', value: 'general' },
-  { label: 'Emergency Fund', value: 'emergency' },
-  { label: 'Education Support', value: 'education' },
-  { label: 'Healthcare Initiative', value: 'healthcare' },
-  { label: 'Environmental Project', value: 'environment' },
+  { label: 'General Donation', value: 'GENERAL' },
+  { label: 'Emergency Fund', value: 'EMERGENCY' },
+  { label: 'Education Support', value: 'EDUCATION' },
+  { label: 'Healthcare Initiative', value: 'HEALTHCARE' },
+  { label: 'Environmental Project', value: 'ENVIRONMENT' },
+  { label: 'Project Donation', value: 'PROJECT' },
+  { label: 'Membership', value: 'MEMBERSHIP' },
 ];
 
 registerBlockType<DonationBlockAttributes>('custom/donation', {
@@ -56,7 +59,7 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
     },
     donationType: {
       type: 'string',
-      default: 'general',
+      default: 'GENERAL',
     },
   },
   edit: (props) => {
@@ -82,6 +85,15 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
     safePresetAmounts = safePresetAmounts.map(amount => 
       typeof amount === 'number' ? amount : parseFloat(amount) || 0
     );
+
+    // Ensure default values are persisted when block is first created
+    React.useEffect(() => {
+      if (!attributes.presetAmounts || attributes.presetAmounts.length === 0) {
+        const defaultAmounts = [25, 50, 100, 250];
+        setAttributes({ presetAmounts: defaultAmounts });
+        setPlainTextAttribute(props, 'presetAmounts', JSON.stringify(defaultAmounts));
+      }
+    }, []);
 
 
     const addPresetAmount = () => {
