@@ -1,0 +1,12 @@
+fragment BlockDonation on BlockDonation {
+  heading
+  description
+  presetAmounts
+  donationType
+  ctaText
+  successUrl
+  image {
+    source
+    alt
+  }
+}

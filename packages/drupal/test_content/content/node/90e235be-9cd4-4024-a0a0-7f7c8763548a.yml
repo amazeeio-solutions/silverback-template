@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 90e235be-9cd4-4024-a0a0-7f7c8763548a
+  bundle: donation_page
+  default_langcode: de
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Unterstütze unsere Sache'
+  created:
+    -
+      value: 1754127296
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /de/spenden
+      langcode: de
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: 'Hilf uns dabei, unsere wichtige Mission zu unterstützen. Jede Spende zählt und bringt uns unserem Ziel näher.'
+      format: gutenberg
+      summary: ''
+  field_current_amount:
+    -
+      value: '0.0'
+  field_description:
+    -
+      value: 'Wir sammeln Spenden für eine wichtige gemeinnützige Initiative. Ihr Beitrag hilft uns dabei, positive Veränderungen in unserer Gemeinschaft zu bewirken. Gemeinsam können wir unser Ziel von €10.000 erreichen und einen nachhaltigen Einfluss schaffen.'
+      format: gutenberg
+  field_goal_amount:
+    -
+      value: '10000'

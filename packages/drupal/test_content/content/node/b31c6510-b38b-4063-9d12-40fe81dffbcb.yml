@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: b31c6510-b38b-4063-9d12-40fe81dffbcb
+  bundle: donation_page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Help Support Our Cause'
+  created:
+    -
+      value: 1754125500
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /donate
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: 'Join us in making a difference! Your donation will help us continue our important work in the community. Every contribution, no matter the size, brings us closer to our goal.'
+      format: gutenberg
+      summary: ''
+  field_current_amount:
+    -
+      value: '2500'
+  field_description:
+    -
+      value: 'Support our mission to make a positive impact in our community. Your generous donation will fund essential programs that provide education, healthcare, and assistance to those in need. Together, we can create lasting change and improve lives for generations to come. Thank you for your support!'
+      format: gutenberg
+  field_goal_amount:
+    -
+      value: '10000'

@@ -46,6 +46,7 @@ fragment Page on Page {
     ...BlockInfoGrid
     ...BlockTeaserList
     ...BlockConditional
+    ...BlockDonation
   }
   metaTags {
     tag

@@ -32,6 +32,16 @@ directive @createWebformSubmission(
 ) on FIELD_DEFINITION
 
 """
+Resolve an editor block attribute that contains a JSON array.
+Parses the JSON string and returns it as an array.
+
+implementation(drupal): custom.gutenberg::resolveEditorBlockJsonArrayAttribute
+"""
+directive @resolveEditorBlockJsonArrayAttribute(
+  key: String!
+) on FIELD_DEFINITION
+
+"""
 Retrieve an entity from the Gatsby datastore.
 
 implementation(drupal): \Drupal\graphql_directives\Directives\Entities::loadEntity
@@ -319,6 +329,7 @@ union CommonContent @resolveEditorBlockType =
   | BlockHorizontalSeparator
   | BlockAccordion
   | BlockInfoGrid
+  | BlockDonation
 
 union PageContent @resolveEditorBlockType =
   | BlockMarkup
@@ -333,6 +344,7 @@ union PageContent @resolveEditorBlockType =
   | BlockInfoGrid
   | BlockTeaserList
   | BlockConditional
+  | BlockDonation
 
 type BlockForm @type(id: "custom/form") {
   url: Url @resolveEditorBlockAttribute(key: "formId") @webformIdToUrl(id: "$")
@@ -426,6 +438,50 @@ enum ImagePosition @default @value(string: "left") {
   right
 }
 
+"""
+Types of donations that can be made through the donation system.
+"""
+enum DonationType @default @value(string: "GENERAL") {
+  """
+  General donation with no specific purpose.
+  """
+  GENERAL
+  """
+  Donation for a specific project or campaign.
+  """
+  PROJECT
+  """
+  Monthly recurring donation.
+  """
+  MEMBERSHIP
+  """
+  Emergency or disaster relief donation.
+  """
+  EMERGENCY
+}
+
+"""
+Frequency options for recurring donations.
+"""
+enum DonationFrequency @default @value(string: "ONCE") {
+  """
+  One-time donation.
+  """
+  ONCE
+  """
+  Monthly recurring donation.
+  """
+  MONTHLY
+  """
+  Quarterly recurring donation.
+  """
+  QUARTERLY
+  """
+  Annual recurring donation.
+  """
+  YEARLY
+}
+
 type BlockQuote @type(id: "custom/quote") {
   quote: Markup @resolveEditorBlockAttribute(key: "quote")
   author: String @resolveEditorBlockAttribute(key: "author")
@@ -496,6 +552,46 @@ type BlockConditional @type(id: "custom/conditional") {
   displayFrom: String @resolveEditorBlockAttribute(key: "displayFrom")
   displayTo: String @resolveEditorBlockAttribute(key: "displayTo")
   content: [CommonContent] @resolveEditorBlockChildren
+}
+
+"""
+A Gutenberg block that displays a donation form with configurable preset amounts.
+Editors can customize the donation amounts, call-to-action text, and donation type.
+Supports configurable donation types and preset amounts.
+"""
+type BlockDonation @type(id: "custom/donation") {
+  """
+  The heading text displayed above the donation form.
+  """
+  heading: String @resolveEditorBlockAttribute(key: "heading")
+  """
+  Optional description text explaining the purpose of the donation.
+  """
+  description: Markup @resolveEditorBlockAttribute(key: "description")
+  """
+  Array of preset donation amounts in Swiss Francs (CHF).
+  Displayed as quick-select buttons for donors.
+  """
+  presetAmounts: [Float!]!
+    @resolveEditorBlockAttribute(key: "presetAmounts", plainText: true)
+    @value(json: "$")
+  """
+  The type of donation this block is configured for.
+  """
+  donationType: DonationType! @resolveEditorBlockAttribute(key: "donationType")
+  """
+  Call-to-action button text (e.g., "Donate Now", "Support Our Cause").
+  """
+  ctaText: String! @resolveEditorBlockAttribute(key: "ctaText")
+  """
+  Optional URL to redirect to after successful donation.
+  If not provided, displays a confirmation message.
+  """
+  successUrl: Url @resolveEditorBlockAttribute(key: "successUrl")
+  """
+  Optional image to display alongside the donation form.
+  """
+  image: MediaImage @resolveEditorBlockMedia
 }
 
 input PaginationInput {
@@ -584,6 +680,12 @@ type Mutation {
   Process checkout and create an order.
   """
   checkout(input: CheckoutInput!): CheckoutResponse
+
+  """
+  Process a donation payment.
+  Creates a donation record and initiates payment processing.
+  """
+  processDonation(input: DonationInput!): DonationResponse
 }
 
 type WebformSubmissionCreateResponse {
@@ -839,6 +941,132 @@ type CheckoutResponse {
   order: Order
   """
   Any errors that occurred during checkout.
+  """
+  errors: [MutationError]
+  """
+  Redirect URL for payment processing (when payment is required).
+  """
+  paymentRedirectUrl: String
+}
+
+"""
+Input type for processing donations.
+"""
+input DonationInput {
+  """
+  The donation amount in Swiss Francs (CHF).
+  """
+  amount: Float!
+  """
+  The type of donation being made.
+  """
+  donationType: DonationType!
+  """
+  The frequency of the donation (one-time or recurring).
+  """
+  frequency: DonationFrequency!
+  """
+  Donor's email address.
+  """
+  email: String!
+  """
+  Donor's first name.
+  """
+  firstName: String!
+  """
+  Donor's last name.
+  """
+  lastName: String!
+  """
+  Optional message from the donor.
+  """
+  message: String
+  """
+  Whether the donor wants to remain anonymous.
+  """
+  anonymous: Boolean = false
+  """
+  Street address (optional, for tax receipts).
+  """
+  address: String
+  """
+  City name (optional, for tax receipts).
+  """
+  city: String
+  """
+  Postal/ZIP code (optional, for tax receipts).
+  """
+  postalCode: String
+  """
+  Country code (optional, for tax receipts).
+  """
+  country: String
+}
+
+"""
+A processed donation record.
+"""
+type Donation @default @value {
+  """
+  Unique donation ID.
+  """
+  id: String!
+  """
+  Human-readable donation reference number.
+  """
+  donationNumber: String!
+  """
+  The donation amount in Swiss Francs (CHF).
+  """
+  amount: Float!
+  """
+  The type of donation.
+  """
+  donationType: DonationType!
+  """
+  The frequency of the donation.
+  """
+  frequency: DonationFrequency!
+  """
+  Current status of the donation.
+  """
+  status: String!
+  """
+  Timestamp when the donation was created.
+  """
+  createdAt: String!
+  """
+  Donor's email address.
+  """
+  email: String!
+  """
+  Donor's first name.
+  """
+  firstName: String!
+  """
+  Donor's last name.
+  """
+  lastName: String!
+  """
+  Optional message from the donor.
+  """
+  message: String
+  """
+  Whether the donor chose to remain anonymous.
+  """
+  anonymous: Boolean!
+}
+
+"""
+Response type for donation processing.
+"""
+type DonationResponse {
+  """
+  The created donation record.
+  """
+  donation: Donation
+  """
+  Any errors that occurred during donation processing.
   """
   errors: [MutationError]
   """

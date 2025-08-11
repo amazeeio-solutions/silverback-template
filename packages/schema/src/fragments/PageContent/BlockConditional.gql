@@ -13,5 +13,6 @@ fragment BlockConditional on BlockConditional {
     ...BlockHorizontalSeparator
     ...BlockAccordion
     ...BlockInfoGrid
+    ...BlockDonation
   }
 }

@@ -26,3 +26,6 @@ services:
     class: Drupal\custom\MediaLinks
     arguments:
       ['@renderer', '@logger.factory', '@stream_wrapper_manager', '@file.usage']
+
+  custom.gutenberg:
+    class: Drupal\custom\Gutenberg

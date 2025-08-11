@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 27b62340-2c1b-442c-9ba7-a134bdd5a1a3
+  bundle: donation_page
+  default_langcode: fr
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Soutenez Notre Cause'
+  created:
+    -
+      value: 1754127494
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /french/don
+      langcode: fr
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: "Aidez-nous à faire une différence dans la vie de ceux qui en ont besoin. Votre don nous permettra de continuer notre mission importante et d'avoir un impact positif dans notre communauté."
+      format: gutenberg
+      summary: ''
+  field_current_amount:
+    -
+      value: '0.0'
+  field_description:
+    -
+      value: '<!-- wp:custom/donation {"heading":"Soutenez Notre Cause","ctaText":"Faites un don maintenant","description":"Soutenez notre cause avec votre généreuse contribution. Chaque don compte pour faire une différence.","presetAmounts":[25,50,100,250],"allowCustomAmount":true,"allowRecurring":true,"donationType":"general","successUrl":""} /-->'
+      format: gutenberg
+  field_goal_amount:
+    -
+      value: '10000'

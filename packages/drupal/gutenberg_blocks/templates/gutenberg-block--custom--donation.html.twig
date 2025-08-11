@@ -1,0 +1,86 @@
+{#
+/**
+ * @file
+ * Template for the custom donation block.
+ *
+ * Available variables:
+ * - block_attributes: The block attributes.
+ *   - mediaEntityIds: Array of media entity IDs.
+ *   - ctaText: Call-to-action button text.
+ *   - description: Description text.
+ *   - donationAmounts: Array of donation amounts.
+ *   - allowCustomAmount: Boolean for custom amount input.
+ *   - allowRecurring: Boolean for recurring donation options.
+ *   - donationType: Type of donation campaign.
+ * - rendered_image: Rendered image if mediaEntityIds is set.
+ */
+#}
+
+<div class="donation-block">
+  {% if rendered_image %}
+    <div class="donation-block__image">
+      {{ rendered_image }}
+    </div>
+  {% endif %}
+
+  <div class="donation-block__content">
+    {% if block_attributes.donationType %}
+      <div class="donation-block__type">
+        {{ block_attributes.donationType|capitalize }}
+      </div>
+    {% endif %}
+
+    {% if block_attributes.description %}
+      <div class="donation-block__description">
+        {{ block_attributes.description|raw }}
+      </div>
+    {% endif %}
+
+    <div class="donation-block__form">
+      {% if block_attributes.donationAmounts %}
+        <div class="donation-block__amounts">
+          {% for amount in block_attributes.donationAmounts %}
+            {% if amount.amount and amount.amount matches '/^\\d+(\\.\\d{1,2})?$/' %}
+              <button class="donation-block__amount-btn" data-amount="{{ amount.amount }}">
+                ${{ amount.amount }}
+              </button>
+            {% endif %}
+          {% endfor %}
+          
+          {% if block_attributes.allowCustomAmount %}
+            <div class="donation-block__custom-amount">
+              <input type="number" 
+                     class="donation-block__custom-input" 
+                     placeholder="{{ 'Custom Amount'|t }}" 
+                     min="1" 
+                     step="0.01">
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block_attributes.allowRecurring %}
+        <div class="donation-block__frequency">
+          <label>
+            <input type="radio" name="frequency" value="one-time" checked>
+            {{ 'One-time'|t }}
+          </label>
+          <label>
+            <input type="radio" name="frequency" value="monthly">
+            {{ 'Monthly'|t }}
+          </label>
+          <label>
+            <input type="radio" name="frequency" value="yearly">
+            {{ 'Yearly'|t }}
+          </label>
+        </div>
+      {% endif %}
+
+      <div class="donation-block__cta">
+        <button class="donation-block__cta-btn" type="submit">
+          {{ block_attributes.ctaText ?: 'Donate Now'|t }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

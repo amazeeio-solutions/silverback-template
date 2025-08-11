@@ -1,0 +1,60 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 3256b4c2-d74e-4a9d-8e86-675451e03cf3
+  bundle: donation_page
+  default_langcode: it
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'Sostieni la Nostra Causa'
+  created:
+    -
+      value: 1754127373
+  promote:
+    -
+      value: true
+  sticky:
+    -
+      value: false
+  pate_is_template:
+    -
+      value: false
+  pate_structure_only:
+    -
+      value: false
+  path:
+    -
+      alias: /it/donazione
+      langcode: it
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  body:
+    -
+      value: 'Aiutaci a sostenere la nostra importante missione. Ogni donazione conta e ci avvicina al nostro obiettivo.'
+      format: gutenberg
+      summary: ''
+  field_current_amount:
+    -
+      value: '0.0'
+  field_description:
+    -
+      value: "Stiamo raccogliendo fondi per un'importante iniziativa benefica. Il tuo contributo ci aiuta a creare cambiamenti positivi nella nostra comunità. Insieme possiamo raggiungere il nostro obiettivo di €10.000 e creare un impatto duraturo."
+      format: gutenberg
+  field_goal_amount:
+    -
+      value: '10000'

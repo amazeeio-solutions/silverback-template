@@ -110,6 +110,7 @@ export const createPages = async ({ actions }) => {
   createMultiLingualPage(actions, 'checkout/success', 'checkout-success');
   createMultiLingualPage(actions, 'checkout/cancelled', 'checkout-cancelled');
   createMultiLingualPage(actions, 'checkout/failed', 'checkout-failed');
+  createMultiLingualPage(actions, 'donate', 'donation');
 
   // Broken Gatsby links will attempt to load page-data.json files, which don't exist
   // and also should not be piped into the strangler function. Thats why they

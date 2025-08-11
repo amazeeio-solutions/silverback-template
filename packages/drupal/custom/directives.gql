@@ -47,3 +47,13 @@ implementation(drupal): \Drupal\custom\Directives::homeRoute
 directive @homeRoute(
   path: String
 ) repeatable on FIELD_DEFINITION | SCALAR | UNION | ENUM | INTERFACE | OBJECT
+
+"""
+Resolve an editor block attribute that contains a JSON array.
+Parses the JSON string and returns it as an array.
+
+implementation(drupal): custom.gutenberg::resolveEditorBlockJsonArrayAttribute
+"""
+directive @resolveEditorBlockJsonArrayAttribute(
+  key: String!
+) on FIELD_DEFINITION

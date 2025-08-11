@@ -130,3 +130,5 @@ Implementing a feature should follow these steps using the respective agents.
 ### Build Pipeline
 Turborepo stages: `prep → test:static → test:unit → test:integration`
 
+### Agent Guidelines
+- Always use agents where appropriate

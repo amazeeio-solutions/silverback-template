@@ -10,6 +10,7 @@ import { PageTransition } from '../Molecules/PageTransition';
 import { BlockAccordion } from './PageContent/BlockAccordion';
 import { BlockConditional } from './PageContent/BlockConditional';
 import { BlockCta } from './PageContent/BlockCta';
+import { BlockDonation } from './PageContent/BlockDonation';
 import { BlockForm } from './PageContent/BlockForm';
 import { BlockHorizontalSeparator } from './PageContent/BlockHorizontalSeparator';
 import { BlockImageTeasers } from './PageContent/BlockImageTeasers';
@@ -54,6 +55,8 @@ export function PageDisplay(page: PageFragment) {
               return <BlockTeaserList key={index} {...block} />;
             case 'BlockConditional':
               return <BlockConditional key={index} {...block} />;
+            case 'BlockDonation':
+              return <BlockDonation key={index} {...block} />;
             default:
               throw new UnreachableCaseError(block);
           }
@@ -89,6 +92,8 @@ export function CommonContent(props: CommonContentBlock) {
       return <BlockAccordion {...props} />;
     case 'BlockInfoGrid':
       return <BlockInfoGrid {...props} />;
+    case 'BlockDonation':
+      return <BlockDonation {...props} />;
     default:
       throw new UnreachableCaseError(props);
   }
