@@ -158,7 +158,6 @@ export function DonationForm({
               ))}
             </div>
           </div>
-
         </div>
 
         {/* Personal Information */}

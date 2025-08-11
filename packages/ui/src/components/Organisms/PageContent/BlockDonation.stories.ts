@@ -147,7 +147,7 @@ export const AllDonationTypes = {
     docs: {
       description: {
         story:
-          'Demonstrates the donation type badge system with different colors and icons for General (star), Project (building), Membership (refresh), and Emergency (warning) donations.',
+          'Demonstrates the donation type badge system with different colors and icons for all 7 donation types: General (star), Project (building), Membership (refresh), Emergency (warning), Education (graduation cap), Healthcare (heart), and Environment (globe).',
       },
     },
   },
@@ -188,6 +188,51 @@ export const MultiLanguageUrls = {
         story:
           'Demonstrates language-aware URL generation: /en/donate, /de/spenden, /it/donazione, /french/don with amount parameters.',
       },
+    },
+  },
+} satisfies StoryObj<typeof BlockDonation>;
+
+export const EducationDonation = {
+  args: {
+    heading: 'Support Education Programs',
+    description:
+      '<p>Help us provide quality education, learning materials, and scholarships to students in need. Your donation directly impacts educational opportunities in our community.</p>' as Markup,
+    presetAmounts: [25, 50, 100, 200],
+    donationType: DonationType.Education,
+    ctaText: 'Support Education',
+    image: {
+      source: image(Landscape, { width: 600, height: 600 }),
+      alt: 'Students in a classroom learning together',
+    },
+  },
+} satisfies StoryObj<typeof BlockDonation>;
+
+export const HealthcareDonation = {
+  args: {
+    heading: 'Healthcare Access Initiative',
+    description:
+      '<p>Support our healthcare programs that provide essential medical services, health screenings, and wellness programs to underserved communities.</p>' as Markup,
+    presetAmounts: [30, 75, 150, 300],
+    donationType: DonationType.Healthcare,
+    ctaText: 'Support Healthcare',
+    image: {
+      source: image(Landscape, { width: 600, height: 600 }),
+      alt: 'Healthcare workers providing medical care',
+    },
+  },
+} satisfies StoryObj<typeof BlockDonation>;
+
+export const EnvironmentDonation = {
+  args: {
+    heading: 'Environmental Conservation Project',
+    description:
+      '<p>Join our efforts to protect the environment through conservation projects, sustainable practices, and renewable energy initiatives that benefit our planet.</p>' as Markup,
+    presetAmounts: [20, 60, 120, 250],
+    donationType: DonationType.Environment,
+    ctaText: 'Protect Our Planet',
+    image: {
+      source: image(Landscape, { width: 600, height: 600 }),
+      alt: 'Environmental conservation activities in nature',
     },
   },
 } satisfies StoryObj<typeof BlockDonation>;

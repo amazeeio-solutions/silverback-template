@@ -9,7 +9,9 @@ import { useCart } from '../../stores/cart.store';
 import { CartItem } from '../Molecules/CartItem';
 import { Price } from '../Molecules/Price';
 
-type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+type CartItemFromQuery = NonNullable<
+  NonNullable<CartQuery['cart']>['items'][0]
+>;
 
 export interface MiniCartProps {
   onClose: () => void;

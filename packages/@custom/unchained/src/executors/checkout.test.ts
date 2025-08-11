@@ -96,12 +96,12 @@ describe('checkoutExecutor', () => {
     expect(result).toBeDefined();
     expect(result.checkout).toBeDefined();
     expect(result.checkout.errors).toEqual([]);
-    
+
     // For GENERIC provider, we should get a redirect URL from the sign operation
     expect(result.checkout.paymentRedirectUrl).toBe(
       'https://unchained-test.payrexx.com/?payment=569af0f32a9e9902a65361a045e62a59',
     );
-    
+
     // For GENERIC provider, we don't get order details immediately
     expect(result.checkout.order).toBeUndefined();
   });
@@ -129,7 +129,7 @@ describe('checkoutExecutor', () => {
     expect(result).toBeDefined();
     expect(result.checkout).toBeDefined();
     expect(result.checkout.errors).toEqual([]);
-    
+
     // For INVOICE provider (free), we should get order details
     expect(result.checkout.order).toBeDefined();
     expect(result.checkout.order.id).toBe('12345');
@@ -151,7 +151,7 @@ describe('checkoutExecutor', () => {
       city: 'Anytown',
       postalCode: '12345',
       country: 'US',
-      donation: 25.50, // CHF 25.50 donation - should trigger paid checkout
+      donation: 25.5, // CHF 25.50 donation - should trigger paid checkout
       successRedirectUrl: 'https://example.com/success',
       cancelRedirectUrl: 'https://example.com/cancel',
       failedRedirectUrl: 'https://example.com/failed',
@@ -164,12 +164,12 @@ describe('checkoutExecutor', () => {
     expect(result).toBeDefined();
     expect(result.checkout).toBeDefined();
     expect(result.checkout.errors).toEqual([]);
-    
+
     // For GENERIC provider, we should get a redirect URL from the sign operation
     expect(result.checkout.paymentRedirectUrl).toBe(
       'https://unchained-test.payrexx.com/?payment=569af0f32a9e9902a65361a045e62a59',
     );
-    
+
     // For GENERIC provider, we don't get order details immediately
     expect(result.checkout.order).toBeUndefined();
   });
@@ -200,12 +200,12 @@ describe('checkoutExecutor', () => {
     expect(result).toBeDefined();
     expect(result.checkout).toBeDefined();
     expect(result.checkout.errors).toEqual([]);
-    
+
     // Should trigger GENERIC provider for 200 CHF donation
     expect(result.checkout.paymentRedirectUrl).toBe(
       'https://unchained-test.payrexx.com/?payment=569af0f32a9e9902a65361a045e62a59',
     );
-    
+
     // For GENERIC provider, we don't get order details immediately
     expect(result.checkout.order).toBeUndefined();
   });

@@ -458,6 +458,18 @@ enum DonationType @default @value(string: "GENERAL") {
   Emergency or disaster relief donation.
   """
   EMERGENCY
+  """
+  Education and learning support donation.
+  """
+  EDUCATION
+  """
+  Healthcare and medical support donation.
+  """
+  HEALTHCARE
+  """
+  Environmental and sustainability projects donation.
+  """
+  ENVIRONMENT
 }
 
 """
@@ -644,7 +656,7 @@ type Query {
   """
   Get the current cart.
   """
-  cart: Cart!
+  cart: Cart
 }
 
 type Mutation {

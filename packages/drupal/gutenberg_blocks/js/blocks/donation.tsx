@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { InspectorControls, RichText } from 'wordpress__block-editor';
 import { registerBlockType } from 'wordpress__blocks';
 import {
@@ -5,10 +6,8 @@ import {
   PanelBody,
   SelectControl,
   TextControl,
-  ToggleControl,
 } from 'wordpress__components';
 import { dispatch } from 'wordpress__data';
-import * as React from 'react';
 
 import { DrupalMediaEntity } from '../utils/drupal-media';
 
@@ -62,7 +61,7 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
       default: 'GENERAL',
     },
   },
-  edit: (props) => {
+  edit: function Edit(props) {
     const { attributes, setAttributes } = props;
 
     // Ensure presetAmounts is always a valid array, deserializing if needed
@@ -76,14 +75,14 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
       } else {
         safePresetAmounts = [25, 50, 100, 250];
       }
-    } catch (e) {
+    } catch {
       // If JSON parsing fails, use default values
       safePresetAmounts = [25, 50, 100, 250];
     }
-    
+
     // Ensure all values are numbers
-    safePresetAmounts = safePresetAmounts.map(amount => 
-      typeof amount === 'number' ? amount : parseFloat(amount) || 0
+    safePresetAmounts = safePresetAmounts.map((amount: unknown) =>
+      typeof amount === 'number' ? amount : parseFloat(String(amount)) || 0,
     );
 
     // Ensure default values are persisted when block is first created
@@ -96,11 +95,17 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
 
     // Handle serialization whenever presetAmounts changes
     React.useEffect(() => {
-      if (Array.isArray(attributes.presetAmounts) && attributes.presetAmounts.length > 0) {
-        setPlainTextAttribute(props, 'presetAmounts', JSON.stringify(attributes.presetAmounts));
+      if (
+        Array.isArray(attributes.presetAmounts) &&
+        attributes.presetAmounts.length > 0
+      ) {
+        setPlainTextAttribute(
+          props,
+          'presetAmounts',
+          JSON.stringify(attributes.presetAmounts),
+        );
       }
     }, [attributes.presetAmounts]);
-
 
     const addPresetAmount = () => {
       const newAmounts = [...safePresetAmounts, 0];
@@ -119,13 +124,15 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
       setAttributes({ presetAmounts: updatedAmounts });
     };
 
-    const finalizePresetAmount = (index: number, value: string) => {
+    const finalizePresetAmount = () => {
       // This is called onBlur - no stringification needed here
       // The serialization effect will handle persistence automatically
     };
 
     const removePresetAmount = (index: number) => {
-      const filteredAmounts = safePresetAmounts.filter((_, i) => i !== index);
+      const filteredAmounts = safePresetAmounts.filter(
+        (_: number, i: number) => i !== index,
+      );
       setAttributes({ presetAmounts: filteredAmounts });
     };
 
@@ -151,22 +158,25 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
                 { context: 'gutenberg' },
               )}
             />
-
           </PanelBody>
 
           <PanelBody
             title={Drupal.t('Donation Amounts', {}, { context: 'gutenberg' })}
           >
-            {safePresetAmounts.map((amount, index) => (
+            {safePresetAmounts.map((amount: number, index: number) => (
               <div key={index} style={{ marginBottom: '16px' }}>
                 <div
-                  style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                  }}
                 >
                   <TextControl
                     label={`${Drupal.t('Amount', {}, { context: 'gutenberg' })} ${index + 1}`}
                     value={amount.toString()}
                     onChange={(value) => updatePresetAmount(index, value)}
-                    onBlur={(event) => finalizePresetAmount(index, event.target.value)}
+                    onBlur={finalizePresetAmount}
                     placeholder="50"
                     help={
                       index === 0
@@ -183,12 +193,12 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
                       isDestructive
                       variant="secondary"
                       onClick={() => removePresetAmount(index)}
-                      style={{ 
+                      style={{
                         marginTop: '28px',
                         height: '36px',
                         minHeight: '36px',
                         display: 'flex',
-                        alignItems: 'center'
+                        alignItems: 'center',
                       }}
                     >
                       {Drupal.t('Remove', {}, { context: 'gutenberg' })}
@@ -319,8 +329,8 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
                 }}
               >
                 {safePresetAmounts
-                  .filter((amount) => amount > 0)
-                  .map((amount, index) => (
+                  .filter((amount: number) => amount > 0)
+                  .map((amount: number, index: number) => (
                     <div
                       key={`${amount}-${index}`}
                       style={{
@@ -339,9 +349,7 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
                     </div>
                   ))}
               </div>
-
             </div>
-
 
             {/* CTA Button */}
             <div style={{ textAlign: 'center' }}>

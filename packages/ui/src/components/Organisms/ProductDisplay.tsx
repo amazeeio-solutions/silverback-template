@@ -11,7 +11,9 @@ import { PageTransition } from '../Molecules/PageTransition';
 import { Price } from '../Molecules/Price';
 import { PageHero } from './PageHero';
 
-type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+type CartItemFromQuery = NonNullable<
+  NonNullable<CartQuery['cart']>['items'][0]
+>;
 
 export function ProductDisplay(product: ProductFragment) {
   const intl = useIntl();

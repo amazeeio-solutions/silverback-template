@@ -272,11 +272,7 @@ export const GuestLoginMutation = graphql(`
 
 // Sign Payment Provider For Checkout Mutation (for generic payment providers)
 export const SignPaymentProviderForCheckoutMutation = graphql(`
-  mutation SignPaymentProviderForCheckout(
-    $transactionContext: JSON
-  ) {
-    signPaymentProviderForCheckout(
-      transactionContext: $transactionContext
-    )
+  mutation SignPaymentProviderForCheckout($transactionContext: JSON) {
+    signPaymentProviderForCheckout(transactionContext: $transactionContext)
   }
 `);

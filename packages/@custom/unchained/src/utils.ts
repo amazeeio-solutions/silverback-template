@@ -120,18 +120,18 @@ export function mapVariablesToGqlTada<T extends DocumentNode>(
       paymentProviderId?: string;
       paymentProviderType?: string;
     };
-    
+
     // Create payment context with gateway information
     const paymentContext = {
       ...checkoutVars.input,
     };
-    
+
     // Add gatewayId if we have a payment provider
     if (checkoutVars.paymentProviderId) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (paymentContext as any).gatewayId = checkoutVars.paymentProviderId;
     }
-    
+
     return {
       orderId: undefined, // Will use default cart
       paymentContext,
@@ -158,13 +158,14 @@ export function mapVariablesToGqlTada<T extends DocumentNode>(
         donation?: number;
       };
     };
-    
+
     // Create meta object with donation if provided
     // Convert CHF to cents for API (200 CHF -> 20000 cents)
-    const meta = updateCartVars.input.donation !== undefined 
-      ? { donation: updateCartVars.input.donation * 100 } 
-      : undefined;
-    
+    const meta =
+      updateCartVars.input.donation !== undefined
+        ? { donation: updateCartVars.input.donation * 100 }
+        : undefined;
+
     return {
       orderId: undefined, // Will use default cart
       billingAddress: {
@@ -195,7 +196,9 @@ type GqlTadaUpdateCartItemResult = ResultOf<typeof UpdateCartItemMutation>;
 type GqlTadaRemoveFromCartResult = ResultOf<typeof RemoveFromCartMutation>;
 type GqlTadaClearCartResult = ResultOf<typeof ClearCartMutation>;
 type GqlTadaCheckoutResult = ResultOf<typeof CheckoutMutation>;
-type GqlTadaSignPaymentProviderResult = ResultOf<typeof SignPaymentProviderForCheckoutMutation>;
+type GqlTadaSignPaymentProviderResult = ResultOf<
+  typeof SignPaymentProviderForCheckoutMutation
+>;
 type GqlTadaGuestLoginResult = ResultOf<typeof GuestLoginMutation>;
 
 /**
@@ -667,7 +670,9 @@ export function mapCheckoutResult(data: GqlTadaCheckoutResult): {
 /**
  * Maps gql.tada SignPaymentProviderForCheckout result to checkout schema format
  */
-export function mapSignPaymentProviderResult(data: GqlTadaSignPaymentProviderResult): {
+export function mapSignPaymentProviderResult(
+  data: GqlTadaSignPaymentProviderResult,
+): {
   checkout: {
     order?: {
       id: string;
@@ -681,7 +686,7 @@ export function mapSignPaymentProviderResult(data: GqlTadaSignPaymentProviderRes
   };
 } {
   const signResponse = data.signPaymentProviderForCheckout;
-  
+
   if (!signResponse) {
     return {
       checkout: {
@@ -693,26 +698,32 @@ export function mapSignPaymentProviderResult(data: GqlTadaSignPaymentProviderRes
   try {
     // Parse the JSON response from the payment provider
     const paymentData = JSON.parse(String(signResponse));
-    
-    // Handle the actual Payrex API response structure: 
+
+    // Handle the actual Payrex API response structure:
     // { "status": "success", "data": [{ "link": "...", "id": 123, ... }] }
     let redirectUrl;
-    if (paymentData.data && Array.isArray(paymentData.data) && paymentData.data[0]) {
+    if (
+      paymentData.data &&
+      Array.isArray(paymentData.data) &&
+      paymentData.data[0]
+    ) {
       // Real Payrex API structure
       redirectUrl = paymentData.data[0].link;
     } else {
       // Fallback for other structures or mock data
       redirectUrl = paymentData.link || paymentData.url;
     }
-    
+
     if (!redirectUrl) {
       return {
         checkout: {
-          errors: [{ message: 'No redirect URL found in payment provider response' }],
+          errors: [
+            { message: 'No redirect URL found in payment provider response' },
+          ],
         },
       };
     }
-    
+
     return {
       checkout: {
         errors: [],
@@ -722,7 +733,11 @@ export function mapSignPaymentProviderResult(data: GqlTadaSignPaymentProviderRes
   } catch (error) {
     return {
       checkout: {
-        errors: [{ message: `Failed to parse payment provider response: ${String(error)}` }],
+        errors: [
+          {
+            message: `Failed to parse payment provider response: ${String(error)}`,
+          },
+        ],
       },
     };
   }

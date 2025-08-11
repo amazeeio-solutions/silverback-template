@@ -13,7 +13,9 @@ import { userEvent, within } from '@storybook/test';
 import { image } from '../../helpers/image';
 import { CartItem } from './CartItem';
 
-type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+type CartItemFromQuery = NonNullable<
+  NonNullable<CartQuery['cart']>['items'][0]
+>;
 
 const meta: Meta<typeof CartItem> = {
   title: 'Molecules/CartItem',

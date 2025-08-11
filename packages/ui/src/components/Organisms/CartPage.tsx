@@ -10,7 +10,9 @@ import { CartItem } from '../Molecules/CartItem';
 import { PageTransition } from '../Molecules/PageTransition';
 import { Price } from '../Molecules/Price';
 
-type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+type CartItemFromQuery = NonNullable<
+  NonNullable<CartQuery['cart']>['items'][0]
+>;
 
 export interface CartPageProps {
   onContinueShopping?: () => void;

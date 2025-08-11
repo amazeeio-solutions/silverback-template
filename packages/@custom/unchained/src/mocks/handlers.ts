@@ -20,7 +20,9 @@ type UpdateCartItemMutationResult = ResultOf<typeof UpdateCartItemMutation>;
 type RemoveFromCartMutationResult = ResultOf<typeof RemoveFromCartMutation>;
 type ClearCartMutationResult = ResultOf<typeof ClearCartMutation>;
 type CheckoutMutationResult = ResultOf<typeof CheckoutMutation>;
-type SignPaymentProviderMutationResult = ResultOf<typeof SignPaymentProviderForCheckoutMutation>;
+type SignPaymentProviderMutationResult = ResultOf<
+  typeof SignPaymentProviderForCheckoutMutation
+>;
 type UpdateCartMutationResult = ResultOf<typeof UpdateCartMutation>;
 type GuestLoginMutationResult = ResultOf<typeof GuestLoginMutation>;
 
@@ -254,11 +256,12 @@ export const handlers = [
     const vars = variables as any;
     const email = vars?.contact?.emailAddress || '';
     const donation = vars?.meta?.donation || 0;
-    const isPaidCheckout = email.includes('paid') || email.includes('premium') || donation > 0;
-    
+    const isPaidCheckout =
+      email.includes('paid') || email.includes('premium') || donation > 0;
+
     // Calculate total: donation amount (already in cents from variable mapping)
     const totalAmount = isPaidCheckout ? donation : 0;
-    
+
     const data: UpdateCartMutationResult = {
       updateCart: {
         _id: '12345',

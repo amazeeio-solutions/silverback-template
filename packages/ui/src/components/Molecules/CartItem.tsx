@@ -8,7 +8,9 @@ import React from 'react';
 import { useCart } from '../../stores/cart.store';
 import { Price } from './Price';
 
-type CartItemFromQuery = NonNullable<CartQuery['cart']['items'][0]>;
+type CartItemFromQuery = NonNullable<
+  NonNullable<CartQuery['cart']>['items'][0]
+>;
 
 export interface CartItemProps {
   item: CartItemFromQuery;

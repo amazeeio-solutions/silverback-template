@@ -26,11 +26,11 @@ type UpdateCartItemResult = { updateCartItem?: CartMutationResult };
 type RemoveFromCartResult = { removeFromCart?: CartMutationResult };
 type ClearCartResult = { clearCart?: CartMutationResult };
 
-type CartItem = NonNullable<CartQuery['cart']['items'][0]>;
-type CartData = CartQuery['cart'];
+type CartItem = NonNullable<NonNullable<CartQuery['cart']>['items'][0]>;
+type CartData = NonNullable<CartQuery['cart']>;
 
 interface CartState {
-  cart: CartData;
+  cart: CartData | undefined;
   isLoading: boolean;
   error?: string;
   optimisticItems: CartItem[];
@@ -38,7 +38,7 @@ interface CartState {
 }
 
 interface CartActions {
-  setCart: (cart: CartData) => void;
+  setCart: (cart: CartData | undefined) => void;
   setLoading: (loading: boolean) => void;
   setError: (error?: string) => void;
   clearError: () => void;
@@ -116,7 +116,7 @@ const useCartStore = create<CartStore>()(
 
         set({ error: undefined }, false, 'cart/addToCart:start');
 
-        const existingItem = cart.items.find((item) => item.id === productId);
+        const existingItem = cart?.items.find((item) => item.id === productId);
         let optimisticItems: CartItem[];
 
         if (existingItem) {
@@ -124,9 +124,10 @@ const useCartStore = create<CartStore>()(
             existingItem.quantity + quantity,
             existingItem.maxStock,
           );
-          optimisticItems = cart.items.map((item) =>
-            item.id === productId ? { ...item, quantity: newQuantity } : item,
-          );
+          optimisticItems =
+            cart?.items.map((item) =>
+              item.id === productId ? { ...item, quantity: newQuantity } : item,
+            ) || [];
         } else {
           const newItem: CartItem = {
             id: productId,
@@ -137,7 +138,7 @@ const useCartStore = create<CartStore>()(
             teaserImage: undefined,
             maxStock: 999,
           };
-          optimisticItems = [...cart.items, newItem];
+          optimisticItems = [...(cart?.items || []), newItem];
         }
 
         const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
@@ -209,7 +210,7 @@ const useCartStore = create<CartStore>()(
 
         set({ error: undefined }, false, 'cart/updateCartItem:start');
 
-        const optimisticItems = cart.items
+        const optimisticItems = (cart?.items || [])
           .map((item) =>
             item.id === productId
               ? {
@@ -289,7 +290,7 @@ const useCartStore = create<CartStore>()(
 
         set({ error: undefined }, false, 'cart/removeFromCart:start');
 
-        const optimisticItems = cart.items.filter(
+        const optimisticItems = (cart?.items || []).filter(
           (item) => item.id !== productId,
         );
         const { totalItems, totalPrice } = calculateCartTotals(optimisticItems);
