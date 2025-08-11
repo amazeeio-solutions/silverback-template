@@ -91,15 +91,20 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
       if (!attributes.presetAmounts || attributes.presetAmounts.length === 0) {
         const defaultAmounts = [25, 50, 100, 250];
         setAttributes({ presetAmounts: defaultAmounts });
-        setPlainTextAttribute(props, 'presetAmounts', JSON.stringify(defaultAmounts));
       }
     }, []);
+
+    // Handle serialization whenever presetAmounts changes
+    React.useEffect(() => {
+      if (Array.isArray(attributes.presetAmounts) && attributes.presetAmounts.length > 0) {
+        setPlainTextAttribute(props, 'presetAmounts', JSON.stringify(attributes.presetAmounts));
+      }
+    }, [attributes.presetAmounts]);
 
 
     const addPresetAmount = () => {
       const newAmounts = [...safePresetAmounts, 0];
       setAttributes({ presetAmounts: newAmounts });
-      setPlainTextAttribute(props, 'presetAmounts', JSON.stringify(newAmounts));
     };
 
     const updatePresetAmount = (index: number, value: string) => {
@@ -115,25 +120,13 @@ registerBlockType<DonationBlockAttributes>('custom/donation', {
     };
 
     const finalizePresetAmount = (index: number, value: string) => {
-      // This is called onBlur to finalize the stringification
-      const numericValue = parseFloat(value) || 0;
-      const updatedAmounts = [...safePresetAmounts];
-      updatedAmounts[index] = numericValue;
-      setPlainTextAttribute(
-        props,
-        'presetAmounts',
-        JSON.stringify(updatedAmounts),
-      );
+      // This is called onBlur - no stringification needed here
+      // The serialization effect will handle persistence automatically
     };
 
     const removePresetAmount = (index: number) => {
       const filteredAmounts = safePresetAmounts.filter((_, i) => i !== index);
       setAttributes({ presetAmounts: filteredAmounts });
-      setPlainTextAttribute(
-        props,
-        'presetAmounts',
-        JSON.stringify(filteredAmounts),
-      );
     };
 
     return (
