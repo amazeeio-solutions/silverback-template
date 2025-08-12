@@ -43,15 +43,17 @@ export function createCheckoutExecutor(
         [key: string]: unknown;
       }
       const input = vars.input as CheckoutInput;
-      const hostname = 'localhost:3000'; // Default hostname for server-side context
+      const origin =
+        typeof window !== 'undefined'
+          ? window.location.origin
+          : 'http://localhost:3000';
       const transactionContext = {
         successRedirectUrl:
-          input.successRedirectUrl || `https://${hostname}/en/checkout/success`,
+          input.successRedirectUrl || `${origin}/en/checkout/success`,
         cancelRedirectUrl:
-          input.cancelRedirectUrl ||
-          `https://${hostname}/en/checkout/cancelled`,
+          input.cancelRedirectUrl || `${origin}/en/checkout/cancelled`,
         failedRedirectUrl:
-          input.failedRedirectUrl || `https://${hostname}/en/checkout/failed`,
+          input.failedRedirectUrl || `${origin}/en/checkout/failed`,
       };
 
       const signResponse = await client.request(
