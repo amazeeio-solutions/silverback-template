@@ -8,20 +8,8 @@
     "access": "public"
   },
   "type": "module",
-  "main": "build/client.js",
-  "types": "build/dts/client.d.ts",
-  "exports": {
-    ".": {
-      "react-server": {
-        "types": "./build/dts/server.d.ts",
-        "default": "./build/server.js"
-      },
-      "import": {
-        "types": "./build/dts/client.d.ts",
-        "default": "./build/client.js"
-      }
-    }
-  },
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "prep": "rm -rf build && tsc",
     "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
@@ -31,7 +19,7 @@
     "test:unit": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "react-router": "^7.8.1"
+    "react-router": "^7"
   },
   "peerDependencies": {
     "react": "^18.3.1"
@@ -39,7 +27,7 @@
   "devDependencies": {
     "@amazeelabs/bridge": "workspace:*",
     "@custom/eslint-config": "workspace:*",
-    "@types/react": "18.3.18",
+    "@types/react": "^18",
     "typescript": "5.7.3",
     "vitest": "2.1.8"
   },

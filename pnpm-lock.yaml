@@ -456,7 +456,7 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1
       react-router:
-        specifier: ^7.8.1
+        specifier: ^7
         version: 7.8.1(react@18.3.1)
     devDependencies:
       '@amazeelabs/bridge':
@@ -466,7 +466,7 @@ importers:
         specifier: workspace:*
         version: link:../../eslint-config
       '@types/react':
-        specifier: 18.3.18
+        specifier: ^18
         version: 18.3.18
       typescript:
         specifier: 5.7.3
