@@ -453,7 +453,7 @@ importers:
   packages/@amazeelabs/bridge-react-router:
     dependencies:
       react:
-        specifier: ^18.3.1
+        specifier: ^18
         version: 18.3.1
       react-router:
         specifier: ^7
