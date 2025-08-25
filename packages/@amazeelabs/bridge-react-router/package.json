@@ -9,7 +9,7 @@
   },
   "type": "module",
   "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "types": "build/dts/index.d.ts",
   "scripts": {
     "prep": "rm -rf build && tsc",
     "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
