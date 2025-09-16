@@ -1,5 +1,13 @@
 {
   "name": "@custom/custom_heavy",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/drupal/custom_heavy",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/drupal/custom_heavy",
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/drupal/custom_heavy",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=custom_heavy",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=custom_heavy"
+  }
 }

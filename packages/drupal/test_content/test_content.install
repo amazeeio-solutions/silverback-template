@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the test_content module.
+ */
+
 /**
  * Implements hook_requirements().
  */

@@ -1,0 +1,15 @@
+{
+  "name": "@amazeelabs/silverback-search",
+  "version": "1.5.0",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-search/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/silverback-search/drupal",
+    "test:static": "pnpm --filter @custom/cms cms:test:static packages/@amazeelabs/silverback-search/drupal",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=silverback_search",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=silverback_search"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

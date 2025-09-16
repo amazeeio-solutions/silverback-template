@@ -34,13 +34,12 @@
     "php": "^8.3 <8.4",
     "amazeeio/drupal_integrations": "^0.3.7",
     "amazeelabs/default-content": "^1.2.11",
-    "amazeelabs/graphql_directives": "^2.4",
     "amazeelabs/silverback-cli": "^2.9.13",
     "amazeelabs/silverback_ai": "^1.1",
     "amazeelabs/silverback_autosave": "^1.1",
     "amazeelabs/silverback_campaign_urls": "^1.0.5",
     "amazeelabs/silverback_cloudinary": "^1.3.0",
-    "amazeelabs/silverback_external_preview": "^2.0.3",
+    "amazeelabs/silverback_external_preview": "^3.0",
     "amazeelabs/silverback_gatsby": "^3.0",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
     "amazeelabs/silverback_gutenberg": "^2.5.23",
@@ -48,6 +47,7 @@
     "amazeelabs/silverback_iframe_theme": "*",
     "amazeelabs/silverback_preview_link": "^1.6",
     "amazeelabs/silverback_publisher_monitor": "^2.3.2",
+    "amazeelabs/silverback_search": "*",
     "amazeelabs/silverback_translations": "^1.0.4",
     "composer/installers": "^2.2",
     "drupal/admin_toolbar": ">=3 <4, !=3.5.2",
@@ -60,11 +60,13 @@
     "drupal/core-recommended": "^10",
     "drupal/default_content": "^2.0.0-alpha2",
     "drupal/dropzonejs": "^2.8",
+    "drupal/entity_reference_revisions": "^1.12",
     "drupal/entity_usage": "^2.0@beta",
     "drupal/environment_indicator": "^4.0.14",
     "drupal/field_group": "^3.4",
     "drupal/focal_point": "^2.1",
     "drupal/graphql": "^4.9",
+    "drupal/graphql_directives": "1.0.x-dev@dev",
     "drupal/honeypot": "^2.1.2",
     "drupal/key_auth": "^2.1",
     "drupal/lagoon_logs": "^2.1.1",
@@ -122,6 +124,9 @@
       },
       "drupal/coffee": {
         "On the fly ajax search POC": "./patches/contrib/coffee/on_the_fly_ajax_search_poc.patch"
+      },
+      "drupal/field_group": {
+        "#2969051 - Fix HTML5 validation prevents submission in tabs": "https://www.drupal.org/files/issues/2024-08-07/field-group-tabs-8.x-3.x.patch"
       }
     },
     "patchLevel": {

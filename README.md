@@ -11,7 +11,7 @@ Minimum steps
     - add `Tech Team` with `Admin` role
     - remove yourself
   - Settings > General > Pull Requests
-    - Disable `Allow merge commits`
+    - Enable `Allow merge commits`, disable other merge options
     - Enable `Automatically delete head branches`
 - Clone the newly create repo
 - Run `pnpm i && pnpm --filter @custom/init run init` from the project root
@@ -106,6 +106,49 @@ either (or both), follow these two steps:
   - Please note, this does not trigger an actual PROD deployment
 - PROD deployment can be done by merging `release` branch into `prod`
 
+## Pre-commit Quality Checks
+
+The project includes a comprehensive pre-commit system to catch errors and
+maintain code quality before CI. This system automatically fixes formatting
+issues, reports unfixable problems, and runs unit tests across all packages.
+
+### Available Commands
+
+From the project root:
+
+```bash
+# Run all pre-commit checks (fix, validate, test)
+pnpm precommit
+
+# Only run auto-fixing for formatting and linting
+pnpm precommit:fix
+
+# Only run validation without fixing
+pnpm precommit:check
+```
+
+### What It Does
+
+- **Auto-fixes formatting** with Prettier (TypeScript/JavaScript) and PHPCBF
+  (PHP)
+- **Auto-fixes linting issues** with ESLint (where possible)
+- **Reports unfixable issues** with clear error messages and line numbers
+- **Runs unit tests** across all packages (Vitest for TypeScript, PHPUnit for
+  PHP)
+- **Provides fast feedback** for both developers and AI tools
+
+### Integration
+
+This system is designed to:
+
+- Catch avoidable errors before CI runs
+- Provide immediate feedback during development
+- Automatically maintain consistent code style
+- Work seamlessly with AI development tools
+
+The pre-commit checks leverage Turborepo's caching system for optimal
+performance, typically achieving 80%+ cache hit rates on subsequent runs.
+
 ## Installation
 
 Tip: The easiest way to set up a working environment for the project is
@@ -136,6 +179,14 @@ clears Drupal cache. Otherwise, it re-installs Drupal completely.
 
 If you wish Drupal to be re-installed, run `pnpm turbo:prep:force`.
 
+To work on packages from drupal.org, clone them into `packages/drupal-local`.
+They will have a higher precedence than the versions downloaded by composer.
+
+### Mailpit
+
+Mailpit is installed by default on local development environments and catches
+all Drupal outgoing emails. Available on http://localhost:8025/
+
 ## Environment overrides
 
 The application is tailored to run locally out of the box. In a production or
@@ -146,6 +197,7 @@ variables.
   environment for security reasons.
 - **PUBLISHER_URL** (lagoon): If publisher is set to a custom domain, this
   variable has to be defined.
+- **GH_TOKEN** (lagoon): To run publisher builds.
 - **NETLIFY**: To publish the project to netlify, provide the following
   environment variables:
   - **NETLIFY_SITE_ID** (lagoon): The ID of the netlify project the
@@ -178,62 +230,67 @@ used on Lagoon environments.
 
 <details>
   <summary>How it works</summary>
-  
-  #### Drupal configuration
-  
-  ##### Create keys
-  
-  Per environment, keys are gitignored and are auto-generated via a Lagoon post-rollout task.
-  
-  To generate keys manually
-  
-  via Drush: cd in the cms directory then
-  
-  ```bash
-  drush simple-oauth:generate-keys ./keys
-  ```
-  
-  or via the UI
-  
-  - Go to `/admin/config/people/simple_oauth`
-  - Click on "Generate keys", the directory should be set to `./sites/default/files/private/keys`
-  
-  ##### Create the Publisher Consumer
-  
-  Per environment, Consumers are content entities.
-  
-  - Go to `/admin/config/services/consumer`
-    - Create a Consumer
-      - Label: `Publisher`
-      - Client ID: `publisher`
-      - Secret: a random string
-      - Redirect URI: `[publisher-url]/oauth/callback`
-    - Optional: the default Consumer can be safely deleted
-  
-  Troubleshooting:
-  - make sure that the `DRUPAL_HASH_SALT` environment variable is >= 32 chars.
-  - if enabled on local development, use `127.0.0.1:8888` for the cms and `127.0.0.1:8000` for Publisher
-  
-  #### Publisher authentication
-  
-  Edit [website environment variables](./apps/website/.lagoon.env)
-  
-  ```
-  PUBLISHER_SKIP_AUTHENTICATION=false
-  PUBLISHER_OAUTH2_CLIENT_SECRET="[secret used in the Drupal Consumer]"
-  PUBLISHER_OAUTH2_SESSION_SECRET="[another random string]"
-  ```
-  
-  ##### Set the 'Access Publisher' permission
-  
-  Optional: add this permission to relevant roles.
+
+#### Drupal configuration
+
+##### Create keys
+
+Per environment, keys are gitignored and are auto-generated via a Lagoon
+post-rollout task.
+
+To generate keys manually
+
+via Drush: cd in the cms directory then
+
+```bash
+drush simple-oauth:generate-keys ./keys
+```
+
+or via the UI
+
+- Go to `/admin/config/people/simple_oauth`
+- Click on "Generate keys", the directory should be set to
+  `./sites/default/files/private/keys`
+
+##### Create the Publisher Consumer
+
+Per environment, Consumers are content entities.
+
+- Go to `/admin/config/services/consumer`
+  - Create a Consumer
+    - Label: `Publisher`
+    - Client ID: `publisher`
+    - Secret: a random string
+    - Redirect URI: `[publisher-url]/oauth/callback`
+  - Optional: the default Consumer can be safely deleted
+
+Troubleshooting:
+
+- make sure that the `DRUPAL_HASH_SALT` environment variable is >= 32 chars.
+- if enabled on local development, use `127.0.0.1:8888` for the cms and
+  `127.0.0.1:8000` for Publisher
+
+#### Publisher authentication
+
+Edit [website environment variables](./apps/website/.lagoon.env)
+
+```
+PUBLISHER_SKIP_AUTHENTICATION=false
+PUBLISHER_OAUTH2_CLIENT_SECRET="[secret used in the Drupal Consumer]"
+PUBLISHER_OAUTH2_SESSION_SECRET="[another random string]"
+```
+
+##### Set the 'Access Publisher' permission
+
+Optional: add this permission to relevant roles.
 
 </details>
 
 <details>
   <summary>How to disable it</summary>
-  
-  In website `.lagoon.env` set `PUBLISHER_SKIP_AUTHENTICATION=true`
+
+In website `.lagoon.env` set `PUBLISHER_SKIP_AUTHENTICATION=true`
+
 </details>
 
 ## Storybook
@@ -361,3 +418,35 @@ Refer to the
 blog post if you wonder where the name comes from, to
 [Edge functions documentation](https://docs.netlify.com/edge-functions/overview/)
 for technical details and to `strangler.ts` for how to add new legacy systems.
+
+## Website preview
+
+There is a preview app available which is basically an almost identical copy of
+the public website, but it displays the most up to date content (even real time
+changes done in the content edit forms). The access to the preview app is done
+based on a special token that is generated, for the moment, on the content edit
+form, in the CMS.
+
+The entire preview system works like this:
+
+- Make sure you have at least the following versions for these modules:
+  - silverback_autosave: 1.3.4
+  - silverback_preview_link: 1.6.12
+  - silverback_gatsby: 3.7.11
+  - custom content_preview module copied from this repository.
+- Make sure you have defined in `settings.php` the
+  `silverback_external_preview.settings.preview_host` which should point to the
+  domain (and optionally port) of the preview app, for example:
+  `http://127.0.0.1:8001`
+- There should be a `preview` role which should have at least the
+  `Access any content revision` and the `Fetch any autosaved entity`
+  permissions. Make sure you also have the custom `content_preview` module
+  enabled.
+- There should be a user created, having the `preview` role, that will be set as
+  `Default preview user` at `/admin/config/content/silverback_preview_link`
+- To create a shareable preview link:
+  - Open a content edit form
+  - Click on the preview button which should open the preview iframe in the left
+    sidebar
+  - Click on the `Share preview` link. This should open a popup from where you
+    can copy the preview link (or access it via the QR code).

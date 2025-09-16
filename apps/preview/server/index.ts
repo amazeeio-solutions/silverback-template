@@ -1,5 +1,6 @@
 import express from 'express';
 import expressWs from 'express-ws';
+import path from 'path';
 import { Subject } from 'rxjs';
 
 import {
@@ -158,6 +159,10 @@ app.get('/oauth/logout', async (req, res) => {
 });
 
 app.use(express.static('./dist'));
+
+app.get('/*', authMiddleware, (req, res) => {
+  res.sendFile(path.join(path.resolve(), './dist/index.html'));
+});
 
 const isLagoon = !!process.env.LAGOON;
 const port = isLagoon ? 3000 : 8001;

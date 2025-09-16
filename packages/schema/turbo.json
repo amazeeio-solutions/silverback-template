@@ -2,13 +2,8 @@
   "$schema": "https://turborepo.org/schema.json",
   "extends": ["//"],
   "tasks": {
-    "prep:directives": {
-      "dependsOn": ["@custom/cms#prep:composer"],
-      "inputs": ["package.json", "../drupal/custom/directives.graphql"],
-      "outputs": ["src/directives.graphql"]
-    },
     "prep:codegen": {
-      "dependsOn": ["prep:directives"],
+      "dependsOn": ["@custom/cms#prep:composer"],
       "inputs": [
         "codegen.ts",
         ".graphqlrc.json",
@@ -31,7 +26,7 @@
       "outputs": ["build/**/*.js"]
     },
     "prep:types": {
-      "dependsOn": ["prep:codegen"],
+      "dependsOn": ["prep:codegen", "^prep"],
       "inputs": ["tsconfig.json", "src/**/*.ts"],
       "outputs": ["build/**/*.d.ts"]
     },

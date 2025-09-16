@@ -1,0 +1,8 @@
+services:
+  silverback_search.remote_frontend:
+    class: Drupal\silverback_search\Service\RemoteFrontend
+    arguments:
+      - '@silverback_external_preview.external_preview_link'
+      - '@logger.factory'
+      - '@database'
+      - '@module_handler'

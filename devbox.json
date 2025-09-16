@@ -11,13 +11,14 @@
     "nodejs@20",
     "php@8.3",
     "php83Packages.composer@2",
-    "php83Extensions.xdebug@3"
+    "php83Extensions.xdebug@3",
+    "mailpit@latest"
   ],
   "shell": {
     "scripts": {
       "clean": [
         "rm -rf node_modules",
-        "git clean -dXff -e '/_local' -e '/.idea'",
+        "git clean -dxff -e '/_local' -e '/.idea'",
         "find . -type d -empty -delete",
         "direnv reload"
       ]

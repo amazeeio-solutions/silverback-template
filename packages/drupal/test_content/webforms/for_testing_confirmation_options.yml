@@ -10,7 +10,7 @@ template: false
 archive: false
 id: for_testing_confirmation_options
 title: 'For testing confirmation options'
-description: ''
+description: 'This form is used to test various confirmation options.'
 categories: {  }
 elements: |-
   optional_text_field:

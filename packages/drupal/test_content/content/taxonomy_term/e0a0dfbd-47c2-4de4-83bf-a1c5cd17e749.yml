@@ -1,0 +1,63 @@
+_meta:
+  version: '1.0'
+  entity_type: taxonomy_term
+  uuid: e0a0dfbd-47c2-4de4-83bf-a1c5cd17e749
+  bundle: content_hub
+  default_langcode: en
+  depends:
+    d8f13555-e20f-43ec-bfcd-fdd1787e1c78: taxonomy_term
+default:
+  status:
+    -
+      value: true
+  name:
+    -
+      value: List
+  weight:
+    -
+      value: 0
+  parent:
+    -
+      entity: d8f13555-e20f-43ec-bfcd-fdd1787e1c78
+  path:
+    -
+      alias: ''
+      langcode: en
+      pathauto: 0
+  content_translation_source:
+    -
+      value: und
+  content_translation_outdated:
+    -
+      value: false
+  content_translation_uid:
+    -
+      target_id: 1
+  content_translation_created:
+    -
+      value: 1735817712
+translations:
+  de:
+    status:
+      -
+        value: true
+    name:
+      -
+        value: Listen
+    path:
+      -
+        alias: ''
+        langcode: de
+        pathauto: 0
+    content_translation_source:
+      -
+        value: en
+    content_translation_outdated:
+      -
+        value: false
+    content_translation_uid:
+      -
+        target_id: 1
+    content_translation_created:
+      -
+        value: 1735817759

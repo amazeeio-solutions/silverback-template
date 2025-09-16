@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
     "dev:app": "vite",
     "dev:server": "tsx watch server/index.ts",
@@ -24,7 +27,8 @@
     "react": "^18",
     "react-dom": "^18",
     "rxjs": "^7.8.1",
-    "simple-oauth2": "^5.1.0"
+    "simple-oauth2": "^5.1.0",
+    "typescript-cookie": "^1.0.6"
   },
   "devDependencies": {
     "@swc/cli": "^0.6.0",

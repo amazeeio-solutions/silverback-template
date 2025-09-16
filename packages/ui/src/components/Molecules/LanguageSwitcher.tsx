@@ -14,10 +14,22 @@ import React, { Fragment } from 'react';
 import { useTranslations } from '../../utils/translations';
 
 function getLanguageName(locale: string) {
-  const languageNames = new Intl.DisplayNames([locale], {
+  const formattedLocale = formatLocalePath(locale);
+  const languageNames = new Intl.DisplayNames([formattedLocale], {
     type: 'language',
   });
-  return languageNames.of(locale);
+  return languageNames.of(formattedLocale);
+}
+
+/**
+ * Format locale containing the country code,
+ * so it's ISO 639-1 compliant in the path.
+ * This is needed as GraphQL enums are not supporting dashes (-).
+ *
+ * @param locale
+ */
+function formatLocalePath(locale: Locale | string) {
+  return locale.replace('_', '-');
 }
 
 export function LanguageSwitcher() {

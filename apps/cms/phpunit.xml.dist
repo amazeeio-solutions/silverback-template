@@ -10,5 +10,40 @@
 >
   <php>
     <env name="SIMPLETEST_DB" value="sqlite://localhost/sites/default/files/.sqlite"/>
+    <env name="SIMPLETEST_BASE_URL" value="http://localhost:8888"/>
   </php>
+  <testsuites>
+    <testsuite name="unit">
+      <directory>../../packages/*/*/Unit</directory>
+      <directory>../../packages/*/*/*/Unit</directory>
+      <directory>../../packages/*/*/*/*/Unit</directory>
+      <directory>../../packages/*/*/*/*/*/Unit</directory>
+      <directory>../../packages/*/*/*/*/*/*/Unit</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/Unit</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/*/Unit</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <directory>../../packages/*/*/Kernel</directory>
+      <directory>../../packages/*/*/*/Kernel</directory>
+      <directory>../../packages/*/*/*/*/Kernel</directory>
+      <directory>../../packages/*/*/*/*/*/Kernel</directory>
+      <directory>../../packages/*/*/*/*/*/*/Kernel</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/Kernel</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/*/Kernel</directory>
+      <directory>../../packages/*/*/Functional</directory>
+      <directory>../../packages/*/*/*/Functional</directory>
+      <directory>../../packages/*/*/*/*/Functional</directory>
+      <directory>../../packages/*/*/*/*/*/Functional</directory>
+      <directory>../../packages/*/*/*/*/*/*/Functional</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/Functional</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/*/Functional</directory>
+      <directory>../../packages/*/*/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/*/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/*/*/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/*/*/*/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/FunctionalJavascript</directory>
+      <directory>../../packages/*/*/*/*/*/*/*/*/FunctionalJavascript</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

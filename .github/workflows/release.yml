@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows:
+      - Test
+    types:
+      - completed
+    branches:
+      - release
+
+# Only one workflow run at a time.
+concurrency:
+  group: release
+
+jobs:
+  publish:
+    name: Publish
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      !contains(github.event.workflow_run.head_commit.message, 'chore(release):
+      release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.AMAZEELABS_KITT_TOKEN }}
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: TurboRepo local server
+        uses: felixmosh/turborepo-gh-artifacts@v3
+        with:
+          server-token: 'local'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare packages
+        run: pnpm turbo:prep
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
+
+      - name: Check for git changes
+        run: git diff --exit-code
+
+      - name: Set Git user
+        run: |
+          git config --global user.email "kitt@amazeelabs.com"
+          git config --global user.name "K.I.T.T."
+        shell: bash
+
+      - name: Set NPM token
+        run:
+          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" >>
+          ~/.npmrc
+
+      - name: Publish
+        run: pnpm lerna publish -y --loglevel verbose

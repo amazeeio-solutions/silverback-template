@@ -12,10 +12,19 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Event subscriber for entity language redirects.
+ */
 class EntityLanguageRedirectSubscriber implements EventSubscriberInterface {
 
+  /**
+   * The language manager service.
+   */
   protected LanguageManagerInterface $languageManager;
 
+  /**
+   * The route match service.
+   */
   protected RouteMatchInterface $routeMatch;
 
   public function __construct(LanguageManagerInterface $language_manager, RouteMatchInterface $route_match) {
@@ -23,6 +32,9 @@ class EntityLanguageRedirectSubscriber implements EventSubscriberInterface {
     $this->routeMatch = $route_match;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function getSubscribedEvents() {
     // We need this subscriber to run after the router_listener service (which
     // has priority 32) so that the parameters are set into the request, but
@@ -31,10 +43,13 @@ class EntityLanguageRedirectSubscriber implements EventSubscriberInterface {
     return [
       KernelEvents::REQUEST => [
         ['onKernelRequest', 30],
-      ]
+      ],
     ];
   }
 
+  /**
+   * Handles kernel request events for language redirects.
+   */
   public function onKernelRequest(RequestEvent $event): void {
     $redirect = $this->getMissingDefaultRevisionRedirect($event)
       ?? $this->getMissingTranslationRedirect($event);
@@ -57,6 +72,9 @@ class EntityLanguageRedirectSubscriber implements EventSubscriberInterface {
     }
   }
 
+  /**
+   * Gets a redirect for missing translation.
+   */
   private function getMissingTranslationRedirect(RequestEvent $event): ?TrustedRedirectResponse {
     // In case the user tries to access a node in a language entity is not
     // translated to, we redirect to the entity in the original language and
@@ -86,6 +104,9 @@ class EntityLanguageRedirectSubscriber implements EventSubscriberInterface {
     return NULL;
   }
 
+  /**
+   * Gets a redirect for missing default revision.
+   */
   private function getMissingDefaultRevisionRedirect(RequestEvent $event): ?TrustedRedirectResponse {
     // This spaghetti code detects if user is trying to view a translation that
     // is a draft only and does not have a published revision on the canonical

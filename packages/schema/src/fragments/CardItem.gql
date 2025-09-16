@@ -1,0 +1,18 @@
+fragment CardItem on CardItem {
+  id
+  path
+  title
+  hero {
+    lead
+    headline
+  }
+  teaserImage {
+    alt
+    source(width: 400, height: 300)
+  }
+  terms {
+    label
+    termId
+    depth
+  }
+}

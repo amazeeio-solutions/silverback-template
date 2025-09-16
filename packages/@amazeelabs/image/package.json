@@ -1,0 +1,50 @@
+{
+  "name": "@amazeelabs/image",
+  "version": "2.0.0",
+  "description": "",
+  "type": "module",
+  "types": "./dist/src/client.d.ts",
+  "private": false,
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "react-server": "./dist/src/server.js",
+      "default": "./dist/src/client.js"
+    }
+  },
+  "scripts": {
+    "prep": "rm -rf dist && tsc",
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "tsc --noEmit && eslint . --quiet",
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "image-dimensions": "^2.3.0",
+    "react-server-dom-webpack": "19.0.0",
+    "sharp": "^0.33.5"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@custom/eslint-config": "workspace:*",
+    "@testing-library/react": "16.2.0",
+    "@types/node": "22.10.10",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "ts-expect": "1.3.0",
+    "typescript": "^5.7.3",
+    "vitest": "2.1.8"
+  },
+  "keywords": [],
+  "author": "Amazee Labs <development@amazeelabs.com>",
+  "license": "ISC"
+}

@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Export test content and configuration.
+ */
+
 use AmazeeLabs\DefaultContent\Export;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\Utility\WebformYaml;
@@ -16,6 +22,7 @@ $excluded = [
   'redirect',
   'webform_submission',
   'consumer',
+  'search_api_task',
 ];
 
 Export::run('test_content', $excluded);

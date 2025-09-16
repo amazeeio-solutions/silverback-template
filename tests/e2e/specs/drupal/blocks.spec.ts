@@ -290,6 +290,6 @@ test.describe('Testing All Blocks', () => {
     await validateTileAndSubtitle(page, 'Block: Teaser list');
 
     const content = page.getByRole('main');
-    await expect(content.locator('ul > li')).toHaveCount(8);
+    await expect(content.locator('ul > li')).toHaveCount(5);
   });
 });
