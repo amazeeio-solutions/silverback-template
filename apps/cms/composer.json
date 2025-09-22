@@ -69,7 +69,7 @@
     "drupal/honeypot": "^2.1.2",
     "drupal/key_auth": "^2.1",
     "drupal/lagoon_logs": "^2.1.1",
-    "drupal/linkit": "^6.0@beta",
+    "drupal/linkit": "^7.0",
     "drupal/masquerade": "^2.0@RC",
     "drupal/menu_admin_per_menu": "^1.5",
     "drupal/metatag": "^2.0",
