@@ -50,7 +50,7 @@
     "amazeelabs/silverback_search": "*",
     "amazeelabs/silverback_translations": "^1.0.4",
     "composer/installers": "^2.2",
-    "drupal/admin_toolbar": ">=3 <4, !=3.5.2",
+    "drupal/admin_toolbar": "^3.5",
     "drupal/admin_user_language": "^1.2",
     "drupal/coffee": "^1.4",
     "drupal/config_ignore": "^3.2",
