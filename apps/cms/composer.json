@@ -60,7 +60,6 @@
     "drupal/core-recommended": "^10",
     "drupal/default_content": "^2.0.0-alpha2",
     "drupal/dropzonejs": "^2.8",
-    "drupal/entity_reference_revisions": "^1.12",
     "drupal/entity_usage": "^2.0@beta",
     "drupal/environment_indicator": "^4.0.14",
     "drupal/field_group": "^3.4",
