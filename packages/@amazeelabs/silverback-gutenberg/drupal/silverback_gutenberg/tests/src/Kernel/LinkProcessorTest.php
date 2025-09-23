@@ -164,7 +164,7 @@ class LinkProcessorTest extends MediaKernelTestBase {
           // In case if we somehow got an absolute URL in database, we just turn
           // it to relative.
           "https://www.this.site/de/german" => [
-            'en' => '/de/german',
+            'en' => '/english',
             'de' => '/de/german',
           ],
         ],

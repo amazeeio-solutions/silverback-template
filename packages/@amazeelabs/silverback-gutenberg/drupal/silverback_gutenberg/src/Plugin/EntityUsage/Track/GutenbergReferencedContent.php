@@ -43,7 +43,7 @@ class GutenbergReferencedContent extends EntityUsageTrackBase {
     ?LoggerInterface $entityUsageLogger = NULL,
     ?UrlToEntityInterface $urlToEntity = NULL,
     ?array $always_track_base_fields = NULL,
-    ReferencedContentExtractor $referenced_content_extractor
+    ?ReferencedContentExtractor $referenced_content_extractor = NULL,
   ) {
     parent::__construct(
       $configuration,

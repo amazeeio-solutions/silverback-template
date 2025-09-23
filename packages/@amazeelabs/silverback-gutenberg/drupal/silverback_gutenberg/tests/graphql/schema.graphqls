@@ -1,12 +1,10 @@
 type Query {
   en: Page @loadEntity(type: "node", id: "1")
-  de: Page
-    @loadEntity(type: "node", id: "1")
-    @resolveEntityTranslation(lang: "de")
+  de: Page @loadEntity(type: "node", id: "1") @entityTranslation(lang: "de")
 }
 
 type Page {
-  title: String! @resolveProperty(path: "title.value")
+  title: String! @property(path: "title.value")
   content: [Blocks]!
     @resolveEditorBlocks(
       path: "body.value"
@@ -27,11 +25,11 @@ type Figure @type(id: "custom/figure") {
   image: Image @resolveEditorBlockMedia
   imageAlt: String
     @resolveEditorBlockMedia
-    @resolveProperty(path: "field_media_image.alt")
+    @property(path: "field_media_image.alt")
 }
 
 type Image {
-  alt: String @resolveProperty(path: "field_media_image.alt")
+  alt: String @property(path: "field_media_image.alt")
 }
 
 type Columns @type(id: "custom/columns") {

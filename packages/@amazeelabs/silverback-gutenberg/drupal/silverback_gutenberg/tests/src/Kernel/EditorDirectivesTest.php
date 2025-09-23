@@ -76,7 +76,7 @@ class EditorDirectivesTest extends GraphQLTestBase {
       'label' => 'Body',
     ])->save();
 
-    $this->setupDirectableSchema(__DIR__ . '/../../graphql');
+    $this->setupDirectableSchema('../../../packages/@amazeelabs/silverback-gutenberg/drupal/silverback_gutenberg/tests/graphql');
   }
 
   function testEditorBlockResolution() {

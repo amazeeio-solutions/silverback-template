@@ -42,7 +42,7 @@ class GutenbergLinkedContent extends EntityUsageTrackBase {
     ?LoggerInterface $entityUsageLogger = NULL,
     ?UrlToEntityInterface $urlToEntity = NULL,
     ?array $always_track_base_fields = NULL,
-    LinkedContentExtractor $linked_content_extractor
+    ?LinkedContentExtractor $linked_content_extractor = NULL,
   ) {
     parent::__construct(
       $configuration, $plugin_id,
