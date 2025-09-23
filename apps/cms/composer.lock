@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "61018e7f936f7aa637eaff0d87062952",
+  "content-hash": "af1a2761d1c9e62ec8eb69c482451299",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -372,32 +372,23 @@
     {
       "name": "amazeelabs/silverback_gutenberg",
       "version": "2.6.1",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/AmazeeLabs/silverback_gutenberg.git",
-        "reference": "8f389193d2a7a5f540bfe7d2fc9f345e59037746"
-      },
       "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gutenberg/zipball/8f389193d2a7a5f540bfe7d2fc9f345e59037746",
-        "reference": "8f389193d2a7a5f540bfe7d2fc9f345e59037746",
-        "shasum": ""
+        "type": "path",
+        "url": "node_modules/@amazeelabs/silverback-gutenberg/drupal/silverback_gutenberg",
+        "reference": "fdd4136ec0ac23c3fdaf52f5062cd641851b54af"
       },
       "require": {
         "drupal/gutenberg": "^2.14.0"
       },
       "type": "drupal-module",
-      "notification-url": "https://packagist.org/downloads/",
       "license": [
         "GPL-2.0+"
       ],
       "description": "Adjusts Gutenberg for Amazee Labs needs.",
       "homepage": "https://github.com/AmazeeLabs/silverback-mono/tree/development/packages/composer/amazeelabs/silverback_gutenberg#readme",
-      "support": {
-        "issues": "https://github.com/AmazeeLabs/silverback_gutenberg/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gutenberg/tree/2.6.1"
-      },
-      "time": "2025-08-15T20:56:48+00:00"
+      "transport-options": {
+        "relative": true
+      }
     },
     {
       "name": "amazeelabs/silverback_iframe",

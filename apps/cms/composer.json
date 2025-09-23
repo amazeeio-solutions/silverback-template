@@ -42,7 +42,7 @@
     "amazeelabs/silverback_external_preview": "^3.0",
     "amazeelabs/silverback_gatsby": "^3.0",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
-    "amazeelabs/silverback_gutenberg": "^2.5.23",
+    "amazeelabs/silverback_gutenberg": "*",
     "amazeelabs/silverback_iframe": "*",
     "amazeelabs/silverback_iframe_theme": "*",
     "amazeelabs/silverback_preview_link": "^1.6",
