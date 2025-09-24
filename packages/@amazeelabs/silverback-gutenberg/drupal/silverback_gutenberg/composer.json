@@ -13,5 +13,8 @@
   ],
   "require": {
     "drupal/gutenberg": "^2.14.0"
+  },
+  "conflict": {
+    "drupal/linkit": "<7.0.0"
   }
 }

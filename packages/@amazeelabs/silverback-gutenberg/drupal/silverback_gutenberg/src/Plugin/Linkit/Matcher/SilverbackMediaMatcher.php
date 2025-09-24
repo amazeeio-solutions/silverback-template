@@ -2,15 +2,8 @@
 
 namespace Drupal\silverback_gutenberg\Plugin\Linkit\Matcher;
 
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\linkit\Plugin\Linkit\Matcher\EntityMatcher;
-use Drupal\linkit\SubstitutionManagerInterface;
 
 /**
  * @Matcher(
@@ -24,30 +17,8 @@ class SilverbackMediaMatcher extends EntityMatcher {
 
   use SilverbackMatcherTrait;
 
-  public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    Connection $database,
-    EntityTypeManagerInterface $entity_type_manager,
-    EntityTypeBundleInfoInterface $entity_type_bundle_info,
-    EntityRepositoryInterface $entity_repository,
-    ModuleHandlerInterface $module_handler,
-    AccountInterface $current_user,
-    SubstitutionManagerInterface $substitution_manager
-  ) {
-    parent::__construct(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $database,
-      $entity_type_manager,
-      $entity_type_bundle_info,
-      $entity_repository,
-      $module_handler,
-      $current_user,
-      $substitution_manager
-    );
+  public function __construct(array $configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->targetType = 'media';
   }
 
