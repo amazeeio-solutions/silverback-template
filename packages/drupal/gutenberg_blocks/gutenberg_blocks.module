@@ -145,4 +145,9 @@ function gutenberg_blocks_silverback_gutenberg_link_processor_block_attrs_alter(
     }
     $attributes['url'] = $mediaLinks->getMediaFileUrl($attributes['url'], $language);
   }
+
+  // Standard link processing.
+  if ($context['blockName'] === 'custom/cta' && !empty($attributes['url'])) {
+    $attributes['url'] = $context['processUrlCallback']($attributes['url']);
+  }
 }

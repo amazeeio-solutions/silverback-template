@@ -105,7 +105,7 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  field_content_hub_terms: true
   field_seo_description: true
   field_seo_image: true
   field_seo_title: true
-  field_content_hub_terms: true

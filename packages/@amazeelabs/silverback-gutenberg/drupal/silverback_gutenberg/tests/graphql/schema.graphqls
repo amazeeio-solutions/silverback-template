@@ -1,0 +1,37 @@
+type Query {
+  en: Page @loadEntity(type: "node", id: "1")
+  de: Page @loadEntity(type: "node", id: "1") @entityTranslation(lang: "de")
+}
+
+type Page {
+  title: String! @property(path: "title.value")
+  content: [Blocks]!
+    @resolveEditorBlocks(
+      path: "body.value"
+      aggregated: ["core/paragraph", "core/list"]
+    )
+}
+
+union Blocks @resolveEditorBlockType = Text | Figure | Columns
+
+union ColumnBlocks @resolveEditorBlockType = Text | Figure
+
+type Text @type(id: "core/paragraph") {
+  content: String @resolveEditorBlockMarkup
+}
+
+type Figure @type(id: "custom/figure") {
+  caption: String @resolveEditorBlockAttribute(key: "caption")
+  image: Image @resolveEditorBlockMedia
+  imageAlt: String
+    @resolveEditorBlockMedia
+    @property(path: "field_media_image.alt")
+}
+
+type Image {
+  alt: String @property(path: "field_media_image.alt")
+}
+
+type Columns @type(id: "custom/columns") {
+  columns: [ColumnBlocks]! @resolveEditorBlockChildren
+}

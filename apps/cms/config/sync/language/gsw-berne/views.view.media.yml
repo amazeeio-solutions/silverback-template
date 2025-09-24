@@ -1,0 +1,15 @@
+label: Medium
+display:
+  default:
+    display_options:
+      title: Medium
+      fields:
+        media_bulk_form:
+          action_title: Aktion
+        changed:
+          label: Aktualisiert
+  media_page_list:
+    display_title: Medium
+    display_options:
+      menu:
+        title: Medium
