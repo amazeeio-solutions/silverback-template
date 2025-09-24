@@ -12,6 +12,8 @@ setup.setTimeout(netlifyBootTimeout + 30_000);
 setup('setup', async ({ page }) => {
   await waitForNetlifyBoot(page);
 
+  await silverback('-y snapshot-restore initial');
+
   await page.goto(cmsUrl('/user/login'));
   await page.getByRole('textbox', { name: 'Username' }).fill('admin');
   await page.getByRole('textbox', { name: 'Password' }).fill('admin');

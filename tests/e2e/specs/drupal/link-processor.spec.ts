@@ -1,25 +1,24 @@
-import {
-  drupal,
-  drupalLogin,
-  drush,
-  gatsby,
-  resetDrupalState,
-  waitForGatsby,
-} from '@amazeelabs/silverback-playwright';
 import { expect, test } from '@playwright/test';
 import { platform } from 'os';
 
+import { drush, silverback } from '../../helpers/drupal';
+import { cmsUrl } from '../../helpers/url';
+
 test.beforeAll(async () => {
-  await resetDrupalState();
-  await waitForGatsby();
+  silverback('-y snapshot-restore tests-initial');
 });
 test.afterAll(async () => {
-  await resetDrupalState();
+  silverback('-y snapshot-restore tests-initial');
 });
 
+test.use({ storageState: '.auth/admin.json' });
+
 test('test LinkProcessor', async ({ page }) => {
+  test.setTimeout(60_000);
+
   const selectFirstAutocompleteResult = async () =>
     page.click('.block-editor-link-control__search-results-wrapper button');
+
   const getNodeId = async () => {
     const editLink = await page.waitForSelector(
       '.tabs--primary :text-is("Edit")',
@@ -27,21 +26,25 @@ test('test LinkProcessor', async ({ page }) => {
     const href = await editLink.getAttribute('href');
     return href!.match(/\/node\/([0-9]+)/)![1];
   };
+
   const assertLinkHref = async (selector: string, expectedHref: string) => {
     const link = await page.waitForSelector(selector);
     const href = await link.getAttribute('href');
     expect(href).toEqual(expectedHref);
   };
 
-  await drupalLogin(page);
-
   // Create a target page.
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/page`);
-  await page.fill('label:text-is("Title")', 'Target page');
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill('Target page');
+  await page.getByLabel('Save as').selectOption('published');
   await page.click(':text-is("URL alias")');
+  await page
+    .getByRole('checkbox', { name: 'Generate automatic URL alias' })
+    .uncheck();
   await page.fill('label:text-is("URL alias")', '/target-page');
-  await page.click(':text-is("Save")');
+  await page.getByRole('button', { name: 'Save' }).click();
+  await page.getByText('Save', { exact: true }).click();
 
   const targetNodeId = await getNodeId();
   const targetNodeUuid = drush(
@@ -53,9 +56,14 @@ test('test LinkProcessor', async ({ page }) => {
   await page.fill('input[name="path[0][alias]"]', '/target-page-de');
   await page.click('input[id="edit-submit"]');
 
-  // Create a Gutenberg page.
+  // Create a page.
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page
+    .getByRole('textbox', { name: 'Title *' })
+    .fill('Test link processing');
+  await page.getByLabel('Save as').selectOption('published');
+  await page.getByRole('button', { name: 'Save' }).click();
 
   await page.type('[data-type="core/paragraph"]', 'link');
   await page.press(
@@ -68,10 +76,11 @@ test('test LinkProcessor', async ({ page }) => {
   await page.press('[data-type="core/paragraph"]', 'Enter');
 
   await page.click('button[aria-label="Toggle block inserter"]');
-  await page.click(':text-is("Teaser")');
-  await page.type('[aria-label="Title"]', 'Teaser title');
-  await page.type('[aria-label="Subtitle"]', 'Teaser subtitle');
-  await page.fill('[placeholder="Search or type url"]', 'target page');
+  await page.locator('button').filter({ hasText: 'CTA' }).click();
+  await page.getByLabel('Link text').click();
+  await page.getByLabel('Link text').fill('CTA title');
+  await page.getByLabel('Settings', { exact: true }).click();
+  await page.getByPlaceholder('Search or type url').fill('target page');
   await selectFirstAutocompleteResult();
 
   await page.click('button[aria-label="Toggle block inserter"]');
@@ -93,10 +102,7 @@ test('test LinkProcessor', async ({ page }) => {
   await page.fill('[placeholder="Search or type url"]', 'target page');
   await selectFirstAutocompleteResult();
 
-  await page.click('[aria-label="Settings"]');
-  await page.click(':text-is("Document")');
-  await page.fill('label:text-is("Title")', 'Test link processing');
-  await page.click('input:text-is("Save")');
+  await page.getByText('Save', { exact: true }).click();
 
   const nodeId = await getNodeId();
 
@@ -105,47 +111,54 @@ test('test LinkProcessor', async ({ page }) => {
   const result = drush(
     `eval 'echo json_encode((new \\Drupal\\gutenberg\\Parser\\BlockParser())->parse(\\Drupal\\node\\Entity\\Node::load(${nodeId})->body->value));'`,
   );
-  const blocks = JSON.parse(result);
+  const contentBlock = JSON.parse(result).find(
+    (block: { blockName: string }) => block.blockName === 'custom/content',
+  );
+  console.log(contentBlock);
 
-  expect(blocks).toHaveProperty('0.innerBlocks.0');
-  const paragraphBlock = blocks[0].innerBlocks[0];
+  expect(contentBlock).toHaveProperty('innerBlocks.0');
+  const paragraphBlock = contentBlock.innerBlocks[0];
   expect(paragraphBlock.blockName).toEqual('core/paragraph');
   expect(paragraphBlock.innerHTML).toContain(`href="/node/${targetNodeUuid}"`);
   expect(paragraphBlock.innerContent[0]).toContain(
     `href="/node/${targetNodeUuid}"`,
   );
 
-  expect(blocks).toHaveProperty('0.innerBlocks.1');
-  const teaserBlock = blocks[0].innerBlocks[1];
-  expect(teaserBlock.blockName).toEqual('custom/teaser');
-  expect(teaserBlock.attrs.url).toEqual(`/node/${targetNodeUuid}`);
-  expect(teaserBlock.innerHTML).toContain(`href="/node/${targetNodeUuid}"`);
-  expect(teaserBlock.innerContent[0]).toContain(
-    `href="/node/${targetNodeUuid}"`,
-  );
+  expect(contentBlock).toHaveProperty('innerBlocks.1');
+  const ctaBlock = contentBlock.innerBlocks[1];
+  expect(ctaBlock.blockName).toEqual('custom/cta');
+  expect(ctaBlock.attrs.url).toEqual(`/node/${targetNodeUuid}`);
 
-  expect(blocks).toHaveProperty('0.innerBlocks.2');
-  const mediaBlock = blocks[0].innerBlocks[2];
+  expect(contentBlock).toHaveProperty('innerBlocks.2');
+  const mediaBlock = contentBlock.innerBlocks[2];
   expect(mediaBlock.blockName).toEqual('drupalmedia/drupal-media-entity');
   expect(mediaBlock.attrs.caption).toContain(`href="/node/${targetNodeUuid}"`);
 
   // Ensure that URL aliases are used in the editor.
 
-  await page.goto(`${drupal.baseUrl}/en/node/${nodeId}/edit`);
+  await page.goto(cmsUrl(`/en/node/${nodeId}/edit`));
   await assertLinkHref('[data-type="core/paragraph"] a', '/en/target-page');
-  await assertLinkHref('[data-type="custom/teaser"] a', '/en/target-page');
+  await page.getByLabel('Link text').click(); // CTA
+  await assertLinkHref(
+    '.block-editor-link-control__search-item-header a',
+    '/en/target-page',
+  );
   await assertLinkHref(
     '[data-type="drupalmedia/drupal-media-entity"] a',
     '/en/target-page',
   );
 
-  await waitForGatsby();
-
   // Ensure that URL aliases are used on the frontend.
 
-  await page.goto(`${gatsby.baseUrl}/en/node/${nodeId}`);
-  await page.waitForSelector('.gutenberg-body a');
-  const links = await page.$$('.gutenberg-body a');
+  await page.goto(cmsUrl(`/en/node/${nodeId}`));
+  const previewFrame = await (
+    await page.$('iframe.external-preview-entity__iframe')
+  )?.contentFrame();
+  if (!previewFrame) {
+    throw new Error('Cannot get iframe content frame.');
+  }
+  await previewFrame.waitForSelector('#main-content a');
+  const links = await previewFrame.$$('#main-content a');
   expect(links).toHaveLength(3);
   for (const link of links) {
     expect(await link.getAttribute('href')).toEqual('/en/target-page');
@@ -153,10 +166,14 @@ test('test LinkProcessor', async ({ page }) => {
 
   // Ensure that URLs are correct when translating to German.
 
-  await page.goto(`${drupal.baseUrl}/en/node/${nodeId}/translations`);
+  await page.goto(cmsUrl(`/en/node/${nodeId}/translations`));
   await page.click(':text-is("Add"):right-of(:text-is("German"))');
   await assertLinkHref('[data-type="core/paragraph"] a', `/de/target-page-de`);
-  await assertLinkHref('[data-type="custom/teaser"] a', '/de/target-page-de');
+  await page.getByLabel('Link text').click(); // CTA
+  await assertLinkHref(
+    '.block-editor-link-control__search-item-header a',
+    '/de/target-page-de',
+  );
   await assertLinkHref(
     '[data-type="drupalmedia/drupal-media-entity"] a',
     '/de/target-page-de',

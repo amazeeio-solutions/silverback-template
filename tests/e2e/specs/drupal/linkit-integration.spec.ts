@@ -1,21 +1,19 @@
-import {
-  drupal,
-  drupalLogin,
-  resetDrupalState,
-} from '@amazeelabs/silverback-playwright';
 import { expect, test } from '@playwright/test';
 import { platform } from 'os';
 
+import { silverback } from '../../helpers/drupal';
+import { cmsUrl } from '../../helpers/url';
+
 test.beforeAll(async () => {
-  await resetDrupalState();
+  silverback('-y snapshot-restore tests-initial');
 });
 test.afterAll(async () => {
-  await resetDrupalState();
+  silverback('-y snapshot-restore tests-initial');
 });
 
-test('linkit content sorting', async ({ page }) => {
-  await drupalLogin(page);
+test.use({ storageState: '.auth/admin.json' });
 
+test('linkit content sorting', async ({ page }) => {
   const target = 'target page';
 
   for (const title of [
@@ -23,12 +21,15 @@ test('linkit content sorting', async ({ page }) => {
     `${target} something else something else`,
     `something else ${target} something else`,
   ]) {
-    await page.goto(`${drupal.baseUrl}/en/node/add/page`);
-    await page.getByLabel('Title', { exact: true }).fill(title);
+    await page.goto(cmsUrl('/en/node/add/page'));
+    await page.getByRole('textbox', { name: 'Title *' }).fill(title);
+    await page.getByLabel('Save as').selectOption('published');
     await page.getByRole('button', { name: 'Save' }).click();
   }
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill('Foo');
+  await page.getByRole('button', { name: 'Save' }).click();
   await page.click('[data-type="core/paragraph"]');
   await page.type('[data-type="core/paragraph"]', 'Text');
   await page.press(
@@ -55,8 +56,6 @@ test('linkit content sorting', async ({ page }) => {
 });
 
 test('linkit media sorting', async ({ page }) => {
-  await drupalLogin(page);
-
   const target = 'target media';
 
   for (const title of [
@@ -64,15 +63,20 @@ test('linkit media sorting', async ({ page }) => {
     `${target} something else something else`,
     `something else ${target} something else`,
   ]) {
-    await page.goto(`${drupal.baseUrl}/en/media/add/remote_video`);
+    await page.goto(cmsUrl('/en/media/add/document'));
     await page.getByLabel('Name', { exact: true }).fill(title);
     await page
-      .getByLabel('Remote video URL', { exact: true })
-      .fill('https://www.youtube.com/watch?v=-wtAzYbklE0');
+      .getByRole('textbox', { name: 'Add a new file *' })
+      .setInputFiles('assets/document_txt_en.txt');
+    await expect(
+      page.getByRole('link', { name: /document_txt_en/ }),
+    ).toBeVisible();
     await page.getByRole('button', { name: 'Save' }).click();
   }
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill('Foo');
+  await page.getByRole('button', { name: 'Save' }).click();
   await page.click('[data-type="core/paragraph"]');
   await page.type('[data-type="core/paragraph"]', 'Text');
   await page.press(
@@ -99,26 +103,26 @@ test('linkit media sorting', async ({ page }) => {
 });
 
 test('linkit bundles', async ({ page }) => {
-  await drupalLogin(page);
-
   const target = 'FooBar';
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/page`);
-  await page.getByLabel('Title', { exact: true }).fill(`${target} page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill(`${target} page`);
+  await page.getByLabel('Save as').selectOption('published');
   await page.getByRole('button', { name: 'Save' }).click();
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/article`);
-  await page.getByLabel('Title', { exact: true }).fill(`${target} article`);
-  await page.getByRole('button', { name: 'Save' }).click();
-
-  await page.goto(`${drupal.baseUrl}/en/media/add/remote_video`);
-  await page.getByLabel('Name', { exact: true }).fill(`${target} video`);
+  await page.goto(cmsUrl('/en/media/add/document'));
+  await page.getByLabel('Name', { exact: true }).fill(`${target} document`);
   await page
-    .getByLabel('Remote video URL', { exact: true })
-    .fill('https://www.youtube.com/watch?v=-wtAzYbklE0');
+    .getByRole('textbox', { name: 'Add a new file *' })
+    .setInputFiles('assets/document_txt_en.txt');
+  await expect(
+    page.getByRole('link', { name: /document_txt_en/ }),
+  ).toBeVisible();
   await page.getByRole('button', { name: 'Save' }).click();
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill('Foo');
+  await page.getByRole('button', { name: 'Save' }).click();
   await page.click('[data-type="core/paragraph"]');
   await page.type('[data-type="core/paragraph"]', 'Text');
   await page.press(
@@ -130,35 +134,30 @@ test('linkit bundles', async ({ page }) => {
 
   await expect(
     page.locator('.block-editor-link-control__search-item-type', {
-      hasText: 'Content: Article',
+      hasText: 'Content: Basic page',
     }),
   ).toBeVisible();
   await expect(
     page.locator('.block-editor-link-control__search-item-type', {
-      hasText: 'Content: Page',
-    }),
-  ).toBeVisible();
-  await expect(
-    page.locator('.block-editor-link-control__search-item-type', {
-      hasText: 'Media: Remote video',
+      hasText: 'Media: Document',
     }),
   ).toBeVisible();
 });
 
 test('linkit translations', async ({ page }) => {
-  await drupalLogin(page);
-
-  await page.goto(`${drupal.baseUrl}/en/node/add/page`);
-  await page.getByLabel('Title', { exact: true }).fill(`English page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill(`English page`);
+  await page.getByLabel('Save as').selectOption('published');
   await page.getByRole('button', { name: 'Save' }).click();
+  await page.getByText('Save', { exact: true }).click();
   await page.getByRole('link', { name: 'Translate' }).click();
   await page.click(':text-is("Add"):right-of(:text-is("German"))');
-  await page
-    .getByLabel('Titel', { exact: true })
-    .fill(`German Translation page`);
-  await page.getByRole('button', { name: 'Speichern' }).click();
+  await page.locator('#edit-title-0-value').fill(`German Translation page`);
+  await page.getByText('Speichern (diese Übersetzung)').click();
 
-  await page.goto(`${drupal.baseUrl}/en/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill('Foo');
+  await page.getByRole('button', { name: 'Save' }).click();
   await page.click('[data-type="core/paragraph"]');
   await page.type('[data-type="core/paragraph"]', 'Text');
   await page.press(
@@ -172,7 +171,9 @@ test('linkit translations', async ({ page }) => {
     page.locator('.block-editor-link-control__search-item-title'),
   ).toHaveText('English page (German Translation page)');
 
-  await page.goto(`${drupal.baseUrl}/de/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/de/node/add/page'));
+  await page.getByRole('textbox', { name: 'Titel *' }).fill('Foo');
+  await page.getByRole('button', { name: 'Speichern' }).click();
   await page.click('[data-type="core/paragraph"]');
   await page.type('[data-type="core/paragraph"]', 'Text');
   await page.press(
@@ -191,18 +192,20 @@ test('linkit translations', async ({ page }) => {
 });
 
 test('test url autocomplete keyboard selection', async ({ page }) => {
-  await drupalLogin(page);
-  await page.goto(`${drupal.baseUrl}/en/node/add/gutenberg_page`);
+  await page.goto(cmsUrl('/en/node/add/page'));
+  await page.getByRole('textbox', { name: 'Title *' }).fill('Foo');
+  await page.getByRole('button', { name: 'Save' }).click();
 
   await page.click('[data-type="core/paragraph"]');
-  await page.click('button[aria-label="Toggle block inserter"]');
-  await page.click(':text-is("Teaser")');
-  await page.fill('[placeholder="Search or type url"]', 'page');
+  await page.type('[data-type="core/paragraph"]', 'Test link');
+  await page.press(
+    '[data-type="core/paragraph"]',
+    platform() === 'darwin' ? 'Meta+a' : 'Control+a',
+  );
+  await page.click('[aria-label="Link"]');
+  await page.getByPlaceholder('Search or type url').fill('page');
   await page.waitForSelector('.block-editor-link-control__search-item');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
-  //await page.waitForSelector('.block-editor-link-control__search-item-title');
-  await expect(
-    page.locator('.block-editor-link-control__search-item-title'),
-  ).toHaveAttribute('href', /^\//);
+  await expect(page.getByText('Test link')).toHaveAttribute('href', /^\//);
 });
