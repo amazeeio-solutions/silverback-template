@@ -19,6 +19,7 @@
       ],
       "outputs": [
         "web/sites/default/files/**",
+        ".silverback-snapshots/**",
         "../../packages/ui/static/stories/webforms/**"
       ],
       "env": ["CI", "LAGOON", "SKIP_DRUPAL_INSTALL"]

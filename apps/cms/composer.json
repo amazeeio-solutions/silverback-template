@@ -42,7 +42,7 @@
     "amazeelabs/silverback_external_preview": "^3.0",
     "amazeelabs/silverback_gatsby": "^3.0",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
-    "amazeelabs/silverback_gutenberg": "^2.5.23",
+    "amazeelabs/silverback_gutenberg": "*",
     "amazeelabs/silverback_iframe": "*",
     "amazeelabs/silverback_iframe_theme": "*",
     "amazeelabs/silverback_preview_link": "^1.6",
@@ -50,7 +50,7 @@
     "amazeelabs/silverback_search": "*",
     "amazeelabs/silverback_translations": "^1.0.4",
     "composer/installers": "^2.2",
-    "drupal/admin_toolbar": ">=3 <4, !=3.5.2",
+    "drupal/admin_toolbar": "^3.5",
     "drupal/admin_user_language": "^1.2",
     "drupal/coffee": "^1.4",
     "drupal/config_ignore": "^3.2",
@@ -60,7 +60,6 @@
     "drupal/core-recommended": "^10",
     "drupal/default_content": "^2.0.0-alpha2",
     "drupal/dropzonejs": "^2.8",
-    "drupal/entity_reference_revisions": "^1.12",
     "drupal/entity_usage": "^2.0@beta",
     "drupal/environment_indicator": "^4.0.14",
     "drupal/field_group": "^3.4",
@@ -70,7 +69,7 @@
     "drupal/honeypot": "^2.1.2",
     "drupal/key_auth": "^2.1",
     "drupal/lagoon_logs": "^2.1.1",
-    "drupal/linkit": "^6.0@beta",
+    "drupal/linkit": "^7.0",
     "drupal/masquerade": "^2.0@RC",
     "drupal/menu_admin_per_menu": "^1.5",
     "drupal/metatag": "^2.0",
@@ -184,6 +183,7 @@
   "require-dev": {
     "drupal/core-dev": "^10",
     "drupal/devel": "^5.3",
+    "drupal/hal": "^2.0.4",
     "phpspec/prophecy-phpunit": "^2.0.2"
   }
 }

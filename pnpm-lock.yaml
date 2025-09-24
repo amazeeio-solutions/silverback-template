@@ -38,6 +38,9 @@ importers:
       '@amazeelabs/gatsby-source-silverback':
         specifier: '*'
         version: 1.15.3(@types/node@20.11.17)(gatsby-plugin-sharp@5.13.1)(gatsby@5.14.1)(typescript@5.7.3)
+      '@amazeelabs/silverback-gutenberg':
+        specifier: workspace:*
+        version: link:../../packages/@amazeelabs/silverback-gutenberg
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-iframe
@@ -637,6 +640,8 @@ importers:
       vitest:
         specifier: 2.1.8
         version: 2.1.8(@types/node@20.11.17)
+
+  packages/@amazeelabs/silverback-gutenberg: {}
 
   packages/@amazeelabs/silverback-iframe:
     dependencies:
