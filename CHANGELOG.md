@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.0...@amazeelabs/silverback-template@2.4.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* run standard link processing for cta blocks ([3bb6817](https://github.com/AmazeeLabs/silverback-template/commit/3bb681799c325df7034a8e29f03ccc3e072c243b))
+
+
+
+
+
 # [2.4.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.5...@amazeelabs/silverback-template@2.4.0) (2025-08-25)
 
 
