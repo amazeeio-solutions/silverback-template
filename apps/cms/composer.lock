@@ -371,14 +371,17 @@
     },
     {
       "name": "amazeelabs/silverback_gutenberg",
-      "version": "2.6.1",
+      "version": "dev-main",
       "dist": {
         "type": "path",
         "url": "node_modules/@amazeelabs/silverback-gutenberg/drupal/silverback_gutenberg",
-        "reference": "fdd4136ec0ac23c3fdaf52f5062cd641851b54af"
+        "reference": "2c73ae629e90fc739953295fa54eb2bb6cc708ce"
       },
       "require": {
         "drupal/gutenberg": "^2.14.0"
+      },
+      "conflict": {
+        "drupal/linkit": "<7.0.0"
       },
       "type": "drupal-module",
       "license": [
@@ -483,9 +486,10 @@
       "dist": {
         "type": "path",
         "url": "node_modules/@amazeelabs/silverback-search/drupal/silverback_search",
-        "reference": "b48d13098258bb98bea81ef0e0fc87a9bc3226a9"
+        "reference": "76bfd6e4e2642ead2315aa748f6e0869c1f9dde8"
       },
       "require": {
+        "symfony/css-selector": "^6 || ^7",
         "symfony/dom-crawler": "^6 || ^7"
       },
       "type": "drupal-module",
@@ -7978,6 +7982,75 @@
         }
       ],
       "time": "2025-08-22T10:21:53+00:00"
+    },
+    {
+      "name": "symfony/css-selector",
+      "version": "v6.4.24",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/symfony/css-selector.git",
+        "reference": "9b784413143701aa3c94ac1869a159a9e53e8761"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/symfony/css-selector/zipball/9b784413143701aa3c94ac1869a159a9e53e8761",
+        "reference": "9b784413143701aa3c94ac1869a159a9e53e8761",
+        "shasum": ""
+      },
+      "require": {
+        "php": ">=8.1"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Symfony\\Component\\CssSelector\\": ""
+        },
+        "exclude-from-classmap": [
+          "/Tests/"
+        ]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com"
+        },
+        {
+          "name": "Jean-François Simon",
+          "email": "jeanfrancois.simon@sensiolabs.com"
+        },
+        {
+          "name": "Symfony Community",
+          "homepage": "https://symfony.com/contributors"
+        }
+      ],
+      "description": "Converts CSS selectors to XPath expressions",
+      "homepage": "https://symfony.com",
+      "support": {
+        "source": "https://github.com/symfony/css-selector/tree/v6.4.24"
+      },
+      "funding": [
+        {
+          "url": "https://symfony.com/sponsor",
+          "type": "custom"
+        },
+        {
+          "url": "https://github.com/fabpot",
+          "type": "github"
+        },
+        {
+          "url": "https://github.com/nicolas-grekas",
+          "type": "github"
+        },
+        {
+          "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+          "type": "tidelift"
+        }
+      ],
+      "time": "2025-07-10T08:14:14+00:00"
     },
     {
       "name": "symfony/dependency-injection",
@@ -16421,75 +16494,6 @@
       "homepage": "https://symfony.com",
       "support": {
         "source": "https://github.com/symfony/browser-kit/tree/v6.4.24"
-      },
-      "funding": [
-        {
-          "url": "https://symfony.com/sponsor",
-          "type": "custom"
-        },
-        {
-          "url": "https://github.com/fabpot",
-          "type": "github"
-        },
-        {
-          "url": "https://github.com/nicolas-grekas",
-          "type": "github"
-        },
-        {
-          "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-          "type": "tidelift"
-        }
-      ],
-      "time": "2025-07-10T08:14:14+00:00"
-    },
-    {
-      "name": "symfony/css-selector",
-      "version": "v6.4.24",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/symfony/css-selector.git",
-        "reference": "9b784413143701aa3c94ac1869a159a9e53e8761"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/symfony/css-selector/zipball/9b784413143701aa3c94ac1869a159a9e53e8761",
-        "reference": "9b784413143701aa3c94ac1869a159a9e53e8761",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=8.1"
-      },
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "Symfony\\Component\\CssSelector\\": ""
-        },
-        "exclude-from-classmap": [
-          "/Tests/"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Fabien Potencier",
-          "email": "fabien@symfony.com"
-        },
-        {
-          "name": "Jean-François Simon",
-          "email": "jeanfrancois.simon@sensiolabs.com"
-        },
-        {
-          "name": "Symfony Community",
-          "homepage": "https://symfony.com/contributors"
-        }
-      ],
-      "description": "Converts CSS selectors to XPath expressions",
-      "homepage": "https://symfony.com",
-      "support": {
-        "source": "https://github.com/symfony/css-selector/tree/v6.4.24"
       },
       "funding": [
         {
