@@ -114,7 +114,6 @@ test('test LinkProcessor', async ({ page }) => {
   const contentBlock = JSON.parse(result).find(
     (block: { blockName: string }) => block.blockName === 'custom/content',
   );
-  console.log(contentBlock);
 
   expect(contentBlock).toHaveProperty('innerBlocks.0');
   const paragraphBlock = contentBlock.innerBlocks[0];
