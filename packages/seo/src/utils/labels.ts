@@ -5,4 +5,4 @@ export function getCategoryLabel(category: string): string {
     technical: 'Technical',
   };
   return labels[category] || category;
-} 
+}

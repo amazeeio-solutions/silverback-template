@@ -10,7 +10,7 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts',
       formats: ['es'],
-      fileName: 'index'
+      fileName: 'index',
     },
     rollupOptions: {
       external: ['react', 'react/jsx-runtime'],
@@ -21,14 +21,11 @@ export default defineConfig({
         },
       },
     },
-    cssCodeSplit: false
+    cssCodeSplit: false,
   },
   css: {
     postcss: {
-      plugins: [
-        tailwindcss,
-        autoprefixer,
-      ],
-    }
-  }
-}); 
+      plugins: [tailwindcss, autoprefixer],
+    },
+  },
+});

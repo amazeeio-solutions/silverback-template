@@ -1,8 +1,11 @@
 import urlHelper from './urlHelper';
 
-export function getLinkType(anchor: string, siteUrlOrDomain: string): 'internal' | 'external' | 'other' {
+export function getLinkType(
+  anchor: string,
+  siteUrlOrDomain: string,
+): 'internal' | 'external' | 'other' {
   const url = urlHelper.getFromAnchorTag(anchor);
-  
+
   // Handle fragment URLs - consider them internal
   if (url.startsWith('#')) {
     return 'internal';
@@ -22,9 +25,11 @@ export function getLinkType(anchor: string, siteUrlOrDomain: string): 'internal'
     }
 
     // Check if internal or external
-    return urlHelper.isInternalLink(url, siteUrlOrDomain) ? 'internal' : 'external';
+    return urlHelper.isInternalLink(url, siteUrlOrDomain)
+      ? 'internal'
+      : 'external';
   } catch {
     // If parsing fails, assume it's internal if it starts with /
     return url.startsWith('/') ? 'internal' : 'other';
   }
-} 
+}

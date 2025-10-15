@@ -34,8 +34,8 @@ const messages = {
     'seo.button.open': 'SEO-Analyse öffnen',
   },
   fr: {
-    'seo.aria.panel': 'Panneau d\'analyse SEO',
-    'seo.heading.results': 'Résultats de l\'analyse SEO',
+    'seo.aria.panel': "Panneau d'analyse SEO",
+    'seo.heading.results': "Résultats de l'analyse SEO",
     'seo.heading.analysis': 'Analyse SEO',
     'seo.score.status.good': 'BON',
     'seo.score.status.ok': 'OK',
@@ -45,8 +45,8 @@ const messages = {
 • 3/10 : Éléments recommandés manquants (à améliorer)
 • 6/10 : Répond aux exigences de base
 • 8-10/10 : Optimisation excellente`,
-    'seo.button.close': 'Fermer l\'analyse SEO',
-    'seo.button.open': 'Ouvrir l\'analyse SEO',
+    'seo.button.close': "Fermer l'analyse SEO",
+    'seo.button.open': "Ouvrir l'analyse SEO",
   },
   it: {
     'seo.aria.panel': 'Pannello analisi SEO',

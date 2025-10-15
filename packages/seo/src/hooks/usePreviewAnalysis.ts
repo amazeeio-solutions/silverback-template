@@ -8,6 +8,8 @@ interface PreviewAnalysisProps {
   locale: string;
   title?: string;
   description?: string;
+  url?: string;
+  permalink?: string;
 }
 
 export function usePreviewAnalysis({
@@ -16,24 +18,35 @@ export function usePreviewAnalysis({
   locale,
   title,
   description,
+  url,
+  permalink,
 }: PreviewAnalysisProps) {
-  const contentRef = useRef<string | null>(null);
+  const lastHashRef = useRef<string | null>(null);
   const { analyze, results, loading: isAnalyzing, error } = useSeoAnalysis();
 
   useEffect(() => {
     if (!content) return;
 
-    // Skip if content hasn't changed
-    if (content === contentRef.current) return;
-    contentRef.current = content;
+    // Build a composite hash so changes in any relevant input re-run analysis
+    const composite = JSON.stringify({
+      content,
+      keyword,
+      locale,
+      title: title || '',
+      description: description || '',
+      url: url || '',
+      permalink: permalink || '',
+    });
+    if (composite === lastHashRef.current) return;
+    lastHashRef.current = composite;
 
     // Run analysis with a slight delay to ensure rendering is complete
     const timeoutId = setTimeout(() => {
-      analyze(content, keyword, locale, { title, description });
+      analyze(content, keyword, locale, { title, description, url, permalink });
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [content, keyword, locale, title, description, analyze]);
+  }, [content, keyword, locale, title, description, url, permalink, analyze]);
 
   return {
     results,

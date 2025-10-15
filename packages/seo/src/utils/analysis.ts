@@ -6,6 +6,7 @@ import h1s from 'yoastseo/build/languageProcessing/researches/h1s';
 import imageCount from 'yoastseo/build/languageProcessing/researches/imageCount';
 import pageTitleWidth from 'yoastseo/build/languageProcessing/researches/pageTitleWidth';
 import scoreToRating from 'yoastseo/build/scoring/interpreters/scoreToRating';
+import { measureTextWidth } from 'yoastseo/build/helpers';
 
 import CustomAssessor from './CustomAssessor';
 import customGetLinkStatistics from './customGetLinkStatistics';
@@ -14,19 +15,26 @@ import urlHelper from './urlHelper';
 interface AnalysisConfig {
   title?: string;
   description?: string;
+  url?: string;
+  permalink?: string;
 }
 
 export function createAnalyzer(locale: string) {
   return (content: string, keyword: string, config?: AnalysisConfig) => {
+    const title = config?.title || '';
+
+    // Calculate titleWidth (in pixels) using Yoast's measureTextWidth on the stripped title
+    const titleWidth = title ? measureTextWidth(title) : 0;
+
     // Create paper with all required properties
     const paper = new Paper(content, {
       keyword,
       locale,
-      title: config?.title || '',
+      title,
       description: config?.description || '',
-      url: '',
-      titleWidth: config?.title ? config.title.length : 0,
-      permalink: '',
+      url: config?.url || '',
+      titleWidth,
+      permalink: config?.permalink || '',
     });
 
     // Use the standard EnglishResearcher from Yoast

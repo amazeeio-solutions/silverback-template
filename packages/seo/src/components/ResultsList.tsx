@@ -8,8 +8,6 @@ interface ResultsListProps {
   results: SeoResult[];
 }
 
-
-
 function formatScore(score: number): string {
   return `${score}/10`;
 }

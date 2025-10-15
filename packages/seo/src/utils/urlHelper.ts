@@ -123,7 +123,7 @@ const urlHelper = {
         pathname: null,
         search: null,
         hash: urlString,
-        href: urlString
+        href: urlString,
       };
     }
 
@@ -135,7 +135,7 @@ const urlHelper = {
         pathname: urlString,
         search: null,
         hash: null,
-        href: new URL(urlString, window.location.origin).href
+        href: new URL(urlString, window.location.origin).href,
       };
     }
 
@@ -147,7 +147,7 @@ const urlHelper = {
         pathname: url.pathname,
         search: url.search || null,
         hash: url.hash || null,
-        href: url.href
+        href: url.href,
       };
     } catch {
       // If URL parsing fails, return object with nulls
@@ -157,7 +157,7 @@ const urlHelper = {
         pathname: null,
         search: null,
         hash: null,
-        href: urlString
+        href: urlString,
       };
     }
   },

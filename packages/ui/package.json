@@ -22,7 +22,8 @@
   },
   "scripts": {
     "prep:types": "tsc --emitDeclarationOnly",
-    "prep:scripts": "swc -w ./src -d ./build --strip-leading-paths",
+    "prep:scripts": "swc ./src -d ./build --strip-leading-paths",
+    "prep:scripts:watch": "swc -w ./src -d ./build --strip-leading-paths",
     "prep:fonts": "mkdir -p build && node preloaded-fonts.js",
     "prep:styles": "NODE_ENV=production pnpm postcss src/tailwind.css -o build/styles.css",
     "prep:iframe": "NODE_ENV=production pnpm postcss src/iframe.css -o build/iframe.css",
