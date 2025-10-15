@@ -15,4 +15,4 @@ export default {
       visibility: ['group-hover'],
     },
   },
-} satisfies Config; 
+} satisfies Config;

@@ -29,4 +29,4 @@ export interface UseSeoAnalysisResult {
   analyze: (content: string, keyword: string) => Promise<void>;
   loading: boolean;
   error: Error | null;
-} 
+}

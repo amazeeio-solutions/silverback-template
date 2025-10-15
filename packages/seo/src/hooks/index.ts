@@ -1,1 +1,1 @@
-export * from './useSeoAnalysis'; 
+export * from './useSeoAnalysis';

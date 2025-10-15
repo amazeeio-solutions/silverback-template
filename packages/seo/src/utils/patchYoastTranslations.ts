@@ -4,7 +4,10 @@ import { App } from 'yoastseo';
  * Initializes Yoast's translation system using the App constructor
  * we need this in order to access the bundle i18n instance
  */
-export function initializeYoastTranslations(locale: string, translations: unknown) {
+export function initializeYoastTranslations(
+  locale: string,
+  translations: unknown,
+) {
   try {
     // Create a dummy app instance to register wordpress-seo translations
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,7 +20,7 @@ export function initializeYoastTranslations(locale: string, translations: unknow
       },
       translations: {
         domain: 'wordpress-seo',
-         
+
         locale_data: {
           'wordpress-seo': translations,
         },

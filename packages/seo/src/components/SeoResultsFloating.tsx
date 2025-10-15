@@ -2,6 +2,7 @@ import { useIntl } from '@amazeelabs/react-intl';
 import React, { useEffect, useState } from 'react';
 
 import { seoConfig } from '../config';
+import { getSnippetPreview } from '../utils/analysis';
 import type { SeoResult } from '../types';
 import { ResultsList } from './ResultsList';
 import { SeoIntlProvider } from './SeoIntlProvider';
@@ -14,6 +15,9 @@ interface SeoResultsFloatingProps {
   isAnalyzing?: boolean;
   error?: Error | null;
   locale: string;
+  title?: string;
+  description?: string;
+  url?: string;
 }
 
 function getScoreColor(score: number) {
@@ -28,7 +32,6 @@ function getScoreLabel(score: number) {
   return 'POOR';
 }
 
-
 export function SeoResultsFloating(props: SeoResultsFloatingProps) {
   return (
     <SeoIntlProvider locale={props.locale}>
@@ -41,6 +44,10 @@ export function SeoResultsFloatingContent({
   results,
   isAnalyzing,
   error,
+  content,
+  title,
+  description,
+  url,
 }: SeoResultsFloatingProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTooltipVisible, setTooltipVisible] = useState(false);
@@ -116,9 +123,7 @@ export function SeoResultsFloatingContent({
                 <div
                   className={`seo-rounded-full seo-px-3 seo-py-1 ${scoreColorClass} seo-flex seo-items-center seo-gap-2`}
                 >
-                  <span className="seo-font-medium">
-                    {scoreLabel}
-                  </span>
+                  <span className="seo-font-medium">{scoreLabel}</span>
                   <span className="seo-font-bold">
                     {`${overallScore}`}
                     <span className={'tracking-tighter'}>{` / `}</span>10
@@ -190,6 +195,27 @@ export function SeoResultsFloatingContent({
         </div>
 
         <div className="seo-flex-1 seo-overflow-y-auto seo-p-5">
+          {/* Google-like preview card */}
+          {(() => {
+            const parsed = getSnippetPreview(content);
+            const previewTitle = title || parsed.title || '';
+            const previewDescription = description || parsed.description || '';
+            const previewUrl = url || parsed.url || '';
+            return (
+              <div className="seo-mb-4 seo-rounded-xl seo-border seo-border-gray-200 seo-bg-white seo-p-4 seo-shadow-sm">
+                <div className="seo-mb-1 seo-text-xs seo-text-gray-500">
+                  {previewUrl}
+                </div>
+                <div className="seo-mb-1 seo-text-xl seo-font-medium seo-leading-7 seo-text-blue-600">
+                  {previewTitle || 'Untitled'}
+                </div>
+                <div className="seo-text-sm seo-text-gray-600">
+                  {previewDescription || 'No meta description provided.'}
+                </div>
+              </div>
+            );
+          })()}
+
           <ResultsList results={results} />
         </div>
       </div>

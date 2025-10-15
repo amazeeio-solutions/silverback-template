@@ -24,4 +24,4 @@ export function KeywordInput({ keyword, onChange }: KeywordInputProps) {
       </p>
     </div>
   );
-} 
+}

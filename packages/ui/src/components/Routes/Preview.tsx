@@ -13,7 +13,17 @@ import { Loading } from '../Molecules/Loading';
 import { Messages } from '../Molecules/Messages';
 import { PageDisplay } from '../Organisms/PageDisplay';
 import { SeoAnalysis } from '@custom/seo';
-
+interface MetaTag {
+  tag: string;
+  attributes: {
+    name?: string;
+    property?: string;
+    content?: string;
+    rel?: string;
+    href?: string;
+    hreflang?: string;
+  };
+}
 
 function usePreviewParameters(): OperationVariables<
   typeof PreviewDrupalPageQuery
@@ -94,7 +104,7 @@ function PreviewContent({
                 <SeoAnalysis
                   content={previewContent}
                   locale={interfaceLocale}
-                  metaTags={data?.preview?.metaTags || undefined}
+                  metaTags={(data?.preview?.metaTags as MetaTag[]) || undefined}
                   url={data.preview?.path || ''}
                 />
               )}

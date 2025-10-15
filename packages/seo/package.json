@@ -18,8 +18,10 @@
     "./style.css": "./build/index.css"
   },
   "scripts": {
-    "build": "tsc && vite build",
-    "dev": "tsc --watch & vite build --watch",
+    "prep:types": "tsc --emitDeclarationOnly",
+    "prep:build": "vite build",
+    "prep": "pnpm prep:build && pnpm prep:types",
+    "dev": "vite build --watch",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -38,8 +40,9 @@
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "typescript": "^5.7.3",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",

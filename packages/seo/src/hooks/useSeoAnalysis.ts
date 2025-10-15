@@ -1,4 +1,4 @@
-import { useCallback,useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import type { SeoResult } from '../types';
 import { createAnalyzer } from '../utils/analysis';
@@ -9,7 +9,17 @@ export function useSeoAnalysis() {
   const [error, setError] = useState<Error | null>(null);
 
   const analyze = useCallback(
-    (content: string, keyword: string, locale: string, config?: { title?: string; description?: string }) => {
+    (
+      content: string,
+      keyword: string,
+      locale: string,
+      config?: {
+        title?: string;
+        description?: string;
+        url?: string;
+        permalink?: string;
+      },
+    ) => {
       setLoading(true);
       try {
         const analyzer = createAnalyzer(locale);

@@ -26,6 +26,7 @@ interface SeoAnalysisProps {
   title?: string;
   description?: string;
   url?: string;
+  permalink?: string;
 }
 
 export function SeoAnalysis({
@@ -35,6 +36,8 @@ export function SeoAnalysis({
   metaTags,
   title: explicitTitle,
   description: explicitDescription,
+  url,
+  permalink,
 }: SeoAnalysisProps) {
   // Find title: first try explicit title, then meta title, then og:title
   const title =
@@ -76,6 +79,8 @@ export function SeoAnalysis({
     locale,
     title,
     description,
+    url,
+    permalink,
   });
 
   return (
@@ -84,6 +89,9 @@ export function SeoAnalysis({
       keyword={keyword || ''}
       onKeywordChange={() => {}} // Add if needed
       content={content || ''}
+      title={title}
+      description={description}
+      url={url || ''}
       isAnalyzing={isAnalyzing}
       error={error}
       locale={locale}

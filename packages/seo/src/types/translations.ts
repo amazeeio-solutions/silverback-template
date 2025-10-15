@@ -5,4 +5,4 @@ export interface YoastTranslations {
     plural_forms: string;
   };
   [key: string]: unknown;
-} 
+}

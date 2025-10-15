@@ -8,19 +8,27 @@ Yoast SEO Scoring Guide:
   seo: {
     title: 'SEO Score Guide:',
     ranges: [
-      { score: 1, label: 'Critical', desc: 'Missing essential elements (title, meta)' },
-      { score: 3, label: 'Poor', desc: 'Missing recommended elements (images, links)' },
+      {
+        score: 1,
+        label: 'Critical',
+        desc: 'Missing essential elements (title, meta)',
+      },
+      {
+        score: 3,
+        label: 'Poor',
+        desc: 'Missing recommended elements (images, links)',
+      },
       { score: 6, label: 'OK', desc: 'Basic requirements met' },
-      { score: 9, label: 'Good', desc: 'Well optimized' }
-    ]
+      { score: 9, label: 'Good', desc: 'Well optimized' },
+    ],
   },
   readability: {
     title: 'Readability Score Guide:',
     ranges: [
       { score: 3, label: 'Poor', desc: 'Text is difficult to read' },
       { score: 6, label: 'OK', desc: 'Text needs some improvements' },
-      { score: 9, label: 'Good', desc: 'Text is easy to read' }
-    ]
+      { score: 9, label: 'Good', desc: 'Text is easy to read' },
+    ],
   },
   technical: {
     title: 'Technical Score Guide:',
@@ -28,9 +36,9 @@ Yoast SEO Scoring Guide:
       { score: 1, label: 'Critical', desc: 'Missing required elements' },
       { score: 4, label: 'Poor', desc: 'Below recommended standards' },
       { score: 7, label: 'OK', desc: 'Meets basic requirements' },
-      { score: 9, label: 'Good', desc: 'Follows best practices' }
-    ]
-  }
+      { score: 9, label: 'Good', desc: 'Follows best practices' },
+    ],
+  },
 };
 
 export function formatScore(score: number): string {
@@ -47,13 +55,17 @@ export function getScoreExplanation(score: number): string {
   }
 }
 
-export function getCategoryScoreExplanation(category: string, score: number): string {
+export function getCategoryScoreExplanation(
+  category: string,
+  score: number,
+): string {
   const categoryInfo = SCORE_EXPLANATIONS[category];
   if (!categoryInfo) return SCORE_EXPLANATIONS.overall;
 
-  const range = categoryInfo.ranges.find(r => score <= r.score) 
-    || categoryInfo.ranges[categoryInfo.ranges.length - 1];
+  const range =
+    categoryInfo.ranges.find((r) => score <= r.score) ||
+    categoryInfo.ranges[categoryInfo.ranges.length - 1];
 
   return `${categoryInfo.title}
 ${range.label} (${score}/10) - ${range.desc}`;
-} 
+}

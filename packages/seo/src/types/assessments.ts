@@ -17,8 +17,3 @@ export interface AssessmentResult {
   titleWidth?: number;
   maxWidth?: number;
 }
-
-export interface TranslationResult {
-  key: string;
-  variables: Record<string, unknown>;
-} 
