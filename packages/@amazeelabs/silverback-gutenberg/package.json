@@ -1,0 +1,15 @@
+{
+  "name": "@amazeelabs/silverback-gutenberg",
+  "version": "2.6.3",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-gutenberg/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/silverback-gutenberg/drupal",
+    "test:static": "exit 0; pnpm --filter @custom/cms cms:test:static packages/@amazeelabs/silverback-gutenberg/drupal",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=silverback_gutenberg",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=silverback_gutenberg"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

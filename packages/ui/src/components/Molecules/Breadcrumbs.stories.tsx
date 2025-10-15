@@ -1,6 +1,5 @@
-import { FrameQuery, OperationExecutorsProvider } from '@custom/schema';
+import { FrameQuery } from '@custom/schema';
 import { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
 
 import { Default as FrameStory } from '../Routes/Frame.stories';
 import { BreadCrumbs } from './Breadcrumbs';
@@ -9,15 +8,9 @@ export default {
   component: BreadCrumbs,
   parameters: {
     layout: 'fullscreen',
-  },
-  render: () => {
-    return (
-      <OperationExecutorsProvider
-        executors={[{ executor: FrameStory.args, id: FrameQuery }]}
-      >
-        <BreadCrumbs />
-      </OperationExecutorsProvider>
-    );
+    executors: {
+      [FrameQuery]: FrameStory.parameters.executors[FrameQuery],
+    },
   },
 } satisfies Meta<typeof BreadCrumbs>;
 

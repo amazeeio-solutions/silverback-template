@@ -256,6 +256,15 @@ test('Page', async () => {
                 {
                   "__typename": "BlockMarkup",
                 },
+                {
+                  "__typename": "BlockMedia",
+                  "media": {
+                    "id": "3a0fe860-a6d6-428a-9474-365bd57509aa",
+                  },
+                },
+                {
+                  "__typename": "BlockMarkup",
+                },
               ],
               "hero": {
                 "__typename": "Hero",
@@ -275,7 +284,7 @@ test('Page', async () => {
                 },
                 {
                   "attributes": {
-                    "content": "SEO description",
+                    "content": "The purpose of a meta description is simple: it needs to get someone searching with a search term on Google to click your link.",
                     "href": null,
                     "name": "description",
                     "property": null,
@@ -325,7 +334,7 @@ test('Page', async () => {
                 },
                 {
                   "attributes": {
-                    "content": "SEO description",
+                    "content": "The purpose of a meta description is simple: it needs to get someone searching with a search term on Google to click your link.",
                     "href": null,
                     "name": null,
                     "property": "og:description",

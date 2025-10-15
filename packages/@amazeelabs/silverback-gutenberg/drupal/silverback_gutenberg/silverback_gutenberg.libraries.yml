@@ -1,0 +1,14 @@
+tweaks:
+  js:
+    js/gutenberg-tweaks.js: {}
+  css:
+    theme:
+      css/gutenberg-tweaks.css: {}
+  dependencies:
+    - core/drupalSettings
+    - core/jquery
+
+base:
+  version: VERSION
+  js:
+    js/base.js: {}

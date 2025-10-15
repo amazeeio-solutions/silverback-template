@@ -54,8 +54,8 @@ content:
 hidden:
   content_moderation_control: true
   external_preview_link: true
-  field_seo_image: true
   field_content_hub_terms: true
+  field_seo_image: true
   langcode: true
   links: true
   search_api_excerpt: true

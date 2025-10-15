@@ -1,0 +1,12 @@
+display:
+  default:
+    display_options:
+      fields:
+        title:
+          label: Titel
+        changed:
+          label: Aktualisiert
+      filters:
+        title:
+          expose:
+            label: Titel

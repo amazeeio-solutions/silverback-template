@@ -26,3 +26,7 @@ services:
     class: Drupal\custom\MediaLinks
     arguments:
       ['@renderer', '@logger.factory', '@stream_wrapper_manager', '@file.usage']
+
+  custom.metatags:
+    class: Drupal\custom\MetaTags
+    arguments: ['@?metatag.manager']

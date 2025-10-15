@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.9.1...@amazeelabs/silverback-iframe@1.9.2) (2025-07-16)
+
+**Note:** Version bump only for package @amazeelabs/silverback-iframe
+
+
+
+
+
 ## [1.9.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-iframe@1.9.0...@amazeelabs/silverback-iframe@1.9.1) (2025-07-15)
 
 

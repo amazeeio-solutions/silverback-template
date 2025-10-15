@@ -13,4 +13,5 @@ apps/website/.env
 /_local
 /lerna-debug.log
 /.prettierignore
-.claude/
+.claude/settings.local.json
+.claude/logs/

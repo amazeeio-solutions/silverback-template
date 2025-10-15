@@ -22,3 +22,6 @@ fi
 # In any case, re-import translation string.
 pnpm import-translations
 pnpm drush cr
+
+# Used in e2e tests.
+pnpm silverback -y snapshot-create initial

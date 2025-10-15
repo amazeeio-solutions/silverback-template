@@ -1,5 +1,154 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.4.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.2...@amazeelabs/silverback-template@2.4.3) (2025-10-02)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.1...@amazeelabs/silverback-template@2.4.2) (2025-09-26)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.0...@amazeelabs/silverback-template@2.4.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* run standard link processing for cta blocks ([3bb6817](https://github.com/AmazeeLabs/silverback-template/commit/3bb681799c325df7034a8e29f03ccc3e072c243b))
+
+
+
+
+
+# [2.4.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.5...@amazeelabs/silverback-template@2.4.0) (2025-08-25)
+
+
+### Bug Fixes
+
+* update types location ([0f471d7](https://github.com/AmazeeLabs/silverback-template/commit/0f471d7d11dbe1df8337356749bea56f93cd3a58))
+
+
+### Features
+
+* add react router bridge ([b3f6d5d](https://github.com/AmazeeLabs/silverback-template/commit/b3f6d5d67f0b528927c7e76a97a03a8f001daa8d))
+
+
+
+
+
+## [2.3.5](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.4...@amazeelabs/silverback-template@2.3.5) (2025-08-08)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.3.4](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.3...@amazeelabs/silverback-template@2.3.4) (2025-08-05)
+
+
+### Reverts
+
+* Revert "fix(SLB-512): adding prep for ui" ([0f4bbab](https://github.com/AmazeeLabs/silverback-template/commit/0f4bbab6836d782c21d0ce3fa5547d8ab4a87f22))
+
+
+
+
+
+## [2.3.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.2...@amazeelabs/silverback-template@2.3.3) (2025-07-18)
+
+
+### Bug Fixes
+
+* ensure precommit hook runs from repository root ([feb2a4a](https://github.com/AmazeeLabs/silverback-template/commit/feb2a4a8ead3212106052812843eaf929f67a970))
+
+
+
+
+
+## [2.3.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.1...@amazeelabs/silverback-template@2.3.2) (2025-07-18)
+
+
+### Bug Fixes
+
+* simplify and fix claude precommit hook ([33a3704](https://github.com/AmazeeLabs/silverback-template/commit/33a3704e20a1ab08055a09f81268c5cfd4a46f61))
+
+
+
+
+
+## [2.3.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.0...@amazeelabs/silverback-template@2.3.1) (2025-07-18)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+# [2.3.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.2.0...@amazeelabs/silverback-template@2.3.0) (2025-07-17)
+
+
+### Features
+
+* **preview:** enable access to UI package static assets ([9fabc86](https://github.com/AmazeeLabs/silverback-template/commit/9fabc86a354082f1d3ff0dd61c98126bc76b441e))
+
+
+
+
+
+# [2.2.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.1.1...@amazeelabs/silverback-template@2.2.0) (2025-07-17)
+
+
+### Bug Fixes
+
+* improve precommit hook path resolution ([f3229c9](https://github.com/AmazeeLabs/silverback-template/commit/f3229c9740110ced7c117778b52c4bf58aeb59a6))
+
+
+### Features
+
+* add storybook operation executors decorator ([5218402](https://github.com/AmazeeLabs/silverback-template/commit/521840228a617bf61cc3a22fda899ad91357db37))
+
+
+
+
+
+## [2.1.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.1.0...@amazeelabs/silverback-template@2.1.1) (2025-07-16)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+# [2.1.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.0.0...@amazeelabs/silverback-template@2.1.0) (2025-07-16)
+
+
+### Bug Fixes
+
+* do not reformat CHANGELOG.md files ([5e25a95](https://github.com/AmazeeLabs/silverback-template/commit/5e25a95e13f6edc6f1eb6b5f1978f21b2a205454))
+
+
+### Features
+
+* add claude code hooks for automated precommit ([f60a4a5](https://github.com/AmazeeLabs/silverback-template/commit/f60a4a5f57de0cbb2ec07b3033a2bb9a66fc9ac6))
+* default mcp configuration with playwright and figma ([a39829f](https://github.com/AmazeeLabs/silverback-template/commit/a39829f3bb9d1abde0af1c673c5014607f38e1be))
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

@@ -61,6 +61,10 @@ jobs:
 
       - name: Precommit to catch early errors
         run: pnpm precommit
+        env:
+          TURBO_API: 'http://127.0.0.1:9080'
+          TURBO_TOKEN: 'local'
+          TURBO_TEAM: 'local'
 
       - name: Verify precommit did not change anything
         run: |
