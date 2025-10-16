@@ -24,9 +24,7 @@ const pageSize = 6;
 export default {
   title: 'Components/Organisms/ContentHub',
   component: ContentHub,
-  args: {
-    pageSize,
-  },
+  args: {},
 } satisfies Meta<typeof ContentHub>;
 
 type ContentHubStory = StoryObj<typeof ContentHub>;

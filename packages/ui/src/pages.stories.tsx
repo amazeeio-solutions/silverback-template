@@ -7,8 +7,8 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
+import { ContentHub } from './components/Organisms/ContentHub';
 import { WithResults } from './components/Organisms/ContentHub.stories';
-import { ContentHub } from './components/Routes/ContentHub';
 import { Frame } from './components/Routes/Frame';
 import { Default as FrameStory } from './components/Routes/Frame.stories';
 import { Page } from './components/Routes/Page';
@@ -39,7 +39,7 @@ export const ContentPage = {
 } satisfies StoryObj;
 
 export const ContentHubPage = {
-  render: () => <ContentHub pageSize={6} />,
+  render: () => <ContentHub itemsPerPage={6} />,
   parameters: {
     executors: {
       [ContentHubQuery]: WithResults.parameters?.executors?.[ContentHubQuery],

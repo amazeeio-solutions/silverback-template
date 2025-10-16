@@ -26,6 +26,7 @@ export default {
 
 const ViewPageResult = {
   page: {
+    id: 'test-page-id',
     title: 'Page Title',
     locale: 'en',
     translations: [
