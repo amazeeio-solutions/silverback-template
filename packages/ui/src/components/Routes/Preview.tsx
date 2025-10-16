@@ -25,7 +25,7 @@ interface MetaTag {
   };
 }
 
-export function usePreviewParameters(): OperationVariables<
+function usePreviewParameters(): OperationVariables<
   typeof PreviewDrupalPageQuery
 > {
   const [location] = useLocation();
