@@ -1,0 +1,38 @@
+graphql_flood_protection.settings:
+  type: config_object
+  label: 'GraphQL Flood Protection settings'
+  mapping:
+    ip_limit:
+      type: integer
+      label: 'IP limit'
+      description:
+        'Maximum number of requests allowed per IP address within the time
+        window.'
+      default: 6
+      minimum: 1
+      maximum: 1000
+    ip_window:
+      type: integer
+      label: 'IP window (seconds)'
+      description:
+        'Time window in seconds for rate limiting. Default is 3600 seconds (1
+        hour).'
+      default: 3600
+      minimum: 60
+      maximum: 86400
+    protection_mode:
+      type: string
+      label: 'Protection mode'
+      description: 'Whether to protect all mutations or specific ones.'
+      default: 'all_mutations'
+    excluded_mutations:
+      type: sequence
+      label: 'Excluded mutations'
+      description: 'List of mutation names to exclude from protection.'
+      sequence:
+        type: string
+    server_id:
+      type: string
+      label: 'GraphQL Server ID'
+      description: 'The GraphQL server to load mutations from.'
+      default: ''
