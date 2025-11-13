@@ -2,6 +2,7 @@
 
 namespace Drupal\silverback_gutenberg\GutenbergValidation;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
@@ -73,17 +74,26 @@ trait GutenbergCardinalityValidatorTrait {
       return $this->validateEmptyInnerBlocks($expected_children);
     }
 
-    // Count blocks, then check if the quantity for each is correct.
+    // Count blocks and keep references for additional validations.
     $countInnerBlockInstances = [];
+    $innerBlocksByName = [];
     foreach ($block['innerBlocks'] as $innerBlock) {
-      if (!isset($countInnerBlockInstances[$innerBlock['blockName']])) {
-        $countInnerBlockInstances[$innerBlock['blockName']] = 0;
+      $blockName = $innerBlock['blockName'] ?? NULL;
+      if ($blockName === NULL) {
+        continue;
       }
-      $countInnerBlockInstances[$innerBlock['blockName']]++;
+      if (!isset($countInnerBlockInstances[$blockName])) {
+        $countInnerBlockInstances[$blockName] = 0;
+      }
+      $countInnerBlockInstances[$blockName]++;
+      $innerBlocksByName[$blockName][] = $innerBlock;
     }
 
     foreach ($expected_children as $child) {
-      if (!isset($countInnerBlockInstances[$child['blockName']]) && $child['min'] > 0) {
+      $blockName = $child['blockName'];
+      $childBlocks = $innerBlocksByName[$blockName] ?? [];
+
+      if (!isset($countInnerBlockInstances[$blockName]) && $child['min'] > 0) {
         $message = $this->getExpectedQuantityErrorMessage($child);
         return [
           'is_valid' => FALSE,
@@ -91,13 +101,15 @@ trait GutenbergCardinalityValidatorTrait {
         ];
       }
       // Minimum is set to 0, so we don't care if the block is not present.
-      if (!isset($countInnerBlockInstances[$child['blockName']]) && $child['min'] === 0) {
+      if (!isset($countInnerBlockInstances[$blockName]) && $child['min'] === 0) {
         return [
           'is_valid' => TRUE,
           'message' => '',
         ];
       }
-      if ($countInnerBlockInstances[$child['blockName']] < $child['min']) {
+
+      $blockCount = $countInnerBlockInstances[$blockName] ?? 0;
+      if ($blockCount < $child['min']) {
         return [
           'is_valid' => FALSE,
           'message' => \Drupal::translation()->formatPlural($child['min'],
@@ -109,7 +121,7 @@ trait GutenbergCardinalityValidatorTrait {
             ]),
         ];
       }
-      if ($child['max'] !== GutenbergCardinalityValidatorInterface::CARDINALITY_UNLIMITED && $countInnerBlockInstances[$child['blockName']] > $child['max']) {
+      if ($child['max'] !== GutenbergCardinalityValidatorInterface::CARDINALITY_UNLIMITED && $blockCount > $child['max']) {
         return [
           'is_valid' => FALSE,
           'message' => \Drupal::translation()->formatPlural($child['max'],
@@ -119,6 +131,13 @@ trait GutenbergCardinalityValidatorTrait {
               '%label' => $child['blockLabel'],
               '@max' => $child['max'],
             ]),
+        ];
+      }
+
+      if (!empty($childBlocks) && !$this->hasPopulatedBlock($childBlocks)) {
+        return [
+          'is_valid' => FALSE,
+          'message' => $this->getMissingContentErrorMessage($child),
         ];
       }
     }
@@ -173,6 +192,14 @@ trait GutenbergCardinalityValidatorTrait {
     $min = $expected_children['min'];
     $max = $expected_children['max'];
     $count = count($inner_blocks['innerBlocks']);
+    if (!empty($inner_blocks['innerBlocks']) && !$this->hasPopulatedBlock($inner_blocks['innerBlocks'])) {
+      if (!$this->isBlockPopulated($inner_blocks)) {
+      return [
+        'is_valid' => FALSE,
+        'message' => $this->getMissingContentErrorMessage(NULL),
+      ];
+    }
+    }
     if ($count < $min) {
       return [
         'is_valid' => FALSE,
@@ -216,6 +243,117 @@ trait GutenbergCardinalityValidatorTrait {
         $messageParams);
     }
     return $result;
+  }
+
+  private function blockHasMeaningfulHtml(array $block): bool {
+    $innerHTML = $block['innerHTML'] ?? '';
+    if (is_string($innerHTML) && $this->stringContainsContent($innerHTML)) {
+      return TRUE;
+    }
+
+    if (!empty($block['innerContent']) && is_array($block['innerContent'])) {
+      foreach ($block['innerContent'] as $chunk) {
+        if (is_string($chunk) && $this->stringContainsContent($chunk)) {
+          return TRUE;
+        }
+      }
+    }
+
+    return FALSE;
+  }
+
+  private function stringContainsContent(string $value): bool {
+    $decoded = Html::decodeEntities($value);
+    $stripped = trim(strip_tags($decoded));
+    if ($stripped !== '') {
+      return TRUE;
+    }
+
+    return (bool) preg_match('/<(img|video|audio|iframe|svg|figure|source|embed|object|picture)\b/i', $value);
+  }
+
+  private function blockHasMeaningfulAttributes(array $block): bool {
+    $attrs = $block['attrs'] ?? [];
+    if (empty($attrs)) {
+      return FALSE;
+    }
+
+    foreach ($attrs as $value) {
+      if ($this->isMeaningfulValue($value)) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  private function isMeaningfulValue(mixed $value): bool {
+    if ($value === NULL) {
+      return FALSE;
+    }
+    if (is_string($value)) {
+      return trim($value) !== '';
+    }
+    if (is_bool($value)) {
+      return $value;
+    }
+    if (is_numeric($value)) {
+      return TRUE;
+    }
+    if (is_array($value)) {
+      foreach ($value as $item) {
+        if ($this->isMeaningfulValue($item)) {
+          return TRUE;
+        }
+      }
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Checks if any block in the supplied list is populated.
+   */
+  private function hasPopulatedBlock(array $blocks): bool {
+    foreach ($blocks as $block) {
+      if (is_array($block) && $this->isBlockPopulated($block)) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  private function isBlockPopulated(array $block): bool {
+    if ($this->blockHasMeaningfulHtml($block) || $this->blockHasMeaningfulAttributes($block)) {
+      return TRUE;
+    }
+
+    if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+      foreach ($block['innerBlocks'] as $innerBlock) {
+        if (is_array($innerBlock) && $this->isBlockPopulated($innerBlock)) {
+          return TRUE;
+        }
+      }
+    }
+
+    return FALSE;
+  }
+
+  private function getMissingContentErrorMessage(?array $child_block): string|TranslatableMarkup {
+    $messageSuffix = t('content or attributes.');
+
+    if (!empty($child_block)) {
+      $messageParams = [
+        '%label' => $child_block['blockLabel'],
+        '@message_suffix' => $messageSuffix,
+      ];
+      return t('%label: block must contain @message_suffix', $messageParams);
+    }
+
+    return t('Block must contain @message_suffix', [
+      '@message_suffix' => $messageSuffix,
+    ]);
   }
 
 }

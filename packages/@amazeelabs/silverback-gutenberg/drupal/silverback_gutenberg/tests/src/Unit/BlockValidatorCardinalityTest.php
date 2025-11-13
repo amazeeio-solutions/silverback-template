@@ -1534,4 +1534,289 @@ class BlockValidatorCardinalityTest extends UnitTestCase {
     );
   }
 
+  public function testRequirePopulatedBlocksWithHtml() {
+    $expectedChildren = [
+      [
+        'blockName' => 'core/paragraph',
+        'blockLabel' => t('Paragraph'),
+        'min' => 1,
+        'max' => GutenbergCardinalityValidatorInterface::CARDINALITY_UNLIMITED,
+      ],
+    ];
+
+    $validBlock = [
+      'blockName' => 'core/column',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/paragraph',
+          'innerHTML' => '<p>Content</p>',
+          'innerContent' => ['<p>Content</p>'],
+        ],
+      ],
+    ];
+    $invalidBlock = [
+      'blockName' => 'core/column',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/paragraph',
+          'innerHTML' => '<p></p>',
+          'innerContent' => ['<p></p>'],
+        ],
+      ],
+    ];
+
+    $this->assertEquals(
+      [
+        'is_valid' => TRUE,
+        'message' => '',
+      ],
+      $this->validateCardinality($validBlock, $expectedChildren),
+    );
+    $this->assertEquals(
+      [
+        'is_valid' => FALSE,
+        'message' => '<em class="placeholder">Paragraph</em>: block must contain content or attributes.',
+      ],
+      $this->validateCardinality($invalidBlock, $expectedChildren),
+    );
+  }
+
+  public function testMixedContentBlocksAreValid() {
+    $expectedChildren = [
+      [
+        'blockName' => 'core/paragraph',
+        'blockLabel' => t('Paragraph'),
+        'min' => 1,
+        'max' => 3,
+      ],
+    ];
+
+    $block = [
+      'blockName' => 'core/column',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/paragraph',
+          'innerHTML' => '<p></p>',
+          'innerContent' => ['<p></p>'],
+        ],
+        [
+          'blockName' => 'core/paragraph',
+          'innerHTML' => '<p>Content</p>',
+          'innerContent' => ['<p>Content</p>'],
+        ],
+      ],
+    ];
+
+    $this->assertEquals(
+      [
+        'is_valid' => TRUE,
+        'message' => '',
+      ],
+      $this->validateCardinality($block, $expectedChildren),
+    );
+  }
+
+  public function testRequirePopulatedBlocksWithAttributes() {
+    $expectedChildren = [
+      [
+        'blockName' => 'core/embed',
+        'blockLabel' => t('Embed'),
+        'min' => 1,
+        'max' => 1,
+      ],
+    ];
+
+    $validBlock = [
+      'blockName' => 'core/column',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/embed',
+          'innerHTML' => '',
+          'innerContent' => [],
+          'attrs' => [
+            'url' => 'https://example.com/video',
+          ],
+        ],
+      ],
+    ];
+    $invalidBlock = [
+      'blockName' => 'core/column',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/embed',
+          'innerHTML' => '',
+          'innerContent' => [],
+          'attrs' => [],
+        ],
+      ],
+    ];
+
+    $this->assertEquals(
+      [
+        'is_valid' => TRUE,
+        'message' => '',
+      ],
+      $this->validateCardinality($validBlock, $expectedChildren),
+    );
+    $this->assertEquals(
+      [
+        'is_valid' => FALSE,
+        'message' => '<em class="placeholder">Embed</em>: block must contain content or attributes.',
+      ],
+      $this->validateCardinality($invalidBlock, $expectedChildren),
+    );
+  }
+
+  public function testAnyBlockTypeRequiresContent() {
+    $expectedChildren = [
+      'validationType' => GutenbergCardinalityValidatorInterface::CARDINALITY_ANY,
+      'min' => 1,
+      'max' => 2,
+    ];
+
+    $validBlock = [
+      'blockName' => 'core/group',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/paragraph',
+          'innerHTML' => '<p>Content</p>',
+          'innerContent' => ['<p>Content</p>'],
+        ],
+      ],
+    ];
+    $invalidBlock = [
+      'blockName' => 'core/group',
+      'innerBlocks' => [
+        [
+          'blockName' => 'core/paragraph',
+          'innerHTML' => '<p></p>',
+          'innerContent' => ['<p></p>'],
+        ],
+      ],
+    ];
+
+    $this->assertEquals(
+      [
+        'is_valid' => TRUE,
+        'message' => '',
+      ],
+      $this->validateCardinality($validBlock, $expectedChildren),
+    );
+    $this->assertEquals(
+      [
+        'is_valid' => FALSE,
+        'message' => 'Block must contain content or attributes.',
+      ],
+      $this->validateCardinality($invalidBlock, $expectedChildren),
+    );
+    $this->assertEquals(
+      [
+        'is_valid' => FALSE,
+        'message' => 'At least 1 block is required.',
+      ],
+      $this->validateCardinality([
+        'blockName' => 'core/group',
+        'innerBlocks' => [],
+      ], $expectedChildren),
+    );
+  }
+
+  public function testAnyBlockTypeAcceptsNestedContent() {
+    $expectedChildren = [
+      'validationType' => GutenbergCardinalityValidatorInterface::CARDINALITY_ANY,
+      'min' => 1,
+      'max' => 2,
+    ];
+
+    $block = [
+      'blockName' => 'core/group',
+      'innerBlocks' => [
+        [
+          'blockName' => 'custom/accordion-item-text',
+          'innerHTML' => '',
+          'innerContent' => [],
+          'innerBlocks' => [
+            [
+              'blockName' => 'core/paragraph',
+              'innerHTML' => '<p>Content</p>',
+              'innerContent' => ['<p>Content</p>'],
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $this->assertEquals(
+      [
+        'is_valid' => TRUE,
+        'message' => '',
+      ],
+      $this->validateCardinality($block, $expectedChildren),
+    );
+  }
+
+  public function testBlockWithOnlyNestedContentSucceedsWhenDescendantHasContent() {
+    $expectedChildren = [
+      [
+        'blockName' => 'custom/accordion-item-text',
+        'blockLabel' => t('Accordion item'),
+        'min' => 1,
+        'max' => 1,
+      ],
+    ];
+
+    $validBlock = [
+      'blockName' => 'custom/accordion',
+      'innerBlocks' => [
+        [
+          'blockName' => 'custom/accordion-item-text',
+          'innerHTML' => '',
+          'innerContent' => [],
+          'attrs' => [],
+          'innerBlocks' => [
+            [
+              'blockName' => 'core/paragraph',
+              'innerHTML' => '<p>Some content</p>',
+              'innerContent' => ['<p>Some content</p>'],
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $invalidBlock = [
+      'blockName' => 'custom/accordion',
+      'innerBlocks' => [
+        [
+          'blockName' => 'custom/accordion-item-text',
+          'innerHTML' => '',
+          'innerContent' => [],
+          'attrs' => [],
+          'innerBlocks' => [
+            [
+              'blockName' => 'core/paragraph',
+              'innerHTML' => '<p></p>',
+              'innerContent' => ['<p></p>'],
+            ],
+          ],
+        ],
+      ],
+    ];
+
+    $this->assertEquals(
+      [
+        'is_valid' => TRUE,
+        'message' => '',
+      ],
+      $this->validateCardinality($validBlock, $expectedChildren),
+    );
+    $this->assertEquals(
+      [
+        'is_valid' => FALSE,
+        'message' => '<em class="placeholder">Accordion item</em>: block must contain content or attributes.',
+      ],
+      $this->validateCardinality($invalidBlock, $expectedChildren),
+    );
+  }
+
 }
