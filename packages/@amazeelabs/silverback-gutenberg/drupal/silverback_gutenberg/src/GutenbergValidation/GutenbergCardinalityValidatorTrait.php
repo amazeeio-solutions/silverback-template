@@ -102,10 +102,7 @@ trait GutenbergCardinalityValidatorTrait {
       }
       // Minimum is set to 0, so we don't care if the block is not present.
       if (!isset($countInnerBlockInstances[$blockName]) && $child['min'] === 0) {
-        return [
-          'is_valid' => TRUE,
-          'message' => '',
-        ];
+        continue;
       }
 
       $blockCount = $countInnerBlockInstances[$blockName] ?? 0;
@@ -191,14 +188,17 @@ trait GutenbergCardinalityValidatorTrait {
   private function validateAnyInnerBlocks(array $inner_blocks, array $expected_children): array {
     $min = $expected_children['min'];
     $max = $expected_children['max'];
-    $count = count($inner_blocks['innerBlocks']);
-    if (!empty($inner_blocks['innerBlocks']) && !$this->hasPopulatedBlock($inner_blocks['innerBlocks'])) {
-      if (!$this->isBlockPopulated($inner_blocks)) {
+    $innerBlockList = $inner_blocks['innerBlocks'] ?? [];
+    $count = count($innerBlockList);
+    if (
+      $count > 0 &&
+      !$this->hasPopulatedBlock($innerBlockList) &&
+      !$this->isBlockPopulated($inner_blocks)
+    ) {
       return [
         'is_valid' => FALSE,
         'message' => $this->getMissingContentErrorMessage(NULL),
       ];
-    }
     }
     if ($count < $min) {
       return [
@@ -325,16 +325,33 @@ trait GutenbergCardinalityValidatorTrait {
   }
 
   private function isBlockPopulated(array $block): bool {
-    if ($this->blockHasMeaningfulHtml($block) || $this->blockHasMeaningfulAttributes($block)) {
-      return TRUE;
+    $evaluated = FALSE;
+
+    if (array_key_exists('innerHTML', $block) || array_key_exists('innerContent', $block)) {
+      $evaluated = TRUE;
+      if ($this->blockHasMeaningfulHtml($block)) {
+        return TRUE;
+      }
+    }
+
+    if (array_key_exists('attrs', $block)) {
+      $evaluated = TRUE;
+      if ($this->blockHasMeaningfulAttributes($block)) {
+        return TRUE;
+      }
     }
 
     if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+      $evaluated = TRUE;
       foreach ($block['innerBlocks'] as $innerBlock) {
         if (is_array($innerBlock) && $this->isBlockPopulated($innerBlock)) {
           return TRUE;
         }
       }
+    }
+
+    if (!$evaluated) {
+      return TRUE;
     }
 
     return FALSE;
