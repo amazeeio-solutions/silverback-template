@@ -34,7 +34,7 @@ ENV COMPOSER_HOME=/tmp/cache/composer
 WORKDIR /app
 
 # Decap config.
-ENV VITE_DECAP_REPO='AmazeeLabs/silverback-template'
+ENV VITE_DECAP_REPO='amazeeio-solutions/silverback-template'
 ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 
@@ -126,7 +126,7 @@ RUN npm install -g pnpm@8.15.9
 COPY --from=builder /tmp/.deploy/publisher /app
 
 # Decap config.
-ENV VITE_DECAP_REPO='AmazeeLabs/silverback-template'
+ENV VITE_DECAP_REPO='amazeeio-solutions/silverback-template'
 ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 

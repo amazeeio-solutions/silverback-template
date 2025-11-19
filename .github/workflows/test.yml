@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Init check
-        if: github.repository != 'AmazeeLabs/silverback-template'
+        if: github.repository != 'amazeeio-solutions/silverback-template'
         run:
           echo 'Please run the INIT script. See the root README.md for
           instructions.' && false
