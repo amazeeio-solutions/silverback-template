@@ -29,7 +29,7 @@ export default defineConfig(
         mode: 'github-workflow',
         publisherBaseUrl: `https://${process.env.SERVICE_NAME}.${process.env.LAGOON_ENVIRONMENT}.${process.env.LAGOON_PROJECT}.${process.env.LAGOON_KUBERNETES}`,
         workflow: 'fe_build.yml',
-        repo: 'AmazeeLabs/silverback-template',
+        repo: 'amazeeio-solutions/silverback-template',
         ref: process.env.LAGOON_GIT_BRANCH!,
         environment: process.env.LAGOON_GIT_BRANCH!,
         environmentVariables: githubEnvVars(),
