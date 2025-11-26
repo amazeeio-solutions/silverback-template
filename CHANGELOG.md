@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.3...@amazeelabs/silverback-template@2.4.4) (2025-11-20)
+
+
+### Reverts
+
+* Revert "chore: attempt to get rid of kitt account" ([180f9a6](https://github.com/amazeeio-solutions/silverback-template/commit/180f9a6bc8f3847bdf78d34bfd74a004cef7b5a4))
+
+
+
+
+
 ## [2.4.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.2...@amazeelabs/silverback-template@2.4.3) (2025-10-02)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

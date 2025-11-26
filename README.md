@@ -4,8 +4,8 @@
 
 Minimum steps
 
-- https://github.com/AmazeeLabs/silverback-template > `Use this template` >
-  `Create a new repository`
+- https://github.com/amazeeio-solutions/silverback-template >
+  `Use this template` > `Create a new repository`
 - In the newly created repo
   - Settings > Manage access > Collaborators and teams
     - add `Tech Team` with `Admin` role

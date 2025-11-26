@@ -114,6 +114,34 @@
         }
       }
     },
+    "patch@2.8": {
+      "last_modified": "2025-11-15T07:28:48Z",
+      "resolved": "github:NixOS/nixpkgs/1d4c88323ac36805d09657d13a5273aea1b34f0c#patch",
+      "source": "devbox-search",
+      "version": "2.8",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rnnqrsgb7s1cis2pwjd4li9mc9pchfpn-patch-2.8",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rnnqrsgb7s1cis2pwjd4li9mc9pchfpn-patch-2.8"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xylqjx446bywdcqqlkfnpnhi0hl450zk-patch-2.8",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/xylqjx446bywdcqqlkfnpnhi0hl450zk-patch-2.8"
+        }
+      }
+    },
     "php83Extensions.xdebug@3": {
       "last_modified": "2025-03-16T16:17:41Z",
       "resolved": "github:NixOS/nixpkgs/8f76cf16b17c51ae0cc8e55488069593f6dab645#php83Extensions.xdebug",
