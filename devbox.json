@@ -12,7 +12,8 @@
     "php@8.3",
     "php83Packages.composer@2",
     "php83Extensions.xdebug@3",
-    "mailpit@latest"
+    "mailpit@latest",
+    "patch@2.8"
   ],
   "shell": {
     "scripts": {
