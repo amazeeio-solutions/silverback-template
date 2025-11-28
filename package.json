@@ -9,7 +9,7 @@
   },
   "packageManager": "pnpm@8.15.9",
   "scripts": {
-    "postinstall": "pnpm generate:prettierignore && husky install || true",
+    "postinstall": "prettierignore-monorepo && husky install || true",
     "commit": "git-cz",
     "precommit": "pnpm turbo:local && pnpm prettier . --write && pnpm turbo precommit --output-logs=new-only",
     "turbo:local": "if [ -z $CI ]; then echo $(date)$RANDOM > apps/cms/turbo-seed.txt; fi",
@@ -27,6 +27,7 @@
     "husky": "^9.1.7",
     "lerna": "^8.2.1",
     "prettier": "^3.5.3",
+    "prettierignore-monorepo": "^1.0.1",
     "turbo": "^2.4.4"
   },
   "resolutions": {
