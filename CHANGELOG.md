@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.7...@amazeelabs/silverback-template@2.5.0) (2025-12-09)
+
+
+### Features
+
+* **SLB-468:** cardinality validator improvement ([a9b3e39](https://github.com/amazeeio-solutions/silverback-template/commit/a9b3e394e4567e2c721c8a65b69e11a2c544040a))
+
+
+
+
+
 ## [2.4.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.6...@amazeelabs/silverback-template@2.4.7) (2025-11-28)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
