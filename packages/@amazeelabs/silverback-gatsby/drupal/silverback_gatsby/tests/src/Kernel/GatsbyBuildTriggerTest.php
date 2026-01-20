@@ -55,9 +55,13 @@ class GatsbyBuildTriggerTest extends KernelTestBase {
     $this->container->set('messenger', $this->messengerProphecy->reveal());
 
     $this->installConfig('graphql');
+    $this->installConfig('graphql_directives');
     $this->installSchema('silverback_gatsby', ['gatsby_update_log']);
 
     $this->trigger = $this->container->get('silverback_gatsby.build_trigger');
+
+    $schemaDefinition = \Drupal::moduleHandler()->getModule('silverback_gatsby')->getPath()
+      . '/modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls';
 
     Server::create([
       'schema' => 'directable',
@@ -68,7 +72,8 @@ class GatsbyBuildTriggerTest extends KernelTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby',
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'build_webhook' => 'http://localhost:8000/__refresh',
         ],
       ],
@@ -83,7 +88,8 @@ class GatsbyBuildTriggerTest extends KernelTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby',
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'build_webhook' => 'http://localhost:9000/__refresh',
         ],
       ],

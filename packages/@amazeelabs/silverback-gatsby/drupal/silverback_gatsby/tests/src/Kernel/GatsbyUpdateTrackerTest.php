@@ -44,7 +44,12 @@ class GatsbyUpdateTrackerTest extends KernelTestBase {
     parent::setUp();
     $this->setupClientProphecy();
     $this->installConfig('graphql');
+    $this->installConfig('graphql_directives');
     $this->installSchema('silverback_gatsby', ['gatsby_update_log']);
+
+    $schemaDefinition = \Drupal::moduleHandler()->getModule('silverback_gatsby')->getPath()
+      . '/modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls';
+
     Server::create([
       'schema' => 'directable',
       'name' => 'foo',
@@ -54,7 +59,8 @@ class GatsbyUpdateTrackerTest extends KernelTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby',
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'build_webhook' => 'http://localhost:8000/__refresh',
         ],
       ],
@@ -68,7 +74,8 @@ class GatsbyUpdateTrackerTest extends KernelTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby',
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'build_webhook' => 'http://localhost:8000/__refresh',
         ],
       ],

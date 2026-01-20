@@ -70,6 +70,7 @@ class TranslatableStringFeedTest extends GraphQLTestBase {
   protected function setUp(): void {
     parent::setUp();
     $this->storage = $this->container->get('locale.storage');
+    $this->installConfig('graphql_directives');
     $this->installSchema('silverback_gatsby', ['gatsby_update_log']);
     $this->installSchema('locale', [
       'locales_source',
@@ -77,7 +78,8 @@ class TranslatableStringFeedTest extends GraphQLTestBase {
       'locales_location',
       'locale_file',
     ]);
-    $schema = __DIR__ . '/../../schema/translatable-strings.graphql';
+    $schema = \Drupal::moduleHandler()->getModule('silverback_gatsby')->getPath()
+      . '/tests/schema/translatable-strings.graphql';
     $this->createTestServer(
       'directable',
       '/gatsby',
@@ -88,6 +90,7 @@ class TranslatableStringFeedTest extends GraphQLTestBase {
               'silverback_gatsby' => 'silverback_gatsby',
             ],
             'schema_definition' => $schema,
+            'autoload_contexts' => 'drupal',
             'build_webhook' => 'http://127.0.0.1:8888/__refresh',
           ],
         ],

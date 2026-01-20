@@ -25,8 +25,13 @@ class MenuFeedTest extends GraphQLTestBase {
     parent::setUp();
     $this->itemCount = 0;
     // Silverback Gatsby setup.
+    $this->installConfig('graphql_directives');
     $this->installSchema('silverback_gatsby', ['gatsby_update_log']);
     $this->installEntitySchema('path_alias');
+
+    $schemaDefinition = \Drupal::moduleHandler()->getModule('silverback_gatsby')->getPath()
+      . '/modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls';
+
     $this->createTestServer(
       'directable',
       '/gatsby',
@@ -36,7 +41,8 @@ class MenuFeedTest extends GraphQLTestBase {
             'extensions' => [
               'silverback_gatsby' => 'silverback_gatsby'
             ],
-            'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+            'schema_definition' => $schemaDefinition,
+            'autoload_contexts' => 'drupal',
             'build_webhook' => 'http://127.0.0.1:8888/__refresh'
           ]
         ]

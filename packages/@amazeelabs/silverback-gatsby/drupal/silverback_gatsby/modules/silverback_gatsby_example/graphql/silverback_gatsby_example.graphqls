@@ -7,33 +7,33 @@ type Query
 union WithPath = Page | Post
 
 type Page @entity(type: "node", bundle: "page") {
-  path: String! @isPath @resolveEntityPath
-  title: String! @resolveProperty(path: "title.value")
+  path: String! @isPath @entityPath
+  title: String! @property(path: "title.value")
 }
 
 type Post @entity(type: "node", bundle: "blog") {
-  path: String! @isPath @resolveEntityPath
-  title: String! @resolveProperty(path: "title.value")
-  template: String @template @layout
+  path: String! @isPath @entityPath
+  title: String! @property(path: "title.value")
+  template: String @isTemplate @layout
 }
 
 type MenuItem {
-  id: String! @resolveMenuItemId
-  parent: String @resolveMenuItemParentId
-  label: String! @resolveMenuItemLabel
-  url: String! @resolveMenuItemUrl
+  id: String! @menuItemId
+  parent: String @menuItemParentId
+  label: String! @menuItemLabel
+  url: String! @menuItemUrl
 }
 
 """
 All menu items, for the sitemap or being post-loaded.
 """
 type MainMenu @menu(menu_ids: ["access_denied", "main"]) {
-  items: [MenuItem]! @resolveMenuItems
+  items: [MenuItem]! @menuItems
 }
 
 """
 Menu items up to level 2, to be rendered directly into the page layout.
 """
 type VisibleMainMenu @menu(menu_ids: ["access_denied", "main"], max_level: 2) {
-  items: [MenuItem]! @resolveMenuItems
+  items: [MenuItem]! @menuItems
 }

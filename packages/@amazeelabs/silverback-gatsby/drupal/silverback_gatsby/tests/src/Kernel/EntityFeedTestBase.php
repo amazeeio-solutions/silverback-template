@@ -61,7 +61,11 @@ abstract class EntityFeedTestBase extends GraphQLTestBase {
 
   protected function setUp(): void {
     parent::setUp();
+    $this->installConfig('graphql_directives');
     $this->installSchema('silverback_gatsby', ['gatsby_update_log']);
+
+    $schemaDefinition = \Drupal::moduleHandler()->getModule('silverback_gatsby')->getPath()
+      . '/modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls';
 
     $userPreview = $this->createUser(['bypass node access']);
     $this->serverPreview = Server::create([
@@ -73,7 +77,8 @@ abstract class EntityFeedTestBase extends GraphQLTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby'
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'build_webhook' => 'http://localhost:8001/__refresh',
           'update_webhook' => 'http://localhost:8001/__update',
           'user' => $userPreview->uuid(),
@@ -92,7 +97,8 @@ abstract class EntityFeedTestBase extends GraphQLTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby'
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'build_webhook' => 'http://localhost:8000/__rebuild',
           'user' => $userBuild->uuid(),
         ]
@@ -110,7 +116,8 @@ abstract class EntityFeedTestBase extends GraphQLTestBase {
           'extensions' => [
             'silverback_gatsby' => 'silverback_gatsby'
           ],
-          'schema_definition' => __DIR__ . '/../../../modules/silverback_gatsby_example/graphql/silverback_gatsby_example.graphqls',
+          'schema_definition' => $schemaDefinition,
+          'autoload_contexts' => 'drupal',
           'user' => $userPublic->uuid(),
         ]
       ]
