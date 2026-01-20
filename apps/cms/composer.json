@@ -40,7 +40,7 @@
     "amazeelabs/silverback_campaign_urls": "^1.0.5",
     "amazeelabs/silverback_cloudinary": "^1.3.0",
     "amazeelabs/silverback_external_preview": "^3.0",
-    "amazeelabs/silverback_gatsby": "^3.0",
+    "amazeelabs/silverback_gatsby": "*",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
     "amazeelabs/silverback_gutenberg": "*",
     "amazeelabs/silverback_iframe": "*",

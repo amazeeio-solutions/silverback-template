@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "54164eca487f1ac72ea2ae1bb5066f74",
+  "content-hash": "e1b0b810a17fd8365a2af9a5000a82d1",
   "packages": [
     {
       "name": "amazeeio/drupal_integrations",
@@ -311,17 +311,11 @@
     },
     {
       "name": "amazeelabs/silverback_gatsby",
-      "version": "3.7.12",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/AmazeeLabs/silverback_gatsby.git",
-        "reference": "760b803a519cd36a6e57b07ecebdfb8d01809c76"
-      },
+      "version": "dev-main",
       "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/AmazeeLabs/silverback_gatsby/zipball/760b803a519cd36a6e57b07ecebdfb8d01809c76",
-        "reference": "760b803a519cd36a6e57b07ecebdfb8d01809c76",
-        "shasum": ""
+        "type": "path",
+        "url": "node_modules/@amazeelabs/silverback-gatsby/drupal/silverback_gatsby",
+        "reference": "53417457a8b4519223df1db1f1539a01109199e8"
       },
       "type": "drupal-module",
       "extra": {
@@ -331,17 +325,14 @@
           }
         }
       },
-      "notification-url": "https://packagist.org/downloads/",
       "license": [
         "GPL-2.0+"
       ],
       "description": "Bridge module between Gatsby and Drupal.",
       "homepage": "https://silverback.netlify.app",
-      "support": {
-        "issues": "https://github.com/AmazeeLabs/silverback_gatsby/issues",
-        "source": "https://github.com/AmazeeLabs/silverback_gatsby/tree/3.7.12"
-      },
-      "time": "2025-05-12T14:11:18+00:00"
+      "transport-options": {
+        "relative": true
+      }
     },
     {
       "name": "amazeelabs/silverback_graphql_persisted",
