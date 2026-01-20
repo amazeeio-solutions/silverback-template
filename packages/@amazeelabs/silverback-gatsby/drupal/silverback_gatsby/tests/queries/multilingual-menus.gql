@@ -1,0 +1,11 @@
+query MultilingualMenus {
+  noLanguageDefined: _loadMainMenu(id: "main") {
+    _id
+  }
+  en: _loadMainMenu(id: "main:en") {
+    _id
+  }
+  de: _loadMainMenu(id: "main:de") {
+    _id
+  }
+}
