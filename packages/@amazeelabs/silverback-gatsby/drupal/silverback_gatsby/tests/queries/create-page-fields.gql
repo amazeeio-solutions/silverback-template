@@ -1,0 +1,12 @@
+query {
+  regular: _loadPost(id: "1") {
+    title
+    path
+    template
+  }
+  promoted: _loadPost(id: "2") {
+    title
+    path
+    template
+  }
+}

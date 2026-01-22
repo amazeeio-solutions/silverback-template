@@ -1,0 +1,7 @@
+name: Silverback Gatsby Example
+type: module
+description: 'Example Silverback Gatsby schema implementation.'
+package: Silverback
+dependencies:
+  - silverback_gatsby:silverback_gatsby
+core_version_requirement: ^8 || ^9 || ^10 || ^11

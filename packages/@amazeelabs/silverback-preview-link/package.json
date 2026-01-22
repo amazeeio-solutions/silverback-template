@@ -1,0 +1,12 @@
+{
+  "name": "@amazeelabs/silverback-preview-link",
+  "version": "1.6.14",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-preview-link/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/silverback-preview-link/drupal"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

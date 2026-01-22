@@ -1,0 +1,6 @@
+"""
+Resolve the layout/template value for a node based on promote field.
+
+implementation(drupal): \Drupal\silverback_gatsby_example\Directives::layout
+"""
+directive @layout on FIELD_DEFINITION

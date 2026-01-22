@@ -1,0 +1,12 @@
+{
+  "name": "@amazeelabs/silverback-autosave",
+  "version": "1.3.4",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-autosave/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/silverback-autosave/drupal"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@amazeelabs/silverback-gatsby",
+  "version": "3.7.12",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-gatsby/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/silverback-gatsby/drupal",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=silverback_gatsby",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=silverback_gatsby"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

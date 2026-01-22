@@ -1,0 +1,31 @@
+services:
+  access_check.silverback_preview_link:
+    class: Drupal\silverback_preview_link\Access\PreviewLinkAccessCheck
+    arguments: ['@silverback_preview_link.host']
+    tags:
+      - { name: access_check, applies_to: _access_preview_link }
+  access_check.preview_enabled:
+    class: Drupal\silverback_preview_link\Access\PreviewEnabledAccessCheck
+    arguments: ['@config.factory']
+    tags:
+      - { name: access_check, applies_to: _access_preview_enabled }
+  silverback_preview_link.link_expiry:
+    class: Drupal\silverback_preview_link\PreviewLinkExpiry
+    arguments: ['@config.factory']
+  silverback_preview_link.host:
+    class: Drupal\silverback_preview_link\PreviewLinkHost
+    arguments:
+      - '@entity_type.manager'
+      - '@datetime.time'
+  logger.channel.silverback_preview_link:
+    parent: logger.channel_base
+    arguments: ['silverback_preview_link']
+  silverback_preview_link.authentication.preview_token:
+    class: Drupal\silverback_preview_link\Authentication\Provider\PreviewToken
+    tags:
+      - {
+          name: authentication_provider,
+          provider_id: 'preview_token',
+          priority: -10000,
+          global: TRUE,
+        }

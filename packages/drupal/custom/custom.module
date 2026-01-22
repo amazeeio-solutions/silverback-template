@@ -30,6 +30,7 @@ function custom_default_content_exported_fields_alter(array &$fields, ContentEnt
     $fields['access'],
     $fields['revision_translation_affected'],
     $fields['role_change'],
+    $fields['thumbnail'],
   );
 
   // If pathauto is enabled, content export may lose the path aliases.

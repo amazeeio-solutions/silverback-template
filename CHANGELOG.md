@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.1...@amazeelabs/silverback-template@2.5.2) (2026-01-19)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
 ## [2.5.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.0...@amazeelabs/silverback-template@2.5.1) (2026-01-08)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

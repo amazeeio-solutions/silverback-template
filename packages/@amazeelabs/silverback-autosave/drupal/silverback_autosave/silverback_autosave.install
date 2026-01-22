@@ -1,0 +1,222 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the silverback_autosave module.
+ */
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\silverback_autosave\Storage\AutosaveEntityFormStorageInterface;
+
+/**
+ * Implements hook_schema().
+ */
+function silverback_autosave_schema() {
+  $schema = [];
+
+  // Define the schema for the autosave storage of entity forms.
+  $schema[AutosaveEntityFormStorageInterface::AUTOSAVE_ENTITY_FORM_TABLE] = [
+    'description' => 'Saves the form state of partially filled content entity form for restoration by the silverback_autosave module.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key',
+      ],
+      'form_id' => [
+        'type' => 'varchar_ascii',
+        'length' => AutosaveEntityFormStorageInterface::SILVERBACK_AUTOSAVE_FORM_ID_LENGTH,
+        'not null' => TRUE,
+      ],
+      // We need the form session id as it is possible that the user opens the
+      // same form in two tabs and concurrently edits it. Therefore we have to
+      // assign each form session to an unique auto save session.
+      // We use the form build id for this and add an extra length to cover any
+      // case.
+      'form_session_id' => [
+        'type' => 'varchar_ascii',
+        'length' => AutosaveEntityFormStorageInterface::SILVERBACK_AUTOSAVE_FORM_ID_LENGTH,
+        'not null' => TRUE,
+      ],
+      'entity_type_id' => [
+        'type' => 'varchar_ascii',
+        'length' => EntityTypeInterface::ID_MAX_LENGTH,
+        'not null' => TRUE,
+      ],
+      'entity_id' => [
+        'type' => 'varchar_ascii',
+        'length' => EntityTypeInterface::ID_MAX_LENGTH,
+        'not null' => TRUE,
+      ],
+      'langcode' => [
+        'type' => 'varchar_ascii',
+        'length' => 12,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'timestamp' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'entity' => [
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ],
+      'form_state' => [
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'form_id' => ['form_id'],
+      'form_session_id' => ['form_session_id'],
+      'entity_type_id' => ['entity_type_id'],
+      'entity_id' => ['entity_id'],
+      'langcode' => ['langcode'],
+      'uid' => ['uid'],
+      'timestamp' => ['timestamp'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function silverback_autosave_install() {
+  // For some reasons it might happen that the autosave form library is not
+  // loaded or the handler is missing because on module install those both
+  // cache entries have not been invalidated, therefore we do it manually here.
+  Cache::invalidateTags(['entity_types', 'library_info']);
+}
+
+/**
+ * Add the settings for the notification to the settings config.
+ */
+function silverback_autosave_update_8001() {
+  $config = \Drupal::configFactory()->getEditable('silverback_autosave.settings');
+  if ($config->get('notification') === NULL) {
+    $config->set('notification', [
+      'active' => TRUE,
+      'message' => 'Saving draft...',
+      'delay' => 1000,
+    ]);
+    $config->save(TRUE);
+  }
+}
+
+/**
+ * Populates the setting "only_on_form_change".
+ */
+function silverback_autosave_update_8002() {
+  $config = \Drupal::configFactory()->getEditable('silverback_autosave.settings');
+  if ($config->get('only_on_form_change') === NULL) {
+    $config->set('only_on_form_change', FALSE);
+    $config->save(TRUE);
+  }
+}
+
+/**
+ * Add serial ID field as primary key to silverback_autosave_entity_form table.
+ */
+function silverback_autosave_update_9001() {
+  $schema = \Drupal::database()->schema();
+  $table_name = AutosaveEntityFormStorageInterface::AUTOSAVE_ENTITY_FORM_TABLE;
+
+  // Drop the existing primary key.
+  $schema->dropPrimaryKey($table_name);
+
+  // Add the new serial ID field with its primary key definition.
+  $spec = [
+    'type' => 'serial',
+    'not null' => TRUE,
+    'description' => 'Primary Key',
+  ];
+  $keys_new = [
+    'primary key' => ['id'],
+  ];
+  $schema->addField($table_name, 'id', $spec, $keys_new);
+}
+
+/**
+ * Add indexes to silverback_autosave_entity_form table.
+ */
+function silverback_autosave_update_9002() {
+  $schema = \Drupal::database()->schema();
+  $table = AutosaveEntityFormStorageInterface::AUTOSAVE_ENTITY_FORM_TABLE;
+
+  // Table specification for the fields we're indexing
+  $spec = [
+    'fields' => [
+      'form_id' => [
+        'type' => 'varchar_ascii',
+        'length' => AutosaveEntityFormStorageInterface::SILVERBACK_AUTOSAVE_FORM_ID_LENGTH,
+        'not null' => TRUE,
+      ],
+      'form_session_id' => [
+        'type' => 'varchar_ascii',
+        'length' => AutosaveEntityFormStorageInterface::SILVERBACK_AUTOSAVE_FORM_ID_LENGTH,
+        'not null' => TRUE,
+      ],
+      'entity_type_id' => [
+        'type' => 'varchar_ascii',
+        'length' => EntityTypeInterface::ID_MAX_LENGTH,
+        'not null' => TRUE,
+      ],
+      'entity_id' => [
+        'type' => 'varchar_ascii',
+        'length' => EntityTypeInterface::ID_MAX_LENGTH,
+        'not null' => TRUE,
+      ],
+      'langcode' => [
+        'type' => 'varchar_ascii',
+        'length' => 12,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+      'timestamp' => [
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+    ],
+  ];
+
+  if (!$schema->indexExists($table, 'form_id')) {
+    $schema->addIndex($table, 'form_id', ['form_id'], $spec);
+  }
+
+  if (!$schema->indexExists($table, 'form_session_id')) {
+    $schema->addIndex($table, 'form_session_id', ['form_session_id'], $spec);
+  }
+
+  if (!$schema->indexExists($table, 'entity_type_id')) {
+    $schema->addIndex($table, 'entity_type_id', ['entity_type_id'], $spec);
+  }
+
+  if (!$schema->indexExists($table, 'entity_id')) {
+    $schema->addIndex($table, 'entity_id', ['entity_id'], $spec);
+  }
+
+  if (!$schema->indexExists($table, 'langcode')) {
+    $schema->addIndex($table, 'langcode', ['langcode'], $spec);
+  }
+
+  if (!$schema->indexExists($table, 'uid')) {
+    $schema->addIndex($table, 'uid', ['uid'], $spec);
+  }
+
+  if (!$schema->indexExists($table, 'timestamp')) {
+    $schema->addIndex($table, 'timestamp', ['timestamp'], $spec);
+  }
+}
