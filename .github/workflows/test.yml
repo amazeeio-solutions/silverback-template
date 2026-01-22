@@ -45,13 +45,13 @@ jobs:
           cd apps/cms
           pnpm turbo prep
           pnpm content:export
-          if [[ $(git status --porcelain web/modules/custom/test_content) ]]; then
+          if [[ $(git status --porcelain ../../packages/drupal/test_content/content) ]]; then
             echo "Error: Content export is not up to date"
             echo "Please run 'pnpm content:export' from apps/cms and commit the changes"
             echo "Detected changes:"
-            git status --porcelain web/modules/custom/test_content
+            git status --porcelain ../../packages/drupal/test_content/content
             echo "Diff:"
-            git diff web/modules/custom/test_content
+            git diff ../../packages/drupal/test_content/content
             exit 1
           fi
         env:

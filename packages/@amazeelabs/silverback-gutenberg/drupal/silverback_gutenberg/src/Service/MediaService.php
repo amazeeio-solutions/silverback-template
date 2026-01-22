@@ -7,7 +7,7 @@ use Drupal\media_library\MediaLibraryState;
 
 class MediaService extends Original {
 
-  public function renderDialog(array $media_types, array $media_bundles = NULL) {
+  public function renderDialog(array $media_types, ?array $media_bundles = NULL) {
     // Instead of guessing media types as the parent method does, use given
     // media types as media type IDs. So the blocks have full control over
     // allowed media types.
