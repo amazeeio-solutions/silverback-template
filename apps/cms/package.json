@@ -33,6 +33,8 @@
     "@amazeelabs/gatsby-source-silverback": "*"
   },
   "dependencies": {
+    "@amazeelabs/default-content": "workspace:*",
+    "@amazeelabs/silverback-campaign-urls": "workspace:*",
     "@amazeelabs/silverback-gatsby": "workspace:*",
     "@amazeelabs/silverback-gutenberg": "workspace:*",
     "@amazeelabs/silverback-iframe": "workspace:*",
