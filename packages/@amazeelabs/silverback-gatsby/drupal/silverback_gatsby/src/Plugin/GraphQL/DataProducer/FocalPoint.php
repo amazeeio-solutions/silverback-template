@@ -30,7 +30,7 @@ class FocalPoint extends DataProducerPluginBase {
      *
      * @return array|null
      */
-    public function resolve(array $image_props = NULL) {
+    public function resolve(?array $image_props = NULL) {
         $path = parse_url($image_props['src']);
         $publicFilesDirectory = '/' . PublicStream::basePath();
         // Reverse-engineer the public path to find the crop.

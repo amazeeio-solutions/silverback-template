@@ -60,7 +60,7 @@ class MenuFeedTest extends GraphQLTestBase {
     $this->container->get('silverback_gatsby.update_handler')->schemaCache = NULL;
   }
 
-  protected function createMenuItem(string $label, string $url, MenuLinkContentInterface $parent = null, $menu = 'main'): MenuLinkContentInterface {
+  protected function createMenuItem(string $label, string $url, ?MenuLinkContentInterface $parent = null, $menu = 'main'): MenuLinkContentInterface {
     $item = MenuLinkContent::create([
       'provider' => 'silverback_gatsby',
       'menu_name' => $menu,

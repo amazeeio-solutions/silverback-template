@@ -35,7 +35,7 @@ class BlockSerializer {
     );
   }
 
-  protected function get_comment_delimited_block_content($block_name = null, $block_attributes = null, $block_content = '') {
+  protected function get_comment_delimited_block_content(?string $block_name = null, ?array $block_attributes = null, string $block_content = '') {
     if ( is_null( $block_name ) ) {
       return $block_content;
     }
@@ -60,7 +60,7 @@ class BlockSerializer {
     );
   }
 
-  protected function strip_core_block_namespace( $block_name = null ) {
+  protected function strip_core_block_namespace( ?string $block_name = null ) {
     if ( is_string( $block_name ) && 0 === strpos( $block_name, 'core/' ) ) {
       return substr( $block_name, 5 );
     }

@@ -44,9 +44,15 @@ importers:
       '@amazeelabs/gatsby-source-silverback':
         specifier: '*'
         version: 1.15.3(@types/node@20.11.17)(gatsby-plugin-sharp@5.13.1)(gatsby@5.14.1)(typescript@5.7.3)
+      '@amazeelabs/silverback-autosave':
+        specifier: workspace:*
+        version: link:../../packages/@amazeelabs/silverback-autosave
       '@amazeelabs/silverback-campaign-urls':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-campaign-urls
+      '@amazeelabs/silverback-cloudinary':
+        specifier: workspace:*
+        version: link:../../packages/@amazeelabs/silverback-cloudinary
       '@amazeelabs/silverback-gatsby':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-gatsby
@@ -56,6 +62,9 @@ importers:
       '@amazeelabs/silverback-iframe':
         specifier: workspace:*
         version: link:../../packages/@amazeelabs/silverback-iframe
+      '@amazeelabs/silverback-preview-link':
+        specifier: workspace:*
+        version: link:../../packages/@amazeelabs/silverback-preview-link
       '@amazeelabs/silverback-search':
         specifier: workspace:^
         version: link:../../packages/@amazeelabs/silverback-search
@@ -655,7 +664,11 @@ importers:
         specifier: 2.1.8
         version: 2.1.8(@types/node@20.11.17)
 
+  packages/@amazeelabs/silverback-autosave: {}
+
   packages/@amazeelabs/silverback-campaign-urls: {}
+
+  packages/@amazeelabs/silverback-cloudinary: {}
 
   packages/@amazeelabs/silverback-gatsby: {}
 
@@ -688,6 +701,8 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
+
+  packages/@amazeelabs/silverback-preview-link: {}
 
   packages/@amazeelabs/silverback-search: {}
 

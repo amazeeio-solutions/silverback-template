@@ -1,7 +1,8 @@
 {
   "name": "amazeelabs/silverback_autosave",
   "type": "drupal-module",
+  "version": "dev-main",
   "description": "Adds autosave feature on forms.",
-  "license": "GPL-2.0-or-later",
-  "version": "1.3.4"
+  "homepage": "https://silverback.netlify.app",
+  "license": "GPL-2.0-or-later"
 }

@@ -10,12 +10,13 @@
     "patches": {
       "drupal/default_content": {
         "Allow to alter exported fields (Used by custom module of silverback-template to clean the default content exports)": "https://www.drupal.org/files/issues/2022-11-07/default_content_hook_exported_fields-3181075-7.patch",
-        "Paragraphs support": "https://www.drupal.org/files/issues/2022-05-09/2698425-173.patch"
+        "Paragraphs support": "https://www.drupal.org/files/issues/2022-05-09/2698425-173.patch",
+        "Revert read-only field skip (causes data loss for crop)": "https://www.drupal.org/files/issues/2026-01-22/3568739-3--workaround.patch"
       }
     }
   },
   "require": {
-    "drupal/default_content": "^2.0.0-alpha1",
+    "drupal/default_content": "^2.0.0-beta1",
     "cweagans/composer-patches": "^1.7.3"
   },
   "autoload": {

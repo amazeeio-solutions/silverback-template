@@ -12,7 +12,7 @@ class CampaignUrlAccessControlHandler extends EntityAccessControlHandler {
   /**
    * {@inheritDoc}
    */
-  public function access(EntityInterface $entity, $operation, AccountInterface $account = NULL, $return_as_object = FALSE) {
+  public function access(EntityInterface $entity, $operation, ?AccountInterface $account = NULL, $return_as_object = FALSE) {
     $account = $this->prepareUser($account);
     if ($operation === 'view label' && !$this->viewLabelOperation) {
       $operation = 'view';

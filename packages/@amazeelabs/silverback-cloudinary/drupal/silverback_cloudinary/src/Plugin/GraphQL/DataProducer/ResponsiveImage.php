@@ -120,7 +120,7 @@ class ResponsiveImage extends DataProducerPluginBase {
    *  each of the resulted images in the src set.
    * @return string
    */
-  protected function buildSrcSetString($originalUrl, array $sizes, array $defaultDimensions = [], string $transform = NULL) {
+  protected function buildSrcSetString($originalUrl, array $sizes, array $defaultDimensions = [], ?string $transform = NULL) {
     if (empty($sizes)) {
       return '';
     }

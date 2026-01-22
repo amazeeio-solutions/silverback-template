@@ -86,7 +86,7 @@ class AutosaveFormBuilder extends FormBuilder {
    * @param \Drupal\silverback_autosave\Storage\AutosaveEntityFormStorageInterface $autosave_entity_form_storage
    *   The autosave form storage service.
    */
-  public function __construct(FormBuilderInterface $form_builder, FormValidatorInterface $form_validator, FormSubmitterInterface $form_submitter, FormCacheInterface $form_cache, ModuleHandlerInterface $module_handler, EventDispatcherInterface $event_dispatcher, RequestStack $request_stack, ClassResolverInterface $class_resolver, ElementInfoManagerInterface $element_info, ThemeManagerInterface $theme_manager, CsrfTokenGenerator $csrf_token = NULL, AutosaveEntityFormStorageInterface $autosave_entity_form_storage) {
+  public function __construct(FormBuilderInterface $form_builder, FormValidatorInterface $form_validator, FormSubmitterInterface $form_submitter, FormCacheInterface $form_cache, ModuleHandlerInterface $module_handler, EventDispatcherInterface $event_dispatcher, RequestStack $request_stack, ClassResolverInterface $class_resolver, ElementInfoManagerInterface $element_info, ThemeManagerInterface $theme_manager, ?CsrfTokenGenerator $csrf_token, AutosaveEntityFormStorageInterface $autosave_entity_form_storage) {
     parent::__construct($form_validator, $form_submitter, $form_cache, $module_handler, $event_dispatcher, $request_stack, $class_resolver, $element_info, $theme_manager, $csrf_token);
     $this->formBuilder = $form_builder;
     $this->autosaveEntityFormStorage = $autosave_entity_form_storage;

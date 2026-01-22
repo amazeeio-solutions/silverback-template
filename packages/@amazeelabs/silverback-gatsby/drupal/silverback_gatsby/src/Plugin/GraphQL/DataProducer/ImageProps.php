@@ -97,7 +97,7 @@ class ImageProps extends DataProducerPluginBase implements ContainerFactoryPlugi
    *
    * @return array|null
    */
-  public function resolve(FileInterface $entity = NULL, RefinableCacheableDependencyInterface $metadata) {
+  public function resolve(?FileInterface $entity, RefinableCacheableDependencyInterface $metadata) {
     // Return if we dont have an entity.
     if (!$entity) {
       return NULL;

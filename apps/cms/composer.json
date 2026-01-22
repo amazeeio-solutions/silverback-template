@@ -31,21 +31,21 @@
     }
   ],
   "require": {
-    "php": "^8.3 <8.4",
+    "php": "^8.4",
     "amazeeio/drupal_integrations": "^0.3.7",
     "amazeelabs/default-content": "*",
     "amazeelabs/silverback-cli": "^2.9.13",
     "amazeelabs/silverback_ai": "^1.1",
-    "amazeelabs/silverback_autosave": "^1.1",
+    "amazeelabs/silverback_autosave": "*",
     "amazeelabs/silverback_campaign_urls": "*",
-    "amazeelabs/silverback_cloudinary": "^1.3.0",
+    "amazeelabs/silverback_cloudinary": "*",
     "amazeelabs/silverback_external_preview": "^3.0",
     "amazeelabs/silverback_gatsby": "*",
     "amazeelabs/silverback_graphql_persisted": "^1.1.6",
     "amazeelabs/silverback_gutenberg": "*",
     "amazeelabs/silverback_iframe": "*",
     "amazeelabs/silverback_iframe_theme": "*",
-    "amazeelabs/silverback_preview_link": "^1.6",
+    "amazeelabs/silverback_preview_link": "*",
     "amazeelabs/silverback_publisher_monitor": "^2.3.2",
     "amazeelabs/silverback_search": "*",
     "amazeelabs/silverback_translations": "^1.0.4",
@@ -62,7 +62,7 @@
     "drupal/dropzonejs": "^2.8",
     "drupal/entity_usage": "^2.0@beta",
     "drupal/environment_indicator": "^4.0.14",
-    "drupal/field_group": "^3.4",
+    "drupal/field_group": "^4.0",
     "drupal/focal_point": "^2.1",
     "drupal/graphql": "^4.9",
     "drupal/graphql_directives": "1.0.x-dev@dev",
@@ -83,9 +83,9 @@
     "drupal/simple_oauth": "^5.2",
     "drupal/slack": "^1.4",
     "drupal/stage_file_proxy": "^3.0",
-    "drupal/userprotect": "^1.2",
-    "drupal/webform": "^6.1.5",
-    "drush/drush": "^12.5",
+    "drupal/userprotect": ">1.3 <2.0",
+    "drupal/webform": "^6.3",
+    "drush/drush": "^13",
     "enyo/dropzone": "^5.7.1"
   },
   "conflict": {
@@ -116,7 +116,8 @@
       },
       "drupal/gutenberg": {
         "Gutenberg enabled hook": "https://www.drupal.org/files/issues/2024-05-07/gutenberg_enabled_hook_3445677-2.patch",
-        "Remove !important from sidebar": "./patches/gutenberg_remove-important-sidebar.patch"
+        "Remove !important from sidebar": "./patches/gutenberg_remove-important-sidebar.patch",
+        "#3536161 - PHP 8.4 nullable types": "https://www.drupal.org/files/issues/2026-01-20/3536161-10--for-v2.patch"
       },
       "drupal/graphql": {
         "Check if translation exists when loading an entity by its uuid": "./patches/graphql_load_by_uuid_translation_check.patch"
@@ -126,6 +127,9 @@
       },
       "drupal/field_group": {
         "#2969051 - Fix HTML5 validation prevents submission in tabs": "https://www.drupal.org/files/issues/2024-08-07/field-group-tabs-8.x-3.x.patch"
+      },
+      "drupal/pate": {
+        "#3556035 - PHP 8.4 nullable types": "https://www.drupal.org/files/issues/2026-01-21/3556035-10.patch"
       }
     },
     "patchLevel": {
