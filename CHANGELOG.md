@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.2...@amazeelabs/silverback-template@2.5.3) (2026-01-22)
+
+
+### Bug Fixes
+
+* **ci:** check correct path for content export changes ([054370c](https://github.com/amazeeio-solutions/silverback-template/commit/054370c07fab974ae79b6ba4aef0e3143a34d152))
+* migrate silverback_gatsby tests to graphql_directives v1 ([437ebeb](https://github.com/amazeeio-solutions/silverback-template/commit/437ebebc463b546ccb25c778dc12230c530ba4cc))
+
+
+
+
+
 ## [2.5.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.1...@amazeelabs/silverback-template@2.5.2) (2026-01-19)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

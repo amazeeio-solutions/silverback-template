@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-cloudinary",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "scripts": {
     "precommit": "pnpm precommit:fix && pnpm precommit:check",
     "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-cloudinary/drupal",
