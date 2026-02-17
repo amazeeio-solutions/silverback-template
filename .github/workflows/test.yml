@@ -103,30 +103,31 @@ jobs:
           path: tests/e2e/playwright-report/
           retention-days: 3
 
-      - name: Check for Chromatic project token
-        id: chromatic-check
-        shell: bash
-        run: |
-          if [ "${{ secrets.CHROMATIC_PROJECT_TOKEN }}" != '' ]; then
-            echo "available=true" >> $GITHUB_OUTPUT;
-          else
-            echo "available=false" >> $GITHUB_OUTPUT;
-          fi
+      # Temporarily disabled due to Chromatic account update.
+      # - name: Check for Chromatic project token
+      #   id: chromatic-check
+      #   shell: bash
+      #   run: |
+      #     if [ "${{ secrets.CHROMATIC_PROJECT_TOKEN }}" != '' ]; then
+      #       echo "available=true" >> $GITHUB_OUTPUT;
+      #     else
+      #       echo "available=false" >> $GITHUB_OUTPUT;
+      #     fi
 
-      - name: Publish to Chromatic
-        uses: chromaui/action@v11
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: packages/ui/storybook-static
-          storybookBaseDir: packages/ui
-          onlyChanged: true
-          exitOnceUploaded: true
-          externals: |
-            static/stories/webforms/**
-        if:
-          ${{ steps.chromatic-check.outputs.available == 'true' &&
-          github.ref  != 'refs/heads/dev' }}
+      # - name: Publish to Chromatic
+      #   uses: chromaui/action@v11
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      #     storybookBuildDir: packages/ui/storybook-static
+      #     storybookBaseDir: packages/ui
+      #     onlyChanged: true
+      #     exitOnceUploaded: true
+      #     externals: |
+      #       static/stories/webforms/**
+      #   if:
+      #     ${{ steps.chromatic-check.outputs.available == 'true' &&
+      #     github.ref  != 'refs/heads/dev' }}
 
       - name: Deploy storybook to netlify
         run:
