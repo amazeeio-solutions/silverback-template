@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@amazeelabs/codegen-autoloader": "^1.2.3",
-    "@amazeelabs/codegen-operation-ids": "^0.2.6",
+    "@amazeelabs/codegen-operation-ids": "workspace:*",
     "@custom/eslint-config": "workspace:*",
     "@graphql-codegen/cli": "^5.0.4",
     "@graphql-codegen/schema-ast": "^4.1.0",
@@ -67,7 +67,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@amazeelabs/executors": "^3.1.13",
+    "@amazeelabs/executors": "workspace:*",
     "@amazeelabs/gatsby-silverback-cloudinary": "^1.2.29",
     "@amazeelabs/gatsby-source-silverback": "^1.15.3",
     "@amazeelabs/scalars": "workspace:*",
