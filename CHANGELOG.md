@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.4...@amazeelabs/silverback-template@2.5.5) (2026-02-17)
+
+
+### Bug Fixes
+
+* add .npmignore to executors and codegen-operation-ids ([f8c64e8](https://github.com/amazeeio-solutions/silverback-template/commit/f8c64e8d008c48a4696ffcc2fca5ae839dfc7a19))
+
+
+
+
+
 ## [2.5.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.3...@amazeelabs/silverback-template@2.5.4) (2026-02-17)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
