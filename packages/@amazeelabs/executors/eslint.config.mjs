@@ -1,8 +1,13 @@
-import { defineConfig, frontend } from '@internal/eslint-config';
+import { defineConfig, frontend } from '@custom/eslint-config';
 
 export default defineConfig([
   ...frontend,
   {
-    ignores: ['build/**'],
+    ignores: [
+      'build/**',
+      'test/dist/**',
+      'test-results/**',
+      'playwright-report/**',
+    ],
   },
 ]);

@@ -30,7 +30,7 @@
     "@graphql-codegen/cli": "5.0.3",
     "@graphql-codegen/typescript": "4.1.2",
     "@graphql-codegen/typescript-operations": "4.4.0",
-    "@internal/eslint-config": "workspace:*",
+    "@custom/eslint-config": "workspace:*",
     "change-case-all": "2.1.0",
     "graphql": "16.10.0",
     "typescript": "5.7.3",

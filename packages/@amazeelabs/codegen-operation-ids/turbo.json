@@ -3,14 +3,14 @@
   "extends": ["//"],
   "tasks": {
     "prep": {
-      "inputs": ["src/**", "tsconfig.json"],
-      "outputs": ["build"]
+      "inputs": ["src/**", "tsconfig.json", "vite.config.ts", "codegen.yml"],
+      "outputs": ["dist"]
     },
     "test:static": {
       "inputs": ["src/**", "tsconfig.json", "eslint.config.mjs"]
     },
     "test:unit": {
-      "inputs": ["src/**", "tsconfig.json", "vitest.config.ts"]
+      "inputs": ["src/**", "tsconfig.json", "vite.config.ts"]
     }
   }
 }
