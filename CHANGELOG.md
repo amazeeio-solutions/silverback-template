@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.5...@amazeelabs/silverback-template@2.5.6) (2026-02-23)
+
+
+### Bug Fixes
+
+* **scalars:** preserve query parameter order in overrideUrlParameters ([0a2e1f0](https://github.com/amazeeio-solutions/silverback-template/commit/0a2e1f00743e645b399edf5f0a40654981a44abb))
+
+
+
+
+
 ## [2.5.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.4...@amazeelabs/silverback-template@2.5.5) (2026-02-17)
 
 
