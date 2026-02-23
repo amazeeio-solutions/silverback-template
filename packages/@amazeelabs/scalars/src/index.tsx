@@ -52,7 +52,10 @@ export function overrideUrlParameters(
         hash,
       ).replace('relative://', '') as Url;
     }
-    const parsed = qs.parseUrl(url, { parseFragmentIdentifier: true });
+    const parsed = qs.parseUrl(url, {
+      parseFragmentIdentifier: true,
+      sort: false,
+    });
 
     return qs.stringifyUrl(
       {
@@ -63,6 +66,7 @@ export function overrideUrlParameters(
       },
       {
         skipNull: true,
+        sort: false,
       },
     ) as Url;
   } else {
