@@ -8,7 +8,7 @@ import {
   useLocation,
 } from '@custom/schema';
 import { SeoAnalysis } from '@custom/seo';
-import React, { useEffect,useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { clear, useOperation } from '../../utils/operation';
 import { Loading } from '../Molecules/Loading';
