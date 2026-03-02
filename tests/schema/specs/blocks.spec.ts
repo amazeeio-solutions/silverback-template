@@ -384,12 +384,24 @@ test('Block: Conditional content', async () => {
               "content": [
                 {
                   "markup": "
-    <p>This content will only be shown for one year.</p>
+    <p>This content is always visible (no end date).</p>
     ",
                 },
               ],
-              "displayFrom": "2024-12-10T14:40:00.000Z",
-              "displayTo": "2025-12-10T14:40:00.000Z",
+              "displayFrom": "2020-01-01T00:00:00.000Z",
+              "displayTo": null,
+            },
+            {
+              "__typename": "BlockConditional",
+              "content": [
+                {
+                  "markup": "
+    <p>This content has expired and should not be visible.</p>
+    ",
+                },
+              ],
+              "displayFrom": "2020-01-01T00:00:00.000Z",
+              "displayTo": "2020-12-31T23:59:59.000Z",
             },
           ],
         },

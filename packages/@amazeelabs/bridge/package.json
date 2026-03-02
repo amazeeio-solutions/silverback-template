@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/bridge",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Library for framework agnostic react.",
   "type": "module",
   "main": "./build/src/index.js",

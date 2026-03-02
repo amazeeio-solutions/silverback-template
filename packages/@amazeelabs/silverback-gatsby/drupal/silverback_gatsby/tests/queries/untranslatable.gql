@@ -1,0 +1,10 @@
+query {
+  _loadPost(id: "1") {
+    title
+  }
+  _queryPosts(limit: 10, offset: 0) {
+    _id
+    _drupalId
+    title
+  }
+}

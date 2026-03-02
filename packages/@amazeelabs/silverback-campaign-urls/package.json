@@ -1,0 +1,14 @@
+{
+  "name": "@amazeelabs/silverback-campaign-urls",
+  "version": "1.0.10",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-campaign-urls/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/silverback-campaign-urls/drupal",
+    "test:unit": "pnpm --filter @custom/cms cms:test:unit --filter=silverback_campaign_urls",
+    "test:integration": "pnpm --filter @custom/cms cms:test:integration --filter=silverback_campaign_urls"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -53,9 +53,15 @@ test.describe('Testing All Blocks', () => {
     await page.goto(websiteUrl('/en/block-conditional-content'));
     await validateTileAndSubtitle(page, 'Block: Conditional content');
 
+    // Content without end date should always be visible
     await expect(
-      page.getByText('This content will only be shown for one year.'),
+      page.getByText('This content is always visible (no end date).'),
     ).toBeVisible();
+
+    // Content with expired end date should not be visible
+    await expect(
+      page.getByText('This content has expired and should not be visible.'),
+    ).not.toBeVisible();
   });
 
   test('CTA', async ({ page }) => {

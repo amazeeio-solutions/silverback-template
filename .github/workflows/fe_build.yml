@@ -35,7 +35,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publisher
-        uses: AmazeeLabs/publisher-action@eb035eff2ef4b6bb19d4078e6c11966142f7653d
+        uses: amazeeio-solutions/publisher-action@eb035eff2ef4b6bb19d4078e6c11966142f7653d
         with:
           success_env_var_name: BUILD_IS_SUCCESSFUL
           cache_paths: |

@@ -2,7 +2,7 @@
 # BUILDER IMAGE
 # ====================================================================================================
 FROM uselagoon/node-20-builder AS node
-FROM uselagoon/php-8.3-cli-drupal AS builder
+FROM uselagoon/php-8.4-cli-drupal AS builder
 
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
@@ -34,7 +34,7 @@ ENV COMPOSER_HOME=/tmp/cache/composer
 WORKDIR /app
 
 # Decap config.
-ENV VITE_DECAP_REPO='AmazeeLabs/silverback-template'
+ENV VITE_DECAP_REPO='amazeeio-solutions/silverback-template'
 ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 
@@ -62,7 +62,7 @@ RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/preview" 
 # ====================================================================================================
 # CLI IMAGE
 # ====================================================================================================
-FROM uselagoon/php-8.3-cli-drupal AS cli
+FROM uselagoon/php-8.4-cli-drupal AS cli
 
 RUN apk add --no-cache git qpdf imagemagick icu-dev && \
   docker-php-ext-install intl && \
@@ -78,7 +78,7 @@ ENV PHP_MEMORY_LIMIT=2048M
 # ====================================================================================================
 # PHP IMAGE
 # ====================================================================================================
-FROM uselagoon/php-8.3-fpm AS php
+FROM uselagoon/php-8.4-fpm AS php
 RUN apk add --no-cache imagemagick qpdf icu-dev && \
   docker-php-ext-install intl && \
   docker-php-ext-enable intl
@@ -126,7 +126,7 @@ RUN npm install -g pnpm@8.15.9
 COPY --from=builder /tmp/.deploy/publisher /app
 
 # Decap config.
-ENV VITE_DECAP_REPO='AmazeeLabs/silverback-template'
+ENV VITE_DECAP_REPO='amazeeio-solutions/silverback-template'
 ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 

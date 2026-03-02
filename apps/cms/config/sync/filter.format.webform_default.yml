@@ -1,20 +1,13 @@
-uuid: 1e7bfda9-cc13-403c-aad7-722c7d644c1d
+uuid: null
 langcode: en
 status: true
 dependencies:
-  module:
-    - gutenberg
   enforced:
     module:
       - webform
 name: 'Webform (Default) - DO NOT EDIT'
 format: webform_default
 weight: 100
-filters:
-  gutenberg:
-    id: gutenberg
-    provider: gutenberg
-    status: false
-    weight: 0
-    settings:
-      processor_settings: {  }
+roles:
+  - authenticated
+filters: {  }

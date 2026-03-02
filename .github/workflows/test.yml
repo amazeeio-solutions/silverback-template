@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Init check
-        if: github.repository != 'AmazeeLabs/silverback-template'
+        if: github.repository != 'amazeeio-solutions/silverback-template'
         run:
           echo 'Please run the INIT script. See the root README.md for
           instructions.' && false
@@ -45,13 +45,13 @@ jobs:
           cd apps/cms
           pnpm turbo prep
           pnpm content:export
-          if [[ $(git status --porcelain web/modules/custom/test_content) ]]; then
+          if [[ $(git status --porcelain ../../packages/drupal/test_content/content) ]]; then
             echo "Error: Content export is not up to date"
             echo "Please run 'pnpm content:export' from apps/cms and commit the changes"
             echo "Detected changes:"
-            git status --porcelain web/modules/custom/test_content
+            git status --porcelain ../../packages/drupal/test_content/content
             echo "Diff:"
-            git diff web/modules/custom/test_content
+            git diff ../../packages/drupal/test_content/content
             exit 1
           fi
         env:
@@ -103,30 +103,31 @@ jobs:
           path: tests/e2e/playwright-report/
           retention-days: 3
 
-      - name: Check for Chromatic project token
-        id: chromatic-check
-        shell: bash
-        run: |
-          if [ "${{ secrets.CHROMATIC_PROJECT_TOKEN }}" != '' ]; then
-            echo "available=true" >> $GITHUB_OUTPUT;
-          else
-            echo "available=false" >> $GITHUB_OUTPUT;
-          fi
+      # Temporarily disabled due to Chromatic account update.
+      # - name: Check for Chromatic project token
+      #   id: chromatic-check
+      #   shell: bash
+      #   run: |
+      #     if [ "${{ secrets.CHROMATIC_PROJECT_TOKEN }}" != '' ]; then
+      #       echo "available=true" >> $GITHUB_OUTPUT;
+      #     else
+      #       echo "available=false" >> $GITHUB_OUTPUT;
+      #     fi
 
-      - name: Publish to Chromatic
-        uses: chromaui/action@v11
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: packages/ui/storybook-static
-          storybookBaseDir: packages/ui
-          onlyChanged: true
-          exitOnceUploaded: true
-          externals: |
-            static/stories/webforms/**
-        if:
-          ${{ steps.chromatic-check.outputs.available == 'true' &&
-          github.ref  != 'refs/heads/dev' }}
+      # - name: Publish to Chromatic
+      #   uses: chromaui/action@v11
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      #     storybookBuildDir: packages/ui/storybook-static
+      #     storybookBaseDir: packages/ui
+      #     onlyChanged: true
+      #     exitOnceUploaded: true
+      #     externals: |
+      #       static/stories/webforms/**
+      #   if:
+      #     ${{ steps.chromatic-check.outputs.available == 'true' &&
+      #     github.ref  != 'refs/heads/dev' }}
 
       - name: Deploy storybook to netlify
         run:

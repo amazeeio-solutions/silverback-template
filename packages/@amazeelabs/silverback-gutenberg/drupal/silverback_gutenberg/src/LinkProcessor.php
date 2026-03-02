@@ -71,7 +71,7 @@ class LinkProcessor {
     $this->cacheableMetadata->addCacheableDependency($other_object);
   }
 
-  public function processLinks(string $html, string $direction, LanguageInterface $language = NULL) {
+  public function processLinks(string $html, string $direction, ?LanguageInterface $language = NULL) {
     if (!in_array($direction, ['inbound', 'outbound'], TRUE)) {
       throw new \Exception('Unknown direction: "' . $direction . '".');
     }
@@ -99,7 +99,7 @@ class LinkProcessor {
     return $processed;
   }
 
-  protected function processBlocks(&$blocks, string $direction, LanguageInterface $language = NULL): void {
+  protected function processBlocks(&$blocks, string $direction, ?LanguageInterface $language = NULL): void {
     $processUrlCallback = fn(string $url) => $this->processUrl($url, $direction, $language);
     $processLinksCallback = fn(string $html) => $this->processLinks($html, $direction, $language);
     foreach ($blocks as &$block) {
@@ -203,7 +203,7 @@ class LinkProcessor {
     return $this->buildUrl($parts);
   }
 
-  protected function processLink(\DOMElement $link, string $direction, LanguageInterface $language = NULL) {
+  protected function processLink(\DOMElement $link, string $direction, ?LanguageInterface $language = NULL) {
     if ($direction === 'outbound' && !$language) {
       throw new \Exception('$language is required for "outbound" direction.');
     }
@@ -229,7 +229,7 @@ class LinkProcessor {
 
   }
 
-  public function processUrl(string $url, string $direction, LanguageInterface $language = NULL, array &$metadata = NULL): string {
+  public function processUrl(string $url, string $direction, ?LanguageInterface $language = NULL, ?array &$metadata = NULL): string {
     $metadata = [];
 
     if ($direction === 'outbound' && !$language) {

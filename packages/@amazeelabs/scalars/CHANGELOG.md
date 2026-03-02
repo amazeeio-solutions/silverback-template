@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/scalars@2.0.1...@amazeelabs/scalars@2.0.2) (2026-02-23)
+
+
+### Bug Fixes
+
+* **scalars:** preserve query parameter order in overrideUrlParameters ([0a2e1f0](https://github.com/amazeeio-solutions/silverback-template/commit/0a2e1f00743e645b399edf5f0a40654981a44abb))
+
+
+
+
+
+## [2.0.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/scalars@2.0.0...@amazeelabs/scalars@2.0.1) (2025-11-20)
+
+**Note:** Version bump only for package @amazeelabs/scalars
+
+
+
+
+
 # 2.0.0 (2025-07-15)
 
 
