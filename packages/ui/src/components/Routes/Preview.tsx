@@ -1,18 +1,20 @@
 'use client';
 import '@custom/seo/style.css';
+
 import { useIntl } from '@amazeelabs/react-intl';
 import {
   OperationVariables,
   PreviewDrupalPageQuery,
   useLocation,
 } from '@custom/schema';
-import React, { useRef, useState, useEffect } from 'react';
+import { SeoAnalysis } from '@custom/seo';
+import React, { useEffect,useRef, useState } from 'react';
 
 import { clear, useOperation } from '../../utils/operation';
 import { Loading } from '../Molecules/Loading';
 import { Messages } from '../Molecules/Messages';
 import { PageDisplay } from '../Organisms/PageDisplay';
-import { SeoAnalysis } from '@custom/seo';
+
 interface MetaTag {
   tag: string;
   attributes: {
