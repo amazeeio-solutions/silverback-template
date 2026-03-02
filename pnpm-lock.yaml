@@ -1092,10 +1092,10 @@ importers:
         version: 5.7.3
       vite:
         specifier: ^5.2.0
-        version: 5.4.19(@types/node@20.11.17)
+        version: 5.4.19(@types/node@20.17.16)
       vite-plugin-dts:
         specifier: ^4.0.0
-        version: 4.5.4(@types/node@20.11.17)(typescript@5.7.3)(vite@5.4.19)
+        version: 4.5.4(@types/node@20.17.16)(typescript@5.7.3)(vite@5.4.19)
 
   packages/ui:
     dependencies:
@@ -7014,27 +7014,27 @@ packages:
       react: 18.3.1
     dev: true
 
-  /@microsoft/api-extractor-model@7.31.1(@types/node@20.11.17):
+  /@microsoft/api-extractor-model@7.31.1(@types/node@20.17.16):
     resolution: {integrity: sha512-Dhnip5OFKbl85rq/ICHBFGhV4RA5UQSl8AC/P/zoGvs+CBudPkatt5kIhMGiYgVPnUWmfR6fcp38+1AFLYNtUw==}
     dependencies:
       '@microsoft/tsdoc': 0.15.1
       '@microsoft/tsdoc-config': 0.17.1
-      '@rushstack/node-core-library': 5.17.0(@types/node@20.11.17)
+      '@rushstack/node-core-library': 5.17.0(@types/node@20.17.16)
     transitivePeerDependencies:
       - '@types/node'
     dev: true
 
-  /@microsoft/api-extractor@7.53.1(@types/node@20.11.17):
+  /@microsoft/api-extractor@7.53.1(@types/node@20.17.16):
     resolution: {integrity: sha512-bul5eTNxijLdDBqLye74u9494sRmf+9QULtec9Od0uHnifahGeNt8CC4/xCdn7mVyEBrXIQyQ5+sc4Uc0QfBSA==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.31.1(@types/node@20.11.17)
+      '@microsoft/api-extractor-model': 7.31.1(@types/node@20.17.16)
       '@microsoft/tsdoc': 0.15.1
       '@microsoft/tsdoc-config': 0.17.1
-      '@rushstack/node-core-library': 5.17.0(@types/node@20.11.17)
+      '@rushstack/node-core-library': 5.17.0(@types/node@20.17.16)
       '@rushstack/rig-package': 0.6.0
-      '@rushstack/terminal': 0.19.1(@types/node@20.11.17)
-      '@rushstack/ts-command-line': 5.1.1(@types/node@20.11.17)
+      '@rushstack/terminal': 0.19.1(@types/node@20.17.16)
+      '@rushstack/ts-command-line': 5.1.1(@types/node@20.17.16)
       lodash: 4.17.21
       minimatch: 10.0.3
       resolve: 1.22.10
@@ -9134,7 +9134,7 @@ packages:
   /@rtsao/scc@1.1.0:
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  /@rushstack/node-core-library@5.17.0(@types/node@20.11.17):
+  /@rushstack/node-core-library@5.17.0(@types/node@20.17.16):
     resolution: {integrity: sha512-24vt1GbHN6kyIglRMTVpyEiNRRRJK8uZHc1XoGAhmnTDKnrWet8OmOpImMswJIe6gM78eV8cMg1HXwuUHkSSgg==}
     peerDependencies:
       '@types/node': '*'
@@ -9142,7 +9142,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 20.11.17
+      '@types/node': 20.17.16
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
       ajv-formats: 3.0.1(ajv@8.13.0)
@@ -9153,7 +9153,7 @@ packages:
       semver: 7.5.4
     dev: true
 
-  /@rushstack/problem-matcher@0.1.1(@types/node@20.11.17):
+  /@rushstack/problem-matcher@0.1.1(@types/node@20.17.16):
     resolution: {integrity: sha512-Fm5XtS7+G8HLcJHCWpES5VmeMyjAKaWeyZU5qPzZC+22mPlJzAsOxymHiWIfuirtPckX3aptWws+K2d0BzniJA==}
     peerDependencies:
       '@types/node': '*'
@@ -9161,7 +9161,7 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 20.11.17
+      '@types/node': 20.17.16
     dev: true
 
   /@rushstack/rig-package@0.6.0:
@@ -9171,7 +9171,7 @@ packages:
       strip-json-comments: 3.1.1
     dev: true
 
-  /@rushstack/terminal@0.19.1(@types/node@20.11.17):
+  /@rushstack/terminal@0.19.1(@types/node@20.17.16):
     resolution: {integrity: sha512-jsBuSad67IDVMO2yp0hDfs0OdE4z3mDIjIL2pclDT3aEJboeZXE85e1HjuD0F6JoW3XgHvDwoX+WOV+AVTDQeA==}
     peerDependencies:
       '@types/node': '*'
@@ -9179,16 +9179,16 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@rushstack/node-core-library': 5.17.0(@types/node@20.11.17)
-      '@rushstack/problem-matcher': 0.1.1(@types/node@20.11.17)
-      '@types/node': 20.11.17
+      '@rushstack/node-core-library': 5.17.0(@types/node@20.17.16)
+      '@rushstack/problem-matcher': 0.1.1(@types/node@20.17.16)
+      '@types/node': 20.17.16
       supports-color: 8.1.1
     dev: true
 
-  /@rushstack/ts-command-line@5.1.1(@types/node@20.11.17):
+  /@rushstack/ts-command-line@5.1.1(@types/node@20.17.16):
     resolution: {integrity: sha512-HPzFsUcr+wZ3oQI08Ec/E6cuiAVHKzrXZGHhwiwIGygAFiqN5QzX+ff30n70NU2WyE26CykgMwBZZSSyHCJrzA==}
     dependencies:
-      '@rushstack/terminal': 0.19.1(@types/node@20.11.17)
+      '@rushstack/terminal': 0.19.1(@types/node@20.17.16)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -11568,7 +11568,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.7)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.4.19(@types/node@20.11.17)
+      vite: 5.4.19(@types/node@20.17.16)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -23310,7 +23310,7 @@ packages:
       create-jest-runner: 0.6.0
       dot-prop: 5.3.0
       eslint: 8.57.1
-      jest: 29.7.0(@types/node@20.11.17)
+      jest: 29.7.0(@types/node@20.17.16)
     dev: true
 
   /jest-runner@29.7.0:
@@ -33917,7 +33917,7 @@ packages:
       - yaml
     dev: true
 
-  /vite-plugin-dts@4.5.4(@types/node@20.11.17)(typescript@5.7.3)(vite@5.4.19):
+  /vite-plugin-dts@4.5.4(@types/node@20.17.16)(typescript@5.7.3)(vite@5.4.19):
     resolution: {integrity: sha512-d4sOM8M/8z7vRXHHq/ebbblfaxENjogAAekcfcDCCwAyvGqnPrc7f4NZbvItS+g4WTgerW0xDwSz5qz11JT3vg==}
     peerDependencies:
       typescript: '*'
@@ -33926,7 +33926,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@microsoft/api-extractor': 7.53.1(@types/node@20.11.17)
+      '@microsoft/api-extractor': 7.53.1(@types/node@20.17.16)
       '@rollup/pluginutils': 5.1.4
       '@volar/typescript': 2.4.23
       '@vue/language-core': 2.2.0(typescript@5.7.3)
@@ -33936,7 +33936,7 @@ packages:
       local-pkg: 1.1.2
       magic-string: 0.30.17
       typescript: 5.7.3
-      vite: 5.4.19(@types/node@20.11.17)
+      vite: 5.4.19(@types/node@20.17.16)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
