@@ -1,0 +1,8 @@
+name: Silverback Gatsby
+type: module
+description: 'GraphQL extension to integrate with Gatsby.'
+package: Silverback
+dependencies:
+  - graphql:graphql (>=8.x-4.0)
+  - graphql_directives:graphql_directives
+core_version_requirement: ^8 || ^9 || ^10 || ^11

@@ -33,8 +33,14 @@
     "@amazeelabs/gatsby-source-silverback": "*"
   },
   "dependencies": {
+    "@amazeelabs/default-content": "workspace:*",
+    "@amazeelabs/silverback-autosave": "workspace:*",
+    "@amazeelabs/silverback-campaign-urls": "workspace:*",
+    "@amazeelabs/silverback-cloudinary": "workspace:*",
+    "@amazeelabs/silverback-gatsby": "workspace:*",
     "@amazeelabs/silverback-gutenberg": "workspace:*",
     "@amazeelabs/silverback-iframe": "workspace:*",
+    "@amazeelabs/silverback-preview-link": "workspace:*",
     "@custom/content_preview": "workspace:*",
     "@amazeelabs/silverback-search": "workspace:^",
     "@amazeelabs/remote_page": "workspace:^",

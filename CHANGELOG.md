@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.5...@amazeelabs/silverback-template@2.5.6) (2026-02-23)
+
+
+### Bug Fixes
+
+* **scalars:** preserve query parameter order in overrideUrlParameters ([0a2e1f0](https://github.com/amazeeio-solutions/silverback-template/commit/0a2e1f00743e645b399edf5f0a40654981a44abb))
+
+
+
+
+
+## [2.5.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.4...@amazeelabs/silverback-template@2.5.5) (2026-02-17)
+
+
+### Bug Fixes
+
+* add .npmignore to executors and codegen-operation-ids ([f8c64e8](https://github.com/amazeeio-solutions/silverback-template/commit/f8c64e8d008c48a4696ffcc2fca5ae839dfc7a19))
+
+
+
+
+
+## [2.5.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.3...@amazeelabs/silverback-template@2.5.4) (2026-02-17)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.5.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.2...@amazeelabs/silverback-template@2.5.3) (2026-01-22)
+
+
+### Bug Fixes
+
+* **ci:** check correct path for content export changes ([054370c](https://github.com/amazeeio-solutions/silverback-template/commit/054370c07fab974ae79b6ba4aef0e3143a34d152))
+* migrate silverback_gatsby tests to graphql_directives v1 ([437ebeb](https://github.com/amazeeio-solutions/silverback-template/commit/437ebebc463b546ccb25c778dc12230c530ba4cc))
+
+
+
+
+
+## [2.5.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.1...@amazeelabs/silverback-template@2.5.2) (2026-01-19)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.5.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.0...@amazeelabs/silverback-template@2.5.1) (2026-01-08)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+# [2.5.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.7...@amazeelabs/silverback-template@2.5.0) (2025-12-09)
+
+
+### Features
+
+* **SLB-468:** cardinality validator improvement ([a9b3e39](https://github.com/amazeeio-solutions/silverback-template/commit/a9b3e394e4567e2c721c8a65b69e11a2c544040a))
+
+
+
+
+
+## [2.4.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.6...@amazeelabs/silverback-template@2.4.7) (2025-11-28)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.5...@amazeelabs/silverback-template@2.4.6) (2025-11-27)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.4...@amazeelabs/silverback-template@2.4.5) (2025-11-26)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
 ## [2.4.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.3...@amazeelabs/silverback-template@2.4.4) (2025-11-20)
 
 

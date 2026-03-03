@@ -1,0 +1,12 @@
+{
+  "name": "@amazeelabs/default-content",
+  "version": "1.2.19",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/default-content/drupal",
+    "precommit:check": "pnpm --filter @custom/cms precommit:check packages/@amazeelabs/default-content/drupal"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

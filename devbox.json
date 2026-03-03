@@ -9,9 +9,9 @@
   },
   "packages": [
     "nodejs@20",
-    "php@8.3",
-    "php83Packages.composer@2",
-    "php83Extensions.xdebug@3",
+    "php@8.4",
+    "php84Packages.composer@2",
+    "php84Extensions.xdebug@3",
     "mailpit@latest",
     "patch@2.8"
   ],

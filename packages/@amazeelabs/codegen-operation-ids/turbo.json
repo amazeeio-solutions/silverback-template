@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "prep": {
+      "inputs": ["src/**", "tsconfig.json", "vite.config.ts", "codegen.yml"],
+      "outputs": ["dist"]
+    },
+    "test:static": {
+      "inputs": ["src/**", "tsconfig.json", "eslint.config.mjs"]
+    },
+    "test:unit": {
+      "inputs": ["src/**", "tsconfig.json", "vite.config.ts"]
+    }
+  }
+}

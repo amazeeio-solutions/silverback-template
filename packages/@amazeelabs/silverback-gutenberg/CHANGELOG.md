@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-gutenberg@2.7.0...@amazeelabs/silverback-gutenberg@2.7.1) (2026-01-22)
+
+**Note:** Version bump only for package @amazeelabs/silverback-gutenberg
+
+
+
+
+
+# [2.7.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-gutenberg@2.6.3...@amazeelabs/silverback-gutenberg@2.7.0) (2025-12-09)
+
+
+### Features
+
+* **SLB-468:** cardinality validator improvement ([a9b3e39](https://github.com/amazeeio-solutions/silverback-template/commit/a9b3e394e4567e2c721c8a65b69e11a2c544040a))
+
+
+
+
+
 ## [2.6.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-gutenberg@2.6.2...@amazeelabs/silverback-gutenberg@2.6.3) (2025-09-26)
 
 **Note:** Version bump only for package @amazeelabs/silverback-gutenberg
