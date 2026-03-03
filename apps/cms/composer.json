@@ -130,6 +130,9 @@
       },
       "drupal/pate": {
         "#3556035 - PHP 8.4 nullable types": "https://www.drupal.org/files/issues/2026-01-21/3556035-10.patch"
+      },
+      "drupal/simple_oauth": {
+        "PHP 8.4 deprecations": "./patches/contrib/simple_oauth/php84.patch"
       }
     },
     "patchLevel": {
