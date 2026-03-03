@@ -72,11 +72,14 @@ test('Metatags on Basic page', async ({ page }) => {
   );
   await expect(page.locator('head meta[name="description"]')).toHaveAttribute(
     'content',
-    'SEO description',
+    'The purpose of a meta description is simple: it needs to get someone searching with a search term on Google to click your link.',
   );
   await expect(
     page.locator('head meta[property="og:description"]'),
-  ).toHaveAttribute('content', 'SEO description');
+  ).toHaveAttribute(
+    'content',
+    'The purpose of a meta description is simple: it needs to get someone searching with a search term on Google to click your link.',
+  );
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
     'href',
     allFilledUrlEn,
