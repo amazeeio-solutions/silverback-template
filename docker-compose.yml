@@ -1,5 +1,3 @@
-version: '2.3'
-
 x-volumes:
   &default-volumes # Define all volumes you would like to have real-time mounted into the docker containers
   volumes:
@@ -121,6 +119,55 @@ services:
       lagoon.type: node
       lagoon.name: preview
 
+  thumbor:
+    build:
+      context: .
+      dockerfile: .lagoon/thumbor.Dockerfile
+    environment:
+      VIRTUAL_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+    ports:
+      - '8800:8800'
+    <<: *default-user # uses the defined user from top
+    networks:
+      - amazeeio-network
+      - default
+    labels:
+      lagoon.type: python-persistent
+      lagoon.persistent: /data
+      lagoon.name: thumbor
+
+#  thumbor-proxy:
+#    image: ghcr.io/minimalcompact/thumbor-nginx-proxy-cache:7.7.4
+#    environment:
+#      LAGOON_LOCALDEV_URL: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+#      VIRTUAL_HOST: thumbor-proxy-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+#      DEFAULT_HOST: thumbor-${COMPOSE_PROJECT_NAME:-slbtemplate}.docker.amazee.io
+#      PROXY_CACHE_SIZE: 10g
+#      PROXY_CACHE_MEMORY_SIZE: 500m
+#      PROXY_CACHE_INACTIVE: 300m
+#    volumes:
+#      - /var/run/docker.sock:/tmp/docker.sock:ro
+#      - thumbor_cache:/var/cache/nginx
+#    ports:
+#      - '8088:80'
+#      - '9443:443'
+#    depends_on:
+#      - thumbor
+#    networks:
+#      - amazeeio-network
+#      - default
+#    labels:
+#      lagoon.type: nginx-php-persistent
+#      lagoon.name: thumbor-proxy
+#      lagoon.persistent: /var/cache/nginx
+#      lagoon.persistent.name: thumbor_cache
+
 networks:
   amazeeio-network:
     external: true
+#volumes:
+#  thumbor_cache:
+#    driver: local
+#    labels:
+#      lagoon.type: persistent
+#      lagoon.name: thumbor_cache
