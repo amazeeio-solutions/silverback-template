@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.6...@amazeelabs/silverback-template@2.6.0) (2026-03-03)
+
+
+### Features
+
+* **SLB-496:** add search result preview and correct SEO title analysis ([fb1672c](https://github.com/amazeeio-solutions/silverback-template/commit/fb1672c1d3434276116c392bc153b3b7c84dd4a0))
+* **SLB-496:** add SEO analysis package that is include within Preview UI component ([fa8c85b](https://github.com/amazeeio-solutions/silverback-template/commit/fa8c85bf0555d687b719e2905eadfe8562bca461))
+
+
+
+
+
 ## [2.5.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.5...@amazeelabs/silverback-template@2.5.6) (2026-02-23)
 
 
