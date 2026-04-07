@@ -36,6 +36,43 @@ function custom_deploy_set_default_preview_user(array &$sandbox): string {
 }
 
 /**
+ * Creates a preview user if needed and sets the default preview user state.
+ */
+function custom_deploy_create_default_preview_user(array &$sandbox = []): string {
+  $defaultPreviewUser = \Drupal::state()->get('silverback_preview_link.default_preview_user');
+  if (!empty($defaultPreviewUser)) {
+    return t('Default preview user already set.');
+  }
+
+  $query = \Drupal::entityQuery('user')
+    ->condition('roles', 'preview')
+    ->accessCheck(FALSE)
+    ->range(0, 1);
+  $result = $query->execute();
+
+  if (empty($result)) {
+    if (getenv('SB_ENVIRONMENT')) {
+      return t('No preview user found. It will be available after content import.');
+    }
+    $user = User::create([
+      'name' => 'Preview',
+      'status' => TRUE,
+      'roles' => ['preview'],
+    ]);
+    $user->save();
+    $uid = (int) $user->id();
+  }
+  else {
+    $uid = (int) reset($result);
+  }
+
+  \Drupal::state()->set('silverback_preview_link.default_preview_user', $uid);
+
+  $previewUser = User::load($uid);
+  return t('Default preview user set to @user', ['@user' => $previewUser->getAccountName()]);
+}
+
+/**
  * Create the Publisher OAuth Consumer.
  */
 function custom_deploy_create_publisher_consumer(array &$sandbox): string {

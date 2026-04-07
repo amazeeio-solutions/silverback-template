@@ -21,6 +21,9 @@ fi
 
 # In any case, re-import translation string.
 pnpm import-translations
+
+pnpm drush php-eval 'require_once DRUPAL_ROOT . "/modules/custom/custom/custom.deploy.php"; custom_deploy_create_default_preview_user();'
+
 pnpm drush cr
 
 # Used in e2e tests.
