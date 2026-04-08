@@ -356,6 +356,16 @@ class FetchEntity extends DataProducerPluginBase implements ContainerFactoryPlug
               'body',
             ]) || str_starts_with($name, 'field_')) {
               if (isset($current_user_input[$name])) {
+                // Skip entity reference fields: raw widget input is an
+                // autocomplete string (e.g. "Title (42)") which corrupts
+                // setValue(). The autosaved entity already has correct values.
+                if (in_array($field->getFieldDefinition()->getType(), [
+                  'entity_reference',
+                  'entity_reference_revisions',
+                  'dynamic_entity_reference',
+                ])) {
+                  continue;
+                }
                 $field->setValue($current_user_input[$name]);
               }
             }
