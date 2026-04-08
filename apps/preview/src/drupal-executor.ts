@@ -47,7 +47,9 @@ export function drupalExecutor(
       }
       const { data, errors } = await (
         await fetch(url, {
-          credentials: 'include',
+          // When using a preview access token, omit cookies to prevent
+          // Drupal's cookie auth provider from overriding token auth.
+          credentials: preview_access_token ? 'omit' : 'include',
           headers: forward
             ? {
                 'SLB-Forwarded-Proto': window.location.protocol.slice(0, -1),
