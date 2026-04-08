@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.3...@amazeelabs/silverback-template@2.6.4) (2026-04-08)
+
+
+### Bug Fixes
+
+* avoid errors in fetch_entity data producer ([ea019e6](https://github.com/amazeeio-solutions/silverback-template/commit/ea019e6a29fc92afa57ed366b87553fe8e456856))
+* omit cookies on preview token requests ([a3c8da3](https://github.com/amazeeio-solutions/silverback-template/commit/a3c8da3f1dfbc93660b992b0deb0d27da330302f))
+
+
+
+
+
 ## [2.6.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.2...@amazeelabs/silverback-template@2.6.3) (2026-04-07)
 
 
