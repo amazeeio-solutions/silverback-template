@@ -31,7 +31,7 @@
     "test:unit": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "react-server-dom-webpack": "19.0.0",
+    "react-server-dom-webpack": "19.0.5",
     "server-only-context": "^0.1.0"
   },
   "peerDependencies": {
