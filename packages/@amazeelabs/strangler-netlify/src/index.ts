@@ -1,5 +1,13 @@
 import { Handler, HandlerEvent } from '@netlify/functions';
 
+// Headers that must not be forwarded because response.text() decompresses
+// the body, making these headers inaccurate.
+const headersToStrip = [
+  'content-encoding',
+  'content-length',
+  'transfer-encoding',
+];
+
 export type LegacySystem = {
   /**
    * The base url of the legacy system. The request will be forwarded to the
@@ -70,9 +78,14 @@ export function createStrangler(
           ? await legacySystem.process(result)
           : result;
         if (processed) {
+          const responseHeaders = Object.fromEntries(
+            [...processed.headers.entries()].filter(
+              ([key]) => !headersToStrip.includes(key.toLowerCase()),
+            ),
+          );
           return {
             statusCode: processed.status,
-            headers: Object.fromEntries(processed.headers.entries()),
+            headers: responseHeaders,
             body: await processed.text(),
           };
         }
