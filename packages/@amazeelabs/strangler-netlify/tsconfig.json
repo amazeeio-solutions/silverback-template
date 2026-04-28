@@ -8,7 +8,6 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": false,
-    "jsx": "react",
     "outDir": "build"
   },
   "$schema": "https://json.schemastore.org/tsconfig",

@@ -1,7 +1,7 @@
-import { base, defineConfig } from '@internal/eslint-config';
+import { defineConfig, frontend } from '@custom/eslint-config';
 
 export default defineConfig([
-  ...base,
+  ...frontend,
   {
     ignores: ['build/**'],
   },
