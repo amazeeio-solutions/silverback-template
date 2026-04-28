@@ -12,7 +12,11 @@ export default function Status({
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (status === ApplicationState.Ready && params.has('dest')) {
-      window.location.href = params.get('dest') as string;
+      const dest = params.get('dest') as string;
+      const url = new URL(dest, window.location.origin);
+      if (url.origin === window.location.origin) {
+        window.location.href = url.href;
+      }
     }
   }, [status]);
 
