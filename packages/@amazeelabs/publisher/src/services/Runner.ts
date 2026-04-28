@@ -150,7 +150,7 @@ export const RunnerLive = Layer.effect(
           );
           killProcess(proc.pid, options.command)
             .then((signal) => {
-              Ref.set(killSignalRef, signal).pipe(Effect.runSync);
+              return Ref.set(killSignalRef, signal).pipe(Effect.runSync);
             })
             .catch((error) => {
               console.error(`Failed to kill "${options.command}":`, error);
