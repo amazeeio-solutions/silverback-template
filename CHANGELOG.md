@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.5...@amazeelabs/silverback-template@2.6.6) (2026-04-20)
+
+
+### Bug Fixes
+
+* keep language context during path validation in FetchEntity ([b361c8f](https://github.com/amazeeio-solutions/silverback-template/commit/b361c8f3b1baf2aec2e2532180ea3d76a07124fb))
+
+
+
+
+
 ## [2.6.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.4...@amazeelabs/silverback-template@2.6.5) (2026-04-13)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
