@@ -1,0 +1,52 @@
+{
+  "name": "@amazeelabs/publisher",
+  "version": "3.2.6",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/exports.cjs",
+  "types": "./dist/exports.d.ts",
+  "bin": "./bin/publisher.js",
+  "scripts": {
+    "prep": "rollup -c rollup.config.ts --configPlugin esbuild",
+    "build": "pnpm prep",
+    "watch": "pnpm prep --watch",
+    "publisher": "node ./dist/cli.js",
+    "start": "nodemon ./dist/cli.js",
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "test:unit": "vitest run --retry=3",
+    "test:integration": "exit 0"
+  },
+  "dependencies": {
+    "@amazeelabs/publisher-shared": "workspace:*",
+    "@amazeelabs/publisher-ui": "workspace:*",
+    "@effect/experimental": "0.36.2",
+    "@effect/platform": "^0.72.0",
+
+    "@effect/sql": "^0.25.0",
+    "@effect/sql-sqlite-node": "^0.23.0",
+    "@slack/webhook": "^7.0.4",
+    "effect": "^3.12.0",
+    "simple-oauth2": "5.1.0",
+    "strip-ansi": "7.1.0",
+    "ts-import": "4.0.0-beta.10",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@custom/eslint-config": "workspace:*",
+    "@types/node": "22.13.0",
+    "@types/simple-oauth2": "5.0.7",
+    "@types/ws": "^8.5.13",
+    "esbuild": "0.24.2",
+    "nodemon": "3.1.9",
+    "rollup": "4.32.0",
+    "rollup-plugin-dts": "6.1.1",
+    "rollup-plugin-esbuild": "6.1.1",
+    "typescript": "5.7.3",
+    "vitest": "2.1.8"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
