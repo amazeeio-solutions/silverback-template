@@ -72,23 +72,18 @@ switch (command) {
           Layer.provide(sharedDeps),
         );
 
-        return Layer.mergeAll(
-          sharedDeps,
-          NotifierLive,
-          authLayer,
-          coreLayer,
-        );
+        return Layer.mergeAll(sharedDeps, NotifierLive, authLayer, coreLayer);
       }),
     );
 
     const fullLayer = appLayer.pipe(Layer.provide(ConfigLive));
 
-    Effect.runPromise(
-      program.pipe(Effect.provide(fullLayer)),
-    ).catch((error) => {
-      console.error('Fatal error:', error);
-      process.exit(1);
-    });
+    Effect.runPromise(program.pipe(Effect.provide(fullLayer))).catch(
+      (error) => {
+        console.error('Fatal error:', error);
+        process.exit(1);
+      },
+    );
     break;
   }
 

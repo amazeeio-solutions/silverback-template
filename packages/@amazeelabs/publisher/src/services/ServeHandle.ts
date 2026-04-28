@@ -11,7 +11,10 @@ export class ServeHandle extends Context.Tag('ServeHandle')<
 
 export const ServeHandleLive = Layer.effect(
   ServeHandle,
-  Effect.map(Ref.make<Option.Option<RunningProcess>>(Option.none()), (processRef) => ({
-    processRef,
-  })),
+  Effect.map(
+    Ref.make<Option.Option<RunningProcess>>(Option.none()),
+    (processRef) => ({
+      processRef,
+    }),
+  ),
 );

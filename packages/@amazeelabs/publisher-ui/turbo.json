@@ -3,7 +3,14 @@
   "extends": ["//"],
   "tasks": {
     "prep": {
-      "inputs": ["src/**", "tsconfig.json", "vite.config.ts", "index.html", "tailwind.config.cjs", "postcss.config.cjs"],
+      "inputs": [
+        "src/**",
+        "tsconfig.json",
+        "vite.config.ts",
+        "index.html",
+        "tailwind.config.cjs",
+        "postcss.config.cjs"
+      ],
       "outputs": ["dist"]
     },
     "test:static": {

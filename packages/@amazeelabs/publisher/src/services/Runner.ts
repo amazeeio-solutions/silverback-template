@@ -1,5 +1,14 @@
 import { spawn } from 'child_process';
-import { Chunk, Context, Deferred, Effect, Layer, Option, Ref, Stream } from 'effect';
+import {
+  Chunk,
+  Context,
+  Deferred,
+  Effect,
+  Layer,
+  Option,
+  Ref,
+  Stream,
+} from 'effect';
 import stripAnsi from 'strip-ansi';
 
 import { Output } from './Output';
@@ -54,7 +63,10 @@ const terminateProcess = (
     }, 100);
   });
 
-const killProcess = async (pid: number, command: string): Promise<NodeJS.Signals> => {
+const killProcess = async (
+  pid: number,
+  command: string,
+): Promise<NodeJS.Signals> => {
   const signals: Array<NodeJS.Signals> = ['SIGINT', 'SIGTERM', 'SIGKILL'];
   for (const signal of signals) {
     try {
@@ -84,10 +96,7 @@ export const RunnerLive = Layer.effect(
       outputTimeout?: number;
     }): Effect.Effect<RunningProcess> =>
       Effect.gen(function* () {
-        yield* output.publish(
-          `Starting command: "${options.command}"`,
-          'info',
-        );
+        yield* output.publish(`Starting command: "${options.command}"`, 'info');
 
         const resultDeferred = yield* Deferred.make<Result>();
         const outputChunks = yield* Ref.make<Array<string>>([]);
@@ -176,24 +185,20 @@ export const RunnerLive = Layer.effect(
           }
         });
 
-        const processOutput: Stream.Stream<string> = Stream.async(
-          (emit) => {
-            const existing = Ref.get(outputChunks).pipe(Effect.runSync);
-            if (existing.length > 0) {
-              emit(Effect.succeed(Chunk.fromIterable(existing)));
+        const processOutput: Stream.Stream<string> = Stream.async((emit) => {
+          const existing = Ref.get(outputChunks).pipe(Effect.runSync);
+          if (existing.length > 0) {
+            emit(Effect.succeed(Chunk.fromIterable(existing)));
+          }
+          const listener = (chunk: string): void => {
+            if (chunk === '__EOF__') {
+              emit(Effect.fail(Option.none()));
+            } else {
+              emit(Effect.succeed(Chunk.of(chunk)));
             }
-            const listener = (chunk: string): void => {
-              if (chunk === '__EOF__') {
-                emit(Effect.fail(Option.none()));
-              } else {
-                emit(Effect.succeed(Chunk.of(chunk)));
-              }
-            };
-            Ref.update(listeners, (l) => [...l, listener]).pipe(
-              Effect.runSync,
-            );
-          },
-        );
+          };
+          Ref.update(listeners, (l) => [...l, listener]).pipe(Effect.runSync);
+        });
 
         const result = Deferred.await(resultDeferred);
 

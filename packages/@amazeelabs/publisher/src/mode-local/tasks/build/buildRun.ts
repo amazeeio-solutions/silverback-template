@@ -1,9 +1,6 @@
 import { Effect, Ref, Schedule } from 'effect';
 
-import {
-  AppState,
-  setBuildJobState,
-} from '../../../services/AppState';
+import { AppState, setBuildJobState } from '../../../services/AppState';
 import { localConfig as getLocalConfig } from '../../../services/Config';
 import { Runner } from '../../../services/Runner';
 import { cleanRunTask } from '../clean/cleanRun';

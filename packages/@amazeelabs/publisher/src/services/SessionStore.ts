@@ -11,9 +11,7 @@ export class SessionStore extends Context.Tag('SessionStore')<
   SessionStore,
   {
     readonly createSession: Effect.Effect<string>;
-    readonly getSession: (
-      id: string,
-    ) => Effect.Effect<SessionData | undefined>;
+    readonly getSession: (id: string) => Effect.Effect<SessionData | undefined>;
     readonly setSession: (
       id: string,
       data: Partial<SessionData>,

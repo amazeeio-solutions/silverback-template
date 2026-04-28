@@ -423,7 +423,9 @@ export const startServer = Effect.gen(function* () {
       });
 
       proxyReq.on('upgrade', (proxyRes, proxySocket) => {
-        const headers = [`HTTP/${proxyRes.httpVersion} 101 Switching Protocols`];
+        const headers = [
+          `HTTP/${proxyRes.httpVersion} 101 Switching Protocols`,
+        ];
         for (const [key, value] of Object.entries(proxyRes.headers)) {
           if (value) {
             headers.push(
@@ -452,9 +454,7 @@ export const startServer = Effect.gen(function* () {
         Stream.runForEach(output.stream, (chunk) =>
           Effect.sync(() => {
             if (ws.readyState === WebSocket.OPEN) {
-              ws.send(
-                `${new Date().toISOString().substring(11, 19)} ${chunk}`,
-              );
+              ws.send(`${new Date().toISOString().substring(11, 19)} ${chunk}`);
             }
           }),
         ),
@@ -514,7 +514,10 @@ export const startServer = Effect.gen(function* () {
     if (await handleStatusRoutes(ctx, req, res, pathname, method)) {
       return;
     }
-    if (method === 'GET' && (await handleOAuthRoutes(ctx, req, res, pathname, url))) {
+    if (
+      method === 'GET' &&
+      (await handleOAuthRoutes(ctx, req, res, pathname, url))
+    ) {
       return;
     }
     if (await handleGithubWebhook(ctx, req, res, pathname, method)) {

@@ -42,8 +42,7 @@ export const CoreGithubWorkflowLive = Layer.effect(
     const queue = yield* makeTaskQueue;
 
     const buildNumberRef = yield* Ref.make(0);
-    const applicationStatePubSub =
-      yield* PubSub.unbounded<ApplicationState>();
+    const applicationStatePubSub = yield* PubSub.unbounded<ApplicationState>();
     const workflowStatePubSub = yield* PubSub.unbounded<WorkflowState>();
     const workflowRunUrlRef = yield* Ref.make('');
 
@@ -96,9 +95,7 @@ export const CoreGithubWorkflowLive = Layer.effect(
           return;
         }
 
-        const currentRuns = JSON.parse(
-          checkResult.value.stdout,
-        ) as Array<Run>;
+        const currentRuns = JSON.parse(checkResult.value.stdout) as Array<Run>;
         if (
           currentRuns.every(
             (run) => isCompleted(run) || !matchesEnvironment(run),
@@ -142,15 +139,12 @@ export const CoreGithubWorkflowLive = Layer.effect(
           return false;
         }
 
-        const monitorQueue =
-          yield* PubSub.subscribe(workflowStatePubSub);
+        const monitorQueue = yield* PubSub.subscribe(workflowStatePubSub);
         const monitorFiber = yield* Effect.fork(
           Stream.runForEach(
             Stream.fromQueue(monitorQueue).pipe(
               Stream.drop(1),
-              Stream.takeUntil(
-                (s) => s === 'success' || s === 'failure',
-              ),
+              Stream.takeUntil((s) => s === 'success' || s === 'failure'),
             ),
             (state) =>
               Effect.gen(function* () {
@@ -261,16 +255,10 @@ export const CoreGithubWorkflowLive = Layer.effect(
       yield* queue.addAndRun(buildTaskGh({ clean: true }));
     });
 
-    const handleWorkflowStatus = (
-      status: string,
-      workflowRunUrl: string,
-    ) =>
+    const handleWorkflowStatus = (status: string, workflowRunUrl: string) =>
       Effect.gen(function* () {
         yield* Ref.set(workflowRunUrlRef, workflowRunUrl);
-        yield* PubSub.publish(
-          workflowStatePubSub,
-          status as WorkflowState,
-        );
+        yield* PubSub.publish(workflowStatePubSub, status as WorkflowState);
       });
 
     return {

@@ -1,4 +1,13 @@
-import { Context, Effect, Layer, PubSub, Queue, Ref, Scope, Stream } from 'effect';
+import {
+  Context,
+  Effect,
+  Layer,
+  PubSub,
+  Queue,
+  Ref,
+  Scope,
+  Stream,
+} from 'effect';
 
 type Severity = 'info' | 'warning' | 'error' | 'success';
 
@@ -30,7 +39,11 @@ export class Output extends Context.Tag('Output')<
       severity?: Severity,
     ) => Effect.Effect<void>;
     readonly stream: Stream.Stream<string>;
-    readonly subscribe: Effect.Effect<Queue.Dequeue<string>, never, Scope.Scope>;
+    readonly subscribe: Effect.Effect<
+      Queue.Dequeue<string>,
+      never,
+      Scope.Scope
+    >;
   }
 >() {}
 
@@ -51,8 +64,11 @@ export const OutputLive = Layer.effect(
         yield* PubSub.publish(pubsub, formatted);
       });
 
-    const subscribe: Effect.Effect<Queue.Dequeue<string>, never, Scope.Scope> =
-      PubSub.subscribe(pubsub);
+    const subscribe: Effect.Effect<
+      Queue.Dequeue<string>,
+      never,
+      Scope.Scope
+    > = PubSub.subscribe(pubsub);
 
     const stream: Stream.Stream<string> = Stream.unwrapScoped(
       Effect.gen(function* () {

@@ -46,10 +46,7 @@ export const CoreLocalLive = Layer.effect(
       yield* queue.clear;
       yield* appState.reset;
       yield* queue.addAndRun(provide(serveStopTask));
-      yield* queue.addPending([
-        provide(cleanRunTask),
-        provide(buildTask),
-      ]);
+      yield* queue.addPending([provide(cleanRunTask), provide(buildTask)]);
     });
 
     return {

@@ -1,8 +1,16 @@
 import { Effect, Layer, Stream } from 'effect';
 import { describe, expect, it } from 'vitest';
 
-import { AppState, AppStateLive, incrementBuildNumber } from '../../../services/AppState';
-import { Config, ConfigTest, PublisherConfigLocal } from '../../../services/Config';
+import {
+  AppState,
+  AppStateLive,
+  incrementBuildNumber,
+} from '../../../services/AppState';
+import {
+  Config,
+  ConfigTest,
+  PublisherConfigLocal,
+} from '../../../services/Config';
 import { OutputLive } from '../../../services/Output';
 import { Runner, RunningProcess } from '../../../services/Runner';
 import { buildRunTask } from './buildRun';
@@ -40,8 +48,10 @@ const testLayer = (exitCodes: number[]) =>
     makeRunnerMock(exitCodes),
   );
 
-const run = <A>(effect: Effect.Effect<A, never, AppState | Config | Runner>, exitCodes: number[]) =>
-  Effect.runPromise(effect.pipe(Effect.provide(testLayer(exitCodes))));
+const run = <A>(
+  effect: Effect.Effect<A, never, AppState | Config | Runner>,
+  exitCodes: number[],
+) => Effect.runPromise(effect.pipe(Effect.provide(testLayer(exitCodes))));
 
 describe('buildRunTask', () => {
   it('succeeds on first attempt', async () => {

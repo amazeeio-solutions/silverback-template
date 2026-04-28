@@ -1,9 +1,6 @@
 import { Effect, Schedule } from 'effect';
 
-import {
-  AppState,
-  setDeployJobState,
-} from '../../../services/AppState';
+import { AppState, setDeployJobState } from '../../../services/AppState';
 import { localConfig as getLocalConfig } from '../../../services/Config';
 import { Runner } from '../../../services/Runner';
 

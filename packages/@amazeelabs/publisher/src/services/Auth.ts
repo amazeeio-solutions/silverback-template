@@ -65,12 +65,8 @@ export class Auth extends Context.Tag('Auth')<
       queryState: string,
     ) => Effect.Effect<{ success: boolean; error?: string }>;
     readonly handleLogout: (sessionId: string) => Effect.Effect<void>;
-    readonly isAuthenticated: (
-      sessionId: string,
-    ) => Effect.Effect<boolean>;
-    readonly hasPublisherAccess: (
-      sessionId: string,
-    ) => Effect.Effect<boolean>;
+    readonly isAuthenticated: (sessionId: string) => Effect.Effect<boolean>;
+    readonly hasPublisherAccess: (sessionId: string) => Effect.Effect<boolean>;
     readonly requiresSession: boolean;
     readonly createSession: Effect.Effect<string>;
     readonly skipAuthentication: boolean;
@@ -183,9 +179,7 @@ export const AuthLive = Layer.effect(
         }
 
         if (oAuth2Config) {
-          if (
-            oAuth2Config.grantType === OAuth2GrantTypes.AuthorizationCode
-          ) {
+          if (oAuth2Config.grantType === OAuth2GrantTypes.AuthorizationCode) {
             if (path === '/build.json') {
               return { type: 'ok' };
             }
@@ -200,19 +194,16 @@ export const AuthLive = Layer.effect(
               }
               return {
                 type: 'forbidden',
-                message:
-                  'Your user account does not have Publisher access.',
+                message: 'Your user account does not have Publisher access.',
               };
             }
             return { type: 'redirect', url: '/oauth' };
           }
 
           if (
-            oAuth2Config.grantType ===
-            OAuth2GrantTypes.ResourceOwnerPassword
+            oAuth2Config.grantType === OAuth2GrantTypes.ResourceOwnerPassword
           ) {
-            const base64Auth =
-              (authorizationHeader || '').split(' ')[1] || '';
+            const base64Auth = (authorizationHeader || '').split(' ')[1] || '';
             const [login, password] = Buffer.from(base64Auth, 'base64')
               .toString()
               .split(':');
@@ -240,16 +231,13 @@ export const AuthLive = Layer.effect(
                 );
                 if (accessToken) {
                   const response = yield* Effect.promise(() =>
-                    fetch(
-                      `${moduleOptions.auth.tokenHost}/publisher/access`,
-                      {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          Authorization: `Bearer ${accessToken.token.access_token}`,
-                        },
+                    fetch(`${moduleOptions.auth.tokenHost}/publisher/access`, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken.token.access_token}`,
                       },
-                    ),
+                    }),
                   );
                   if (response.status === 200) {
                     return { type: 'ok' };
@@ -274,8 +262,7 @@ export const AuthLive = Layer.effect(
         }
 
         if (basicAuthConfig) {
-          const base64Auth =
-            (authorizationHeader || '').split(' ')[1] || '';
+          const base64Auth = (authorizationHeader || '').split(' ')[1] || '';
           const [login, password] = Buffer.from(base64Auth, 'base64')
             .toString()
             .split(':');
@@ -294,9 +281,7 @@ export const AuthLive = Layer.effect(
         return { type: 'ok' };
       });
 
-    const getOAuth2AuthorizeUrl = (
-      sessionId: string,
-    ): Effect.Effect<string> =>
+    const getOAuth2AuthorizeUrl = (sessionId: string): Effect.Effect<string> =>
       Effect.gen(function* () {
         const client = getAuthCodeClient();
         if (!client) {

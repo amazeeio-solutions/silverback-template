@@ -2,7 +2,11 @@ import { Effect, Layer, Stream } from 'effect';
 import { describe, expect, it } from 'vitest';
 
 import { AppState, AppStateLive } from '../../../services/AppState';
-import { Config, ConfigTest, PublisherConfigLocal } from '../../../services/Config';
+import {
+  Config,
+  ConfigTest,
+  PublisherConfigLocal,
+} from '../../../services/Config';
 import { OutputLive } from '../../../services/Output';
 import { Runner, RunningProcess } from '../../../services/Runner';
 import { buildDeployTask } from './buildDeploy';

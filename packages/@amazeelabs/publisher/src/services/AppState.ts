@@ -56,9 +56,7 @@ export class AppState extends Context.Tag('AppState')<
   AppState,
   {
     readonly get: Effect.Effect<LocalState>;
-    readonly update: (
-      fn: (s: LocalState) => LocalState,
-    ) => Effect.Effect<void>;
+    readonly update: (fn: (s: LocalState) => LocalState) => Effect.Effect<void>;
     readonly applicationState: Stream.Stream<ApplicationState>;
     readonly reset: Effect.Effect<void>;
   }

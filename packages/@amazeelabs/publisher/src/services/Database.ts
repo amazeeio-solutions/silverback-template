@@ -28,10 +28,12 @@ export const DatabaseLive = Layer.effect(
         type TEXT NOT NULL,
         logs TEXT NOT NULL
       )
-    `.pipe(Effect.catchAll((e) => {
-      console.error('Database init error:', e);
-      return Effect.void;
-    }));
+    `.pipe(
+      Effect.catchAll((e) => {
+        console.error('Database init error:', e);
+        return Effect.void;
+      }),
+    );
 
     const saveBuild = (record: BuildCreateModel) =>
       sql`
