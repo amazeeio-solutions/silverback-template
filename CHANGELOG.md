@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.6...@amazeelabs/silverback-template@2.6.7) (2026-04-28)
+
+
+### Bug Fixes
+
+* strip encoding headers from proxied responses ([321dcae](https://github.com/amazeeio-solutions/silverback-template/commit/321dcaed132c4ce7b25adb7c26345085656a42da))
+
+
+
+
+
 ## [2.6.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.5...@amazeelabs/silverback-template@2.6.6) (2026-04-20)
 
 
