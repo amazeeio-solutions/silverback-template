@@ -86,8 +86,8 @@
     parentIFrame.sendMessage({ action: 'init' }, '*');
   });
 
-  var updateBaseUrlInLinks = (baseUrl) => {
-    $('a:visible').each(function () {
+  var processLinks = ($links, baseUrl) => {
+    $links.not('.sb-iframe-processed').each(function () {
       var $this = $(this);
       var href = $this.attr('href');
       if (!href) {
@@ -106,7 +106,6 @@
         return true;
       }
 
-      // Process links.
       // 1. Remove "iframe=true" from the URL.
       href = removeIframeFromUrl(href);
       // 2. Use parent frame base URL for relative links.
@@ -116,10 +115,32 @@
       if ($this.attr('target') !== '_blank') {
         $this.attr('target', '_parent');
       }
+      $this.addClass('sb-iframe-processed');
       return true;
     });
+  };
+
+  var updateBaseUrlInLinks = (baseUrl) => {
+    processLinks($('a:visible'), baseUrl);
     // This class is used by integration tests.
     $('body').addClass('silverback-iframe-links-processed');
+  };
+
+  // Re-process links that become visible after the initial processing (e.g.
+  // links inside conditionally shown webform elements).
+  var observeNewlyVisibleLinks = (baseUrl) => {
+    var debounceTimer;
+    var observer = new MutationObserver(function () {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        processLinks($('a:visible'), baseUrl);
+      }, 100);
+    });
+    observer.observe(document.body, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ['style'],
+    });
   };
 
   var injectCssStyles = (styles) => {
@@ -140,6 +161,7 @@
     }
     if (parsed.type === 'init') {
       updateBaseUrlInLinks(parsed.baseUrl);
+      observeNewlyVisibleLinks(parsed.baseUrl);
       if (parsed.injectStyles) {
         injectCssStyles(parsed.injectStyles);
       }
