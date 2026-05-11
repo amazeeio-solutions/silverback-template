@@ -129,12 +129,8 @@
   // Re-process links that become visible after the initial processing (e.g.
   // links inside conditionally shown webform elements).
   var observeNewlyVisibleLinks = (baseUrl) => {
-    var debounceTimer;
     var observer = new MutationObserver(function () {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(function () {
-        processLinks($('a:visible'), baseUrl);
-      }, 100);
+      processLinks($('a:visible'), baseUrl);
     });
     observer.observe(document.body, {
       attributes: true,
