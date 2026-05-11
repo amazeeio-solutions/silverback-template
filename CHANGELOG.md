@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.8](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.7...@amazeelabs/silverback-template@2.6.8) (2026-05-11)
+
+
+### Bug Fixes
+
+* process links in conditionally shown iframe elements ([32c93d8](https://github.com/amazeeio-solutions/silverback-template/commit/32c93d875f105c27986a1386052b0e99cb546cc6))
+* remove debounce to avoid race condition ([b5b8ae4](https://github.com/amazeeio-solutions/silverback-template/commit/b5b8ae43428efb658ec89b7435003e4071750579))
+
+
+
+
+
 ## [2.6.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.6...@amazeelabs/silverback-template@2.6.7) (2026-04-28)
 
 
