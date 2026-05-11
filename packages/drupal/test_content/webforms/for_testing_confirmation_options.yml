@@ -17,6 +17,19 @@ elements: |-
     '#type': textfield
     '#title': 'Optional text field'
     '#description': 'A <a href="/en/article/with-everything?iframe=true">link to article</a> with "iframe=true".'
+  trigger_select:
+    '#type': select
+    '#title': 'Trigger'
+    '#options':
+      none: '- None -'
+      show_link: 'Show link'
+  conditional_markup:
+    '#type': webform_markup
+    '#markup': 'Conditional: <a href="/en/article/with-everything?iframe=true">conditional link</a>.'
+    '#states':
+      visible:
+        ':input[name="trigger_select"]':
+          value: show_link
 css: ''
 javascript: ''
 settings:
