@@ -18,9 +18,6 @@ display:
           label: Date
         message:
           label: Message
-          alter:
-            path: 'admin/reports/dblog/event/{{ wid }}'
-            alt: '{{ message }}'
         name:
           label: Utilisateur
           separator: ', '
