@@ -2,6 +2,8 @@ uuid: a6d4707b-e58c-4ba4-95d7-c13a5229eee4
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.page
   module:
     - node
 id: basic_page
@@ -12,7 +14,6 @@ selection_criteria:
   0dafb47c-607c-465e-9af1-608bb39b7937:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 0dafb47c-607c-465e-9af1-608bb39b7937
     context_mapping:
       node: node
     bundles:
