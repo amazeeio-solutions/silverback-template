@@ -18,9 +18,6 @@ display:
           label: Datum
         message:
           label: Benachrichtigung
-          alter:
-            path: 'admin/reports/dblog/event/{{ wid }}'
-            alt: '{{ message }}'
         name:
           label: Benutzer
           separator: ', '

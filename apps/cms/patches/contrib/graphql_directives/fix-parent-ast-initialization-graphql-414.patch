@@ -1,0 +1,60 @@
+--- a/src/Plugin/GraphQL/Schema/DirectableSchema.php
++++ b/src/Plugin/GraphQL/Schema/DirectableSchema.php
+@@ -9,6 +9,7 @@
+ use Drupal\graphql\GraphQL\Execution\FieldContext;
+ use Drupal\graphql\GraphQL\ResolverBuilder;
+ use Drupal\graphql\GraphQL\ResolverRegistry;
++use Drupal\graphql\GraphQL\ResolverRegistryInterface;
+ use Drupal\graphql\Plugin\GraphQL\Schema\ComposableSchema;
+ use Drupal\graphql\Plugin\SchemaExtensionPluginManager;
+ use Drupal\graphql_directives\ConfigLoader;
+@@ -35,6 +36,17 @@
+   protected $typeResolvers = [];
+
+   /**
++   * Cached schema extension instances.
++   *
++   * Caching ensures setParentAst() is called on the same instances that
++   * registerResolvers() is later called on. This is required for
++   * compatibility with graphql >= 4.14.0 which registers resolvers in the
++   * cached schema path of SdlSchemaPluginBase::getSchema() (the else branch)
++   * without calling getSchemaDocument() first.
++   */
++  private ?array $cachedExtensions = NULL;
++
++  /**
+    * {@inheritdoc}
+    *
+    * @codeCoverageIgnore
+@@ -217,7 +229,30 @@
+    * {@inheritdoc}
+    */
+   public function getExtensions(): array {
+-    return parent::getExtensions();
++    if ($this->cachedExtensions === NULL) {
++      $this->cachedExtensions = parent::getExtensions();
++    }
++    return $this->cachedExtensions;
++  }
++
++  /**
++   * {@inheritdoc}
++   *
++   * Overrides parent to ensure setParentAst() is called on directable
++   * extensions before registerResolvers() is invoked.
++   *
++   * In graphql >= 4.14.0, SdlSchemaPluginBase::getSchema() added an else
++   * branch that calls registerResolvers() when the full schema AST comes from
++   * cache, bypassing getSchemaDocument() and therefore setParentAst(). Without
++   * this override, DirectableSchemaExtensionPluginBase::$parentAst is accessed
++   * before initialization, causing a fatal PHP error.
++   */
++  public function getSchema(ResolverRegistryInterface $registry) {
++    // Calling getSchemaDocument() triggers our override which calls
++    // setParentAst() on all directable extensions. Because getExtensions() is
++    // cached, the same instances are later used by parent::getSchema().
++    $this->getSchemaDocument($this->getExtensions());
++    return parent::getSchema($registry);
+   }
+
+ }

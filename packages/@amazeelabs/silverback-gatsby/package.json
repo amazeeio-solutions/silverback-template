@@ -1,6 +1,6 @@
 {
   "name": "@amazeelabs/silverback-gatsby",
-  "version": "3.7.13",
+  "version": "3.7.15",
   "scripts": {
     "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
     "precommit:fix": "pnpm --filter @custom/cms precommit:fix packages/@amazeelabs/silverback-gatsby/drupal",

@@ -211,20 +211,23 @@ class FetchEntity extends DataProducerPluginBase implements ContainerFactoryPlug
     if ($id[0] === '/') {
       // We are dealing with a path. Attempt to resolve it to an entity. And if
       // the language is not defined, then we try to extract it from the path.
+      $tmpRequest = NULL;
       if (empty($language)) {
         // In order to extract the language we basically just push a temporary
         // request to the stack, reset the language negotiation and get the
         // current language again, which will use the request at the top of the
-        // stack. At the end, we pop the temporary request from the stack and
-        // reste the language negotiation again.ss
+        // stack. We keep the request on the stack during path validation so
+        // that PathValidator resolves aliases in the correct language context.
         $tmpRequest = Request::create($id);
         $this->requestStack->push($tmpRequest);
         $this->languageManager->reset();
         $language = $this->languageManager->getCurrentLanguage()->getId();
+      }
+      $url = $this->pathValidator->getUrlIfValidWithoutAccessCheck($id);
+      if ($tmpRequest) {
         $this->requestStack->pop();
         $this->languageManager->reset();
       }
-      $url = $this->pathValidator->getUrlIfValidWithoutAccessCheck($id);
       if (!($url && $url->isRouted() && $url->access())) {
         $context->addCacheTags(['4xx-response']);
         return NULL;
