@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.10](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.9...@amazeelabs/silverback-template@2.6.10) (2026-06-25)
+
+
+### Bug Fixes
+
+* **SLB-532:** graphql_directives patch for graphql 4.14.0 ([5cb72ab](https://github.com/amazeeio-solutions/silverback-template/commit/5cb72abe8f1975d4cf3f961e7da38d99f0efbd5c))
+
+
+
+
+
 ## [2.6.9](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.8...@amazeelabs/silverback-template@2.6.9) (2026-05-20)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
