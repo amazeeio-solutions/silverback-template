@@ -122,6 +122,9 @@
       "drupal/graphql": {
         "Check if translation exists when loading an entity by its uuid": "./patches/graphql_load_by_uuid_translation_check.patch"
       },
+      "drupal/graphql_directives": {
+        "Fix parentAst initialization error with graphql >= 4.14.0 (cached schema path)": "./patches/contrib/graphql_directives/fix-parent-ast-initialization-graphql-414.patch"
+      },
       "drupal/coffee": {
         "On the fly ajax search POC": "./patches/contrib/coffee/on_the_fly_ajax_search_poc.patch"
       },
