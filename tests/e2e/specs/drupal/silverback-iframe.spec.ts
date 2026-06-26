@@ -147,6 +147,18 @@ test('links open in parent frame, using parent frame base url, without iframe=tr
   expect(page.url()).toBe(websiteUrl('/en/article/with-everything'));
 });
 
+test('conditionally shown links open in parent frame', async ({ page }) => {
+  await page.goto(websiteUrl('/en/test-webform-confirmation-options'));
+  const iframe = await getIframe(page);
+  await iframe.waitForSelector('body.silverback-iframe-links-processed');
+  await iframe.selectOption('select[name="trigger_select"]', 'show_link');
+  await iframe.waitForSelector('.form-item-conditional-markup a', {
+    state: 'visible',
+  });
+  await iframe.click('.form-item-conditional-markup a');
+  expect(page.url()).toBe(websiteUrl('/en/article/with-everything'));
+});
+
 const confirmationOptions = [
   'inline',
   'message',

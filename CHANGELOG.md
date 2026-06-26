@@ -3,6 +3,79 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.10](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.9...@amazeelabs/silverback-template@2.6.10) (2026-06-25)
+
+
+### Bug Fixes
+
+* **SLB-532:** graphql_directives patch for graphql 4.14.0 ([5cb72ab](https://github.com/amazeeio-solutions/silverback-template/commit/5cb72abe8f1975d4cf3f961e7da38d99f0efbd5c))
+
+
+
+
+
+## [2.6.9](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.8...@amazeelabs/silverback-template@2.6.9) (2026-05-20)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.8](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.7...@amazeelabs/silverback-template@2.6.8) (2026-05-11)
+
+
+### Bug Fixes
+
+* process links in conditionally shown iframe elements ([32c93d8](https://github.com/amazeeio-solutions/silverback-template/commit/32c93d875f105c27986a1386052b0e99cb546cc6))
+* remove debounce to avoid race condition ([b5b8ae4](https://github.com/amazeeio-solutions/silverback-template/commit/b5b8ae43428efb658ec89b7435003e4071750579))
+
+
+
+
+
+## [2.6.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.6...@amazeelabs/silverback-template@2.6.7) (2026-04-28)
+
+
+### Bug Fixes
+
+* strip encoding headers from proxied responses ([321dcae](https://github.com/amazeeio-solutions/silverback-template/commit/321dcaed132c4ce7b25adb7c26345085656a42da))
+
+
+
+
+
+## [2.6.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.5...@amazeelabs/silverback-template@2.6.6) (2026-04-20)
+
+
+### Bug Fixes
+
+* keep language context during path validation in FetchEntity ([b361c8f](https://github.com/amazeeio-solutions/silverback-template/commit/b361c8f3b1baf2aec2e2532180ea3d76a07124fb))
+
+
+
+
+
+## [2.6.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.4...@amazeelabs/silverback-template@2.6.5) (2026-04-13)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.3...@amazeelabs/silverback-template@2.6.4) (2026-04-08)
+
+
+### Bug Fixes
+
+* avoid errors in fetch_entity data producer ([ea019e6](https://github.com/amazeeio-solutions/silverback-template/commit/ea019e6a29fc92afa57ed366b87553fe8e456856))
+* omit cookies on preview token requests ([a3c8da3](https://github.com/amazeeio-solutions/silverback-template/commit/a3c8da3f1dfbc93660b992b0deb0d27da330302f))
+
+
+
+
+
 ## [2.6.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.2...@amazeelabs/silverback-template@2.6.3) (2026-04-07)
 
 
