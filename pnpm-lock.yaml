@@ -530,40 +530,6 @@ importers:
         specifier: 2.1.8
         version: 2.1.8(@types/node@20.17.16)
 
-  packages/@amazeelabs/bridge-waku:
-    dependencies:
-      react:
-        specifier: '*'
-        version: 18.3.1
-      react-dom:
-        specifier: '*'
-        version: 18.2.0(react@18.3.1)
-      server-only-context:
-        specifier: ^0.1.0
-        version: 0.1.0(react@18.3.1)
-    devDependencies:
-      '@amazeelabs/bridge':
-        specifier: workspace:*
-        version: link:../bridge
-      '@custom/eslint-config':
-        specifier: workspace:*
-        version: link:../../eslint-config
-      '@types/react':
-        specifier: 18.3.18
-        version: 18.3.18
-      '@types/react-dom':
-        specifier: 18.3.5
-        version: 18.3.5(@types/react@18.3.18)
-      typescript:
-        specifier: 5.7.3
-        version: 5.7.3
-      vitest:
-        specifier: 2.1.8
-        version: 2.1.8(@types/node@20.17.16)
-      waku:
-        specifier: 0.21.17
-        version: 0.21.17(@types/node@20.17.16)(react-dom@18.2.0)(react-server-dom-webpack@19.0.0)(react@18.3.1)
-
   packages/@amazeelabs/codegen-operation-ids:
     dependencies:
       '@graphql-codegen/plugin-helpers':
@@ -29451,6 +29417,7 @@ packages:
       react-dom: 18.2.0(react@18.3.1)
       webpack: 5.91.0
       webpack-sources: 3.2.3
+    dev: false
 
   /react-server-dom-webpack@19.0.0(react-dom@19.0.0)(react@19.0.0-rc.0)(webpack@5.91.0):
     resolution: {integrity: sha512-hLug9KEXLc8vnU9lDNe2b2rKKDaqrp5gNiES4uyu2Up3FZfZJZmdwLFXlWzdA9gTB/6/cWduSB2K1Lfag2pSvw==}
@@ -30791,14 +30758,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /server-only-context@0.1.0(react@18.3.1):
-    resolution: {integrity: sha512-5Ba19yx9Bj9uSh40aZNsZNBvLF88tLY3na6QxWkqyrSLOSHPxtnzTs/JzjKwfac1NbHFlEodkN7T4M6UzvH2Ng==}
-    peerDependencies:
-      react: next
-    dependencies:
-      react: 18.3.1
-    dev: false
 
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
@@ -34874,41 +34833,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
-
-  /waku@0.21.17(@types/node@20.17.16)(react-dom@18.2.0)(react-server-dom-webpack@19.0.0)(react@18.3.1):
-    resolution: {integrity: sha512-wJi8nNyT62HjIpobTpLaWtvA+nJhconWxqHlGoVoa2odWdingwTBrzUR7Psuh4/ur0S7ZxTMphvZe+zqYWRNng==}
-    engines: {node: ^20.8.0 || ^18.17.0 || ^22.7.0}
-    hasBin: true
-    peerDependencies:
-      react: ~19.0.0
-      react-dom: ~19.0.0
-      react-server-dom-webpack: ~19.0.0
-    dependencies:
-      '@hono/node-server': 1.13.7(hono@4.6.18)
-      '@swc/core': 1.10.9
-      '@vitejs/plugin-react': 4.3.4(vite@6.0.11)
-      dotenv: 16.4.7
-      hono: 4.6.18
-      react: 18.3.1
-      react-dom: 18.2.0(react@18.3.1)
-      react-server-dom-webpack: 19.0.0(react-dom@18.2.0)(react@18.3.1)(webpack@5.91.0)
-      rsc-html-stream: 0.0.4
-      vite: 6.0.11(@types/node@20.17.16)
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - '@types/node'
-      - jiti
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - yaml
-    dev: true
 
   /waku@0.21.17(@types/node@20.17.16)(react-dom@19.0.0)(react-server-dom-webpack@19.0.0)(react@19.0.0-rc.0):
     resolution: {integrity: sha512-wJi8nNyT62HjIpobTpLaWtvA+nJhconWxqHlGoVoa2odWdingwTBrzUR7Psuh4/ur0S7ZxTMphvZe+zqYWRNng==}
