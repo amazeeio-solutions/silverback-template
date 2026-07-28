@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.5 (2026-07-28)
+
+
+### Bug Fixes
+
+* remove unused react-server-dom-webpack from react-intl ([f7587dd](https://github.com/amazeeio-solutions/silverback-template/commit/f7587dd8d2d333cd59906bc9c49eb9deb2e0bac6))
+
+
+
+
+
 ## [1.1.4](https://github.com/AmazeeLabs/silverback-mono/compare/@amazeelabs/react-intl@1.1.3...@amazeelabs/react-intl@1.1.4) (2025-02-06)
 
 **Note:** Version bump only for package @amazeelabs/react-intl
