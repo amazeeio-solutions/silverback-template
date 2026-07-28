@@ -1,4 +1,4 @@
-import { defineConfig, frontend } from '@internal/eslint-config';
+import { defineConfig, frontend } from '@custom/eslint-config';
 
 export default defineConfig([
   ...frontend,

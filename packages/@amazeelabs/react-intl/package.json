@@ -12,6 +12,9 @@
   "author": "Amazee Labs <development@amazeelabs.com>",
   "license": "ISC",
   "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "eslint . --quiet",
     "test:static": "eslint . --quiet"
   },
   "dependencies": {
@@ -19,7 +22,7 @@
     "react-server-dom-webpack": "19.0.0"
   },
   "devDependencies": {
-    "@internal/eslint-config": "workspace:*"
+    "@custom/eslint-config": "workspace:*"
   },
   "exports": {
     ".": {
