@@ -1,0 +1,37 @@
+{
+  "name": "@amazeelabs/react-intl",
+  "version": "1.1.5",
+  "description": "Minimal RSC-compatible wrapper around react-intl",
+  "main": "client.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Amazee Labs <development@amazeelabs.com>",
+  "license": "ISC",
+  "scripts": {
+    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit:fix": "eslint . --fix --quiet",
+    "precommit:check": "eslint . --quiet",
+    "test:static": "eslint . --quiet"
+  },
+  "dependencies": {
+    "react-intl": "^6.8.9"
+  },
+  "devDependencies": {
+    "@custom/eslint-config": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "react-server": "./server.js",
+      "default": "./client.js"
+    }
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  }
+}
