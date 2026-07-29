@@ -1,0 +1,9 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "test:static": {
+      "inputs": ["client.js", "server.js", "index.d.ts", "eslint.config.mjs"]
+    }
+  }
+}

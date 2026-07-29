@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/image@2.0.0...@amazeelabs/image@2.0.1) (2026-07-28)
+
+**Note:** Version bump only for package @amazeelabs/image
+
+
+
+
+
 # 2.0.0 (2025-07-15)
 
 
