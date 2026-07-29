@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.11](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.10...@amazeelabs/silverback-template@2.6.11) (2026-07-28)
+
+
+### Bug Fixes
+
+* remove unused react-server-dom-webpack from react-intl ([f7587dd](https://github.com/amazeeio-solutions/silverback-template/commit/f7587dd8d2d333cd59906bc9c49eb9deb2e0bac6))
+
+
+
+
+
 ## [2.6.10](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.9...@amazeelabs/silverback-template@2.6.10) (2026-06-25)
 
 
