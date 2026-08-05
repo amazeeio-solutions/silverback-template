@@ -13,6 +13,9 @@ on:
 concurrency:
   group: merge_release_to_prod
 
+permissions:
+  contents: write
+
 jobs:
   merge:
     name: Merge

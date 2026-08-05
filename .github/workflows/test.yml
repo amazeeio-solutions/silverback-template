@@ -13,6 +13,10 @@ on:
           - 'Off'
         default: 'On'
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   test:
     name: Test
