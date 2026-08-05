@@ -13,6 +13,10 @@ on:
           - 'Off'
         default: 'On'
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   test:
     name: Test
@@ -141,25 +145,6 @@ jobs:
       #   if:
       #     ${{ github.ref  == 'refs/heads/dev' && vars.NETLIFY_STORYBOOK_ID != ''
       #     }}
-
-  update_dashboard:
-    name: Update dashboard
-    if: github.ref == 'refs/heads/release' && vars.JIRA_PROJECT_ID != ''
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install estimator
-        run: npm install -g @amazeelabs/estimator
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Update dashboard
-        env:
-          JIRA_PROJECT_ID: ${{ vars.JIRA_PROJECT_ID }}
-          DASHBOARD_ACCESS_TOKEN: ${{ secrets.DASHBOARD_ACCESS_TOKEN }}
-        run: amazeelabs-estimator update
 
   init_script:
     name: Init script
