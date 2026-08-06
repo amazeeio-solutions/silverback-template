@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.16](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.15...@amazeelabs/silverback-template@2.6.16) (2026-08-05)
+
+
+### Bug Fixes
+
+* robustly strip HTML comments in cleanUpText ([2a0418a](https://github.com/amazeeio-solutions/silverback-template/commit/2a0418a8721fca5bf5665ebb656bdc92d774641e))
+
+
+
+
+
 ## [2.6.15](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.14...@amazeelabs/silverback-template@2.6.15) (2026-08-05)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

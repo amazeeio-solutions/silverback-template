@@ -17,7 +17,8 @@ concurrency:
 
 permissions:
   contents: read
-  actions: read
+  # The Publisher action deletes stale Actions caches via the REST API.
+  actions: write
 
 jobs:
   build:
