@@ -75,7 +75,7 @@
     "@swc/core": "^1.10.11",
     "gatsby-plugin-sharp": "5.14.0",
     "gatsby-source-filesystem": "^5.14.0",
-    "image-size": "^1.2.0",
+    "image-size": "^2.0.2",
     "mime-types": "^2.1.35"
   }
 }
