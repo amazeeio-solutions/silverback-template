@@ -1,0 +1,25 @@
+{
+  "name": "@amazeelabs/publisher-shared",
+  "version": "2.0.28",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/exports.js",
+  "types": "./dist/exports.d.ts",
+  "scripts": {
+    "build": "rollup -c rollup.config.ts --configPlugin typescript",
+    "watch": "pnpm build --watch",
+    "test:static": "tsc --noEmit && eslint . --quiet"
+  },
+  "devDependencies": {
+    "@internal/eslint-config": "workspace:*",
+    "rollup": "4.32.0",
+    "rollup-plugin-dts": "6.1.1",
+    "rollup-plugin-esbuild": "6.1.1",
+    "typescript": "5.7.3"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  }
+}
