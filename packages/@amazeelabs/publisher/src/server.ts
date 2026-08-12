@@ -4,7 +4,6 @@ import expressWs from 'express-ws';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createHttpTerminator } from 'http-terminator';
 import { HttpTerminator } from 'http-terminator/src/types';
-import path, { dirname } from 'path';
 import referrerPolicy from 'referrer-policy';
 import { map, scan, shareReplay, Subject } from 'rxjs';
 import { fileURLToPath } from 'url';
@@ -32,8 +31,9 @@ import {
   stateMatches,
 } from './tools/oAuth2';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Resolved from the module URL, so that it works both from `src` and from the
+// bundle in `dist`.
+const uiPath = fileURLToPath(new URL('./ui', import.meta.url));
 
 const createApp = (): expressWs.Application => {
   const expressServer = express();
@@ -174,7 +174,7 @@ const createApp = (): expressWs.Application => {
   // guards below hang the request instead of returning an error response.
 
   app.use('/___status', authMiddleware);
-  app.use('/___status', express.static(path.resolve(__dirname, 'ui')));
+  app.use('/___status', express.static(uiPath));
 
   // Fallback route for login. Is used if there is no origin cookie.
   app.get('/oauth/login', async (req, res) => {
