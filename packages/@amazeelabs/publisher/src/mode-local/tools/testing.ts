@@ -28,5 +28,7 @@ export const defaultConfig: PublisherConfigLocal = {
       port: 3001,
     },
   },
-  databaseUrl: 'sqlite://:memory:',
+  // Sequelize takes a plain sqlite path, not a URL. A URL here would silently
+  // create a file named "sqlite://:memory:" instead of an in-memory database.
+  databaseUrl: ':memory:',
 };

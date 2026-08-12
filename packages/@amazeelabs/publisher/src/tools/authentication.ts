@@ -39,6 +39,8 @@ export const getAuthenticationMiddleware = (
       }
     }
 
+    // FIXME: reads from getConfig() instead of the config argument, so the
+    // oAuth2 and basicAuth branches can resolve from different sources.
     const basicAuthConfig = getConfig().basicAuth;
     if (basicAuthConfig) {
       return basicAuth({

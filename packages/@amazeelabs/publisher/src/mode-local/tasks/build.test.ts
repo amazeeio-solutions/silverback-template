@@ -7,6 +7,8 @@ import { core } from '../core';
 import { defaultConfig, reset } from '../tools/testing';
 import { buildTask } from './build';
 
+vi.mock('../../tools/database');
+
 let output: Array<string> = [];
 
 beforeEach(async () => {

@@ -374,6 +374,7 @@ export const getUserInfo = async (req: Request): Promise<boolean> => {
     throw new Error('Missing access token.');
   }
   try {
+    // FIXME: hardcoded host, should use oAuth2Config.tokenHost.
     const userInfoResponse = await fetch(
       'http://127.0.0.1:8888/oauth/userinfo',
       {

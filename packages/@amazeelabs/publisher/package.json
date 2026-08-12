@@ -17,7 +17,7 @@
     "precommit:fix": "eslint . --fix --quiet",
     "precommit:check": "tsc --noEmit && eslint . --quiet",
     "test:static": "tsc --noEmit && eslint . --quiet",
-    "test:unit": "vitest run --retry=3"
+    "test:unit": "vitest run"
   },
   "dependencies": {
     "@amazeelabs/publisher-shared": "workspace:*",
@@ -55,13 +55,15 @@
     "@types/fs-extra": "11.0.4",
     "@types/node": "^20",
     "@types/simple-oauth2": "5.0.7",
+    "@types/supertest": "6.0.3",
     "esbuild": "0.24.2",
     "nodemon": "3.1.9",
     "rollup": "4.32.0",
     "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-esbuild": "6.1.1",
+    "supertest": "7.2.2",
     "typescript": "5.7.3",
-    "vitest": "2.1.8"
+    "vitest": "^3.0.4"
   },
   "engines": {
     "node": ">=20"

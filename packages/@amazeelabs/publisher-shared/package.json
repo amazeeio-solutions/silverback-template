@@ -10,10 +10,11 @@
   "scripts": {
     "prep": "rollup -c rollup.config.ts --configPlugin typescript",
     "watch": "pnpm prep --watch",
-    "precommit": "pnpm precommit:fix && pnpm precommit:check",
+    "precommit": "pnpm precommit:fix && pnpm precommit:check && pnpm test:unit",
     "precommit:fix": "eslint . --fix --quiet",
     "precommit:check": "tsc --noEmit && eslint . --quiet",
-    "test:static": "tsc --noEmit && eslint . --quiet"
+    "test:static": "tsc --noEmit && eslint . --quiet",
+    "test:unit": "vitest run --passWithNoTests"
   },
   "devDependencies": {
     "@custom/eslint-config": "workspace:*",
@@ -21,7 +22,8 @@
     "rollup": "4.32.0",
     "rollup-plugin-dts": "6.1.1",
     "rollup-plugin-esbuild": "6.1.1",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "vitest": "^3.0.4"
   },
   "dependencies": {
     "zod": "^3.24.1"

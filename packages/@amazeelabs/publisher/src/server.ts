@@ -35,7 +35,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const runServer = async (): Promise<HttpTerminator> => {
+const createApp = (): expressWs.Application => {
   const expressServer = express();
   const expressWsInstance = expressWs(expressServer);
   const { app } = expressWsInstance;
@@ -124,6 +124,7 @@ const runServer = async (): Promise<HttpTerminator> => {
     res.send();
   });
 
+  // FIXME: core.clean() returns a promise that is never awaited.
   app.post('/___status/clean', (req, res) => {
     core.clean();
     res.send();
@@ -163,6 +164,7 @@ const runServer = async (): Promise<HttpTerminator> => {
     res.json(result);
   });
 
+  // FIXME: authMiddleware is already registered for this path above.
   app.use('/___status/history', authMiddleware);
   app.get('/___status/history/:id', async (req, res) => {
     const { Build } = await getDatabase();
@@ -173,6 +175,9 @@ const runServer = async (): Promise<HttpTerminator> => {
   // ---------------------------------------------------------------------------
   // OAuth2 routes
   // ---------------------------------------------------------------------------
+
+  // FIXME: express 4 does not forward rejections from async handlers, so the
+  // guards below hang the request instead of returning an error response.
 
   app.use('/___status', authMiddleware);
   app.use(
@@ -243,6 +248,7 @@ const runServer = async (): Promise<HttpTerminator> => {
         // @ts-expect-error Missing redirect_uri.
         options,
       );
+      // FIXME: this leaks the full access token into the logs.
       console.log('/oauth/callback accessToken', accessToken);
       persistAccessToken(accessToken, req);
 
@@ -278,6 +284,8 @@ const runServer = async (): Promise<HttpTerminator> => {
     res.redirect('/oauth/login');
   });
 
+  // FIXME: unauthenticated, and the CoreGithubWorkflow cast is unconditional -
+  // in "local" mode workflowState$ is undefined and a valid request throws.
   app.post('/github-workflow-status', async (req, res) => {
     const result = workflowStatusNotificationSchema.safeParse(req.body);
     if (!result.success) {
@@ -310,6 +318,8 @@ const runServer = async (): Promise<HttpTerminator> => {
     });
   }
 
+  // FIXME: next() is called after res.end() without returning, so finalhandler
+  // destroys the socket.
   app.get('*', (req, res, next) => {
     if (!req.app.locals.isReady) {
       if (req.accepts('text/html')) {
@@ -322,6 +332,11 @@ const runServer = async (): Promise<HttpTerminator> => {
     next();
   });
 
+  return app;
+};
+
+const runServer = async (): Promise<HttpTerminator> => {
+  const app = createApp();
   const host = getConfig().publisherHost || '0.0.0.0';
   const port = getConfig().publisherPort;
   const server = await app.listen({ host, port });
@@ -330,4 +345,4 @@ const runServer = async (): Promise<HttpTerminator> => {
   return terminator;
 };
 
-export { runServer };
+export { createApp, runServer };

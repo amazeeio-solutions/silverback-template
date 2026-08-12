@@ -29,6 +29,8 @@ export const buildTask: (args?: { clean: boolean }) => TaskJob =
       );
     });
 
+    // FIXME: saveBuildInfo is not awaited, so a database failure surfaces as an
+    // unhandled rejection.
     const finalizeBuild = (isSuccess: boolean): boolean => {
       core.state.applicationState$.next(
         isSuccess ? ApplicationState.Ready : ApplicationState.Error,
@@ -48,6 +50,8 @@ export const buildTask: (args?: { clean: boolean }) => TaskJob =
       core.state.buildNumber === 1
         ? 3 // The first build gets 3 attempts.
         : 1;
+    // FIXME: a cancelled run resolves false rather than aborting, so cancelling
+    // the first build still triggers the remaining attempts.
     for (let attempt = 1; attempt <= attempts; attempt++) {
       const result =
         attempt === 2
@@ -76,6 +80,8 @@ async function runWorkflow(args: {
       args.controller.cancel();
     }, config().workflowTimeout);
 
+    // FIXME: never removed via offCancel, so callbacks accumulate across
+    // attempts and one cancel re-runs cancelWorkflow() once per attempt.
     args.controller.onCancel(async () => {
       core.output$.next('Cancelling the workflow', 'warning');
       await cancelWorkflow();
@@ -164,6 +170,8 @@ async function cancelWorkflow(): Promise<void> {
     // are quite rare operations.
     const checkAttempts = 6;
     const delay = 10_000;
+    // FIXME: the delay runs before the first check, so start() is held up by
+    // 10s even when there is nothing to cancel.
     for (let checkAttempt = 1; checkAttempt <= checkAttempts; checkAttempt++) {
       await new Promise((resolve) => setTimeout(resolve, delay));
       const result = execSync(listCommand).toString();

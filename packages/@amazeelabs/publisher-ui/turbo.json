@@ -22,6 +22,24 @@
         "tsconfig.json",
         "eslint.config.mjs"
       ]
+    },
+    "test:unit": {
+      "inputs": ["src/**", "tsconfig.json", "vitest.config.ts"]
+    },
+    "build-storybook": {
+      "inputs": [
+        "src/**",
+        ".storybook/**",
+        "static/**",
+        "tailwind.css",
+        "tailwind.config.cjs",
+        "postcss.config.cjs",
+        "tsconfig.json"
+      ],
+      "outputs": ["storybook-static/**"]
+    },
+    "test:integration": {
+      "dependsOn": ["test:unit", "build-storybook"]
     }
   }
 }

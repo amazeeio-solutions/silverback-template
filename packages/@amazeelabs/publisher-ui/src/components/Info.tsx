@@ -76,8 +76,11 @@ function History({
                 const date = new Date();
 
                 const startedAtDate = date.setTime(item.startedAt);
+                // Passing undefined uses the runtime's default locale.
+                // window.navigator.language can be empty or non-standard, which
+                // makes toLocaleString throw.
                 const convertedDate = new Date(startedAtDate).toLocaleString(
-                  window.navigator.language,
+                  undefined,
                   {
                     weekday: 'long',
                     month: 'long',
@@ -91,6 +94,7 @@ function History({
                 );
 
                 return (
+                  // FIXME: the key belongs on the fragment returned by map().
                   <>
                     <Disclosure key={item.id}>
                       {({ open }) => (

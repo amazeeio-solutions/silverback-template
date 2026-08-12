@@ -8,6 +8,9 @@
     },
     "test:static": {
       "inputs": ["src/**", "tsconfig.json", "eslint.config.mjs"]
+    },
+    "test:unit": {
+      "inputs": ["src/**", "tsconfig.json"]
     }
   }
 }
