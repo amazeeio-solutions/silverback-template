@@ -31,12 +31,18 @@ const notify = async (notificationText: string): Promise<void> => {
   }
 
   const slackWebhook = new IncomingWebhook(config.webhookUrl);
-  await slackWebhook.send({
-    username: 'Publisher Bot',
-    text: processMessage(notificationText),
-    channel: config.channel,
-    icon_emoji: ':robot_face:',
-  });
+  // Callers are rxjs subscribers that cannot await, and a notification is never
+  // worth taking the server down for, so failures stay here.
+  try {
+    await slackWebhook.send({
+      username: 'Publisher Bot',
+      text: processMessage(notificationText),
+      channel: config.channel,
+      icon_emoji: ':robot_face:',
+    });
+  } catch (error) {
+    console.error('Slack notification failed:', error);
+  }
 };
 
 export const stateNotify = (

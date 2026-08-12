@@ -1,11 +1,16 @@
 import cors from 'cors';
-import express from 'express';
+import express, {
+  ErrorRequestHandler,
+  Request,
+  RequestHandler,
+  Response,
+} from 'express';
 import expressWs from 'express-ws';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { createHttpTerminator } from 'http-terminator';
 import { HttpTerminator } from 'http-terminator/src/types';
 import referrerPolicy from 'referrer-policy';
-import { map, scan, shareReplay, Subject } from 'rxjs';
+import { map, scan, shareReplay, Subject, Subscription } from 'rxjs';
 import { fileURLToPath } from 'url';
 
 import { stateNotify } from './notify';
@@ -35,12 +40,58 @@ import {
 // bundle in `dist`.
 const uiPath = fileURLToPath(new URL('./ui', import.meta.url));
 
+// Without an 'error' listener `ws` rethrows socket errors (e.g. a malformed
+// frame) as an uncaught exception, which crashes the process.
+const logWebSocketError = (error: Error): void => {
+  console.error('WebSocket connection error:', error.message);
+};
+
+/**
+ * Releases the subscription that feeds a socket once the client is gone.
+ *
+ * `sub.unsubscribe` cannot be handed to `on('close')` directly: rxjs needs it
+ * bound to its subscription, and a listener is called with the WebSocket as
+ * `this`, so the subscription would silently stay alive and keep pushing into a
+ * closed socket for the lifetime of the process.
+ */
+const unsubscribeOnClose = (
+  ws: { on(event: 'close', listener: () => void): void },
+  sub: Subscription,
+): void => {
+  ws.on('close', () => sub.unsubscribe());
+};
+
+/**
+ * Express 4 ignores the promise a handler returns, so a rejection would neither
+ * answer the request nor reach the error handling middleware - it would surface
+ * as an unhandled rejection and exit the process.
+ */
+const handleAsync =
+  <Params = Record<string, string>>(
+    handler: (request: Request<Params>, response: Response) => Promise<unknown>,
+  ): RequestHandler<Params> =>
+  (request, response, next) => {
+    handler(request, response).catch(next);
+  };
+
+// These sockets only carry pushes from the server, so nothing legitimate ever
+// arrives from a client. `ws` defaults to 100 MB and buffers a message until it
+// is complete, which would let a handful of sockets exhaust the heap.
+const maxWebSocketPayload = 64 * 1024;
+
 const createApp = (): expressWs.Application => {
   const expressServer = express();
-  const expressWsInstance = expressWs(expressServer);
+  const expressWsInstance = expressWs(expressServer, undefined, {
+    wsOptions: { maxPayload: maxWebSocketPayload },
+  });
   const { app } = expressWsInstance;
 
   app.locals.isReady = false;
+
+  // Express 4 defaults to qs, which expands brackets into arrays and objects and
+  // has memory-exhaustion advisories reachable from any query string. Only flat
+  // string parameters are ever read, so the simple parser is enough.
+  app.set('query parser', 'simple');
 
   // A session is only needed for OAuth2 Authorization Code grant type.
   if (isSessionRequired()) {
@@ -116,7 +167,8 @@ const createApp = (): expressWs.Application => {
     const sub = updates$.subscribe((data) => {
       ws.send(JSON.stringify(data));
     });
-    ws.on('close', sub.unsubscribe);
+    ws.on('error', logWebSocketError);
+    unsubscribeOnClose(ws, sub);
   });
 
   app.post('/___status/build', (req, res) => {
@@ -124,9 +176,12 @@ const createApp = (): expressWs.Application => {
     res.send();
   });
 
-  // FIXME: core.clean() returns a promise that is never awaited.
+  // The response is not made to wait for the clean, which runs for minutes, so
+  // its failure has to be caught here rather than left unhandled.
   app.post('/___status/clean', (req, res) => {
-    core.clean();
+    core.clean().catch((error) => {
+      console.error('Clean failed:', error);
+    });
     res.send();
   });
 
@@ -141,7 +196,8 @@ const createApp = (): expressWs.Application => {
     const sub = outputWithReplay$.subscribe((chunk) => {
       ws.send(chunk);
     });
-    ws.on('close', sub.unsubscribe);
+    ws.on('error', logWebSocketError);
+    unsubscribeOnClose(ws, sub);
   });
 
   const applicationStateWithReplay$ = core.state.applicationState$.pipe(
@@ -152,47 +208,52 @@ const createApp = (): expressWs.Application => {
     const sub = applicationStateWithReplay$.subscribe((state) => {
       ws.send(JSON.stringify(state));
     });
-    ws.on('close', sub.unsubscribe);
+    ws.on('error', logWebSocketError);
+    unsubscribeOnClose(ws, sub);
   });
 
   app.use('/___status/history', authMiddleware);
-  app.get('/___status/history', async (req, res) => {
-    res.json(await listBuilds());
-  });
+  app.get(
+    '/___status/history',
+    handleAsync(async (req, res) => {
+      res.json(await listBuilds());
+    }),
+  );
 
-  // FIXME: authMiddleware is already registered for this path above.
-  app.use('/___status/history', authMiddleware);
-  app.get('/___status/history/:id', async (req, res) => {
-    res.json(await getBuild(req.params.id));
-  });
+  app.get(
+    '/___status/history/:id',
+    handleAsync<{ id: string }>(async (req, res) => {
+      res.json(await getBuild(req.params.id));
+    }),
+  );
 
   // ---------------------------------------------------------------------------
   // OAuth2 routes
   // ---------------------------------------------------------------------------
 
-  // FIXME: express 4 does not forward rejections from async handlers, so the
-  // guards below hang the request instead of returning an error response.
-
   app.use('/___status', authMiddleware);
   app.use('/___status', express.static(uiPath));
 
   // Fallback route for login. Is used if there is no origin cookie.
-  app.get('/oauth/login', async (req, res) => {
-    if (await isAuthenticated(req)) {
-      const accessPublisher = await hasPublisherAccess(req);
-      if (accessPublisher) {
-        res.send(
-          'Publisher access is granted. <a href="/___status/">View status</a>',
-        );
+  app.get(
+    '/oauth/login',
+    handleAsync(async (req, res) => {
+      if (await isAuthenticated(req)) {
+        const accessPublisher = await hasPublisherAccess(req);
+        if (accessPublisher) {
+          res.send(
+            'Publisher access is granted. <a href="/___status/">View status</a>',
+          );
+        } else {
+          res.send(
+            'Publisher access is not granted. Contact your site administrator. <a href="/oauth/logout">Log out</a>',
+          );
+        }
       } else {
-        res.send(
-          'Publisher access is not granted. Contact your site administrator. <a href="/oauth/logout">Log out</a>',
-        );
+        res.cookie('origin', req.path).send('<a href="/oauth">Log in</a>');
       }
-    } else {
-      res.cookie('origin', req.path).send('<a href="/oauth">Log in</a>');
-    }
-  });
+    }),
+  );
 
   // Redirects to authentication provider.
   app.get('/oauth', (req, res) => {
@@ -205,90 +266,97 @@ const createApp = (): expressWs.Application => {
   });
 
   // Callback from authentication provider.
-  app.get('/oauth/callback', async (req, res) => {
-    const oAuth2Config = getConfig().oAuth2;
-    if (!oAuth2Config) {
-      throw new Error('Missing OAuth2 configuration.');
-    }
-
-    const client = oAuth2AuthorizationCodeClient();
-    if (!client) {
-      throw new Error('Missing OAuth2 client.');
-    }
-
-    // Check if the state matches.
-    if (!stateMatches(req)) {
-      return res
-        .status(400)
-        .json(
-          'State does not match. Check if the Drupal Consumer entity redirect URI is properly set.',
-        );
-    }
-
-    const { code } = req.query;
-    const options = {
-      code,
-      scope: oAuth2Config.scope,
-      // Do not include redirect_uri, makes Drupal simple_oauth fail.
-      // Returns 400 Bad Request.
-      //redirect_uri: 'http://127.0.0.1:7777/callback',
-    };
-
-    try {
-      const accessToken = await client.getToken(
-        // @ts-expect-error Missing redirect_uri.
-        options,
-      );
-      // FIXME: this leaks the full access token into the logs.
-      console.log('/oauth/callback accessToken', accessToken);
-      persistAccessToken(accessToken, req);
-
-      if (req.cookies.origin) {
-        res.redirect(req.cookies.origin);
-      } else {
-        res.redirect('/oauth/login');
+  app.get(
+    '/oauth/callback',
+    handleAsync(async (req, res) => {
+      const oAuth2Config = getConfig().oAuth2;
+      if (!oAuth2Config) {
+        throw new Error('Missing OAuth2 configuration.');
       }
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json(
-        `Authentication failed with error: ${
-          // @ts-expect-error `error` is unknown
-          error.message
-        }`,
-      );
-    }
-  });
+
+      const client = oAuth2AuthorizationCodeClient();
+      if (!client) {
+        throw new Error('Missing OAuth2 client.');
+      }
+
+      // Check if the state matches.
+      if (!stateMatches(req)) {
+        return res
+          .status(400)
+          .json(
+            'State does not match. Check if the Drupal Consumer entity redirect URI is properly set.',
+          );
+      }
+
+      const { code } = req.query;
+      const options = {
+        code,
+        scope: oAuth2Config.scope,
+        // Do not include redirect_uri, makes Drupal simple_oauth fail.
+        // Returns 400 Bad Request.
+        //redirect_uri: 'http://127.0.0.1:7777/callback',
+      };
+
+      try {
+        const accessToken = await client.getToken(
+          // @ts-expect-error Missing redirect_uri.
+          options,
+        );
+        persistAccessToken(accessToken, req);
+
+        if (req.cookies.origin) {
+          res.redirect(req.cookies.origin);
+        } else {
+          res.redirect('/oauth/login');
+        }
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json(
+          `Authentication failed with error: ${
+            // @ts-expect-error `error` is unknown
+            error.message
+          }`,
+        );
+      }
+    }),
+  );
 
   // Removes the session.
-  app.get('/oauth/logout', async (req, res) => {
-    const accessToken = getPersistedAccessToken(req);
-    if (!accessToken) {
-      return res.status(401).send('No token found.');
-    }
+  app.get(
+    '/oauth/logout',
+    handleAsync(async (req, res) => {
+      const accessToken = getPersistedAccessToken(req);
+      if (!accessToken) {
+        return res.status(401).send('No token found.');
+      }
 
-    // Requires this Drupal patch
-    // https://www.drupal.org/project/simple_oauth/issues/2945273
-    // await accessToken.revokeAll();
-    req.session.destroy(function (err) {
-      console.log('Remove session', err);
+      // Requires this Drupal patch
+      // https://www.drupal.org/project/simple_oauth/issues/2945273
+      // await accessToken.revokeAll();
+      req.session.destroy(function (err) {
+        console.log('Remove session', err);
+      });
+      res.redirect('/oauth/login');
+    }),
+  );
+
+  // Only registered in the mode that owns the state it drives. In "local" mode
+  // there is no workflowState$, and a valid notification would throw.
+  if (getConfig().mode === 'github-workflow') {
+    app.post('/github-workflow-status', (req, res) => {
+      const result = workflowStatusNotificationSchema.safeParse(req.body);
+      if (!result.success) {
+        console.error(result.error);
+        res.status(400).send('Invalid request\n');
+        return;
+      }
+      const { status, workflowRunUrl } = result.data;
+      const state = (core as CoreGithubWorkflow).state;
+      state.workflowRunUrl = workflowRunUrl;
+      state.workflowState$.next(status);
+      res.send();
     });
-    res.redirect('/oauth/login');
-  });
-
-  // FIXME: unauthenticated, and the CoreGithubWorkflow cast is unconditional -
-  // in "local" mode workflowState$ is undefined and a valid request throws.
-  app.post('/github-workflow-status', async (req, res) => {
-    const result = workflowStatusNotificationSchema.safeParse(req.body);
-    if (!result.success) {
-      console.error(result.error);
-      res.status(400).send('Invalid request\n');
-      return;
-    }
-    const { status, workflowRunUrl } = result.data;
-    (core as CoreGithubWorkflow).state.workflowRunUrl = workflowRunUrl;
-    (core as CoreGithubWorkflow).state.workflowState$.next(status);
-    res.send();
-  });
+  }
 
   const config = getConfig();
   if (config.mode === 'local' && config.commands.serve?.port) {
@@ -309,19 +377,28 @@ const createApp = (): expressWs.Application => {
     });
   }
 
-  // FIXME: next() is called after res.end() without returning, so finalhandler
-  // destroys the socket.
   app.get('*', (req, res, next) => {
-    if (!req.app.locals.isReady) {
-      if (req.accepts('text/html')) {
-        res.redirect(302, `/___status/status.html?dest=${req.originalUrl}`);
-      } else {
-        res.status(404);
-      }
-      res.end();
+    if (req.app.locals.isReady) {
+      return next();
     }
-    next();
+    if (req.accepts('text/html')) {
+      res.redirect(302, `/___status/status.html?dest=${req.originalUrl}`);
+    } else {
+      res.status(404);
+    }
+    res.end();
   });
+
+  // Answers requests whose handler failed. Without it express replies with its
+  // default HTML error page, which includes a stack trace.
+  const reportRequestError: ErrorRequestHandler = (error, req, res, next) => {
+    console.error(`Request to ${req.originalUrl} failed:`, error);
+    if (res.headersSent) {
+      return next(error);
+    }
+    res.status(500).send('Internal server error\n');
+  };
+  app.use(reportRequestError);
 
   return app;
 };

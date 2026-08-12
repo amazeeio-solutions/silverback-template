@@ -63,6 +63,20 @@ export const run = (options: {
   let killSignal: null | NodeJS.Signals = null;
 
   const result = new Promise<Result>((resolve) => {
+    // A spawn can fail outright, for instance with EAGAIN or ENOMEM when the
+    // container is under pressure. Without this listener node rethrows it as an
+    // uncaught exception, and 'exit' never arrives to settle `result`, which
+    // would leave the queue waiting forever.
+    process.on('error', (error): void => {
+      options.controller.offCancel(kill);
+      core.output$.next(
+        `Command failed to start: "${options.command}": ${error.message}`,
+        'error',
+      );
+      setOutputTimeout(true);
+      resolve({ exitCode: null });
+    });
+
     process.on('exit', (code): void => {
       options.controller.offCancel(kill);
       if (killSignal) {

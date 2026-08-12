@@ -1,7 +1,7 @@
 import { beforeEach, expect, test, vi } from 'vitest';
 
 import { setConfig } from '../../tools/config';
-import { saveBuildInfo } from '../../tools/database';
+import { saveBuildInfoSafely } from '../../tools/database';
 import { TaskController } from '../../tools/queue';
 import { core } from '../core';
 import { defaultConfig, reset } from '../tools/testing';
@@ -55,8 +55,8 @@ test('successful builds are saved to database', async () => {
   setConfig(defaultConfig);
   await buildTask()(new TaskController());
   await buildTask()(new TaskController());
-  expect(saveBuildInfo).toHaveBeenCalledTimes(2);
-  expect(saveBuildInfo).toHaveBeenNthCalledWith(1, {
+  expect(saveBuildInfoSafely).toHaveBeenCalledTimes(2);
+  expect(saveBuildInfoSafely).toHaveBeenNthCalledWith(1, {
     startedAt: expect.any(Number),
     finishedAt: expect.any(Number),
     success: true,
@@ -75,7 +75,7 @@ ${date} ✅ Command exited: "echo "deploy""`,
       ),
     ),
   });
-  expect(saveBuildInfo).toHaveBeenNthCalledWith(2, {
+  expect(saveBuildInfoSafely).toHaveBeenNthCalledWith(2, {
     startedAt: expect.any(Number),
     finishedAt: expect.any(Number),
     success: true,
@@ -104,15 +104,15 @@ test('failed builds are saved to database', async () => {
   });
   await buildTask()(new TaskController());
   await buildTask()(new TaskController());
-  expect(saveBuildInfo).toHaveBeenCalledTimes(2);
-  expect(saveBuildInfo).toHaveBeenNthCalledWith(1, {
+  expect(saveBuildInfoSafely).toHaveBeenCalledTimes(2);
+  expect(saveBuildInfoSafely).toHaveBeenNthCalledWith(1, {
     startedAt: expect.any(Number),
     finishedAt: expect.any(Number),
     success: false,
     type: 'full',
     logs: expect.any(String),
   });
-  expect(saveBuildInfo).toHaveBeenNthCalledWith(2, {
+  expect(saveBuildInfoSafely).toHaveBeenNthCalledWith(2, {
     startedAt: expect.any(Number),
     finishedAt: expect.any(Number),
     success: false,

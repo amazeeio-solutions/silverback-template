@@ -3,8 +3,9 @@ import { execSync, SpawnSyncReturns } from 'node:child_process';
 import { skip } from 'rxjs';
 
 import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
+import { BuildLog } from '../tools/buildLog';
 import { getConfigGithubWorkflow as config } from '../tools/config';
-import { saveBuildInfo } from '../tools/database';
+import { saveBuildInfoSafely } from '../tools/database';
 import { TaskController, TaskJob } from '../tools/queue';
 import { core } from './core';
 
@@ -19,25 +20,23 @@ export const buildTask: (args?: { clean: boolean }) => TaskJob =
 
     const startedAt = Date.now();
 
-    const output: Array<string> = [];
+    const output = new BuildLog();
     const outputSubscription = core.output$.subscribe((chunk) => {
-      output.push(
+      output.append(
         `${new Date().toISOString().substring(0, 19).replace('T', ' ')} ${chunk}`,
       );
     });
 
-    // FIXME: saveBuildInfo is not awaited, so a database failure surfaces as an
-    // unhandled rejection.
     const finalizeBuild = (isSuccess: boolean): boolean => {
       core.state.applicationState$.next(
         isSuccess ? ApplicationState.Ready : ApplicationState.Error,
       );
-      saveBuildInfo({
+      saveBuildInfoSafely({
         type: 'github-workflow',
         startedAt,
         finishedAt: Date.now(),
         success: isSuccess,
-        logs: output.join(''),
+        logs: output.toString(),
       });
       outputSubscription.unsubscribe();
       return isSuccess;

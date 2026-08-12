@@ -206,3 +206,33 @@ test('sends username, channel and icon_emoji alongside the message', () => {
     icon_emoji: ':robot_face:',
   });
 });
+
+test('a failing Slack webhook is reported instead of crashing the process', async () => {
+  // Slack rate-limits incoming webhooks, and stateNotify is called from an rxjs
+  // subscriber that cannot await. An unhandled rejection here exits the process,
+  // which makes Lagoon restart the pod.
+  const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  sendMock.mockRejectedValueOnce(new Error('rate limited'));
+  withSlackNotifications();
+
+  const rejections: Array<unknown> = [];
+  const record = (reason: unknown): void => {
+    rejections.push(reason);
+  };
+  const existing = process.listeners('unhandledRejection');
+  process.removeAllListeners('unhandledRejection');
+  process.on('unhandledRejection', record);
+  try {
+    stateNotify([ApplicationState.Error], 2);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  } finally {
+    process.removeListener('unhandledRejection', record);
+    existing.forEach((listener) => process.on('unhandledRejection', listener));
+  }
+
+  expect(rejections).toEqual([]);
+  expect(errorSpy).toHaveBeenCalledWith(
+    'Slack notification failed:',
+    expect.objectContaining({ message: 'rate limited' }),
+  );
+});

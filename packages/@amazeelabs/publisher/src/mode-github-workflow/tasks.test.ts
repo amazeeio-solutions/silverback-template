@@ -4,13 +4,13 @@ import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
 import { PublisherConfigGithubWorkflow } from '../tools/config';
 import { TaskController } from '../tools/queue';
 
-const { execSync, saveBuildInfo } = vi.hoisted(() => ({
+const { execSync, saveBuildInfoSafely } = vi.hoisted(() => ({
   execSync: vi.fn(),
-  saveBuildInfo: vi.fn(),
+  saveBuildInfoSafely: vi.fn(),
 }));
 
 vi.mock('node:child_process', () => ({ execSync }));
-vi.mock('../tools/database', () => ({ saveBuildInfo }));
+vi.mock('../tools/database', () => ({ saveBuildInfoSafely }));
 
 const githubWorkflowConfig: PublisherConfigGithubWorkflow = {
   mode: 'github-workflow',
@@ -90,7 +90,7 @@ beforeEach(() => {
   consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
   execSync.mockReset();
   execSync.mockReturnValue('[]');
-  saveBuildInfo.mockReset();
+  saveBuildInfoSafely.mockReset();
 });
 
 afterEach(async () => {
@@ -119,11 +119,11 @@ test('a successful first build reports Starting and Ready', async () => {
     '✅ Workflow succeeded\n',
     'Logs: \n',
   ]);
-  expect(saveBuildInfo).toHaveBeenCalledTimes(1);
-  expect(saveBuildInfo).toHaveBeenCalledWith(
+  expect(saveBuildInfoSafely).toHaveBeenCalledTimes(1);
+  expect(saveBuildInfoSafely).toHaveBeenCalledWith(
     expect.objectContaining({ type: 'github-workflow', success: true }),
   );
-  const { logs, startedAt, finishedAt } = saveBuildInfo.mock.calls[0]![0];
+  const { logs, startedAt, finishedAt } = saveBuildInfoSafely.mock.calls[0]![0];
   expect(logs).toContain('Starting the workflow');
   expect(logs).toContain('Workflow succeeded');
   expect(finishedAt).toBeGreaterThanOrEqual(startedAt);
@@ -176,7 +176,7 @@ test('the first build gets three attempts and cleans on the second one', async (
     ApplicationState.Starting,
     ApplicationState.Error,
   ]);
-  expect(saveBuildInfo).toHaveBeenCalledWith(
+  expect(saveBuildInfoSafely).toHaveBeenCalledWith(
     expect.objectContaining({ type: 'github-workflow', success: false }),
   );
 });

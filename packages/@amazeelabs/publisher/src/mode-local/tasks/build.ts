@@ -1,4 +1,5 @@
-import { saveBuildInfo } from '../../tools/database';
+import { BuildLog } from '../../tools/buildLog';
+import { saveBuildInfoSafely } from '../../tools/database';
 import { Queue, TaskJob } from '../../tools/queue';
 import { core } from '../core';
 import { buildDeployTask } from './build/buildDeploy';
@@ -10,21 +11,21 @@ export const buildTask: () => TaskJob = () => (controller) => {
   core.state.setBuildState('InProgress');
 
   const startedAt = Date.now();
-  const output: Array<string> = [];
+  const output = new BuildLog();
   const outputSubscription = core.output$.subscribe((chunk) => {
-    output.push(
+    output.append(
       `${new Date().toISOString().substring(0, 19).replace('T', ' ')} ${chunk}`,
     );
   });
   const saveBuildLogs = (): void => {
-    saveBuildInfo({
+    saveBuildInfoSafely({
       type: core.state.getBuildNumber() === 1 ? 'full' : 'incremental',
       startedAt,
       finishedAt: Date.now(),
       success:
         core.state.getBuildJobState() === 'Success' &&
         core.state.getDeployJobState() === 'Success',
-      logs: output.join(''),
+      logs: output.toString(),
     });
     outputSubscription.unsubscribe();
   };

@@ -4,6 +4,9 @@ import { runServer } from './server';
 import { loadConfig } from './tools/config';
 import { core } from './tools/core';
 import { initDatabase } from './tools/database';
+import { installCrashGuards, installShutdownHandlers } from './tools/lifecycle';
+
+installCrashGuards();
 
 let serverTerminator: HttpTerminator | null = null;
 
@@ -34,10 +37,9 @@ Available commands:
     process.exit(1);
 }
 
-process.on('SIGINT', async () => {
+installShutdownHandlers(async () => {
   if (serverTerminator) {
     await serverTerminator.terminate();
   }
   await core.stop();
-  process.exit();
 });

@@ -5,6 +5,7 @@ import sqlite3 from 'sqlite3';
 import { afterEach, expect, test, vi } from 'vitest';
 
 import type { PublisherConfigLocal } from './config';
+import { buildRetentionLimit } from './database';
 
 const temporaryDirectories: Array<string> = [];
 
@@ -47,6 +48,15 @@ afterEach(() => {
     rmSync(temporaryDirectories.pop()!, { recursive: true, force: true });
   }
 });
+
+const countBuilds = (path: string): Promise<number> =>
+  new Promise((resolve, reject) => {
+    const database = new sqlite3.Database(path);
+    database.get('SELECT COUNT(*) AS total FROM `Builds`', (error, row) => {
+      database.close();
+      return error ? reject(error) : resolve((row as { total: number }).total);
+    });
+  });
 
 const readColumns = (
   path: string,
@@ -170,12 +180,12 @@ test('listBuilds returns the newest build first', async () => {
     await importDatabaseWithConfig();
 
   await initDatabase();
-  await saveBuildInfo({ ...buildRecord, logs: 'first' });
-  await saveBuildInfo({ ...buildRecord, logs: 'second' });
+  await saveBuildInfo({ ...buildRecord, type: 'full' });
+  await saveBuildInfo({ ...buildRecord, type: 'incremental' });
 
-  expect((await listBuilds()).map((build) => build.logs)).toStrictEqual([
-    'second',
-    'first',
+  expect((await listBuilds()).map((build) => build.type)).toStrictEqual([
+    'incremental',
+    'full',
   ]);
 
   await closeDatabase();
@@ -210,4 +220,72 @@ test('initDatabase throws when called twice', async () => {
   await expect(initDatabase()).rejects.toThrow('Database already initialized.');
 
   await closeDatabase();
+});
+
+test('a save failure is reported instead of terminating the process', async () => {
+  const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+  // A directory that does not exist, so sqlite3 fails to open the file.
+  const { saveBuildInfoSafely } = await importDatabaseWithConfig(
+    join(tmpdir(), 'publisher-missing-directory', 'publisher.sqlite'),
+  );
+
+  const rejections: Array<unknown> = [];
+  const record = (reason: unknown): void => {
+    rejections.push(reason);
+  };
+  const existing = process.listeners('unhandledRejection');
+  process.removeAllListeners('unhandledRejection');
+  process.on('unhandledRejection', record);
+  try {
+    saveBuildInfoSafely(buildRecord);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  } finally {
+    process.removeListener('unhandledRejection', record);
+    existing.forEach((listener) => process.on('unhandledRejection', listener));
+  }
+
+  expect(rejections).toEqual([]);
+  expect(errorSpy).toHaveBeenCalledWith(
+    'Could not save the build info:',
+    expect.any(Error),
+  );
+});
+
+test('the build list carries no logs and is capped', async () => {
+  // The list view only renders metadata; logs are fetched per build. Selecting
+  // them for every build ever run is what makes this query exhaust the heap.
+  const { initDatabase, saveBuildInfo, listBuilds, closeDatabase } =
+    await importDatabaseWithConfig();
+
+  await initDatabase();
+  const logs = 'x'.repeat(1024);
+  for (let build = 0; build < 60; build++) {
+    await saveBuildInfo({ ...buildRecord, logs });
+  }
+
+  const builds = await listBuilds();
+
+  expect(builds).toHaveLength(50);
+  expect(builds[0]).not.toHaveProperty('logs');
+  // Newest first, so the cap drops the oldest builds.
+  expect(builds[0]!.id).toBe(60);
+
+  await closeDatabase();
+});
+
+test('saving prunes builds beyond the retention limit', async () => {
+  // Nothing ever deleted from this table, and every row holds a build log, so
+  // the file grows without bound. On Lagoon that is ephemeral storage, and
+  // filling it gets the pod evicted.
+  const path = temporaryDatabasePath();
+  const { initDatabase, saveBuildInfo, closeDatabase } =
+    await importDatabaseWithConfig(path);
+
+  await initDatabase();
+  for (let build = 0; build < buildRetentionLimit + 10; build++) {
+    await saveBuildInfo(buildRecord);
+  }
+  await closeDatabase();
+
+  expect(await countBuilds(path)).toBe(buildRetentionLimit);
 });

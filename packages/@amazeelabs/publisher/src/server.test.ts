@@ -5,7 +5,12 @@ import { afterAll, beforeAll, beforeEach, expect, test, vi } from 'vitest';
 
 import { createApp } from './server';
 import { WorkflowStatusNotification } from './shared/exports';
-import { clearConfig, PublisherConfigLocal, setConfig } from './tools/config';
+import {
+  clearConfig,
+  PublisherConfigGithubWorkflow,
+  PublisherConfigLocal,
+  setConfig,
+} from './tools/config';
 import { core, CoreGithubWorkflow } from './tools/core';
 import { getBuild, listBuilds } from './tools/database';
 import { OAuth2GrantTypes } from './tools/oAuth2GrantTypes';
@@ -26,9 +31,9 @@ vi.mock('./tools/core', async () => {
       },
       output$: new OutputSubject(),
       start: vi.fn(),
-      stop: vi.fn(),
+      stop: vi.fn(async () => {}),
       build: vi.fn(),
-      clean: vi.fn(),
+      clean: vi.fn(async () => {}),
       getBuildNumber: vi.fn(() => 0),
     },
   };
@@ -42,6 +47,18 @@ const configWithoutServe: PublisherConfigLocal = {
     clean: 'echo "clean"',
     build: { command: 'echo "build"' },
   },
+};
+
+const configGithubWorkflow: PublisherConfigGithubWorkflow = {
+  mode: 'github-workflow',
+  publisherPort: 3000,
+  databaseUrl: ':memory:',
+  publisherBaseUrl: 'https://build.example.com',
+  workflow: 'build.yml',
+  repo: 'AmazeeLabs/project',
+  ref: 'dev',
+  environment: 'dev',
+  workflowTimeout: 60_000,
 };
 
 const configWithServe: PublisherConfigLocal = {
@@ -227,6 +244,7 @@ test('history route returns a single build by id', async () => {
 });
 
 test('github workflow status rejects an invalid notification', async () => {
+  setConfig(configGithubWorkflow);
   vi.spyOn(console, 'error').mockImplementation(() => {});
   const onWorkflowState = vi.fn();
   const subscription =
@@ -244,6 +262,7 @@ test('github workflow status rejects an invalid notification', async () => {
 });
 
 test('github workflow status stores the run url and publishes the status', async () => {
+  setConfig(configGithubWorkflow);
   const notification: WorkflowStatusNotification = {
     status: 'success',
     workflowRunUrl: 'https://github.com/AmazeeLabs/project/actions/runs/1',
@@ -322,7 +341,12 @@ test('the oauth route fails without an oauth2 client', async () => {
   const response = await request(createApp()).get('/oauth');
 
   expect(response.status).toBe(500);
-  expect(response.text).toContain('Missing OAuth2 client.');
+  // The cause belongs in the log, not in a response to an anonymous caller.
+  expect(response.text).not.toContain('Missing OAuth2 client.');
+  expect(console.error).toHaveBeenCalledWith(
+    'Request to /oauth failed:',
+    expect.objectContaining({ message: 'Missing OAuth2 client.' }),
+  );
 });
 
 test('the callback rejects a state that does not match the session', async () => {
@@ -404,4 +428,115 @@ test('logging out destroys the session', async () => {
 
   const afterLogout = await agent.get('/oauth/login');
   expect(afterLogout.text).toBe('<a href="/oauth">Log in</a>');
+});
+
+const withoutUnhandledRejections = async <T>(
+  body: () => Promise<T>,
+): Promise<{ result: T; rejections: Array<unknown> }> => {
+  const rejections: Array<unknown> = [];
+  const record = (reason: unknown): void => {
+    rejections.push(reason);
+  };
+  const existing = process.listeners('unhandledRejection');
+  process.removeAllListeners('unhandledRejection');
+  process.on('unhandledRejection', record);
+  try {
+    const result = await body();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    return { result, rejections };
+  } finally {
+    process.removeListener('unhandledRejection', record);
+    existing.forEach((listener) => process.on('unhandledRejection', listener));
+  }
+};
+
+/**
+ * Express 4 ignores the promise an async handler returns, so a rejection neither
+ * answers the request nor reaches an error handler. The client timeout keeps the
+ * hang from stalling the suite.
+ */
+const requestOrTimeout = async (
+  send: () => request.Test,
+): Promise<{ status: number | 'timeout' }> => {
+  try {
+    const response = await send().timeout(1000);
+    return { status: response.status };
+  } catch (error) {
+    if ((error as { timeout?: number }).timeout) {
+      return { status: 'timeout' };
+    }
+    return { status: (error as { status: number }).status };
+  }
+};
+
+test('a failing build history query answers 500 instead of crashing', async () => {
+  vi.mocked(listBuilds).mockRejectedValue(new Error('SQLITE_CORRUPT'));
+
+  const { result, rejections } = await withoutUnhandledRejections(() =>
+    requestOrTimeout(() => request(createApp()).get('/___status/history')),
+  );
+
+  expect(rejections).toEqual([]);
+  expect(result.status).toBe(500);
+});
+
+test('a failing single build query answers 500 instead of crashing', async () => {
+  vi.mocked(getBuild).mockRejectedValue(new Error('SQLITE_CORRUPT'));
+
+  const { result, rejections } = await withoutUnhandledRejections(() =>
+    requestOrTimeout(() => request(createApp()).get('/___status/history/1')),
+  );
+
+  expect(rejections).toEqual([]);
+  expect(result.status).toBe(500);
+});
+
+test('a failing clean is reported and still answers the request', async () => {
+  vi.mocked(core.clean).mockRejectedValue(new Error('Queue stuck'));
+
+  const response = await request(createApp()).post('/___status/clean');
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  expect(response.status).toBe(200);
+  expect(console.error).toHaveBeenCalledWith(
+    'Clean failed:',
+    expect.objectContaining({ message: 'Queue stuck' }),
+  );
+});
+
+test('the github workflow status route is absent in local mode', async () => {
+  // The handler drives CoreGithubWorkflow state that does not exist in local
+  // mode, where a valid notification used to throw a TypeError.
+  setConfig(configWithoutServe);
+
+  const response = await request(createApp())
+    .post('/github-workflow-status')
+    .send({
+      status: 'success',
+      workflowRunUrl: 'https://github.com/AmazeeLabs/project/actions/runs/1',
+    } satisfies WorkflowStatusNotification);
+
+  expect(response.status).toBe(404);
+});
+
+test('the oauth callback keeps the access token out of the logs', async () => {
+  const agent = createOAuth2Agent();
+
+  await logIn(agent);
+
+  // Lagoon collects stdout, so a token logged here is a token at rest in the
+  // log store, valid until it expires.
+  const logged = JSON.stringify(vi.mocked(console.log).mock.calls);
+  expect(logged).not.toContain('access-token');
+  expect(logged).not.toContain('refresh-token');
+});
+
+test('query strings are parsed without qs', async () => {
+  // Express 4 defaults to the "extended" parser, which is qs. qs 6.13.0 carries
+  // two memory-exhaustion advisories reachable from any query string
+  // (CVE-2025-15284, CVE-2026-2391), and express pins that exact version.
+  // Nothing here reads more than a flat string parameter.
+  const app = createApp();
+
+  expect(app.get('query parser')).toBe('simple');
 });
