@@ -1,6 +1,8 @@
-import { existsSync } from 'fs';
-import { join } from 'path';
-import { loadSync } from 'ts-import';
+import { randomUUID } from 'crypto';
+import { existsSync, readFileSync, rmSync, writeFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { transform } from 'sucrase';
+import { pathToFileURL } from 'url';
 
 import { OAuth2GrantTypes } from './oAuth2GrantTypes';
 
@@ -248,19 +250,46 @@ export type PublisherConfig =
 
 let _config: PublisherConfig | null = null;
 
+/**
+ * Strips the types and imports the result as plain JavaScript.
+ *
+ * The compiled file is written next to the original, so that relative and bare
+ * imports inside the config resolve from the directory it was authored in.
+ */
+const importConfigModule = async (
+  configPath: string,
+): Promise<PublisherConfig> => {
+  const javaScript = transform(readFileSync(configPath, 'utf-8'), {
+    transforms: ['typescript'],
+    filePath: configPath,
+  }).code;
+  const compiledPath = join(
+    dirname(configPath),
+    `.publisher.config.${randomUUID()}.mjs`,
+  );
+  writeFileSync(compiledPath, javaScript);
+  try {
+    const module = await import(pathToFileURL(compiledPath).href);
+    return module.default as PublisherConfig;
+  } finally {
+    rmSync(compiledPath, { force: true });
+  }
+};
+
+export const loadConfig = async (): Promise<void> => {
+  const configPath = join(process.cwd(), 'publisher.config.ts');
+  if (!existsSync(configPath)) {
+    console.error(`Publisher config not found: ${configPath}`);
+    process.exit(1);
+  }
+  setConfig(await importConfigModule(configPath));
+};
+
 export const getConfig = (): PublisherConfig => {
   if (!_config) {
-    const configPath = join(process.cwd(), 'publisher.config.ts');
-    if (!existsSync(configPath)) {
-      console.error(`Publisher config not found: ${configPath}`);
-      process.exit(1);
-    }
-    const config = loadSync(configPath, {
-      compiledJsExtension: '.cjs',
-    }).default;
-    setConfig(config);
+    throw new Error('The config is not loaded yet. Call loadConfig() first.');
   }
-  return _config!;
+  return _config;
 };
 
 export const getConfigLocal = (): PublisherConfigLocal => {

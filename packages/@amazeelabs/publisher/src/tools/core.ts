@@ -20,13 +20,38 @@ export type Core = {
 
 export type CoreGithubWorkflow = typeof coreGithubWorkflow;
 
-const mode = getConfig().mode;
+let instance: Core | null = null;
 
-export const core: Core =
-  mode === 'local'
-    ? coreLocal
-    : mode === 'github-workflow'
-      ? coreGithubWorkflow
-      : ((): never => {
-          throw new Error(`Unsupported mode: ${mode}`);
-        })();
+const resolveCore = (): Core => {
+  if (!instance) {
+    const mode = getConfig().mode;
+    if (mode === 'local') {
+      instance = coreLocal;
+    } else if (mode === 'github-workflow') {
+      instance = coreGithubWorkflow;
+    } else {
+      throw new Error(`Unsupported mode: ${mode}`);
+    }
+  }
+  return instance;
+};
+
+/**
+ * Delegates to the core of the configured mode.
+ *
+ * The mode is only known once the config is loaded, which happens after this
+ * module is imported, so the implementation is resolved on first use.
+ */
+export const core: Core = {
+  get state() {
+    return resolveCore().state;
+  },
+  get output$() {
+    return resolveCore().output$;
+  },
+  start: () => resolveCore().start(),
+  stop: () => resolveCore().stop(),
+  build: () => resolveCore().build(),
+  clean: () => resolveCore().clean(),
+  getBuildNumber: () => resolveCore().getBuildNumber(),
+};

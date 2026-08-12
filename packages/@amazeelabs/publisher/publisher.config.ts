@@ -1,7 +1,7 @@
 import type { PublisherConfig } from './src/tools/config';
 
-// Do not use the exported `defineConfig` here, as internal imports break
-// ts-import process.
+// Do not use the exported `defineConfig` here. The config is compiled to plain
+// JavaScript before it is imported, so it cannot import TypeScript sources.
 const defineConfig = (config: PublisherConfig): PublisherConfig => config;
 
 // Config for testing.

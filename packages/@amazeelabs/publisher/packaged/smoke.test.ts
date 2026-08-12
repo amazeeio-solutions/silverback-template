@@ -89,8 +89,11 @@ beforeAll(async () => {
   baseUrl = `http://127.0.0.1:${port}`;
   writeFileSync(
     join(installDir, 'publisher.config.ts'),
-    // No imports: ts-import compiles this file on its own.
-    `export default {
+    // Imports defineConfig from the installed package, the way a real project
+    // config does, so that the compiled config is resolved from this directory.
+    `import { defineConfig } from '@amazeelabs/publisher';
+
+    export default defineConfig({
       publisherPort: ${port},
       mode: 'local',
       databaseUrl: './publisher.sqlite',
@@ -98,7 +101,7 @@ beforeAll(async () => {
         clean: 'echo publisher-smoke-clean',
         build: { command: 'echo ${buildMarker}' },
       },
-    };
+    });
     `,
   );
 

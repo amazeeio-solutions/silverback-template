@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'fs';
+import { mkdtempSync, readdirSync, rmSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { afterEach, expect, test, vi } from 'vitest';
@@ -8,6 +8,7 @@ import {
   getConfig,
   getConfigGithubWorkflow,
   getConfigLocal,
+  loadConfig,
   PublisherConfig,
   PublisherConfigGithubWorkflow,
   PublisherConfigLocal,
@@ -62,9 +63,9 @@ const restoreEnv = (): void => {
 const originalCwd = process.cwd();
 const temporaryDirectories: Array<string> = [];
 
-// getConfig() resolves the config relative to process.cwd(), so these tests
+// loadConfig() resolves the config relative to process.cwd(), so these tests
 // chdir into a temporary directory. That requires vitest's "forks" pool, which
-// vitest.config.ts pins explicitly - process.chdir() is a no-op in workers.
+// vitest.workspace.ts pins explicitly - process.chdir() is a no-op in workers.
 const chdirToConfigDirectory = (configSource?: string): string => {
   const directory = mkdtempSync(join(tmpdir(), 'publisher-config-'));
   temporaryDirectories.push(directory);
@@ -87,9 +88,9 @@ afterEach(() => {
   }
 });
 
-// The config file is compiled by ts-import, so it must not import anything from
-// the package itself - internal imports break the ts-import process.
 const realTypescriptConfigSource = `
+import type { Irrelevant } from './does-not-exist';
+
 type Mode = 'local' | 'github-workflow';
 
 interface TestPublisherConfig {
@@ -116,9 +117,10 @@ export default defineConfig({
 });
 `;
 
-test('getConfig compiles and loads a real TypeScript config from the cwd', () => {
+test('loadConfig compiles and loads a real TypeScript config from the cwd', async () => {
   chdirToConfigDirectory(realTypescriptConfigSource);
 
+  await loadConfig();
   const config = getConfig();
 
   expect(config.mode).toBe('local');
@@ -130,22 +132,28 @@ test('getConfig compiles and loads a real TypeScript config from the cwd', () =>
   });
 });
 
-test('getConfig caches the loaded config', () => {
-  chdirToConfigDirectory(realTypescriptConfigSource);
+test('loadConfig leaves no compiled file behind', async () => {
+  const directory = chdirToConfigDirectory(realTypescriptConfigSource);
 
-  expect(getConfig()).toBe(getConfig());
+  await loadConfig();
+
+  expect(readdirSync(directory)).toStrictEqual(['publisher.config.ts']);
 });
 
-test('getConfig reports a missing config file and exits', () => {
+test('getConfig fails before the config is loaded', () => {
+  expect(() => getConfig()).toThrow('The config is not loaded yet');
+});
+
+test('loadConfig reports a missing config file and exits', async () => {
   const directory = chdirToConfigDirectory();
   const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
   const exit = vi
     .spyOn(process, 'exit')
     .mockImplementation(() => undefined as never);
 
-  // The spy prevents the actual exit, so execution continues into ts-import
-  // and fails on the missing file.
-  expect(() => getConfig()).toThrow();
+  // The spy prevents the actual exit, so execution continues into the compile
+  // step and fails on the missing file.
+  await expect(loadConfig()).rejects.toThrow();
 
   expect(exit).toHaveBeenCalledWith(1);
   expect(consoleError).toHaveBeenCalledWith(
@@ -242,13 +250,11 @@ test('setConfig does not overwrite explicit slack notifications', () => {
   });
 });
 
-test('clearConfig resets the cached config', () => {
-  chdirToConfigDirectory(realTypescriptConfigSource);
+test('clearConfig resets the loaded config', () => {
   setConfig(localConfig);
   expect(getConfig()).toBe(localConfig);
 
   clearConfig();
 
-  expect(getConfig()).not.toBe(localConfig);
-  expect(getConfig().publisherPort).toBe(4242);
+  expect(() => getConfig()).toThrow('The config is not loaded yet');
 });
