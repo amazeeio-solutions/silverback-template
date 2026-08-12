@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "prep": {
+      "inputs": ["src/**", "bin/**", "tsconfig.json", "rollup.config.ts"],
+      "outputs": ["dist"]
+    },
+    "test:static": {
+      "inputs": ["src/**", "tsconfig.json", "eslint.config.mjs"]
+    },
+    "test:unit": {
+      "inputs": [
+        "src/**",
+        "tsconfig.json",
+        "vitest.config.ts",
+        "vitest.setup.ts"
+      ]
+    }
+  }
+}

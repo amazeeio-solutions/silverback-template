@@ -1,4 +1,4 @@
-import { base, defineConfig } from '@internal/eslint-config';
+import { base, defineConfig } from '@custom/eslint-config';
 
 export default defineConfig([
   ...base,
