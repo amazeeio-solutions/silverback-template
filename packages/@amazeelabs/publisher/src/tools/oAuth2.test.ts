@@ -1,7 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { createServer, Server } from 'http';
 import { AddressInfo } from 'net';
-import fetch from 'node-fetch';
 import { AuthorizationCode } from 'simple-oauth2';
 import supertest from 'supertest';
 import {
@@ -30,12 +29,13 @@ import {
 } from './oAuth2';
 import { OAuth2GrantTypes } from './oAuth2GrantTypes';
 
-vi.mock('node-fetch', () => ({ default: vi.fn() }));
-
 type OAuth2Config = NonNullable<PublisherConfigLocal['oAuth2']>;
 type FetchResponse = Awaited<ReturnType<typeof fetch>>;
 
-const fetchMock = vi.mocked(fetch);
+// simple-oauth2 talks to the token endpoint through @hapi/wreck, so stubbing
+// the global fetch only affects the publisher access calls.
+const fetchMock = vi.fn();
+vi.stubGlobal('fetch', fetchMock);
 
 const respondToPublisherAccessWith = (status: number): void => {
   fetchMock.mockResolvedValue({ status } as unknown as FetchResponse);

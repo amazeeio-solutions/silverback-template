@@ -9,7 +9,6 @@ import {
 } from 'express';
 import session from 'express-session';
 import createMemoryStore from 'memorystore';
-import fetch from 'node-fetch';
 import {
   AccessToken,
   AuthorizationCode,
