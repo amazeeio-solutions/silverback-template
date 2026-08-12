@@ -1,6 +1,6 @@
-import { BuildModel } from '@amazeelabs/publisher-shared';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
+import { BuildModel } from '../shared/exports';
 import { getConfig } from './config';
 
 type BuildCreateModel = Omit<BuildModel, 'id'>;

@@ -1,7 +1,8 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { bind } from '@react-rxjs/core';
 import { retry, Subject } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
+
+import { ApplicationState } from '../../shared/exports';
 
 const defaultStatus: ApplicationState | null = null;
 

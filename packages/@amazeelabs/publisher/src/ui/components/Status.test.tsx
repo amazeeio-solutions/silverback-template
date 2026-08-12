@@ -1,8 +1,8 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
 import { afterEach, beforeEach, expect, test } from 'vitest';
 
+import { ApplicationState } from '../../shared/exports';
 import Status from './Status';
 
 const originalLocation = window.location;

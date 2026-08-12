@@ -1,12 +1,12 @@
-import '../../tailwind.css';
+import '../tailwind.css';
 
-import { ApplicationState, BuildModel } from '@amazeelabs/publisher-shared';
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
 import { bind } from '@react-rxjs/core';
 import clsx from 'clsx';
 import React, { ComponentProps, Fragment, useState } from 'react';
 import { ajax } from 'rxjs/ajax';
 
+import { ApplicationState, BuildModel } from '../../shared/exports';
 import { createWebsocketUrl, useStatus } from '../utils/status';
 import Collapsible from './Collapsible';
 import SimpleLog from './SimpleLog';

@@ -1,6 +1,6 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { IncomingWebhook } from '@slack/webhook';
 
+import { ApplicationState } from './shared/exports';
 import { getConfig } from './tools/config';
 
 const processMessage = (notificationText: string): string => {

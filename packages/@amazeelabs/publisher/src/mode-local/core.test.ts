@@ -1,7 +1,7 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { Subscription } from 'rxjs';
 import { beforeEach, expect, test, vi } from 'vitest';
 
+import { ApplicationState } from '../shared/exports';
 import { setConfig } from '../tools/config';
 import { core } from './core';
 import { defaultConfig, reset } from './tools/testing';

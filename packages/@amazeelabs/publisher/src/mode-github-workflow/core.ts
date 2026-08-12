@@ -1,6 +1,6 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { BehaviorSubject, Subject } from 'rxjs';
 
+import { ApplicationState } from '../shared/exports';
 import { getConfigGithubWorkflow as config } from '../tools/config';
 import { Core } from '../tools/core';
 import { OutputSubject } from '../tools/output';

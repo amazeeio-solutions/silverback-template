@@ -1,8 +1,9 @@
-import '../../tailwind.css';
+import '../tailwind.css';
 
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import clsx from 'clsx';
 import React, { useEffect } from 'react';
+
+import { ApplicationState } from '../../shared/exports';
 
 export default function Status({
   status,

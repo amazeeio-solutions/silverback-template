@@ -1,7 +1,7 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { Meta, StoryObj } from '@storybook/react';
 import { expect, within } from '@storybook/test';
 
+import { ApplicationState } from '../../shared/exports';
 import Status from './Status';
 
 export default {

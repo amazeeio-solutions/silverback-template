@@ -1,10 +1,10 @@
-import { WorkflowStatusNotification } from '@amazeelabs/publisher-shared';
 import { createServer, Server } from 'http';
 import { AddressInfo } from 'net';
 import request from 'supertest';
 import { afterAll, beforeAll, beforeEach, expect, test, vi } from 'vitest';
 
 import { createApp } from './server';
+import { WorkflowStatusNotification } from './shared/exports';
 import { clearConfig, PublisherConfigLocal, setConfig } from './tools/config';
 import { core, CoreGithubWorkflow } from './tools/core';
 import { getDatabase } from './tools/database';

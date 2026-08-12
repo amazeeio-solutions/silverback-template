@@ -1,11 +1,8 @@
 import { execSync, SpawnSyncReturns } from 'node:child_process';
 
-import {
-  ApplicationState,
-  WorkflowPublisherPayload,
-} from '@amazeelabs/publisher-shared';
 import { skip } from 'rxjs';
 
+import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
 import { getConfigGithubWorkflow as config } from '../tools/config';
 import { saveBuildInfo } from '../tools/database';
 import { TaskController, TaskJob } from '../tools/queue';

@@ -39,7 +39,7 @@ PUBLISHER_SKIP_AUTHENTICATION=true
 ### OAuth2
 
 Prerequisite: OAuth2 server, like
-[Drupal](../../../../apps/silverback-drupal/README.md#authentication).
+[Drupal](https://www.drupal.org/project/simple_oauth).
 
 There are 2 methods: `Authorization Code` and `Resource Owner Password`. The
 first one should be favoured in most cases. It will ask the user to grant access

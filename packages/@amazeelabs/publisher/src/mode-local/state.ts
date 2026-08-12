@@ -1,6 +1,7 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { distinctUntilChanged, Observable } from 'rxjs';
 import { createStore } from 'zustand/vanilla';
+
+import { ApplicationState } from '../shared/exports';
 
 type ProcessState = 'NotStarted' | 'InProgress' | 'Success' | 'Error';
 

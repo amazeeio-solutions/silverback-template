@@ -1,7 +1,3 @@
-import {
-  ApplicationState,
-  workflowStatusNotificationSchema,
-} from '@amazeelabs/publisher-shared';
 import cors from 'cors';
 import express from 'express';
 import expressWs from 'express-ws';
@@ -14,6 +10,10 @@ import { map, scan, shareReplay, Subject } from 'rxjs';
 import { fileURLToPath } from 'url';
 
 import { stateNotify } from './notify';
+import {
+  ApplicationState,
+  workflowStatusNotificationSchema,
+} from './shared/exports';
 import {
   getAuthenticationMiddleware,
   isSessionRequired,
@@ -180,10 +180,7 @@ const createApp = (): expressWs.Application => {
   // guards below hang the request instead of returning an error response.
 
   app.use('/___status', authMiddleware);
-  app.use(
-    '/___status',
-    express.static(path.resolve(__dirname, '../../publisher-ui/dist')),
-  );
+  app.use('/___status', express.static(path.resolve(__dirname, 'ui')));
 
   // Fallback route for login. Is used if there is no origin cookie.
   app.get('/oauth/login', async (req, res) => {

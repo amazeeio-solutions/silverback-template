@@ -1,9 +1,9 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { IncomingWebhook } from '@slack/webhook';
 import { beforeEach, expect, test, vi } from 'vitest';
 
 import { defaultConfig } from './mode-local/tools/testing';
 import { stateNotify } from './notify';
+import { ApplicationState } from './shared/exports';
 import { clearConfig, setConfig } from './tools/config';
 
 const sendMock = vi.fn().mockResolvedValue({ text: 'ok' });

@@ -12,6 +12,7 @@
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": false
   },
+  "exclude": ["node_modules", "dist", "src/ui"],
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Recommended"
 }

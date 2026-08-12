@@ -1,6 +1,6 @@
-import { ApplicationState } from '@amazeelabs/publisher-shared';
 import { expect, test } from 'vitest';
 
+import { ApplicationState } from '../shared/exports';
 import { state } from './state';
 
 test('applicationState$ is fired only on changes', async () => {

@@ -1,9 +1,6 @@
-import {
-  ApplicationState,
-  WorkflowPublisherPayload,
-} from '@amazeelabs/publisher-shared';
 import { afterEach, beforeEach, expect, MockInstance, test, vi } from 'vitest';
 
+import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
 import { PublisherConfigGithubWorkflow } from '../tools/config';
 import { TaskController } from '../tools/queue';
 
