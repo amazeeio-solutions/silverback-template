@@ -668,13 +668,13 @@ importers:
         specifier: workspace:*
         version: link:../../eslint-config
       '@headlessui/react':
-        specifier: 2.2.0
+        specifier: ^2.2.0
         version: 2.2.0(react-dom@18.3.1)(react@18.3.1)
       '@react-rxjs/core':
-        specifier: 0.10.8
+        specifier: ^0.10.8
         version: 0.10.8(react@18.3.1)(rxjs@7.8.1)
       '@rollup/plugin-typescript':
-        specifier: 12.1.2
+        specifier: ^12.1.2
         version: 12.1.2(rollup@4.44.0)(typescript@5.7.3)
       '@slack/webhook':
         specifier: ^7.0.4
@@ -701,94 +701,94 @@ importers:
         specifier: ^0.21.0
         version: 0.21.0(@types/node@20.17.16)(storybook@8.5.2)
       '@testing-library/react':
-        specifier: 16.2.0
+        specifier: ^16.2.0
         version: 16.2.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.5)(@types/react@18.3.18)(react-dom@18.3.1)(react@18.3.1)
       '@types/cookie-parser':
-        specifier: 1.4.8
+        specifier: ^1.4.8
         version: 1.4.8(@types/express@4.17.21)
       '@types/cors':
-        specifier: 2.8.17
+        specifier: ^2.8.17
         version: 2.8.17
       '@types/express':
-        specifier: 4.17.21
+        specifier: ^4.17.21
         version: 4.17.21
       '@types/express-session':
-        specifier: 1.18.1
+        specifier: ^1.18.1
         version: 1.18.1
       '@types/express-ws':
-        specifier: 3.0.5
+        specifier: ^3.0.5
         version: 3.0.5
       '@types/node':
         specifier: ^20
         version: 20.17.16
       '@types/react':
-        specifier: 18.3.18
+        specifier: ^18.3.18
         version: 18.3.18
       '@types/react-dom':
-        specifier: 18.3.5
+        specifier: ^18.3.5
         version: 18.3.5(@types/react@18.3.18)
       '@types/simple-oauth2':
-        specifier: 5.0.7
+        specifier: ^5.0.7
         version: 5.0.7
       '@types/supertest':
-        specifier: 6.0.3
+        specifier: ^6.0.3
         version: 6.0.3
       '@vitejs/plugin-react':
-        specifier: 4.3.4
+        specifier: ^4.3.4
         version: 4.3.4(vite@6.0.11)
       autoprefixer:
-        specifier: 10.4.20
+        specifier: ^10.4.20
         version: 10.4.20(postcss@8.5.1)
       clsx:
-        specifier: 2.1.1
+        specifier: ^2.1.1
         version: 2.1.1
       cookie-parser:
-        specifier: 1.4.7
+        specifier: ^1.4.7
         version: 1.4.7
       cors:
         specifier: ^2.8.5
         version: 2.8.5
       esbuild:
-        specifier: 0.24.2
+        specifier: ^0.24.2
         version: 0.24.2
       express:
-        specifier: 4.21.2
+        specifier: ^4.21.2
         version: 4.21.2
       express-basic-auth:
         specifier: ^1.2.1
         version: 1.2.1
       express-session:
-        specifier: 1.18.1
+        specifier: ^1.18.1
         version: 1.18.1
       express-ws:
-        specifier: 5.0.2
+        specifier: ^5.0.2
         version: 5.0.2(express@4.21.2)
       http-proxy-middleware:
-        specifier: 3.0.3
+        specifier: ^3.0.3
         version: 3.0.3
       http-terminator:
-        specifier: 3.2.0
+        specifier: ^3.2.0
         version: 3.2.0
       jsdom:
-        specifier: 25.0.1
+        specifier: ^25.0.1
         version: 25.0.1
       memorystore:
-        specifier: 1.6.7
+        specifier: ^1.6.7
         version: 1.6.7
       nodemon:
-        specifier: 3.1.9
+        specifier: ^3.1.9
         version: 3.1.9
       playwright:
         specifier: ^1.50.0
         version: 1.50.0
       postcss:
-        specifier: 8.5.1
+        specifier: ^8.5.1
         version: 8.5.1
       react:
-        specifier: 18.3.1
+        specifier: ^18.3.1
         version: 18.3.1
       react-dom:
-        specifier: 18.3.1
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       referrer-policy:
         specifier: ^1.2.0
@@ -797,19 +797,19 @@ importers:
         specifier: 4.44.0
         version: 4.44.0
       rollup-plugin-dts:
-        specifier: 6.1.1
+        specifier: ^6.1.1
         version: 6.1.1(rollup@4.44.0)(typescript@5.7.3)
       rollup-plugin-esbuild:
-        specifier: 6.1.1
+        specifier: ^6.1.1
         version: 6.1.1(esbuild@0.24.2)(rollup@4.44.0)
       rxjs:
-        specifier: 7.8.1
+        specifier: ^7.8.1
         version: 7.8.1
       serve:
         specifier: ^14.2.4
         version: 14.2.4
       simple-oauth2:
-        specifier: 5.1.0
+        specifier: ^5.1.0
         version: 5.1.0
       start-server-and-test:
         specifier: ^2.0.10
@@ -818,25 +818,25 @@ importers:
         specifier: ^8.5.2
         version: 8.5.2(prettier@3.5.3)
       strip-ansi:
-        specifier: 7.1.0
+        specifier: ^7.1.0
         version: 7.1.0
       sucrase:
         specifier: ^3.35.1
         version: 3.35.1
       supertest:
-        specifier: 7.2.2
+        specifier: ^7.2.2
         version: 7.2.2
       tailwindcss:
-        specifier: 3.4.17
+        specifier: ^3.4.17
         version: 3.4.17
       terminate:
-        specifier: 2.8.0
+        specifier: ^2.8.0
         version: 2.8.0
       typescript:
-        specifier: 5.7.3
+        specifier: ^5.7.3
         version: 5.7.3
       vite:
-        specifier: 6.0.11
+        specifier: ^6.0.11
         version: 6.0.11(@types/node@20.17.16)
       vitest:
         specifier: ^3.0.4
@@ -845,7 +845,7 @@ importers:
         specifier: ^3.24.1
         version: 3.24.1
       zustand:
-        specifier: 5.0.3
+        specifier: ^5.0.3
         version: 5.0.3(@types/react@18.3.18)(react@18.3.1)
 
   packages/@amazeelabs/react-intl:
@@ -1772,7 +1772,7 @@ packages:
       '@babel/core': 7.26.7
       '@babel/generator': 7.26.5
       '@babel/parser': 7.26.7
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       '@babel/traverse': 7.26.7
       '@babel/types': 7.26.7
       babel-preset-fbjs: 3.4.0(@babel/core@7.26.7)
@@ -6572,7 +6572,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.10.10
+      '@types/node': 20.17.16
       chalk: 4.1.2
       jest-message-util: 29.7.0
       jest-util: 29.7.0
@@ -6695,7 +6695,7 @@ packages:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       '@jridgewell/trace-mapping': 0.3.31
-      '@types/node': 22.10.10
+      '@types/node': 20.17.16
       chalk: 4.1.2
       collect-v8-coverage: 1.0.2
       exit: 0.1.2
@@ -10836,7 +10836,7 @@ packages:
   /@types/graceful-fs@4.1.9:
     resolution: {integrity: sha512-olP3sd1qOEe5dXTSaFvQG+02VdRXcdytWLAZsAq1PecU8uqQAhkrnbli7DagjtXKW/Bl7YJbUsa8MPcuc8LHEQ==}
     dependencies:
-      '@types/node': 22.10.10
+      '@types/node': 20.17.16
     dev: true
 
   /@types/hast@2.3.10:
@@ -11890,7 +11890,7 @@ packages:
       vite: ^4 || ^5 || ^6
     dependencies:
       '@swc/core': 1.10.11
-      vite: 6.0.11(@types/node@20.11.17)(tsx@4.19.2)
+      vite: 6.0.11(@types/node@20.11.17)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
@@ -13918,7 +13918,7 @@ packages:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==}
     engines: {node: '>=10', npm: '>=6'}
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       cosmiconfig: 7.1.0
       resolve: 1.22.10
 
@@ -16200,19 +16200,6 @@ packages:
     dependencies:
       ms: 2.1.3
 
-  /debug@4.4.0(supports-color@5.5.0):
-    resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.3
-      supports-color: 5.5.0
-    dev: true
-
   /debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
@@ -16223,6 +16210,19 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
+
+  /debug@4.4.3(supports-color@5.5.0):
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+      supports-color: 5.5.0
+    dev: true
 
   /debug@4.4.3(supports-color@9.4.0):
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -17555,13 +17555,13 @@ packages:
   /dom-helpers@3.4.0:
     resolution: {integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==}
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
     dev: false
 
   /dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       csstype: 3.1.3
 
   /dom-serializer@0.2.2:
@@ -19800,7 +19800,7 @@ packages:
       debug: 4.3.7
     dev: false
 
-  /follow-redirects@1.15.6(debug@4.4.0):
+  /follow-redirects@1.15.6(debug@4.4.3):
     resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -19809,7 +19809,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
     dev: true
 
   /follow-redirects@1.15.9:
@@ -22321,8 +22321,8 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@types/http-proxy': 1.17.15
-      debug: 4.4.0
-      http-proxy: 1.18.1(debug@4.4.0)
+      debug: 4.4.3
+      http-proxy: 1.18.1(debug@4.4.3)
       is-glob: 4.0.3
       is-plain-object: 5.0.0
       micromatch: 4.0.8
@@ -22341,12 +22341,12 @@ packages:
       - debug
     dev: false
 
-  /http-proxy@1.18.1(debug@4.4.0):
+  /http-proxy@1.18.1(debug@4.4.3):
     resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.6(debug@4.4.0)
+      follow-redirects: 1.15.6(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -23819,7 +23819,7 @@ packages:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 22.10.10
+      '@types/node': 20.17.16
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -24024,7 +24024,7 @@ packages:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.10.10
+      '@types/node': 20.17.16
       chalk: 4.1.2
       cjs-module-lexer: 1.2.3
       collect-v8-coverage: 1.0.2
@@ -27035,7 +27035,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.6.0
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.3(supports-color@5.5.0)
       ignore-by-default: 1.0.1
       minimatch: 3.1.2
       pstree.remy: 1.1.8
@@ -30061,7 +30061,7 @@ packages:
     peerDependencies:
       react: '>=15'
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       history: 4.10.1
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
@@ -30105,7 +30105,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: ^16.8.0 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       '@emotion/cache': 11.11.0
       '@emotion/react': 11.11.4(@types/react@18.3.3)(react@18.3.1)
       memoize-one: 5.2.1
@@ -30157,7 +30157,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       react: 18.3.1
       use-composed-ref: 1.3.0(react@18.3.1)
       use-latest: 1.2.1(@types/react@18.3.3)(react@18.3.1)
@@ -30669,7 +30669,7 @@ packages:
   /relay-runtime@12.0.0:
     resolution: {integrity: sha512-QU6JKr1tMsry22DXNy9Whsq5rmvwr3LSZiiWV/9+DFpuTWvp+WFhobWMc8TC4OjKFfNhEZy7mOiqUAn5atQtug==}
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.7
       fbjs: 3.0.5
       invariant: 2.2.4
     transitivePeerDependencies:
@@ -31062,7 +31062,7 @@ packages:
       rollup: 4.44.0
     dependencies:
       '@rollup/pluginutils': 5.1.4(rollup@4.44.0)
-      debug: 4.4.0
+      debug: 4.4.3
       es-module-lexer: 1.6.0
       esbuild: 0.24.2
       get-tsconfig: 4.10.0
