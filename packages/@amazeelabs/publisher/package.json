@@ -25,7 +25,7 @@
     "precommit:check": "pnpm test:static",
     "test:static": "tsc --noEmit && tsc --noEmit -p src/ui/tsconfig.json && eslint . --quiet",
     "test:unit": "vitest run --project server --project ui",
-    "test:packaged": "vitest run --project packaged",
+    "test:packaged": "playwright install chromium && vitest run --project packaged",
     "test:storybook": "playwright install chromium && test-storybook --url http://localhost:6007 --config-dir src/ui/.storybook",
     "test:integration": "pnpm test:packaged && start-test start:storybook http://localhost:6007 test:storybook"
   },
