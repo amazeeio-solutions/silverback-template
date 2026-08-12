@@ -20,7 +20,7 @@ import {
 } from './tools/authentication';
 import { getConfig } from './tools/config';
 import { core, CoreGithubWorkflow } from './tools/core';
-import { getDatabase } from './tools/database';
+import { getBuild, listBuilds } from './tools/database';
 import {
   getOAuth2AuthorizeUrl,
   getPersistedAccessToken,
@@ -157,19 +157,13 @@ const createApp = (): expressWs.Application => {
 
   app.use('/___status/history', authMiddleware);
   app.get('/___status/history', async (req, res) => {
-    const { Build } = await getDatabase();
-    const result = await Build.findAll({
-      order: [['id', 'DESC']],
-    });
-    res.json(result);
+    res.json(await listBuilds());
   });
 
   // FIXME: authMiddleware is already registered for this path above.
   app.use('/___status/history', authMiddleware);
   app.get('/___status/history/:id', async (req, res) => {
-    const { Build } = await getDatabase();
-    const result = await Build.findByPk(req.params.id);
-    res.json(result);
+    res.json(await getBuild(req.params.id));
   });
 
   // ---------------------------------------------------------------------------

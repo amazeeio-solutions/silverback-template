@@ -1,68 +1,130 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import sqlite3 from 'sqlite3';
 
 import { BuildModel } from '../shared/exports';
 import { getConfig } from './config';
 
-type BuildCreateModel = Omit<BuildModel, 'id'>;
+// TODO: Drop the sqlite3 dependency in favour of the built-in node:sqlite once
+// the project runs on Node 22.5 or newer. It reads the same file, so this needs
+// no data migration.
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const _initDatabase = async () => {
-  const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: getConfig().databaseUrl,
-    logging: false,
-  });
+/**
+ * The schema and the timestamp format are the ones Sequelize created, so that
+ * databases written by publisher 3.x keep working, and a rollback to 3.x can
+ * still read what was written here.
+ */
+const createTable = `
+  CREATE TABLE IF NOT EXISTS \`Builds\` (
+    \`id\` INTEGER PRIMARY KEY AUTOINCREMENT,
+    \`startedAt\` BIGINT,
+    \`finishedAt\` BIGINT,
+    \`success\` TINYINT(1),
+    \`type\` VARCHAR(255),
+    \`logs\` TEXT,
+    \`createdAt\` DATETIME NOT NULL,
+    \`updatedAt\` DATETIME NOT NULL
+  )
+`;
 
-  const Build = sequelize.define<Model<BuildModel, BuildCreateModel>>('Build', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    startedAt: {
-      type: DataTypes.BIGINT,
-    },
-    finishedAt: {
-      type: DataTypes.BIGINT,
-    },
-    success: {
-      type: DataTypes.BOOLEAN,
-    },
-    type: {
-      type: DataTypes.STRING,
-    },
-    logs: {
-      type: DataTypes.TEXT,
-    },
-  });
+const sequelizeTimestamp = (date: Date): string =>
+  `${date.toISOString().replace('T', ' ').replace('Z', '')} +00:00`;
 
-  await sequelize.authenticate();
-  await sequelize.sync({ alter: true });
-
-  return { Build };
+type BuildRow = Omit<BuildModel, 'success'> & {
+  success: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
-type Models = Awaited<ReturnType<typeof _initDatabase>>;
-
-let database: Models | null = null;
-
-export const getDatabase = async (): Promise<Models> => {
-  if (!database) {
-    await initDatabase();
-  }
-  return database as Models;
+export type Build = BuildModel & {
+  createdAt: string;
+  updatedAt: string;
 };
+
+const toBuild = ({ success, ...row }: BuildRow): Build => ({
+  ...row,
+  success: !!success,
+});
+
+let database: sqlite3.Database | null = null;
+
+const run = (sql: string, parameters: Array<unknown> = []): Promise<void> =>
+  new Promise((resolve, reject) => {
+    database!.run(sql, parameters, (error) =>
+      error ? reject(error) : resolve(),
+    );
+  });
+
+const all = <T>(sql: string, parameters: Array<unknown> = []): Promise<T[]> =>
+  new Promise((resolve, reject) => {
+    database!.all(sql, parameters, (error, rows) =>
+      error ? reject(error) : resolve(rows as T[]),
+    );
+  });
+
+const open = (): Promise<sqlite3.Database> =>
+  new Promise((resolve, reject) => {
+    const opened = new sqlite3.Database(getConfig().databaseUrl, (error) =>
+      error ? reject(error) : resolve(opened),
+    );
+  });
 
 export const initDatabase = async (): Promise<void> => {
   if (database) {
     throw new Error('Database already initialized.');
   }
-  database = await _initDatabase();
+  database = await open();
+  await run(createTable);
+};
+
+const ensureDatabase = async (): Promise<void> => {
+  if (!database) {
+    await initDatabase();
+  }
 };
 
 export const saveBuildInfo = async (
-  record: BuildCreateModel,
+  record: Omit<BuildModel, 'id'>,
 ): Promise<void> => {
-  const { Build } = await getDatabase();
-  await Build.build(record).save();
+  await ensureDatabase();
+  const now = sequelizeTimestamp(new Date());
+  await run(
+    `INSERT INTO \`Builds\`
+      (\`startedAt\`, \`finishedAt\`, \`success\`, \`type\`, \`logs\`, \`createdAt\`, \`updatedAt\`)
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [
+      record.startedAt,
+      record.finishedAt,
+      record.success ? 1 : 0,
+      record.type,
+      record.logs,
+      now,
+      now,
+    ],
+  );
+};
+
+export const listBuilds = async (): Promise<Array<Build>> => {
+  await ensureDatabase();
+  const rows = await all<BuildRow>('SELECT * FROM `Builds` ORDER BY `id` DESC');
+  return rows.map(toBuild);
+};
+
+export const getBuild = async (id: string): Promise<Build | null> => {
+  await ensureDatabase();
+  const rows = await all<BuildRow>(
+    'SELECT * FROM `Builds` WHERE `id` = ? LIMIT 1',
+    [id],
+  );
+  const row = rows[0];
+  return row ? toBuild(row) : null;
+};
+
+export const closeDatabase = async (): Promise<void> => {
+  const opened = database;
+  if (!opened) {
+    return;
+  }
+  database = null;
+  await new Promise<void>((resolve, reject) => {
+    opened.close((error) => (error ? reject(error) : resolve()));
+  });
 };

@@ -1,24 +1,35 @@
+import { mkdtempSync, rmSync } from 'fs';
+import { tmpdir } from 'os';
+import { join } from 'path';
+import sqlite3 from 'sqlite3';
 import { afterEach, expect, test, vi } from 'vitest';
 
 import type { PublisherConfigLocal } from './config';
 
-const inMemoryConfig: PublisherConfigLocal = {
+const temporaryDirectories: Array<string> = [];
+
+const configFor = (databaseUrl: string): PublisherConfigLocal => ({
   publisherPort: 3000,
   mode: 'local',
   commands: {
     clean: 'echo "clean"',
     build: { command: 'echo "build"' },
   },
-  // Sequelize expects the literal ":memory:" storage path, not a sqlite:// URL.
-  databaseUrl: ':memory:',
+  databaseUrl,
+});
+
+const temporaryDatabasePath = (): string => {
+  const directory = mkdtempSync(join(tmpdir(), 'publisher-database-'));
+  temporaryDirectories.push(directory);
+  return join(directory, 'publisher.sqlite');
 };
 
-const importDatabaseWithConfig = async (): Promise<
-  typeof import('./database')
-> => {
+const importDatabaseWithConfig = async (
+  databaseUrl = ':memory:',
+): Promise<typeof import('./database')> => {
   vi.resetModules();
   const { setConfig } = await import('./config');
-  setConfig({ ...inMemoryConfig });
+  setConfig(configFor(databaseUrl));
   return import('./database');
 };
 
@@ -32,19 +43,35 @@ const buildRecord = {
 
 afterEach(() => {
   vi.resetModules();
+  while (temporaryDirectories.length) {
+    rmSync(temporaryDirectories.pop()!, { recursive: true, force: true });
+  }
 });
 
-test('initDatabase creates the Build table in a real sqlite database', async () => {
-  const { getDatabase, initDatabase } = await importDatabaseWithConfig();
+const readColumns = (
+  path: string,
+): Promise<Array<{ name: string; type: string; notnull: number }>> =>
+  new Promise((resolve, reject) => {
+    const database = new sqlite3.Database(path);
+    database.all('PRAGMA table_info(`Builds`)', (error, rows) => {
+      database.close();
+      return error
+        ? reject(error)
+        : resolve(
+            rows as Array<{ name: string; type: string; notnull: number }>,
+          );
+    });
+  });
+
+test('initDatabase creates the Build table with the Sequelize schema', async () => {
+  const path = temporaryDatabasePath();
+  const { initDatabase, closeDatabase } = await importDatabaseWithConfig(path);
 
   await initDatabase();
-  const { Build } = await getDatabase();
+  await closeDatabase();
 
-  const tables = await Build.sequelize!.getQueryInterface().showAllTables();
-  expect(tables).toContain('Builds');
-
-  const columns = (await Build.describe()) as Record<string, { type: string }>;
-  expect(Object.keys(columns).sort()).toStrictEqual([
+  const columns = await readColumns(path);
+  expect(columns.map((column) => column.name).sort()).toStrictEqual([
     'createdAt',
     'finishedAt',
     'id',
@@ -54,84 +81,133 @@ test('initDatabase creates the Build table in a real sqlite database', async () 
     'type',
     'updatedAt',
   ]);
-  expect(columns.startedAt?.type).toBe('BIGINT');
-  expect(columns.finishedAt?.type).toBe('BIGINT');
-  expect(columns.success?.type).toBe('TINYINT(1)');
-  expect(columns.type?.type).toBe('VARCHAR(255)');
-  expect(columns.logs?.type).toBe('TEXT');
+  const types = Object.fromEntries(
+    columns.map((column) => [column.name, column.type]),
+  );
+  expect(types).toStrictEqual({
+    id: 'INTEGER',
+    startedAt: 'BIGINT',
+    finishedAt: 'BIGINT',
+    success: 'TINYINT(1)',
+    type: 'VARCHAR(255)',
+    logs: 'TEXT',
+    createdAt: 'DATETIME',
+    updatedAt: 'DATETIME',
+  });
+});
 
-  await Build.sequelize!.close();
+test('initDatabase leaves an existing database untouched', async () => {
+  const path = temporaryDatabasePath();
+  const first = await importDatabaseWithConfig(path);
+  await first.initDatabase();
+  await first.saveBuildInfo(buildRecord);
+  await first.closeDatabase();
+
+  const second = await importDatabaseWithConfig(path);
+  await second.initDatabase();
+
+  expect(await second.listBuilds()).toHaveLength(1);
+  await second.closeDatabase();
 });
 
 test('saveBuildInfo persists a record that can be read back with all fields intact', async () => {
-  const { getDatabase, initDatabase, saveBuildInfo } =
+  const { initDatabase, saveBuildInfo, listBuilds, getBuild, closeDatabase } =
     await importDatabaseWithConfig();
 
   await initDatabase();
   await saveBuildInfo(buildRecord);
 
-  const { Build } = await getDatabase();
-  const all = await Build.findAll();
-  expect(all).toHaveLength(1);
+  const builds = await listBuilds();
+  expect(builds).toHaveLength(1);
 
-  const stored = await Build.findByPk(all[0]!.getDataValue('id'));
+  const stored = await getBuild(String(builds[0]!.id));
   expect(stored).not.toBeNull();
-  expect(stored!.get('startedAt')).toBe(buildRecord.startedAt);
-  expect(stored!.get('finishedAt')).toBe(buildRecord.finishedAt);
-  expect(stored!.get('success')).toBe(true);
-  expect(stored!.get('type')).toBe('incremental');
-  expect(stored!.get('logs')).toBe(buildRecord.logs);
+  expect(stored!.startedAt).toBe(buildRecord.startedAt);
+  expect(stored!.finishedAt).toBe(buildRecord.finishedAt);
+  expect(stored!.success).toBe(true);
+  expect(stored!.type).toBe('incremental');
+  expect(stored!.logs).toBe(buildRecord.logs);
 
-  expect(typeof stored!.get('startedAt')).toBe('number');
-  expect(typeof stored!.get('finishedAt')).toBe('number');
-  expect(typeof stored!.get('success')).toBe('boolean');
+  expect(typeof stored!.startedAt).toBe('number');
+  expect(typeof stored!.finishedAt).toBe('number');
+  expect(typeof stored!.success).toBe('boolean');
 
-  await Build.sequelize!.close();
+  await closeDatabase();
+});
+
+test('saveBuildInfo timestamps records the way Sequelize did', async () => {
+  const { initDatabase, saveBuildInfo, listBuilds, closeDatabase } =
+    await importDatabaseWithConfig();
+
+  await initDatabase();
+  await saveBuildInfo(buildRecord);
+
+  const [stored] = await listBuilds();
+  expect(stored!.createdAt).toMatch(
+    /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3} \+00:00$/,
+  );
+  expect(stored!.updatedAt).toBe(stored!.createdAt);
+
+  await closeDatabase();
 });
 
 test('saveBuildInfo stores a failed build with success false', async () => {
-  const { getDatabase, initDatabase, saveBuildInfo } =
+  const { initDatabase, saveBuildInfo, listBuilds, closeDatabase } =
     await importDatabaseWithConfig();
 
   await initDatabase();
   await saveBuildInfo({ ...buildRecord, success: false, type: 'full' });
 
-  const { Build } = await getDatabase();
-  const stored = await Build.findOne();
-  expect(stored!.get('success')).toBe(false);
-  expect(stored!.get('type')).toBe('full');
+  const [stored] = await listBuilds();
+  expect(stored!.success).toBe(false);
+  expect(stored!.type).toBe('full');
 
-  await Build.sequelize!.close();
+  await closeDatabase();
 });
 
-test('getDatabase initializes the database lazily', async () => {
-  const { getDatabase, saveBuildInfo } = await importDatabaseWithConfig();
+test('listBuilds returns the newest build first', async () => {
+  const { initDatabase, saveBuildInfo, listBuilds, closeDatabase } =
+    await importDatabaseWithConfig();
+
+  await initDatabase();
+  await saveBuildInfo({ ...buildRecord, logs: 'first' });
+  await saveBuildInfo({ ...buildRecord, logs: 'second' });
+
+  expect((await listBuilds()).map((build) => build.logs)).toStrictEqual([
+    'second',
+    'first',
+  ]);
+
+  await closeDatabase();
+});
+
+test('getBuild returns null for an unknown id', async () => {
+  const { initDatabase, getBuild, closeDatabase } =
+    await importDatabaseWithConfig();
+
+  await initDatabase();
+
+  expect(await getBuild('4242')).toBeNull();
+
+  await closeDatabase();
+});
+
+test('the database is initialized lazily', async () => {
+  const { saveBuildInfo, listBuilds, closeDatabase } =
+    await importDatabaseWithConfig();
 
   await saveBuildInfo(buildRecord);
 
-  const { Build } = await getDatabase();
-  expect(await Build.count()).toBe(1);
+  expect(await listBuilds()).toHaveLength(1);
 
-  await Build.sequelize!.close();
-});
-
-test('getDatabase returns the same models on every call', async () => {
-  const { getDatabase, initDatabase } = await importDatabaseWithConfig();
-
-  await initDatabase();
-  const first = await getDatabase();
-  const second = await getDatabase();
-  expect(first.Build).toBe(second.Build);
-
-  await first.Build.sequelize!.close();
+  await closeDatabase();
 });
 
 test('initDatabase throws when called twice', async () => {
-  const { getDatabase, initDatabase } = await importDatabaseWithConfig();
+  const { initDatabase, closeDatabase } = await importDatabaseWithConfig();
 
   await initDatabase();
   await expect(initDatabase()).rejects.toThrow('Database already initialized.');
 
-  const { Build } = await getDatabase();
-  await Build.sequelize!.close();
+  await closeDatabase();
 });

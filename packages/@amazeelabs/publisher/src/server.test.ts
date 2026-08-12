@@ -7,7 +7,7 @@ import { createApp } from './server';
 import { WorkflowStatusNotification } from './shared/exports';
 import { clearConfig, PublisherConfigLocal, setConfig } from './tools/config';
 import { core, CoreGithubWorkflow } from './tools/core';
-import { getDatabase } from './tools/database';
+import { getBuild, listBuilds } from './tools/database';
 import { OAuth2GrantTypes } from './tools/oAuth2GrantTypes';
 
 vi.mock('./tools/database');
@@ -140,14 +140,6 @@ const logIn = async (agent: Agent): Promise<request.Response> => {
   });
 };
 
-type Database = Awaited<ReturnType<typeof getDatabase>>;
-
-const mockBuildModel = (build: Partial<Database['Build']>): void => {
-  vi.mocked(getDatabase).mockResolvedValue({
-    Build: build,
-  } as unknown as Database);
-};
-
 const workflowState = (): CoreGithubWorkflow['state'] =>
   (core as CoreGithubWorkflow).state;
 
@@ -208,29 +200,30 @@ test('update route accepts a json body', async () => {
   expect(response.body).toBe(true);
 });
 
-test('history route returns all builds, newest first', async () => {
+test('history route returns all builds', async () => {
   const builds = [
     { id: 2, success: true },
     { id: 1, success: false },
   ];
-  const findAll = vi.fn().mockResolvedValue(builds);
-  mockBuildModel({ findAll });
+  vi.mocked(listBuilds).mockResolvedValue(
+    builds as unknown as Awaited<ReturnType<typeof listBuilds>>,
+  );
 
   const response = await request(createApp()).get('/___status/history');
   expect(response.status).toBe(200);
   expect(response.body).toStrictEqual(builds);
-  expect(findAll).toHaveBeenCalledWith({ order: [['id', 'DESC']] });
 });
 
 test('history route returns a single build by id', async () => {
   const build = { id: 42, success: true };
-  const findByPk = vi.fn().mockResolvedValue(build);
-  mockBuildModel({ findByPk });
+  vi.mocked(getBuild).mockResolvedValue(
+    build as unknown as Awaited<ReturnType<typeof getBuild>>,
+  );
 
   const response = await request(createApp()).get('/___status/history/42');
   expect(response.status).toBe(200);
   expect(response.body).toStrictEqual(build);
-  expect(findByPk).toHaveBeenCalledWith('42');
+  expect(getBuild).toHaveBeenCalledWith('42');
 });
 
 test('github workflow status rejects an invalid notification', async () => {

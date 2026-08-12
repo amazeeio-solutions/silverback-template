@@ -250,6 +250,10 @@ export type PublisherConfig =
 
 let _config: PublisherConfig | null = null;
 
+// TODO: Drop the sucrase dependency in favour of the built-in type stripping
+// once the project runs on Node 22.18 or newer, where `publisher.config.ts` can
+// be imported directly and this whole compile step goes away.
+
 /**
  * Strips the types and imports the result as plain JavaScript.
  *
