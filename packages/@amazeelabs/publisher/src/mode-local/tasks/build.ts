@@ -32,11 +32,29 @@ export const buildTask: () => TaskJob = () => (controller) => {
   return new Promise((resolve) => {
     const queue = new Queue();
 
-    controller.onCancel(async () => {
-      await queue.clear();
-      core.state.finishBuild();
+    // Clearing the queue makes it idle, so both the cancel handler and the idle
+    // handler below reach settle(). Whichever arrives first commits the outcome,
+    // and cancellation is already recorded by then.
+    let cancelled = false;
+    let settled = false;
+    const settle = (): void => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (cancelled) {
+        core.state.cancelBuild();
+      } else {
+        core.state.finishBuild();
+      }
       saveBuildLogs();
-      resolve(false);
+      resolve(!cancelled);
+    };
+
+    controller.onCancel(async () => {
+      cancelled = true;
+      await queue.clear();
+      settle();
     });
 
     queue.add({
@@ -50,10 +68,6 @@ export const buildTask: () => TaskJob = () => (controller) => {
 
     queue.run();
     // eslint-disable-next-line promise/catch-or-return,promise/always-return
-    queue.whenIdle.then(() => {
-      core.state.finishBuild();
-      saveBuildLogs();
-      resolve(true);
-    });
+    queue.whenIdle.then(() => settle());
   });
 };

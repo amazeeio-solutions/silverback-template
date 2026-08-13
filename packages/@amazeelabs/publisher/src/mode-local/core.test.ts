@@ -194,6 +194,24 @@ test('applicationState$ does not report an error when recovering from a fatal er
   ]);
 });
 
+test('applicationState$ does not report a cancelled build as a failure', async () => {
+  setConfig({
+    ...defaultConfig,
+    commands: {
+      ...defaultConfig.commands,
+      build: { command: 'echo "build starting"; sleep 1; echo "build done"' },
+    },
+  });
+  await core.start();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  await core.clean();
+  await core.queue.whenIdle;
+  expect(states).toStrictEqual([
+    ApplicationState.Starting,
+    ApplicationState.Ready,
+  ]);
+});
+
 test('applicationState$ does not report intermediate failing attempts', async () => {
   let attempt = 0;
   setConfig({

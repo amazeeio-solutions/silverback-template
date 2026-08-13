@@ -94,6 +94,25 @@ ${date} ✅ Command exited: "echo "deploy""`,
   });
 });
 
+test('a cancelled build is saved to database once', async () => {
+  setConfig({
+    ...defaultConfig,
+    commands: {
+      ...defaultConfig.commands,
+      build: { command: 'echo "build starting"; sleep 1' },
+    },
+  });
+  const controller = new TaskController();
+  const build = buildTask()(controller);
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  controller.cancel();
+  await build;
+  expect(saveBuildInfoSafely).toHaveBeenCalledTimes(1);
+  expect(saveBuildInfoSafely).toHaveBeenCalledWith(
+    expect.objectContaining({ success: false }),
+  );
+});
+
 test('failed builds are saved to database', async () => {
   setConfig({
     ...defaultConfig,

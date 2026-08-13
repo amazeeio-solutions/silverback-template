@@ -54,6 +54,19 @@ export const state = {
     }));
   },
 
+  // Cancelled jobs report themselves as failed, but a build nobody waited for
+  // has no outcome. Committing those results would report a failure the user
+  // caused on purpose by cleaning or restarting.
+  cancelBuild: (): void => {
+    store.setState({
+      buildState: {
+        buildJob: 'NotStarted',
+        deployJob: 'NotStarted',
+        overall: 'NotStarted',
+      },
+    });
+  },
+
   getBuildJobState: (): State['buildState']['buildJob'] =>
     store.getState().buildState.buildJob,
 
