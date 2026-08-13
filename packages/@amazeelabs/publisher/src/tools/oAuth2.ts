@@ -163,7 +163,10 @@ export const initializeSession = (server: Express): void => {
       oAuth2Config.sessionSecret || crypto.randomBytes(64).toString('hex'),
     resave: true, // seems to be needed for MemoryStore
     saveUninitialized: false,
-    cookie: { maxAge: sessionMaxAgeInMilliseconds },
+    cookie: {
+      maxAge: sessionMaxAgeInMilliseconds,
+      secure: oAuth2Config.environmentType === 'production',
+    },
     // Keep it simple, use production safe memory store,
     // not the one provided by express-session.
     // Other available stores
@@ -175,7 +178,6 @@ export const initializeSession = (server: Express): void => {
 
   if (oAuth2Config.environmentType === 'production') {
     server.set('trust proxy', 1); // trust first proxy
-    config.cookie!.secure = true; // serve secure cookies
   }
 
   server.use(session(config));
