@@ -214,6 +214,63 @@ test('builds after the first one get a single attempt', async () => {
   ]);
 });
 
+test('cancelling the first build does not start the remaining attempts', async () => {
+  const { buildTask, output } = await load();
+
+  vi.useFakeTimers();
+  const controller = new TaskController();
+  const build = buildTask()(controller);
+  controller.cancel();
+  // The cancellation waits for the runs to stop.
+  await vi.advanceTimersByTimeAsync(10_000);
+
+  expect(
+    output.filter((chunk) => chunk.includes('Starting the workflow')),
+  ).toHaveLength(1);
+  await expect(build).resolves.toBe(false);
+});
+
+test('a cancellation only cancels the current attempt', async () => {
+  const { core, buildTask, output } = await load();
+  const controller = new TaskController();
+  const build = buildTask()(controller);
+  await failAttempt(core);
+  await failAttempt(core);
+
+  vi.useFakeTimers();
+  controller.cancel();
+  await vi.advanceTimersByTimeAsync(10_000);
+
+  await expect(build).resolves.toBe(false);
+  expect(
+    output.filter((chunk) => chunk.includes('Cancelling the workflow')),
+  ).toHaveLength(1);
+});
+
+test('a cancelled build is not reported as an error', async () => {
+  const { core, buildTask, states } = await load();
+  const firstBuild = buildTask()(new TaskController());
+  core.state.workflowState$.next('success');
+  await firstBuild;
+
+  vi.useFakeTimers();
+  const controller = new TaskController();
+  const secondBuild = buildTask()(controller);
+  controller.cancel();
+  await vi.advanceTimersByTimeAsync(10_000);
+
+  await expect(secondBuild).resolves.toBe(false);
+  expect(states).toStrictEqual([
+    ApplicationState.Starting,
+    ApplicationState.Ready,
+    ApplicationState.Updating,
+  ]);
+  expect(saveBuildInfoSafely).toHaveBeenCalledTimes(2);
+  expect(saveBuildInfoSafely).toHaveBeenLastCalledWith(
+    expect.objectContaining({ success: false }),
+  );
+});
+
 test('the workflow state of a previous build is ignored', async () => {
   const { core, buildTask } = await load();
   const firstBuild = buildTask()(new TaskController());
