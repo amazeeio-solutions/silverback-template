@@ -115,3 +115,21 @@ test('does not redirect when no destination is given', () => {
   render(<Status status={ApplicationState.Ready} />);
   expect(location.href).toBe(originalLocation.href);
 });
+
+test('ignores a javascript: destination', () => {
+  const location = stubLocation('?dest=javascript:alert(1)');
+  render(<Status status={ApplicationState.Ready} />);
+  expect(location.href).toBe(originalLocation.href);
+});
+
+test('ignores a cross-origin destination', () => {
+  const location = stubLocation('?dest=https://evil.example/steal');
+  render(<Status status={ApplicationState.Ready} />);
+  expect(location.href).toBe(originalLocation.href);
+});
+
+test('follows an absolute destination on the current origin', () => {
+  const location = stubLocation(`?dest=${originalLocation.origin}/some/page`);
+  render(<Status status={ApplicationState.Ready} />);
+  expect(location.href).toBe('/some/page');
+});

@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import React, { useEffect } from 'react';
 
 import { ApplicationState } from '../../shared/exports';
+import { sameOriginDestination } from '../utils/destination';
 
 export default function Status({
   status,
@@ -11,9 +12,14 @@ export default function Status({
   status: ApplicationState | null;
 }) {
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (status === ApplicationState.Ready && params.has('dest')) {
-      window.location.href = params.get('dest') as string;
+    if (status !== ApplicationState.Ready) {
+      return;
+    }
+    const destination = sameOriginDestination(
+      new URLSearchParams(window.location.search).get('dest'),
+    );
+    if (destination) {
+      window.location.href = destination;
     }
   }, [status]);
 
