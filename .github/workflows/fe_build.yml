@@ -15,6 +15,11 @@ run-name: 'FE Build [env: ${{ inputs.env }}]'
 concurrency:
   group: fe_build_${{ inputs.env }}
 
+permissions:
+  contents: read
+  # The Publisher action deletes stale Actions caches via the REST API.
+  actions: write
+
 jobs:
   build:
     name: Build
