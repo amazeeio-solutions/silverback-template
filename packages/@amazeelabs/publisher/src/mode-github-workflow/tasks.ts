@@ -1,6 +1,6 @@
 import { execSync, SpawnSyncReturns } from 'node:child_process';
 
-import { skip } from 'rxjs';
+import { skip, Subscription } from 'rxjs';
 
 import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
 import { BuildLog } from '../tools/buildLog';
@@ -27,10 +27,7 @@ export const buildTask: (args?: { clean: boolean }) => TaskJob =
       );
     });
 
-    const finalizeBuild = (isSuccess: boolean): boolean => {
-      core.state.applicationState$.next(
-        isSuccess ? ApplicationState.Ready : ApplicationState.Error,
-      );
+    const saveBuild = (isSuccess: boolean): void => {
       saveBuildInfoSafely({
         type: 'github-workflow',
         startedAt,
@@ -39,51 +36,83 @@ export const buildTask: (args?: { clean: boolean }) => TaskJob =
         logs: output.toString(),
       });
       outputSubscription.unsubscribe();
+    };
+
+    const finalizeBuild = (isSuccess: boolean): boolean => {
+      core.state.applicationState$.next(
+        isSuccess ? ApplicationState.Ready : ApplicationState.Error,
+      );
+      saveBuild(isSuccess);
       return isSuccess;
+    };
+
+    // A build nobody waited for has no outcome, so it is not reported as one.
+    const finalizeCancelledBuild = (): boolean => {
+      saveBuild(false);
+      return false;
     };
 
     const attempts =
       core.state.buildNumber === 1
         ? 3 // The first build gets 3 attempts.
         : 1;
-    // FIXME: a cancelled run resolves false rather than aborting, so cancelling
-    // the first build still triggers the remaining attempts.
     for (let attempt = 1; attempt <= attempts; attempt++) {
       const result =
         attempt === 2
           ? await runWorkflow({ controller, clean: true })
           : await runWorkflow({ controller, clean: !!args?.clean });
-      if (result) {
+      if (result === 'cancelled') {
+        return finalizeCancelledBuild();
+      }
+      if (result === 'success') {
         return finalizeBuild(true);
       }
     }
     return finalizeBuild(false);
   };
 
+type WorkflowRunResult = 'success' | 'failure' | 'cancelled';
+
 async function runWorkflow(args: {
   clean: boolean;
   controller: TaskController;
-}): Promise<boolean> {
-  return new Promise<boolean>((resolve) => {
+}): Promise<WorkflowRunResult> {
+  return new Promise<WorkflowRunResult>((resolve) => {
     if (args.clean) {
       core.output$.next('Starting the workflow (clean build 🧹)', 'info');
     } else {
       core.output$.next('Starting the workflow', 'info');
     }
 
-    const timeout = setTimeout(() => {
-      core.output$.next('Timeout reached', 'error');
-      args.controller.cancel();
-    }, config().workflowTimeout);
+    let subscription: Subscription | null = null;
 
-    // FIXME: never removed via offCancel, so callbacks accumulate across
-    // attempts and one cancel re-runs cancelWorkflow() once per attempt.
-    args.controller.onCancel(async () => {
+    // The controller belongs to the whole build task, so this attempt has to
+    // stop listening once it is over. Otherwise a later cancellation reaches
+    // every attempt the build has made so far.
+    const settle = (result: WorkflowRunResult): void => {
+      clearTimeout(timeout);
+      args.controller.offCancel(onCancel);
+      subscription?.unsubscribe();
+      resolve(result);
+    };
+
+    const abortWorkflow = async (result: WorkflowRunResult): Promise<void> => {
       core.output$.next('Cancelling the workflow', 'warning');
       await cancelWorkflow();
-      clearTimeout(timeout);
-      return resolve(false);
-    });
+      settle(result);
+    };
+
+    // A timeout is a failed attempt, unlike a cancellation, so the build keeps
+    // its remaining attempts.
+    const timeout = setTimeout(() => {
+      core.output$.next('Timeout reached', 'error');
+      void abortWorkflow('failure');
+    }, config().workflowTimeout);
+
+    const onCancel = (): void => {
+      void abortWorkflow('cancelled');
+    };
+    args.controller.onCancel(onCancel);
 
     try {
       execSync(
@@ -104,11 +133,10 @@ async function runWorkflow(args: {
       core.output$.next('Error starting the workflow', 'error');
       logExecError(error);
 
-      clearTimeout(timeout);
-      return resolve(false);
+      return settle('failure');
     }
 
-    const subscription = core.state.workflowState$
+    subscription = core.state.workflowState$
       .pipe(
         // Ignore the initial state, or the state coming from the previous build.
         skip(1),
@@ -120,15 +148,13 @@ async function runWorkflow(args: {
           return;
         }
         if (state === 'success' || state === 'failure') {
-          subscription.unsubscribe();
           if (state === 'success') {
             core.output$.next('Workflow succeeded', 'success');
           } else {
             core.output$.next('Workflow failed or cancelled', 'error');
           }
           core.output$.next('Logs: ' + core.state.workflowRunUrl);
-          clearTimeout(timeout);
-          return resolve(state === 'success');
+          return settle(state);
         }
       });
   });

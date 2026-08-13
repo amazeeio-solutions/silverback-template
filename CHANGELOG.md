@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.17...@amazeelabs/silverback-template@3.0.0) (2026-08-13)
+
+
+### Bug Fixes
+
+* do not report a cancelled build as a failure ([0761ff5](https://github.com/amazeeio-solutions/silverback-template/commit/0761ff5fa701c411c85556953bd55ddf0ec9b058))
+* do not report an error when recovering from a fatal error ([80fb84e](https://github.com/amazeeio-solutions/silverback-template/commit/80fb84e590a5363b57eeb693bf792ee039029bff))
+* prevent publisher process crashes and leaks ([3433106](https://github.com/amazeeio-solutions/silverback-template/commit/3433106c53f3d68b3667428e5fa36e69f6547723))
+* restrict status page redirect to same origin ([bfc91f6](https://github.com/amazeeio-solutions/silverback-template/commit/bfc91f6f0f63c35fbe2d7f254285ed02fd0bcf67))
+* set session cookie secure flag in the cookie options ([0f64637](https://github.com/amazeeio-solutions/silverback-template/commit/0f646378d2f0ff917a81d3076c5b73c705d49e82))
+
+
+* refactor!: merge publisher packages into one ([4afba35](https://github.com/amazeeio-solutions/silverback-template/commit/4afba3557ee98570389205053179b474a6a7715d))
+
+
+### BREAKING CHANGES
+
+* @amazeelabs/publisher-ui and @amazeelabs/publisher-shared
+are merged into @amazeelabs/publisher and are no longer published.
+
+
+
+
+
 ## [2.6.17](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.16...@amazeelabs/silverback-template@2.6.17) (2026-08-06)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template
