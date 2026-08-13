@@ -173,6 +173,27 @@ test('applicationState$ build error', async () => {
   ]);
 });
 
+test('applicationState$ does not report an error when recovering from a fatal error', async () => {
+  setConfig({
+    ...defaultConfig,
+    commands: {
+      ...defaultConfig.commands,
+      build: { command: 'echo "build fail"; exit 1' },
+    },
+  });
+  await core.start();
+  await core.queue.whenIdle;
+  setConfig(defaultConfig);
+  core.build();
+  await core.queue.whenIdle;
+  expect(states).toStrictEqual([
+    ApplicationState.Starting,
+    ApplicationState.Fatal,
+    ApplicationState.Updating,
+    ApplicationState.Ready,
+  ]);
+});
+
 test('applicationState$ does not report intermediate failing attempts', async () => {
   let attempt = 0;
   setConfig({

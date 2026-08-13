@@ -7,8 +7,7 @@ import { buildRunTask } from './build/buildRun';
 import { serveStartTask } from './serve/serveStart';
 
 export const buildTask: () => TaskJob = () => (controller) => {
-  core.state.incrementBuildNumber();
-  core.state.setBuildState('InProgress');
+  core.state.startBuild();
 
   const startedAt = Date.now();
   const output = new BuildLog();
@@ -35,7 +34,7 @@ export const buildTask: () => TaskJob = () => (controller) => {
 
     controller.onCancel(async () => {
       await queue.clear();
-      core.state.setBuildState('Done');
+      core.state.finishBuild();
       saveBuildLogs();
       resolve(false);
     });
@@ -52,7 +51,7 @@ export const buildTask: () => TaskJob = () => (controller) => {
     queue.run();
     // eslint-disable-next-line promise/catch-or-return,promise/always-return
     queue.whenIdle.then(() => {
-      core.state.setBuildState('Done');
+      core.state.finishBuild();
       saveBuildLogs();
       resolve(true);
     });

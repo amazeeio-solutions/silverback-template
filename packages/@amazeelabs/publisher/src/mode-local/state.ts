@@ -34,12 +34,23 @@ export const state = {
     store.setState({ buildNumber });
   },
 
-  incrementBuildNumber: (): void =>
-    store.setState({ buildNumber: store.getState().buildNumber + 1 }),
-
-  setBuildState: (state: State['buildState']['overall']): void => {
+  // Subscribers derive the application state from the whole store, so a build
+  // transition has to be a single update. Two updates expose an intermediate
+  // state that mixes the new build number with the previous build results.
+  startBuild: (): void => {
     store.setState((currentState) => ({
-      buildState: { ...currentState.buildState, overall: state },
+      buildNumber: currentState.buildNumber + 1,
+      buildState: {
+        buildJob: 'NotStarted',
+        deployJob: 'NotStarted',
+        overall: 'InProgress',
+      },
+    }));
+  },
+
+  finishBuild: (): void => {
+    store.setState((currentState) => ({
+      buildState: { ...currentState.buildState, overall: 'Done' },
     }));
   },
 
