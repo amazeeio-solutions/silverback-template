@@ -136,8 +136,7 @@ final class UsageCount extends FieldPluginBase {
     $rel = NULL;
     if ($source_entity->hasLinkTemplate('revision')) {
       $rel = 'revision';
-    }
-    elseif ($source_entity->hasLinkTemplate('canonical')) {
+    } elseif ($source_entity->hasLinkTemplate('canonical')) {
       $rel = 'canonical';
     }
 
@@ -184,5 +183,4 @@ final class UsageCount extends FieldPluginBase {
     // As a fallback just return a non-linked label.
     return $link_text;
   }
-
 }

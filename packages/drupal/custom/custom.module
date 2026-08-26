@@ -9,6 +9,7 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\ContentEntityFormInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Render\Element;
@@ -187,7 +188,6 @@ function custom_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if (!$metaboxHasFields) {
     $form['metabox_fields']['#access'] = FALSE;
   }
-
 }
 
 /**
@@ -233,8 +233,7 @@ function _custom_key_auth_form_access(UserInterface $user): AccessResult {
   $access = AccessResult::forbidden();
   if (\Drupal::currentUser()->id() == 1) {
     $access = AccessResult::allowed();
-  }
-  else {
+  } else {
     $roleIds = \Drupal::currentUser()->getRoles();
     if ($roleIds) {
       foreach (Role::loadMultiple($roleIds) as $role) {
@@ -325,8 +324,7 @@ function _custom_add_session_iframe_to_page(array &$variables): void {
       $gcExpire = $sessionMeta->getLastUsed() + $gcLifetime;
       $cookieExpire = $sessionMeta->getCreated() + $cookieLifetime;
       $sessionExpire = date('c', min($cookieExpire, $gcExpire));
-    }
-    else {
+    } else {
       // Unset the session expiration time.
       $sessionExpire = '';
     }

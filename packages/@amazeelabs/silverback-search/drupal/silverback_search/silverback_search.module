@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function silverback_search_media_presave(EntityInterface $entity) {
+  \Drupal::service('search.api.index.update')->searchApiIndexUpdate($entity);
+}
+
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function silverback_search_media_delete(EntityInterface $entity) {
+  \Drupal::service('search.api.index.update')->searchApiIndexUpdate($entity);
+}

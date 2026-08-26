@@ -6,3 +6,6 @@ services:
       - '@logger.factory'
       - '@database'
       - '@module_handler'
+  search.api.index.update:
+    class: Drupal\silverback_search\SearchApiIndexUpdate
+    arguments: ['@entity_usage.usage', '@entity_type.manager']
