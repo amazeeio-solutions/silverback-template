@@ -1,0 +1,7 @@
+graphql_flood_protection.settings:
+  path: '/admin/config/services/graphql-flood-protection'
+  defaults:
+    _form: '\Drupal\graphql_flood_protection\Form\FloodProtectionSettingsForm'
+    _title: 'GraphQL Flood Protection Settings'
+  requirements:
+    _permission: 'administer site configuration'

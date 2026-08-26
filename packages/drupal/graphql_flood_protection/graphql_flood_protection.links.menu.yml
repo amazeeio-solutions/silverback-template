@@ -1,0 +1,6 @@
+graphql_flood_protection.settings:
+  title: 'GraphQL Flood Protection'
+  description: 'Configure rate limiting settings for GraphQL mutations.'
+  route_name: graphql_flood_protection.settings
+  parent: system.admin_config_services
+  weight: 100
