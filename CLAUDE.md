@@ -99,6 +99,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `CLOUDINARY_*` - Image processing
 - `DRUPAL_INTERNAL_URL`, `DRUPAL_EXTERNAL_URL` - Service URLs
 - `PUBLISHER_OAUTH2_CLIENT_SECRET` - OAuth2 authentication
+- `DRUPAL_SLACK_WEBHOOK_URL` - Slack incoming webhook for the Drupal `slack` module
 
 ## Turborepo Build Pipeline
 The build follows stages: prep → test:static → test:unit → test:integration
@@ -162,6 +163,7 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - `CLOUDINARY_*` - Image processing
 - `DRUPAL_INTERNAL_URL`, `DRUPAL_EXTERNAL_URL` - Service URLs
 - `PUBLISHER_OAUTH2_CLIENT_SECRET` - OAuth2 authentication
+- `DRUPAL_SLACK_WEBHOOK_URL` - Slack incoming webhook for the Drupal `slack` module
 
 ### Build Pipeline
 Turborepo stages: `prep → test:static → test:unit → test:integration`
