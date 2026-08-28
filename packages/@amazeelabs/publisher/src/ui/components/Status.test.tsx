@@ -36,7 +36,7 @@ test('announces the starting state with a spinner and a progress bar', () => {
   const { container } = render(<Status status={ApplicationState.Starting} />);
   expect(screen.getByText('Starting...')).toBeDefined();
   expect(container.querySelector('#L9')).not.toBeNull();
-  expect(progressBarOf(container).className).toContain('bg-yellow-500');
+  expect(progressBarOf(container).className).toContain('bg-accent');
   expect(
     progressBarOf(container).querySelector('.animate-bounce'),
   ).not.toBeNull();
@@ -45,54 +45,55 @@ test('announces the starting state with a spinner and a progress bar', () => {
 test('shows the in progress indicators while updating without a label', () => {
   const { container } = render(<Status status={ApplicationState.Updating} />);
   expect(container.querySelector('#L9')).not.toBeNull();
-  expect(progressBarOf(container).className).toContain('bg-yellow-500');
+  expect(progressBarOf(container).className).toContain('bg-accent');
   expect(screen.queryByText('Starting...')).toBeNull();
   expect(screen.queryByText('Ready!')).toBeNull();
   expect(screen.queryByText('Error!')).toBeNull();
 });
 
-test('announces the ready state with a tick and a green bar', () => {
+test('announces the ready state with a tick and a success bar', () => {
   const { container } = render(<Status status={ApplicationState.Ready} />);
   expect(screen.getByText('Ready!')).toBeDefined();
   expect(container.querySelector('.tick-circle')).not.toBeNull();
   expect(container.querySelector('#L9')).toBeNull();
-  expect(progressBarOf(container).className).toContain('bg-green-500');
+  expect(progressBarOf(container).className).toContain('bg-success');
   expect(progressBarOf(container).querySelector('.animate-bounce')).toBeNull();
 });
 
-test('announces the error state with a cross and a red bar', () => {
+test('announces the error state with a cross and an error bar', () => {
   const { container } = render(<Status status={ApplicationState.Error} />);
   expect(screen.getByText('Error!')).toBeDefined();
   expect(container.querySelector('.cross-circle')).not.toBeNull();
-  expect(progressBarOf(container).className).toContain('bg-red-500');
+  expect(progressBarOf(container).className).toContain('bg-error');
 });
 
 test('renders no label, icon or bar colour for the fatal state', () => {
   const { container } = render(<Status status={ApplicationState.Fatal} />);
   expect(container.textContent).toBe('');
-  expect(container.querySelector('svg')).toBeNull();
+  expect(container.querySelector('[data-status-icon] svg')).toBeNull();
   const progressBar = progressBarOf(container);
-  expect(progressBar.className).not.toContain('bg-yellow-500');
-  expect(progressBar.className).not.toContain('bg-green-500');
-  expect(progressBar.className).not.toContain('bg-red-500');
+  expect(progressBar.className).not.toContain('bg-accent');
+  expect(progressBar.className).not.toContain('bg-success');
+  expect(progressBar.className).not.toContain('bg-error');
 });
 
 test('renders nothing but the empty frame for an unknown status', () => {
   const { container } = render(<Status status={null} />);
   expect(container.textContent).toBe('');
-  expect(container.querySelector('svg')).toBeNull();
+  expect(container.querySelector('[data-status-icon] svg')).toBeNull();
 });
 
-test('uses the tighter spacing while a build is in progress', () => {
-  const { container } = render(<Status status={ApplicationState.Updating} />);
-  expect(container.querySelector('.pt-32')).not.toBeNull();
-  expect(container.querySelector('.pt-36')).toBeNull();
-});
-
-test('uses the wider spacing while no build is in progress', () => {
-  const { container } = render(<Status status={ApplicationState.Ready} />);
-  expect(container.querySelector('.pt-36')).not.toBeNull();
-  expect(container.querySelector('.pt-32')).toBeNull();
+test.each([
+  ApplicationState.Starting,
+  ApplicationState.Updating,
+  ApplicationState.Ready,
+  ApplicationState.Error,
+  ApplicationState.Fatal,
+])('reserves the icon slot in the %s state so the label never shifts', (state) => {
+  const { container } = render(<Status status={state} />);
+  const slot = container.querySelector('[data-status-icon]');
+  expect(slot).not.toBeNull();
+  expect(slot!.className).toContain('h-20');
 });
 
 test('redirects to the destination once the application is ready', () => {
