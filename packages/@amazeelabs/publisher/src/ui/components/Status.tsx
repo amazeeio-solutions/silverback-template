@@ -61,7 +61,13 @@ export default function Status({
                 className={'h-14 w-auto'}
                 aria-hidden="true"
               >
-                <rect x="20" y="50" width="3" height="14" className="fill-accent">
+                <rect
+                  x="20"
+                  y="50"
+                  width="3"
+                  height="14"
+                  className="fill-accent"
+                >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -72,7 +78,13 @@ export default function Status({
                     repeatCount="indefinite"
                   ></animateTransform>
                 </rect>
-                <rect x="30" y="50" width="3" height="14" className="fill-accent">
+                <rect
+                  x="30"
+                  y="50"
+                  width="3"
+                  height="14"
+                  className="fill-accent"
+                >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -83,7 +95,13 @@ export default function Status({
                     repeatCount="indefinite"
                   ></animateTransform>
                 </rect>
-                <rect x="40" y="50" width="3" height="14" className="fill-accent">
+                <rect
+                  x="40"
+                  y="50"
+                  width="3"
+                  height="14"
+                  className="fill-accent"
+                >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -157,11 +175,7 @@ export default function Status({
               </svg>
             ) : null}
           </div>
-          <div
-            className={
-              'text-lg font-medium tracking-tight md:text-2xl'
-            }
-          >
+          <div className={'text-lg font-medium tracking-tight md:text-2xl'}>
             {status === ApplicationState.Starting ? (
               <span>Starting...</span>
             ) : null}

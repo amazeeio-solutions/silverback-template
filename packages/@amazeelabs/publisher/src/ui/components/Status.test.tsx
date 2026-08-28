@@ -89,12 +89,15 @@ test.each([
   ApplicationState.Ready,
   ApplicationState.Error,
   ApplicationState.Fatal,
-])('reserves the icon slot in the %s state so the label never shifts', (state) => {
-  const { container } = render(<Status status={state} />);
-  const slot = container.querySelector('[data-status-icon]');
-  expect(slot).not.toBeNull();
-  expect(slot!.className).toContain('h-20');
-});
+])(
+  'reserves the icon slot in the %s state so the label never shifts',
+  (state) => {
+    const { container } = render(<Status status={state} />);
+    const slot = container.querySelector('[data-status-icon]');
+    expect(slot).not.toBeNull();
+    expect(slot!.className).toContain('h-20');
+  },
+);
 
 test('redirects to the destination once the application is ready', () => {
   const location = stubLocation('?dest=/some/page');

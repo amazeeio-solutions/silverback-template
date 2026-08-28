@@ -15,7 +15,10 @@ import {
  * everything here is inlined, and the type degrades to Arial rather than
  * pulling a webfont over the network.
  */
-export const renderBrandedPage = (title: string, body: string): string => `<!doctype html>
+export const renderBrandedPage = (
+  title: string,
+  body: string,
+): string => `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
