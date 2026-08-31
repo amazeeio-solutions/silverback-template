@@ -36,7 +36,7 @@ export default function Status({
     <div className={'flex h-screen items-center justify-center bg-surface p-4'}>
       <div
         className={
-          'w-full max-w-[90%] overflow-hidden rounded-lg border border-line bg-card text-ink shadow-sm md:max-w-lg'
+          'w-full max-w-[90%] overflow-hidden rounded-xl border border-line bg-card text-ink shadow-sm md:max-w-lg'
         }
       >
         <div className={'flex justify-center px-6 pt-8'}>
@@ -175,7 +175,7 @@ export default function Status({
               </svg>
             ) : null}
           </div>
-          <div className={'text-lg font-medium tracking-tight md:text-2xl'}>
+          <div className={'text-lg font-semibold tracking-tight md:text-2xl'}>
             {status === ApplicationState.Starting ? (
               <span>Starting...</span>
             ) : null}

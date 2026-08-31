@@ -58,7 +58,7 @@ export const renderBrandedPage = (
         max-width: 28rem;
         background: #fff;
         border: 1px solid ${lunarGray};
-        border-radius: 0.5rem;
+        border-radius: 0.75rem;
         padding: 1.5rem;
         box-shadow: 0 1px 2px rgb(24 48 67 / 0.05);
       }

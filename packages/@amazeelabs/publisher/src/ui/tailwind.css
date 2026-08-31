@@ -36,22 +36,32 @@
     U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
+/*
+ * Button geometry follows amazee.io itself rather than the print guidelines:
+ * a pill with a 1px Mermaid Blue edge, whose fill and label swap on hover.
+ * Primary starts filled and secondary starts hollow, so the pair shares one
+ * set of states (`.amazeeio-button` / `.amazeeio-button.inverted` on the site).
+ *
+ * The labels deviate from the site, which pairs Mermaid Blue with white in
+ * both directions (2.4:1). Here the filled state carries dark ink (8.9:1) and
+ * the hollow state Coastal Blue (9.0:1), so both clear WCAG AA.
+ */
 .button-primary {
-  @apply cursor-pointer rounded-md border border-accent bg-accent px-6 py-2 text-base font-medium text-ink transition hover:border-marine hover:bg-marine focus:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 active:border-marine active:bg-marine md:px-7;
+  @apply cursor-pointer rounded-full border border-accent bg-accent px-6 py-2 text-base font-medium text-ink transition duration-300 hover:bg-white hover:text-link focus:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 active:bg-white active:text-link md:px-7;
 }
 
 .button-secondary {
-  @apply cursor-pointer rounded-md border border-link bg-transparent px-6 py-2 text-base font-medium text-link transition hover:bg-link hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 active:bg-link active:text-white md:px-7;
+  @apply cursor-pointer rounded-full border border-accent bg-white px-6 py-2 text-base font-medium text-link transition duration-300 hover:bg-accent hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 active:bg-accent active:text-ink md:px-7;
 }
 
 .pre-container pre {
-  @apply mt-2 max-w-full overflow-x-auto whitespace-pre-wrap rounded-md bg-shell p-4 text-justify text-[13px] leading-[1.4] text-lunar;
+  @apply mt-2 max-w-full overflow-x-auto whitespace-pre-wrap rounded-lg bg-shell p-4 text-justify text-[13px] leading-[1.4] text-lunar;
   word-wrap: break-word;
 }
 
 /* As close to the previous Lazylog styles as possible */
 .simple-log {
-  @apply mt-2 max-w-full overflow-x-auto whitespace-pre-wrap rounded-md bg-shell p-4 font-mono text-[12px] font-normal text-lunar;
+  @apply mt-2 max-w-full overflow-x-auto whitespace-pre-wrap rounded-lg bg-shell p-4 font-mono text-[12px] font-normal text-lunar;
   word-wrap: break-word;
   line-height: 19px;
   overflow: auto;

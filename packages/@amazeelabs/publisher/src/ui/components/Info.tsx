@@ -211,7 +211,7 @@ function CleanButton() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md overflow-hidden rounded-lg border border-line bg-card p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md overflow-hidden rounded-xl border border-line bg-card p-6 text-left align-middle shadow-xl transition-all">
                   <p className="text-sm text-muted">
                     Please confirm that you definitely want to clean the build:
                   </p>
@@ -299,7 +299,7 @@ function Card({
     <section
       id={id}
       className={clsx(
-        'rounded-lg border border-line bg-card p-4 shadow-sm md:p-6',
+        'rounded-xl border border-line bg-card p-4 shadow-sm md:p-6',
         className,
       )}
     >
@@ -364,7 +364,7 @@ export default function Info({
           {({ open }) => (
             <Card className="mb-8">
               <div className="flex items-baseline justify-between gap-4">
-                <h2 className="text-2xl font-medium tracking-tight md:text-3xl">
+                <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
                   Logs
                 </h2>
                 <Disclosure.Button
@@ -392,7 +392,7 @@ export default function Info({
         </Disclosure>
 
         <Card id="build-history">
-          <h2 className="mb-4 text-2xl font-medium tracking-tight md:text-3xl">
+          <h2 className="mb-4 text-2xl font-semibold tracking-tight md:text-3xl">
             Build History
           </h2>
           <History historyItems={historyItems} />
