@@ -55,9 +55,7 @@ export const ExampleInfo: StoryObj<typeof Info> = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const logsToggle = canvasElement.querySelector(
-      'button.absolute',
-    ) as HTMLButtonElement;
+    const logsToggle = canvas.getByRole('button', { name: 'Toggle logs' });
 
     await expect(canvas.getByText('Logs')).toBeInTheDocument();
     await expect(

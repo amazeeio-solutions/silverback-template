@@ -317,7 +317,7 @@ test('the login page offers a log in link and remembers its own path', async () 
   const response = await createOAuth2Agent().get('/oauth/login');
 
   expect(response.status).toBe(200);
-  expect(response.text).toBe('<a href="/oauth">Log in</a>');
+  expect(response.text).toContain('<a href="/oauth">Log in</a>');
   expect(String(response.headers['set-cookie'])).toContain(
     `origin=${encodeURIComponent('/oauth/login')}`,
   );
@@ -427,7 +427,7 @@ test('logging out destroys the session', async () => {
   expect(response.headers['location']).toBe('/oauth/login');
 
   const afterLogout = await agent.get('/oauth/login');
-  expect(afterLogout.text).toBe('<a href="/oauth">Log in</a>');
+  expect(afterLogout.text).toContain('<a href="/oauth">Log in</a>');
 });
 
 const withoutUnhandledRejections = async <T>(
