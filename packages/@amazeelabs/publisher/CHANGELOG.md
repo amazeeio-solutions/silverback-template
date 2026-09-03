@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/publisher@4.0.1...@amazeelabs/publisher@4.1.0) (2026-09-03)
+
+
+### Features
+
+* use a github app for publisher builds ([e9d03dc](https://github.com/amazeeio-solutions/silverback-template/commit/e9d03dceddcbab2a5549e45c904e718a825995d5))
+
+
+
+
+
 ## [4.0.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/publisher@4.0.0...@amazeelabs/publisher@4.0.1) (2026-08-13)
 
 
