@@ -8,7 +8,6 @@ import { TaskController, TaskJob } from '../tools/queue';
 import { core } from './core';
 import {
   cancelWorkflowRun,
-  credentialsDescription,
   dispatchWorkflow,
   listWorkflowRuns,
   WorkflowRun,
@@ -144,7 +143,6 @@ async function runWorkflow(args: {
       });
 
     const startWorkflow = async (): Promise<void> => {
-      core.output$.next(`Using ${credentialsDescription()}`);
       await dispatchWorkflow({
         ...config().inputs,
         publisher_payload: JSON.stringify({

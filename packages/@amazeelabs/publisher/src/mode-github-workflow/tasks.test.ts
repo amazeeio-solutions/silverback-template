@@ -8,13 +8,11 @@ import { TaskController } from '../tools/queue';
 
 const {
   cancelWorkflowRun,
-  credentialsDescription,
   dispatchWorkflow,
   listWorkflowRuns,
   saveBuildInfoSafely,
 } = vi.hoisted(() => ({
   cancelWorkflowRun: vi.fn(),
-  credentialsDescription: vi.fn(),
   dispatchWorkflow: vi.fn(),
   listWorkflowRuns: vi.fn(),
   saveBuildInfoSafely: vi.fn(),
@@ -22,7 +20,6 @@ const {
 
 vi.mock('./github', () => ({
   cancelWorkflowRun,
-  credentialsDescription,
   dispatchWorkflow,
   listWorkflowRuns,
 }));
@@ -108,8 +105,6 @@ beforeEach(() => {
   cancelWorkflowRun.mockResolvedValue(undefined);
   listWorkflowRuns.mockReset();
   listWorkflowRuns.mockResolvedValue([]);
-  credentialsDescription.mockReset();
-  credentialsDescription.mockReturnValue('GH_TOKEN');
   saveBuildInfoSafely.mockReset();
 });
 
@@ -136,7 +131,6 @@ test('a successful first build reports Starting and Ready', async () => {
   ]);
   expect(output).toStrictEqual([
     'ℹ️ Starting the workflow\n',
-    'Using GH_TOKEN\n',
     '✅ Workflow succeeded\n',
     'Logs: \n',
   ]);
@@ -184,15 +178,12 @@ test('the first build gets three attempts and cleans on the second one', async (
   expect(workflowRunPayload(2).clearCache).toBe(false);
   expect(output).toStrictEqual([
     'ℹ️ Starting the workflow\n',
-    'Using GH_TOKEN\n',
     '❌ Workflow failed or cancelled\n',
     'Logs: \n',
     'ℹ️ Starting the workflow (clean build 🧹)\n',
-    'Using GH_TOKEN\n',
     '❌ Workflow failed or cancelled\n',
     'Logs: \n',
     'ℹ️ Starting the workflow\n',
-    'Using GH_TOKEN\n',
     '❌ Workflow failed or cancelled\n',
     'Logs: \n',
   ]);
@@ -339,7 +330,6 @@ test('a started workflow logs the run url and does not finish the build', async 
   expect(dispatchWorkflow).toHaveBeenCalledTimes(1);
   expect(output).toStrictEqual([
     'ℹ️ Starting the workflow\n',
-    'Using GH_TOKEN\n',
     'ℹ️ Workflow started\n',
     'Logs: https://github.com/AmazeeLabs/project/actions/runs/1\n',
   ]);
@@ -410,15 +400,12 @@ test('the request of a failing dispatch is kept out of the logs', async () => {
 
 test('missing credentials fail the build attempt and are logged', async () => {
   const { buildTask, output } = await load();
-  credentialsDescription.mockImplementation(() => {
-    throw new Error('No GitHub credentials.');
-  });
+  dispatchWorkflow.mockRejectedValue(new Error('No GitHub credentials.'));
 
   await expect(buildTask()(new TaskController())).resolves.toBe(false);
 
   expect(output).toContain('❌ Error starting the workflow\n');
   expect(output).toContain('Error: No GitHub credentials.\n');
-  expect(dispatchWorkflow).not.toHaveBeenCalled();
 });
 
 test('reaching the workflow timeout cancels the workflow and fails the build', async () => {
