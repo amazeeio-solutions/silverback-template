@@ -2,59 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Heebo, the amazee.io brand font, self-hosted so the UI needs no third-party
+ * request -- it renders inside the Drupal admin, where a CSP or an air-gapped
+ * environment can block fonts.googleapis.com.
+ *
+ * The URLs are relative on purpose: that routes them through Vite's asset
+ * pipeline, which fingerprints the files and rewrites the URL against
+ * `--base=/___status/`. Root-absolute URLs would resolve outside the mount
+ * point and 404, which is what happened to the fonts these replaced.
+ */
 @font-face {
-  font-family: 'LexendGiga';
+  font-family: 'Heebo';
   font-style: normal;
-  font-display: block;
-  src:
-    url('/static/fonts/lexend_giga/LexendGiga-VariableFont_wght.ttf')
-      format('ttf'),
-    url('/static/fonts/lexend_giga/LexendGiga-VariableFont_wght.woff2')
-      format('woff2');
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('./assets/fonts/heebo/heebo-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: 'Lexend';
+  font-family: 'Heebo';
   font-style: normal;
-  font-display: block;
-  src:
-    url('/static/fonts/lexend/Lexend-VariableFont_wght.ttf') format('ttf'),
-    url('/static/fonts/lexend/Lexend-VariableFont_wght.woff2') format('woff2');
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('./assets/fonts/heebo/heebo-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-body {
-  font-family: 'Lexend';
-}
-
+/*
+ * Buttons follow amazee.io itself rather than the print guidelines: a pill with
+ * a 1px Mermaid Blue edge, pairing Mermaid Blue with white and swapping fill
+ * and label on hover. Primary starts filled and secondary starts hollow, so the
+ * pair shares one set of states (`.amazeeio-button` / `.amazeeio-button.inverted`
+ * on the site), and the label keeps the site's regular weight.
+ *
+ * Mermaid Blue against white is 2.4:1, below WCAG AA. That is inherited from the
+ * site on purpose -- it is a brand-wide question, not one to settle here.
+ */
 .button-primary {
-  @apply border text-white border-purple-500 bg-purple-500 mr-4 cursor-pointer px-6 md:px-7 py-2 rounded-md text-base hover:bg-purple-600 hover:border-purple-600 transition focus:bg-purple-600 active:bg-purple-600 focus:outline-none;
+  @apply cursor-pointer rounded-full border border-accent bg-accent px-6 py-2 text-base font-normal text-white transition duration-300 hover:bg-white hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 active:bg-white active:text-accent md:px-7;
 }
 
 .button-secondary {
-  @apply border border-purple-500 bg-gray-900 text-purple-500 mr-4 cursor-pointer px-6 md:px-7 py-2 rounded-md text-base hover:bg-purple-600 hover:text-white transition focus:bg-purple-600 focus:text-white active:bg-purple-600 active:text-white focus:outline-none;
+  @apply cursor-pointer rounded-full border border-accent bg-white px-6 py-2 text-base font-normal text-accent transition duration-300 hover:bg-accent hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-link focus-visible:ring-offset-2 active:bg-accent active:text-white md:px-7;
 }
 
 .pre-container pre {
-  @apply text-justify text-white mt-2 p-4 leading-[1.4] text-[13px] max-w-full overflow-x-auto whitespace-pre-wrap;
-  background: rgb(44, 53, 57);
+  @apply mt-2 max-w-full overflow-x-auto whitespace-pre-wrap rounded-lg bg-shell p-4 text-justify text-[13px] leading-[1.4] text-lunar;
   word-wrap: break-word;
 }
 
 /* As close to the previous Lazylog styles as possible */
 .simple-log {
-  @apply mt-2 p-4 text-[12px] max-w-full overflow-x-auto whitespace-pre-wrap;
-  background: rgb(44, 53, 57);
+  @apply mt-2 max-w-full overflow-x-auto whitespace-pre-wrap rounded-lg bg-shell p-4 font-mono text-[12px] font-normal text-lunar;
   word-wrap: break-word;
   line-height: 19px;
-  font-family: Monaco, monospace;
-  font-weight: 400;
-  color: #d6d6d6;
   overflow: auto;
   height: 100%;
 }
 
 .simple-log a {
-  @apply text-turquoise-500;
+  @apply text-accent;
   text-decoration: underline;
 }
 
