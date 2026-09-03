@@ -1,7 +1,7 @@
 # ====================================================================================================
 # BUILDER IMAGE
 # ====================================================================================================
-FROM uselagoon/node-20-builder AS node
+FROM uselagoon/node-22-builder AS node
 FROM uselagoon/php-8.4-cli-drupal AS builder
 
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -107,7 +107,7 @@ ENV WEBROOT=web
 # PREVIEW IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 AS preview
+FROM uselagoon/node-22 AS preview
 
 RUN npm install -g pnpm@8.15.9
 COPY --from=builder /tmp/.deploy/preview /app
@@ -117,7 +117,7 @@ CMD pnpm start
 # PUBLISHER IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 AS publisher
+FROM uselagoon/node-22 AS publisher
 
 RUN apk add --no-cache sqlite curl github-cli
 
