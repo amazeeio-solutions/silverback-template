@@ -124,7 +124,7 @@ CMD pnpm start
 
 FROM uselagoon/node-22 AS publisher
 
-RUN apk add --no-cache sqlite curl github-cli
+RUN apk add --no-cache sqlite curl
 
 RUN npm install -g pnpm@8.15.9
 

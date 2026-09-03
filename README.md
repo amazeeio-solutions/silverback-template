@@ -197,7 +197,18 @@ variables.
   environment for security reasons.
 - **PUBLISHER_URL** (lagoon): If publisher is set to a custom domain, this
   variable has to be defined.
-- **GH_TOKEN** (lagoon): To run publisher builds.
+- **GITHUB APP**: To run publisher builds, provide the credentials of a GitHub
+  App that has the "actions: write" repository permission and is installed on
+  this repository. Installation tokens are exempt from SSO authorization, which
+  makes an app the reliable option in SSO enforced organizations.
+  - **GITHUB_APP_ID** (lagoon): The ID of the app.
+  - **GITHUB_APP_PRIVATE_KEY** (lagoon): The private key of the app, base64
+    encoded.
+  - **GITHUB_APP_INSTALLATION_ID** (lagoon): The ID of the app installation on
+    this repository.
+- **GH_TOKEN** or **GITHUB_TOKEN** (lagoon): A personal access token, as an
+  alternative to the GitHub App above, for organizations without SSO
+  enforcement. The app takes precedence when both are provided.
 - **NETLIFY**: To publish the project to netlify, provide the following
   environment variables:
   - **NETLIFY_SITE_ID** (lagoon): The ID of the netlify project the
