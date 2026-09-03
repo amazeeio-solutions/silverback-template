@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.0...@amazeelabs/silverback-template@3.1.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* do not log the github credentials in use ([0cf8219](https://github.com/amazeeio-solutions/silverback-template/commit/0cf8219b114dfc422b6208034e00cd9c7386e873))
+
+
+
+
+
 # [3.1.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.2...@amazeelabs/silverback-template@3.1.0) (2026-09-03)
 
 
