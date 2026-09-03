@@ -11,6 +11,11 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 # Install pnpm
 RUN npm install -g pnpm@8.15.9 && pnpm config set store-dir /tmp/cache/pnpm
 
+# sqlite3 and unix-dgram ship no prebuilt binaries for Node 22 on musl, so
+# node-gyp compiles them from source during "pnpm fetch". py3-setuptools
+# restores "distutils", which Python 3.12 removed but node-gyp still imports.
+RUN apk add --no-cache python3 py3-setuptools make g++
+
 # Copy pnpm lockfile and install dependencies.
 COPY pnpm-lock.yaml .npmrc /app/
 # COPY patches /app/patches
