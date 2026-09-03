@@ -1,4 +1,4 @@
-import { expect, Frame, PlaywrightTestArgs } from '@playwright/test';
+import { expect, type Frame, type PlaywrightTestArgs } from '@playwright/test';
 
 import { test } from '../../fixtures';
 import { drush, resetDrupal } from '../../helpers/drupal';

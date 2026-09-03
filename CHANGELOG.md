@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.0...@amazeelabs/silverback-template@3.1.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* do not log the github credentials in use ([0cf8219](https://github.com/amazeeio-solutions/silverback-template/commit/0cf8219b114dfc422b6208034e00cd9c7386e873))
+
+
+
+
+
+# [3.1.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.2...@amazeelabs/silverback-template@3.1.0) (2026-09-03)
+
+
+### Features
+
+* use a github app for publisher builds ([e9d03dc](https://github.com/amazeeio-solutions/silverback-template/commit/e9d03dceddcbab2a5549e45c904e718a825995d5))
+
+
+
+
+
+## [3.0.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.1...@amazeelabs/silverback-template@3.0.2) (2026-09-03)
+
+
+### Bug Fixes
+
+* adapt playwright specs to node 22 type stripping ([f36ffca](https://github.com/amazeeio-solutions/silverback-template/commit/f36ffca799ae4052af3a76e6fb43e3505ae65cc3))
+* build native node modules in lagoon image ([a4ed37c](https://github.com/amazeeio-solutions/silverback-template/commit/a4ed37c124c9076b755affe770947dba15393fc7))
+
+
+
+
+
 ## [3.0.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.0...@amazeelabs/silverback-template@3.0.1) (2026-08-13)
 
 
