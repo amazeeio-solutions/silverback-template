@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.1...@amazeelabs/silverback-template@3.0.2) (2026-09-03)
+
+
+### Bug Fixes
+
+* adapt playwright specs to node 22 type stripping ([f36ffca](https://github.com/amazeeio-solutions/silverback-template/commit/f36ffca799ae4052af3a76e6fb43e3505ae65cc3))
+* build native node modules in lagoon image ([a4ed37c](https://github.com/amazeeio-solutions/silverback-template/commit/a4ed37c124c9076b755affe770947dba15393fc7))
+
+
+
+
+
 ## [3.0.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.0...@amazeelabs/silverback-template@3.0.1) (2026-08-13)
 
 

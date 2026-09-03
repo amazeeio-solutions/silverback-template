@@ -1,15 +1,31 @@
+import { inspect } from 'node:util';
+
 import { afterEach, beforeEach, expect, MockInstance, test, vi } from 'vitest';
 
 import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
 import { PublisherConfigGithubWorkflow } from '../tools/config';
 import { TaskController } from '../tools/queue';
 
-const { execSync, saveBuildInfoSafely } = vi.hoisted(() => ({
-  execSync: vi.fn(),
+const {
+  cancelWorkflowRun,
+  credentialsDescription,
+  dispatchWorkflow,
+  listWorkflowRuns,
+  saveBuildInfoSafely,
+} = vi.hoisted(() => ({
+  cancelWorkflowRun: vi.fn(),
+  credentialsDescription: vi.fn(),
+  dispatchWorkflow: vi.fn(),
+  listWorkflowRuns: vi.fn(),
   saveBuildInfoSafely: vi.fn(),
 }));
 
-vi.mock('node:child_process', () => ({ execSync }));
+vi.mock('./github', () => ({
+  cancelWorkflowRun,
+  credentialsDescription,
+  dispatchWorkflow,
+  listWorkflowRuns,
+}));
 vi.mock('../tools/database', () => ({ saveBuildInfoSafely }));
 
 const githubWorkflowConfig: PublisherConfigGithubWorkflow = {
@@ -25,9 +41,6 @@ const githubWorkflowConfig: PublisherConfigGithubWorkflow = {
   inputs: { env: 'dev-cb' },
   workflowTimeout: 1000 * 60 * 30,
 };
-
-const listCommand =
-  'gh run list --workflow=build.yml --repo AmazeeLabs/project --json name,conclusion,databaseId --limit 100';
 
 type Loaded = {
   core: typeof import('./core').core;
@@ -68,8 +81,7 @@ const failAttempt = async (core: Loaded['core']): Promise<void> => {
 };
 
 const workflowRunInputs = (call: number): Record<string, string> => {
-  const options = execSync.mock.calls[call]![1] as { input: string };
-  return JSON.parse(options.input) as Record<string, string>;
+  return dispatchWorkflow.mock.calls[call]![0] as Record<string, string>;
 };
 
 const workflowRunPayload = (call: number): WorkflowPublisherPayload => {
@@ -78,18 +90,26 @@ const workflowRunPayload = (call: number): WorkflowPublisherPayload => {
   ) as WorkflowPublisherPayload;
 };
 
-const execError = Object.assign(new Error('Command failed'), {
-  status: 42,
-  stdout: Buffer.from('some stdout'),
-  stderr: Buffer.from('some stderr'),
-});
+const requestError = Object.assign(
+  new Error('Resource not accessible by integration'),
+  { status: 403 },
+);
+
+const runningRun = { id: 1, name: 'Build [env: dev-cb]', isCompleted: false };
+const cancelledRun = { id: 1, name: 'Build [env: dev-cb]', isCompleted: true };
 
 let consoleError: MockInstance;
 
 beforeEach(() => {
   consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
-  execSync.mockReset();
-  execSync.mockReturnValue('[]');
+  dispatchWorkflow.mockReset();
+  dispatchWorkflow.mockResolvedValue(undefined);
+  cancelWorkflowRun.mockReset();
+  cancelWorkflowRun.mockResolvedValue(undefined);
+  listWorkflowRuns.mockReset();
+  listWorkflowRuns.mockResolvedValue([]);
+  credentialsDescription.mockReset();
+  credentialsDescription.mockReturnValue('GH_TOKEN');
   saveBuildInfoSafely.mockReset();
 });
 
@@ -116,6 +136,7 @@ test('a successful first build reports Starting and Ready', async () => {
   ]);
   expect(output).toStrictEqual([
     'ℹ️ Starting the workflow\n',
+    'Using GH_TOKEN\n',
     '✅ Workflow succeeded\n',
     'Logs: \n',
   ]);
@@ -157,18 +178,21 @@ test('the first build gets three attempts and cleans on the second one', async (
   await failAttempt(core);
 
   await expect(result).resolves.toBe(false);
-  expect(execSync).toHaveBeenCalledTimes(3);
+  expect(dispatchWorkflow).toHaveBeenCalledTimes(3);
   expect(workflowRunPayload(0).clearCache).toBe(false);
   expect(workflowRunPayload(1).clearCache).toBe(true);
   expect(workflowRunPayload(2).clearCache).toBe(false);
   expect(output).toStrictEqual([
     'ℹ️ Starting the workflow\n',
+    'Using GH_TOKEN\n',
     '❌ Workflow failed or cancelled\n',
     'Logs: \n',
     'ℹ️ Starting the workflow (clean build 🧹)\n',
+    'Using GH_TOKEN\n',
     '❌ Workflow failed or cancelled\n',
     'Logs: \n',
     'ℹ️ Starting the workflow\n',
+    'Using GH_TOKEN\n',
     '❌ Workflow failed or cancelled\n',
     'Logs: \n',
   ]);
@@ -205,7 +229,7 @@ test('builds after the first one get a single attempt', async () => {
   core.state.workflowState$.next('failure');
 
   await expect(secondBuild).resolves.toBe(false);
-  expect(execSync).toHaveBeenCalledTimes(2);
+  expect(dispatchWorkflow).toHaveBeenCalledTimes(2);
   expect(states).toStrictEqual([
     ApplicationState.Starting,
     ApplicationState.Ready,
@@ -288,14 +312,11 @@ test('the workflow state of a previous build is ignored', async () => {
   await expect(secondBuild).resolves.toBe(false);
 });
 
-test('the workflow run command and inputs are built from the config', async () => {
+test('the workflow run inputs are built from the config', async () => {
   const { core, buildTask } = await load();
   const result = buildTask({ clean: true })(new TaskController());
 
-  expect(execSync).toHaveBeenCalledTimes(1);
-  expect(execSync.mock.calls[0]![0]).toBe(
-    'gh workflow run build.yml --repo AmazeeLabs/project --ref dev --json',
-  );
+  expect(dispatchWorkflow).toHaveBeenCalledTimes(1);
   expect(workflowRunInputs(0).env).toBe('dev-cb');
   expect(workflowRunPayload(0)).toStrictEqual({
     callbackUrl: 'https://build.example.com/github-workflow-status',
@@ -315,9 +336,10 @@ test('a started workflow logs the run url and does not finish the build', async 
 
   core.state.workflowState$.next('started');
   await flush();
-  expect(execSync).toHaveBeenCalledTimes(1);
+  expect(dispatchWorkflow).toHaveBeenCalledTimes(1);
   expect(output).toStrictEqual([
     'ℹ️ Starting the workflow\n',
+    'Using GH_TOKEN\n',
     'ℹ️ Workflow started\n',
     'Logs: https://github.com/AmazeeLabs/project/actions/runs/1\n',
   ]);
@@ -339,23 +361,64 @@ test('the output subscription is removed when the build is finished', async () =
   expect(core.output$.observers.length).toBe(observersBeforeBuild);
 });
 
-test('a failing gh command fails the build attempt and logs the error', async () => {
+test('a failing dispatch fails the build attempt and logs the error', async () => {
   const { core, buildTask, output } = await load();
   const firstBuild = buildTask()(new TaskController());
   core.state.workflowState$.next('success');
   await firstBuild;
 
-  execSync.mockImplementation(() => {
-    throw execError;
-  });
+  dispatchWorkflow.mockRejectedValue(requestError);
   await expect(buildTask()(new TaskController())).resolves.toBe(false);
 
   expect(output).toContain('❌ Error starting the workflow\n');
-  expect(output).toContain('Error: Error: Command failed\n');
-  expect(output).toContain('Exit code: 42\n');
-  expect(output).toContain('Stdout: some stdout\n');
-  expect(output).toContain('Stderr: some stderr\n');
-  expect(consoleError).toHaveBeenCalledWith(execError);
+  expect(output).toContain('Error: Resource not accessible by integration\n');
+  expect(output).toContain('Status: 403\n');
+  expect(consoleError).toHaveBeenCalledWith(
+    'Resource not accessible by integration (status 403)',
+  );
+});
+
+test('the request of a failing dispatch is kept out of the logs', async () => {
+  const { core, buildTask, output } = await load();
+  const firstBuild = buildTask()(new TaskController());
+  core.state.workflowState$.next('success');
+  await firstBuild;
+
+  // The api errors carry the request they were made with, and the dispatch body
+  // holds the environment variables of the build.
+  dispatchWorkflow.mockRejectedValue(
+    Object.assign(new Error('Validation failed'), {
+      status: 422,
+      request: {
+        body: JSON.stringify({
+          inputs: { NETLIFY_AUTH_TOKEN: 'a-secret' },
+        }),
+      },
+    }),
+  );
+  await expect(buildTask()(new TaskController())).resolves.toBe(false);
+
+  expect(
+    consoleError.mock.calls
+      .flat()
+      .map((argument) => inspect(argument, { depth: 10 }))
+      .join('\n'),
+  ).not.toContain('a-secret');
+  expect(output.join('\n')).not.toContain('a-secret');
+  expect(consoleError).toHaveBeenCalledWith('Validation failed (status 422)');
+});
+
+test('missing credentials fail the build attempt and are logged', async () => {
+  const { buildTask, output } = await load();
+  credentialsDescription.mockImplementation(() => {
+    throw new Error('No GitHub credentials.');
+  });
+
+  await expect(buildTask()(new TaskController())).resolves.toBe(false);
+
+  expect(output).toContain('❌ Error starting the workflow\n');
+  expect(output).toContain('Error: No GitHub credentials.\n');
+  expect(dispatchWorkflow).not.toHaveBeenCalled();
 });
 
 test('reaching the workflow timeout cancels the workflow and fails the build', async () => {
@@ -373,91 +436,76 @@ test('reaching the workflow timeout cancels the workflow and fails the build', a
   await expect(secondBuild).resolves.toBe(false);
   expect(output).toContain('❌ Timeout reached\n');
   expect(output).toContain('⚠️ Cancelling the workflow\n');
-  expect(execSync).toHaveBeenCalledWith(listCommand);
+  expect(listWorkflowRuns).toHaveBeenCalled();
 });
 
 test('only uncompleted runs of the environment are cancelled', async () => {
   const { cancelWorkflowTask } = await load();
-  execSync
-    .mockReturnValueOnce(
-      JSON.stringify([
-        { name: 'Build [env: dev-cb]', conclusion: '', databaseId: 1 },
-        { name: 'Build [env: dev-cb]', conclusion: 'success', databaseId: 2 },
-        { name: 'Build [env: other]', conclusion: '', databaseId: 3 },
-      ]),
-    )
-    .mockReturnValue(
-      JSON.stringify([
-        { name: 'Build [env: dev-cb]', conclusion: 'cancelled', databaseId: 1 },
-        { name: 'Build [env: dev-cb]', conclusion: 'success', databaseId: 2 },
-        { name: 'Build [env: other]', conclusion: '', databaseId: 3 },
-      ]),
-    );
+  listWorkflowRuns
+    .mockResolvedValueOnce([
+      runningRun,
+      { id: 2, name: 'Build [env: dev-cb]', isCompleted: true },
+      { id: 3, name: 'Build [env: other]', isCompleted: false },
+    ])
+    .mockResolvedValue([
+      cancelledRun,
+      { id: 2, name: 'Build [env: dev-cb]', isCompleted: true },
+      { id: 3, name: 'Build [env: other]', isCompleted: false },
+    ]);
 
   vi.useFakeTimers();
   const result = cancelWorkflowTask(new TaskController());
+  await vi.advanceTimersByTimeAsync(0);
 
-  expect(execSync).toHaveBeenNthCalledWith(1, listCommand);
-  expect(execSync).toHaveBeenNthCalledWith(
-    2,
-    'gh run cancel 1 --repo AmazeeLabs/project',
-  );
-  expect(execSync).toHaveBeenCalledTimes(2);
+  expect(listWorkflowRuns).toHaveBeenCalledTimes(1);
+  expect(cancelWorkflowRun).toHaveBeenCalledTimes(1);
+  expect(cancelWorkflowRun).toHaveBeenCalledWith(1);
 
   await vi.advanceTimersByTimeAsync(10_000);
   await expect(result).resolves.toBe(true);
-  expect(execSync).toHaveBeenNthCalledWith(3, listCommand);
-  expect(execSync).toHaveBeenCalledTimes(3);
+  expect(listWorkflowRuns).toHaveBeenCalledTimes(2);
 });
 
 test('the cancellation polls until the runs are completed', async () => {
   const { cancelWorkflowTask } = await load();
-  const runningRuns = JSON.stringify([
-    { name: 'Build [env: dev-cb]', conclusion: '', databaseId: 1 },
-  ]);
-  const completedRuns = JSON.stringify([
-    { name: 'Build [env: dev-cb]', conclusion: 'cancelled', databaseId: 1 },
-  ]);
-  execSync
-    .mockReturnValueOnce(runningRuns)
-    .mockReturnValueOnce('')
-    .mockReturnValueOnce(runningRuns)
-    .mockReturnValueOnce(runningRuns)
-    .mockReturnValue(completedRuns);
+  listWorkflowRuns
+    .mockResolvedValueOnce([runningRun])
+    .mockResolvedValueOnce([runningRun])
+    .mockResolvedValueOnce([runningRun])
+    .mockResolvedValue([cancelledRun]);
 
   vi.useFakeTimers();
   const result = cancelWorkflowTask(new TaskController());
   await vi.advanceTimersByTimeAsync(30_000);
 
   await expect(result).resolves.toBe(true);
-  expect(execSync).toHaveBeenCalledTimes(5);
+  // One list and three checks.
+  expect(listWorkflowRuns).toHaveBeenCalledTimes(4);
+  expect(cancelWorkflowRun).toHaveBeenCalledTimes(1);
 });
 
 test('the cancellation gives up after a minute', async () => {
   const { cancelWorkflowTask } = await load();
-  execSync.mockReturnValue(
-    JSON.stringify([
-      { name: 'Build [env: dev-cb]', conclusion: '', databaseId: 1 },
-    ]),
-  );
+  listWorkflowRuns.mockResolvedValue([runningRun]);
 
   vi.useFakeTimers();
   const result = cancelWorkflowTask(new TaskController());
   await vi.advanceTimersByTimeAsync(60_000);
 
   await expect(result).resolves.toBe(true);
-  // One list, one cancellation and six checks.
-  expect(execSync).toHaveBeenCalledTimes(8);
+  // One list and six checks.
+  expect(listWorkflowRuns).toHaveBeenCalledTimes(7);
 });
 
 test('a failing cancellation is logged instead of thrown', async () => {
   const { cancelWorkflowTask, output } = await load();
-  execSync.mockImplementation(() => {
-    throw execError;
-  });
+  listWorkflowRuns.mockRejectedValue(requestError);
 
   await expect(cancelWorkflowTask(new TaskController())).resolves.toBe(true);
   expect(output).toContain('❌ Error canceling the workflow\n');
-  expect(output).toContain('Exit code: 42\n');
-  expect(consoleError).toHaveBeenCalledWith(execError);
+  expect(output).toContain('Error: Resource not accessible by integration\n');
+  expect(output).toContain('Status: 403\n');
+  expect(consoleError).toHaveBeenCalledWith(
+    'Resource not accessible by integration (status 403)',
+  );
 });
