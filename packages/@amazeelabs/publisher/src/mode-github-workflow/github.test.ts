@@ -117,7 +117,6 @@ test('GH_TOKEN is used for authentication', async () => {
   const github = await load();
   stubFetch(() => ({ status: 204 }));
 
-  expect(github.credentialsDescription()).toBe('GH_TOKEN');
   await github.dispatchWorkflow({});
   expect(requests[0]!.authorization).toBe('token token-from-gh');
 });
@@ -127,7 +126,6 @@ test('GITHUB_TOKEN is used when GH_TOKEN is not set', async () => {
   const github = await load();
   stubFetch(() => ({ status: 204 }));
 
-  expect(github.credentialsDescription()).toBe('GITHUB_TOKEN');
   await github.dispatchWorkflow({});
   expect(requests[0]!.authorization).toBe('token token-from-github');
 });
@@ -136,18 +134,22 @@ test('GH_TOKEN takes precedence over GITHUB_TOKEN', async () => {
   vi.stubEnv('GH_TOKEN', 'token-from-gh');
   vi.stubEnv('GITHUB_TOKEN', 'token-from-github');
   const github = await load();
+  stubFetch(() => ({ status: 204 }));
 
-  expect(github.credentialsDescription()).toBe('GH_TOKEN');
+  await github.dispatchWorkflow({});
+  expect(requests[0]!.authorization).toBe('token token-from-gh');
 });
 
 test('the app takes precedence over a token', async () => {
   useApp();
   vi.stubEnv('GH_TOKEN', 'token-from-gh');
   const github = await load();
+  respondToAppRequests();
 
-  expect(github.credentialsDescription()).toBe(
-    'GitHub App 123, installation 456',
-  );
+  await github.dispatchWorkflow({});
+
+  expect(requests[0]!.url).toContain('/app/installations/456/access_tokens');
+  expect(requests[1]!.authorization).toBe('token installation-token');
 });
 
 test('an installation token is minted and used for authentication', async () => {
@@ -197,7 +199,7 @@ test('incomplete app credentials name the missing variables', async () => {
   vi.stubEnv('GITHUB_APP_ID', '123');
   const github = await load();
 
-  expect(() => github.credentialsDescription()).toThrowError(
+  await expect(github.dispatchWorkflow({})).rejects.toThrowError(
     'Incomplete GitHub App credentials. Missing: GITHUB_APP_PRIVATE_KEY, GITHUB_APP_INSTALLATION_ID.',
   );
 });
@@ -207,7 +209,7 @@ test('a private key that is not a base64 encoded PEM is rejected', async () => {
   vi.stubEnv('GITHUB_APP_PRIVATE_KEY', privateKeyPem);
   const github = await load();
 
-  expect(() => github.credentialsDescription()).toThrowError(
+  await expect(github.dispatchWorkflow({})).rejects.toThrowError(
     'GITHUB_APP_PRIVATE_KEY must be a base64 encoded PEM private key.',
   );
 });
@@ -215,7 +217,7 @@ test('a private key that is not a base64 encoded PEM is rejected', async () => {
 test('missing credentials are reported', async () => {
   const github = await load();
 
-  expect(() => github.credentialsDescription()).toThrowError(
+  await expect(github.dispatchWorkflow({})).rejects.toThrowError(
     'No GitHub credentials. Set GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY, GITHUB_APP_INSTALLATION_ID or GH_TOKEN / GITHUB_TOKEN.',
   );
 });

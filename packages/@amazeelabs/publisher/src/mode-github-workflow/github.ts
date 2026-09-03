@@ -16,7 +16,6 @@ const appVariableNames = [
 ] as const;
 
 type Credentials = {
-  description: string;
   getToken: () => Promise<string>;
 };
 
@@ -39,15 +38,12 @@ const appCredentials = (): Credentials => {
       `Incomplete GitHub App credentials. Missing: ${missing.join(', ')}.`,
     );
   }
-  const appId = process.env.GITHUB_APP_ID!;
-  const installationId = process.env.GITHUB_APP_INSTALLATION_ID!;
   const auth = createAppAuth({
-    appId,
+    appId: process.env.GITHUB_APP_ID!,
     privateKey: decodePrivateKey(process.env.GITHUB_APP_PRIVATE_KEY!),
-    installationId,
+    installationId: process.env.GITHUB_APP_INSTALLATION_ID!,
   });
   return {
-    description: `GitHub App ${appId}, installation ${installationId}`,
     getToken: async () => {
       // The installation may grant more than Publisher needs, as the app can be
       // shared with other automations, so the token is scoped down to what
@@ -69,7 +65,7 @@ const tokenCredentials = (): Credentials | null => {
   if (!token) {
     return null;
   }
-  return { description: name, getToken: async () => token };
+  return { getToken: async () => token };
 };
 
 const resolveCredentials = (): Credentials => {
@@ -91,9 +87,6 @@ const getCredentials = (): Credentials => {
   credentials ??= resolveCredentials();
   return credentials;
 };
-
-export const credentialsDescription = (): string =>
-  getCredentials().description;
 
 const authenticatedOctokit = async (): Promise<Octokit> =>
   new Octokit({ auth: await getCredentials().getToken() });
