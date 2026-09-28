@@ -1,5 +1,6 @@
 name: Test
 on:
+  pull_request:
   push:
     branches:
       - '**'
@@ -107,7 +108,7 @@ jobs:
           path: tests/e2e/playwright-report/
           retention-days: 3
 
-      # Temporarily disabled due to Chromatic account update.
+      # Uncomment once you have a project up and running.
       # - name: Check for Chromatic project token
       #   id: chromatic-check
       #   shell: bash
@@ -131,7 +132,7 @@ jobs:
       #       static/stories/webforms/**
       #   if:
       #     ${{ steps.chromatic-check.outputs.available == 'true' &&
-      #     github.ref  != 'refs/heads/dev' }}
+      #     (github.ref == 'refs/heads/release' || github.base_ref == 'release') }}
 
       # - name: Deploy storybook to netlify
       #   run:
