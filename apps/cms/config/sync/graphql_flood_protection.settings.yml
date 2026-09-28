@@ -1,0 +1,7 @@
+_core:
+  default_config_hash: 0p6v_8lwckdfsyWjnLV9bAUCwnwG8BbquL7smNJR9b4
+ip_limit: 6
+ip_window: 3600
+protection_mode: all_mutations
+excluded_mutations: {  }
+server_id: main
