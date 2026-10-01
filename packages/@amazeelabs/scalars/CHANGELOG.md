@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/scalars@2.0.2...@amazeelabs/scalars@2.0.3) (2026-10-01)
+
+**Note:** Version bump only for package @amazeelabs/scalars
+
+
+
+
+
 ## [2.0.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/scalars@2.0.1...@amazeelabs/scalars@2.0.2) (2026-02-23)
 
 

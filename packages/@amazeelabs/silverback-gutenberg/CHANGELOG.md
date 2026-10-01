@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-gutenberg@2.7.1...@amazeelabs/silverback-gutenberg@2.7.2) (2026-10-01)
+
+**Note:** Version bump only for package @amazeelabs/silverback-gutenberg
+
+
+
+
+
 ## [2.7.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-gutenberg@2.7.0...@amazeelabs/silverback-gutenberg@2.7.1) (2026-01-22)
 
 **Note:** Version bump only for package @amazeelabs/silverback-gutenberg

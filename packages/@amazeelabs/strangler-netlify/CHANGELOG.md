@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/strangler-netlify@1.2.6...@amazeelabs/strangler-netlify@1.2.7) (2026-10-01)
+
+**Note:** Version bump only for package @amazeelabs/strangler-netlify
+
+
+
+
+
 ## 1.2.6 (2026-04-28)
 
 
