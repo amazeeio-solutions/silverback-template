@@ -23,7 +23,9 @@ server's `schema_configuration.<schema>`:
 - `build_url`: frontend URL. `<build_url>/build.json` (`drupalBuildId`) is
   checked to skip builds when the frontend is already up to date.
 - `build_url_netlify_password`: password if `build_url` is Netlify protected.
-- `user`: only changes visible to this user trigger notifications.
+- `user`: only changes visible to this user trigger notifications. Always set
+  it: without a user, an anonymous account (with the optional `role`) is used,
+  which is deprecated.
 - `build_trigger_on_save`: trigger a build on entity save (on when unset).
 
 They can be overridden in `settings.php`:

@@ -39,7 +39,8 @@ Drupal into a local SQLite database if none exists yet.
 Environment variables (see also
 [Environment overrides](../../README.md#environment-overrides)):
 
-- `DRUPAL_HASH_SALT`: Drupal hash salt.
+- `DRUPAL_HASH_SALT`: Drupal hash salt. Required on every deployed environment,
+  with a different value per environment.
 - `PUBLISHER_URL`, `NETLIFY_URL`, `PREVIEW_URL`: publisher, live website and
   preview app URLs, used for build webhooks and external preview.
 - `CLOUDINARY_CLOUDNAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`:

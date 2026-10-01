@@ -33,7 +33,8 @@ as the `preview` service (`preview` target in `.lagoon/Dockerfile`).
 
 ## Authentication
 
-Set with `AUTHENTICATION_TYPE`: `oauth2`, `basic` or `noauth` (default).
+Set with `AUTHENTICATION_TYPE`: `oauth2`, `basic` or `noauth`. Lagoon
+environments use `oauth2` (`.lagoon.env`); `noauth` is only the local default.
 
 With `oauth2`, users log in through the authorization code flow against Drupal
 (`/oauth`, `/oauth/callback`, `/oauth/login`, `/oauth/logout`). Their account
