@@ -1,215 +1,52 @@
-# Gutenberg blocks
+# Gutenberg Blocks (`gutenberg_blocks`)
 
-## Custom Gutenberg block creation
+Adds the project's `custom/*` blocks to the Gutenberg editor, plus editor
+customizations. Each block maps to a `@custom/schema` type through
+`@type(id: "custom/<name>")`, and the website renders it with `@custom/ui`
+components.
 
-To create a custom Gutenberg you must:
+Editor customizations:
 
-1. Create a `.tsx` file in `js/blocks`, using one of the existing examples as a
-   starting point.
-2. Include the file within `js/index.ts` - this file is used to generate the
-   javascript file included by the Drupal module.
-3. Clear the cache if necessary and you should be able to add your new block
-   within the Gutenberg editor.
+- Preview button with device sizes, using `silverback_external_preview`.
+- Open webforms passed to the form block (`drupalSettings`).
+- The `edit gutenberg html` permission enables "Edit as HTML" and the code
+  editor.
+- Some core formats, block options and `core/group` are removed.
+- Editor styles from `@custom/ui` (`/gutenberg.css`, symlinked to
+  `apps/cms/web/gutenberg.css`).
 
-### GraphQL type-based Gutenberg block auto-generation
+## Usage
 
-To speed up the process of creating new blocks, you can use the command below to
-create a new block based on a GraphQL type.
+Blocks are TypeScript files in `js/blocks`, bundled by Vite from `js/index.ts`
+to `dist/gutenberg_blocks.umd.js`:
 
-```
-pnpm gutenberg:generate <GraphQLType>
-```
-
-This will create a new block in the `js/blocks` directory, with the necessary
-fields and attributes already defined. You will still need to add the block to
-`js/index.ts` and clear the cache to see the new block in the Gutenberg editor
-after running this command.
-
-### Icons
-
-You can find the icon set in use within the Gutenberg editor here:
-https://developer.wordpress.org/resource/dashicons/
-
-## Validation
-
-Custom validator plugins can be created in
-`src/Plugin/Validation/GutenbergValidator`
-
-### Field level validation
-
-Example: to validate that an email is valid and required.
-
-- the block name is `custom/my-block`
-- the field attribute is `email` and the label `Email`
-
-```php
-<?php
-
-namespace Drupal\gutenberg_blocks\Plugin\Validation\GutenbergValidator;
-
-use Drupal\silverback_gutenberg\GutenbergValidation\GutenbergValidatorBase;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-
-/**
- * @GutenbergValidator(
- *   id="my_block_validator",
- *   label = @Translation("My block validator")
- * )
- */
-class MyBlockValidator extends GutenbergValidatorBase {
-
-  use StringTranslationTrait;
-
-  /**
-   * {@inheritDoc}
-   */
-  public function applies(array $block) {
-    return $block['blockName'] === 'custom/my-block';
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function validatedFields(array $block = []) {
-    return [
-      'email' => [
-        'field_label' => $this->t('Email'),
-        'rules' => ['required', 'email'],
-      ],
-    ];
-  }
-
-}
+```bash
+pnpm prep # build once
+pnpm dev  # rebuild on change
 ```
 
-### Block level validation
+To add a block:
 
-Perform custom block validation logic then return the result.
+1. Create `js/blocks/<name>.tsx`, using an existing block as a starting point,
+   or generate it from a GraphQL type of `@custom/schema`:
+   `pnpm gutenberg:generate <GraphQLType>`.
+2. Import it in `js/index.ts`.
+3. Build, then clear the Drupal cache if needed.
 
-```php
-public function validateContent(array $block) {
-  $isValid = TRUE;
+Blocks listed under `dynamic-blocks` in `gutenberg_blocks.gutenberg.yml` render
+in Drupal with `templates/gutenberg-block--custom--<name>.html.twig`.
 
-  // Custom validation logic.
-  // (...)
+Block icons: [Dashicons](https://developer.wordpress.org/resource/dashicons/).
 
-  if (!$isValid) {
-    return [
-      'is_valid' => FALSE,
-      'message' => 'Message',
-    ];
-  }
+### Validation
 
-  // Passes validation.
-  return [
-    'is_valid' => TRUE,
-    'message' => '',
-  ];
-}
-```
+Validator plugins live in `src/Plugin/Validation/GutenbergValidator` (accordion,
+accordion item, info grid, quote). See the `silverback_gutenberg` README for the
+plugin API. On the client side, inner blocks can be limited by hiding the
+`InnerBlocks` appender once `getBlockCount()` reaches the limit.
 
-### Cardinality validation
+## Dependencies
 
-#### Backend
-
-Uses the `validateContent()` method as a wrapper, with the cardinality validator
-trait.
-
-```php
-use GutenbergCardinalityValidatorTrait;
-```
-
-Validate a given block type for inner blocks.
-
-```php
-public function validateContent(array $block) {
-  $expectedChildren = [
-    [
-      'blockName' => 'custom/teaser',
-      'blockLabel' => $this->t('Teaser'),
-      'min' => 1,
-      'max' => 2,
-    ],
-  ];
-  return $this->validateCardinality($block, $expectedChildren);
-}
-```
-
-Validate any kind of block type for inner blocks.
-
-```php
-public function validateContent(array $block) {
-  $expectedChildren = [
-    'validationType' => GutenbergCardinalityValidatorInterface::CARDINALITY_ANY,
-    'min' => 0,
-    'max' => 1,
-  ];
-  return $this->validateCardinality($block, $expectedChildren);
-}
-```
-
-Validate a minimum with no maximum.
-
-```php
-public function validateContent(array $block) {
-  $expectedChildren = [
-    [
-      'blockName' => 'custom/teaser',
-      'blockLabel' => $this->t('Teaser'),
-      'min' => 1,
-      'max' => GutenbergCardinalityValidatorInterface::CARDINALITY_UNLIMITED,
-    ],
-  ];
-  return $this->validateCardinality($block, $expectedChildren);
-}
-```
-
-#### Client side alternative
-
-Client side cardinality validation can also be done in custom blocks with this
-pattern.
-
-- use `getBlockCount`
-- remove the `InnerBlocks` appender when the limit is reached
-
-```tsx
-/* global Drupal */
-import { registerBlockType } from 'wordpress__blocks';
-import { InnerBlocks } from 'wordpress__block-editor';
-import { useSelect } from 'wordpress__data';
-
-const __ = Drupal.t;
-
-const MAX_BLOCKS: number = 1;
-
-registerBlockType('custom/my-block', {
-  title: __('My Block'),
-  icon: 'location',
-  category: 'layout',
-  attributes: {},
-  edit: (props) => {
-    const { blockCount } = useSelect((select) => ({
-      blockCount: select('core/block-editor').getBlockCount(props.clientId),
-    }));
-    return (
-      <div>
-        <InnerBlocks
-          templateLock={false}
-          renderAppender={() => {
-            if (blockCount >= MAX_BLOCKS) {
-              return null;
-            } else {
-              return <InnerBlocks.ButtonBlockAppender />;
-            }
-          }}
-          allowedBlocks={['core/block']}
-          template={[]}
-        />
-      </div>
-    );
-  },
-  save: () => {
-    return <InnerBlocks.Content />;
-  },
-});
-```
+- Depends on: `gutenberg` (patched), `silverback_gutenberg`, `custom`
+  (`custom.media_links` service for CTA media links).
+- Uses: `silverback_external_preview`, `webform`.
