@@ -41,7 +41,9 @@ source and simulates the crop with a CSS background. Useful for Storybook.
 - `outputDir`: where derivatives are written (default `dist/public`).
 - `outputPath`: public path that serves `outputDir` (default `''`).
 - `staticDir`: base directory for relative `src` paths (default `public`).
-- `resolutions`: widths added to `srcSet` (default: common device widths).
+- `resolutions`: candidate widths for `srcSet` (default: common device widths).
+  Only widths below the target width are used, next to the target width and
+  twice the target width.
 - `alterSrc`: function to rewrite `src` before processing.
 
 ## Opinions

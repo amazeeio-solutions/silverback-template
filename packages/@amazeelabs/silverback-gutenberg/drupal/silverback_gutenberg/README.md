@@ -174,7 +174,8 @@ class MyNodeBlockMutator extends EntityBlockMutatorBase {
 
 ## Dependencies
 
-- Depends on: `gutenberg` (>= 2.0-beta2). Uses `graphql` and
+- Depends on: `drupal/gutenberg` (^2.14). Uses `graphql` and
   `graphql_directives` for the directives.
-- Optional: `linkit` (>= 7), `default_content`, `webform`, `entity_usage`.
+- Optional: `linkit`, `default_content`, `webform`, `entity_usage`. Composer
+  conflicts with `linkit` < 7, so older versions block installation.
 - Used by: `silverback_iframe` (uses `LinkProcessor` for redirect URLs).

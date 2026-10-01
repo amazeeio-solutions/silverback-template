@@ -13,7 +13,8 @@ Add the _Remote rendered HTML output (Silverback)_ field
 - `exclude_selector`: CSS selector of elements to drop (default
   `.visuallyhidden`).
 - `netlify_password`: used when the frontend is Netlify password protected.
-- `entity_types`: content entity types to process.
+- `entity_types`: content entity types to process. Empty by default, which
+  indexes nothing: select at least one type.
 
 The live URL and base URL come from `silverback_external_preview` (`live_host`).
 Indexing then works as follows:

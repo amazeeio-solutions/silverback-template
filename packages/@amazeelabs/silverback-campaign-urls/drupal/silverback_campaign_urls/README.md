@@ -28,4 +28,5 @@ type CampaignUrl @entity(type: "campaign_url", bundle: "campaign_url") {
 
 ## Dependencies
 
-- Depends on: `graphql_directives`.
+- Depends on: `graphql_directives`, and `silverback_gatsby` for the `@entity`
+  directive used by the schema extension.
