@@ -1,125 +1,138 @@
-# Publisher
+# @amazeelabs/publisher
 
-## Installation
+Build and deployment coordinator for static websites. Runs builds locally or in
+a GitHub Actions workflow, serves a status UI with build logs and history at
+`/___status/`, and optionally protects it with OAuth2 or basic auth.
 
-```
-pnpm add @amazeelabs/publisher
-```
+## Usage
 
-Create `publisher.config.ts` file in the root of your project:
+Create `publisher.config.ts` in the directory Publisher is started from:
 
 ```ts
 import { defineConfig } from '@amazeelabs/publisher';
 
 export default defineConfig({
-  // ...
+  publisherPort: 8000,
+  databaseUrl: '/tmp/publisher.sqlite',
+  mode: 'local',
+  commands: {
+    clean: 'pnpm clean',
+    build: { command: 'pnpm build' },
+    serve: {
+      command: 'pnpm serve --port=7999',
+      readyPattern: 'Server now ready',
+      port: 7999,
+    },
+  },
 });
 ```
 
-## Usage
-
-```
-pnpm publisher --help
-```
-
-## Authentication
-
-Can be configured in `publisher.config.ts`
-
-If several authentication methods are configured, OAuth2 will be favoured. If
-there is no configuration, access to all routes will be granted.
-
-For local development environments, to override configuration and skip
-authentication, use
+Start the server:
 
 ```bash
-PUBLISHER_SKIP_AUTHENTICATION=true
+pnpm publisher
 ```
 
-### OAuth2
+Routes:
 
-Prerequisite: OAuth2 server, like
-[Drupal](https://www.drupal.org/project/simple_oauth).
+- `/___status/`: status UI, logs and build history.
+- `POST /___status/build`: trigger a build.
+- `POST /___status/clean`: trigger a clean build, e.g. from a Drupal
+  post-rollout task. Neither trigger route requires authentication.
+- Any other path (local mode with `commands.serve`): proxied to the served build
+  once it is ready. Until then, HTML requests are redirected to a status page.
 
-There are 2 methods: `Authorization Code` and `Resource Owner Password`. The
-first one should be favoured in most cases. It will ask the user to grant access
-to Publisher the first time then use the Drupal user login form for
-authentication if needed (or just redirect if the user is already authenticated
-in Drupal).
+## Configuration
 
-The second one can be used as a minimal implementation if the challenge is to be
-exposed in the client / the backend is only accessible from the client and not
-the end user.
+All options are typed and documented in
+[`src/tools/config.ts`](src/tools/config.ts). See
+`apps/publisher/publisher.config.ts` for a setup that uses local mode in
+development and GitHub workflow mode on Lagoon.
 
-#### Authorization Code
+### Modes
 
-Add environment variables corresponding to the server: `OAUTH2_CLIENT_ID`,
-`OAUTH2_CLIENT_SECRET`, `OAUTH2_TOKEN_PATH`, `OAUTH2_TOKEN_HOST`,
-`OAUTH2_AUTHORIZE_PATH`, `OAUTH2_SESSION_SECRET`, `OAUTH2_ENVIRONMENT_TYPE`
+- `local`: runs `commands.clean`, `commands.build`, and the optional `deploy`
+  and `serve` commands. A failed build is retried twice, with a clean before the
+  second attempt.
+- `github-workflow`: dispatches `workflow` in `repo` on `ref` with a
+  `publisher_payload` input (`callbackUrl`, `clearCache`,
+  `environmentVariables`). The workflow reports its status to
+  `POST <publisherBaseUrl>/github-workflow-status`; this template's
+  `.github/workflows/fe_build.yml` uses
+  [publisher-action](https://github.com/amazeeio-solutions/publisher-action) for
+  that. Running builds are cancelled by matching `[env: <environment>]` in the
+  workflow run name.
 
-- OAUTH2_SESSION_SECRET: used for encryption of tokens
-- OAUTH2_ENVIRONMENT_TYPE: `development` or `production`, the latter uses secure
-  cookies
+GitHub credentials for `github-workflow` mode, read from the environment:
 
-```typescript
+- GitHub App (takes precedence): `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`
+  (base64 encoded PEM) and `GITHUB_APP_INSTALLATION_ID`. The app needs the
+  `actions: write` permission on the repository.
+- Personal access token: `GH_TOKEN` or `GITHUB_TOKEN`.
+
+### Authentication
+
+If both are configured, `oAuth2` takes precedence over `basicAuth`. Without
+either, all routes are public. Set `PUBLISHER_SKIP_AUTHENTICATION=true` to skip
+authentication, e.g. locally.
+
+```ts
 export default defineConfig({
+  // ...
+  basicAuth: { username: 'publisher', password: 'publisher' },
+});
+```
+
+OAuth2 requires an OAuth2 server such as Drupal
+[simple_oauth](https://www.drupal.org/project/simple_oauth). After obtaining a
+token, Publisher calls `POST <tokenHost>/publisher/access` and grants access on
+a 200 response.
+
+`grantType` takes `0` (Authorization Code, recommended) or `1` (Resource Owner
+Password, credentials sent through a basic auth challenge). The enum is not
+exported, so use the number.
+
+```ts
+export default defineConfig({
+  // ...
   oAuth2: {
-    clientId: process.env.OAUTH2_CLIENT_ID || 'publisher',
-    clientSecret: process.env.OAUTH2_CLIENT_ID || 'publisher',
-    scope: process.env.OAUTH2_SCOPE || 'publisher',
-    tokenHost: process.env.OAUTH2_TOKEN_HOST || 'http://127.0.0.1:8888',
-    tokenPath: process.env.OAUTH2_TOKEN_PATH || '/oauth/token',
-    authorizePath:
-      process.env.OAUTH2_AUTHORIZE_PATH ||
-      '/oauth/authorize?response_type=code',
-    sessionSecret: process.env.OAUTH2_SESSION_SECRET || 'banana',
-    environmentType: process.env.OAUTH2_ENVIRONMENT_TYPE || 'development',
-    grantType: OAuth2GrantTypes.AuthorizationCode,
+    clientId: process.env.PUBLISHER_OAUTH2_CLIENT_ID || 'publisher',
+    clientSecret: process.env.PUBLISHER_OAUTH2_CLIENT_SECRET || 'publisher',
+    scope: 'publisher',
+    tokenHost:
+      process.env.PUBLISHER_OAUTH2_TOKEN_HOST || 'http://127.0.0.1:8888',
+    tokenPath: '/oauth/token',
+    grantType: 0,
+    // Authorization Code only.
+    authorizePath: '/oauth/authorize?response_type=code',
+    sessionSecret: process.env.PUBLISHER_OAUTH2_SESSION_SECRET,
+    environmentType: process.env.PUBLISHER_OAUTH2_ENVIRONMENT_TYPE,
   },
 });
 ```
 
-#### Resource Owner Password
+Authorization Code specifics:
 
-Add environment variables corresponding to the server: `OAUTH2_CLIENT_ID`,
-`OAUTH2_CLIENT_SECRET`, `OAUTH2_TOKEN_PATH`, `OAUTH2_TOKEN_HOST`
+- The OAuth2 client redirect URI must be `<publisher url>/oauth/callback`.
+- `sessionSecret` signs the session cookie. Random per process if omitted.
+- `environmentType: 'production'` enables secure cookies and trusts the first
+  proxy.
+- `ENCRYPTION_KEY` (environment) encrypts the tokens stored in the session.
+  Random per process if unset, so sessions do not survive a restart.
 
-```typescript
-export default defineConfig({
-  oAuth2: {
-    clientId: process.env.OAUTH2_CLIENT_ID || 'publisher',
-    clientSecret: process.env.OAUTH2_CLIENT_SECRET || 'publisher',
-    tokenHost: process.env.OAUTH2_TOKEN_HOST || 'http://127.0.0.1:8888',
-    tokenPath: process.env.OAUTH2_TOKEN_PATH || '/oauth/token',
-    grantType: OAuth2GrantTypes.ResourceOwnerPassword,
-  },
-});
-```
+### Slack notifications
 
-### Basic Auth
+Sent on build errors, on the first successful build, and on the first success
+after a failure. Configure `slackNotifications` in the config, or set the
+environment variables it falls back to:
 
-```typescript
-export default defineConfig({
-  basicAuth: {
-    username: process.env.BASIC_AUTH_USERNAME || 'publisher',
-    password: process.env.BASIC_AUTH_PASSWORD || 'publisher',
-  },
-});
-```
+- `PUBLISHER_SLACK_WEBHOOK` and `PUBLISHER_SLACK_CHANNEL` (both required).
+- `PUBLISHER_URL`: adds a link to the status page.
+- `LAGOON_PROJECT`, `LAGOON_ENVIRONMENT`: added to the message.
 
-## Slack notifications
+## Dependencies
 
-To be notified in case of failure.
-
-### Mandatory environment variables
-
-- Slack Webhook ([documentation](https://api.slack.com/messaging/webhooks))
-  `PUBLISHER_SLACK_WEBHOOK="https://hooks.slack.com/services/<workspace-id>/<channel-id>/<token>"`
-- Slack Channel `PUBLISHER_SLACK_CHANNEL="#project-ci-channel"`
-
-### Optional environment variables
-
-- Publisher url, without a trailing slash. Adds a link to the status page, to
-  the notification message. `PUBLISHER_URL="https://build.project.com"`
-- Project and Environment (Lagoon only). Adds `LAGOON_PROJECT` and
-  `LAGOON_ENVIRONMENT` to the notification message.
+- Used by: `apps/publisher`.
+- OAuth2 relies on the `/publisher/access` route of the `silverback_gatsby`
+  Drupal module (`@amazeelabs/silverback-gatsby`), which checks the
+  `access publisher` permission.

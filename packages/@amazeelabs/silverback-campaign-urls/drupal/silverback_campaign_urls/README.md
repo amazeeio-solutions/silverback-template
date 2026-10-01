@@ -1,25 +1,31 @@
-# Silverback campaign urls
+# Silverback Campaign URLs (`silverback_campaign_urls`)
 
-The _Silverback campaign urls_ module allows the Drupal admins to create
-campaign urls. These are basically redirects that have no restriction for the
-source and the destination fields, meaning that the admin can input any kind of
-strings into them.
+Adds a `campaign_url` entity: a redirect with free-form source and destination
+strings, a status code (default `301`) and a force flag. Sources must be unique.
+Campaign URLs are exposed via GraphQL so the frontend can turn them into
+redirects.
 
-These campaign urls are stored as Drupal entities, and they can be retrieved
-using graphql in a Gatsby app for example. An example can be found in the
-silverback-gatsby app (check the gatsby-node.ts file).
+## Setup / Configuration
 
-The endpoint to administer these redirects is
-_/admin/config/search/campaign_url_
+- Enable the module and grant `administer campaign urls`.
+- Manage campaign URLs at `/admin/config/search/campaign_url`.
+- Enable the `silverback_campaign_urls` schema extension on the GraphQL server.
+  The host schema must provide the `@resolveProperty` directive (the template
+  defines it as an alias of `@property`).
 
-### Gatsby integration
+## Usage
 
-The modules contains a schema extension plugin that can be enabled on the
-GraphQL server. This schema extension contains a new GraphQL type called
-**CampaignUrl** which will be added to the schema when the extension is enabled
-on the GraphQL server. When this is done, the **gatsby-source-silverback** npm
-package will fetch these entities and create redirects for them.
+The extension adds this type:
 
-Usually, in the Gatsby app, there should be an integaration with a sepcific
-hosting provider, like **gatsby-plugin-netlify** for netlify which should create
-the redirects in a specific file and format.
+```graphql
+type CampaignUrl @entity(type: "campaign_url", bundle: "campaign_url") {
+  source: String!
+  destination: String!
+  statusCode: Int!
+  force: Boolean!
+}
+```
+
+## Dependencies
+
+- Depends on: `graphql_directives`.

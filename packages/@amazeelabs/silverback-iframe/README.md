@@ -1,67 +1,67 @@
-# Silverback Iframe
+# @amazeelabs/silverback-iframe
 
-Allow embed Drupal pages (mainly forms) to React frontend.
+Embeds Drupal pages, mainly webforms, in a React frontend through an iframe.
+Contains the `SilverbackIframe` React component, the `silverback_iframe` Drupal
+module and the `silverback_iframe_theme` Drupal theme.
 
-For example, Drupal webforms can be integrated to the frontend. Most of the
-confirmation types are supported, so
-`URL with message (redirects to a custom path or URL and displays the confirmation message at the top of the page)`
-option will do exactly what it promises.
-
-## Installation
+## Usage
 
 Drupal:
 
-- `composer require amazeelabs/silverback_iframe amazeelabs/silverback_iframe_theme`
-- `drush en silverback_iframe`
-- `drush then silverback_iframe_theme`
-- If needed: create a custom theme based on `silverback_iframe_theme` and enable
-  it
-- Configure which blocks to display with `silverback_iframe_theme` (or your
-  sub-theme) at `/admin/structure/block`
+```bash
+composer require amazeelabs/silverback_iframe amazeelabs/silverback_iframe_theme
+drush en silverback_iframe
+drush theme:install silverback_iframe_theme
+```
 
-React frontend:
+React:
 
-- `pnpm add @amazeelabs/silverback-iframe`
-- Use `SilverbackIframe` component
+```tsx
+import { SilverbackIframe } from '@amazeelabs/silverback-iframe';
 
-## Parts
+<SilverbackIframe
+  src="https://cms.example.com/form/contact"
+  buildMessages={(messages) => <Messages messages={messages} />}
+  redirect={(path, messages) => navigate(path)}
+  heightCalculationMethod="lowestElement"
+/>;
+```
 
-### JS package
+`SilverbackIframe` wraps
+[iframe-resizer-react](https://www.npmjs.com/package/iframe-resizer-react) and
+accepts all its props, plus:
 
-Exports `SilverbackIframe` component which is an extended version of
-[iframe-resizer-react](https://www.npmjs.com/package/iframe-resizer-react).
+- `buildMessages` (required): renders the HTML messages sent by Drupal.
+- `redirect` (required): navigates the parent page, with optional messages.
+- `scroll`: custom scroll handler. Defaults to scrolling the iframe into view.
+- `cssStylesToInject`: CSS injected into the iframe. Causes a flash of unstyled
+  content, so not recommended in production.
 
-The component
+The component adds `iframe=true` and `ref` (the encoded parent page URL) to
+`src`, sends the parent origin to Drupal so that links can be rewritten, and
+handles the `redirect`, `displayMessages`, `replaceWithMessages` and `scroll`
+commands sent by Drupal. The command types and the `isIframeCommand` type guard
+are exported as well.
 
-- automatically adds `iframe=true` param to the iframe src
-- receives commands from Drupal, e.g. `redirect`, `displayMessages`, etc
-- sends parent frame base URL to Drupal
+## Drupal module
 
-### Drupal module
+See [drupal/silverback_iframe/README.md](drupal/silverback_iframe/README.md).
 
-(`drupal/silverback_iframe`)
+## Drupal theme
 
-If there is `iframe=true` param in the URL, the module does:
+`silverback_iframe_theme` has no base theme and a single `content` region, so
+iframe pages show the main content only. The module switches to it for iframe
+requests; it does not need to be the default theme. Configure its blocks at
+`/admin/structure/block`.
 
-- Enables `silverback_iframe_theme`.
-- Removes `X-Frame-Options` header.
-- Adds `iframe=true` param to all outbound URLs.
-- adds [iframe-resizer](https://www.npmjs.com/package/iframe-resizer) library to
-  all pages
-- adds `iframeCommand.js` to all pages, the script
-  - passes iframe commands to the parent frame
-  - updates all visible links:
-    - they should point to the parent frame base url
-    - they should contain no `iframe=true` parameter
-    - they should target parent frame
-
-### Drupal theme
-
-(`drupal/silverback_iframe_theme`)
-
-The theme displays main content without any surroundings.
-
-If you need to add CSS or
+To add CSS or a
 [`libraries-override`](https://www.drupal.org/node/2216195#override-extend),
-create a sub-theme. Then the `silverback_iframe` module will use the sub-theme
-instead of `silverback_iframe_theme`.
+create a sub-theme with `base theme: silverback_iframe_theme`. The module uses
+an installed sub-theme instead of the base theme.
+
+## Dependencies
+
+- Depends on (Drupal module): `silverback_gutenberg`
+  (`@amazeelabs/silverback-gutenberg`) for webform redirect confirmations.
+- Used by: `packages/ui` (`BlockForm`) and `apps/cms`, which installs the Drupal
+  module and theme from `node_modules` through a Composer path repository.
