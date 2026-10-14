@@ -165,7 +165,8 @@ Tip: Run `pnpm turbo:prep:force` after switching branches to avoid issues.
 
 ## Working with apps and packages
 
-Navigate to an app/package folder and run `pnpm dev`.
+Navigate to an app/package folder and run its development script, usually
+`pnpm dev` (see the app or package `README.md` for the exact commands).
 
 When working on integration tasks, it may be required to re-run
 `pnpm turbo:prep` from the repo root.
@@ -197,7 +198,18 @@ variables.
   environment for security reasons.
 - **PUBLISHER_URL** (lagoon): If publisher is set to a custom domain, this
   variable has to be defined.
-- **GH_TOKEN** (lagoon): To run publisher builds.
+- **GITHUB APP**: To run publisher builds, provide the credentials of a GitHub
+  App that has the "actions: write" repository permission and is installed on
+  this repository. Installation tokens are exempt from SSO authorization, which
+  makes an app the reliable option in SSO enforced organizations.
+  - **GITHUB_APP_ID** (lagoon): The ID of the app.
+  - **GITHUB_APP_PRIVATE_KEY** (lagoon): The private key of the app, base64
+    encoded.
+  - **GITHUB_APP_INSTALLATION_ID** (lagoon): The ID of the app installation on
+    this repository.
+- **GH_TOKEN** or **GITHUB_TOKEN** (lagoon): A personal access token, as an
+  alternative to the GitHub App above, for organizations without SSO
+  enforcement. The app takes precedence when both are provided.
 - **NETLIFY**: To publish the project to netlify, provide the following
   environment variables:
   - **NETLIFY_SITE_ID** (lagoon): The ID of the netlify project the
@@ -272,7 +284,7 @@ Troubleshooting:
 
 #### Publisher authentication
 
-Edit [website environment variables](./apps/website/.lagoon.env)
+Edit [publisher environment variables](./apps/publisher/.lagoon.env)
 
 ```
 PUBLISHER_SKIP_AUTHENTICATION=false
@@ -289,7 +301,7 @@ Optional: add this permission to relevant roles.
 <details>
   <summary>How to disable it</summary>
 
-In website `.lagoon.env` set `PUBLISHER_SKIP_AUTHENTICATION=true`
+In `apps/publisher/.lagoon.env` set `PUBLISHER_SKIP_AUTHENTICATION=true`
 
 </details>
 
@@ -408,16 +420,16 @@ tests. Therefore they are not used in regular development and testing scenarios.
 
 ## "Strangling" legacy systems
 
-The template includes a Netlify Edge Function
-(`apps/website/netlify/edge-functions/strangler.ts`) that allows to proxy
-unknown requests selectively to other systems. This can be used to replace only
-specific pages of a legacy system or incorporate existing business logic.
+The template includes a Netlify Function
+(`apps/website/netlify/functions/strangler.ts`) that allows to proxy unknown
+requests selectively to other systems. This can be used to replace only specific
+pages of a legacy system or incorporate existing business logic.
 
 Refer to the
 [Strangler Pattern](https://www.martinfowler.com/bliki/StranglerFigApplication.html)
 blog post if you wonder where the name comes from, to
-[Edge functions documentation](https://docs.netlify.com/edge-functions/overview/)
-for technical details and to `strangler.ts` for how to add new legacy systems.
+[Functions documentation](https://docs.netlify.com/functions/overview/) for
+technical details and to `strangler.ts` for how to add new legacy systems.
 
 ## Website preview
 

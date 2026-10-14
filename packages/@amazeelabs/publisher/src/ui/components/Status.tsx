@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 
 import { ApplicationState } from '../../shared/exports';
 import { sameOriginDestination } from '../utils/destination';
+import Logo from './Logo';
 
 export default function Status({
   status,
@@ -32,21 +33,21 @@ export default function Status({
   }
 
   return (
-    <div className={'h-screen p-4'}>
-      <div className={'flex size-full items-center justify-center bg-gray-900'}>
-        <div
-          className={
-            'mx-auto w-full max-w-[90%] bg-white text-gray-200 shadow-sm md:max-w-lg'
-          }
-        >
+    <div className={'flex h-screen items-center justify-center bg-surface p-4'}>
+      <div
+        className={
+          'w-full max-w-[90%] overflow-hidden rounded-xl border border-line bg-card text-ink shadow-sm md:max-w-lg'
+        }
+      >
+        <div className={'flex justify-center px-6 pt-8'}>
+          <Logo className={'w-40 text-ink'} />
+        </div>
+        <div className={'px-6 pb-10 pt-6 text-center'}>
+          {/* A fixed-height slot, so swapping the state icon never shifts the
+              label below it. */}
           <div
-            className={clsx(
-              'relative px-6 text-center font-alt text-lg font-bold uppercase md:text-2xl',
-              {
-                'pt-32 pb-16 md:pb-20': inProgress,
-                'pt-36 pb-12 md:pb-16': !inProgress,
-              },
-            )}
+            data-status-icon
+            className={'mx-auto mb-4 flex h-20 items-center justify-center'}
           >
             {inProgress ? (
               <svg
@@ -55,11 +56,18 @@ export default function Status({
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
                 y="0px"
-                viewBox="0 0 100 100"
+                viewBox="18 48 27 38"
                 enableBackground="new 0 0 0 0"
-                className={'absolute left-8 right-0 top-7 mx-auto w-20'}
+                className={'h-14 w-auto'}
+                aria-hidden="true"
               >
-                <rect x="20" y="50" width="3" height="14" fill="#00a29a">
+                <rect
+                  x="20"
+                  y="50"
+                  width="3"
+                  height="14"
+                  className="fill-accent"
+                >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -70,7 +78,13 @@ export default function Status({
                     repeatCount="indefinite"
                   ></animateTransform>
                 </rect>
-                <rect x="30" y="50" width="3" height="14" fill="#00a29a">
+                <rect
+                  x="30"
+                  y="50"
+                  width="3"
+                  height="14"
+                  className="fill-accent"
+                >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -81,7 +95,13 @@ export default function Status({
                     repeatCount="indefinite"
                   ></animateTransform>
                 </rect>
-                <rect x="40" y="50" width="3" height="14" fill="#00a29a">
+                <rect
+                  x="40"
+                  y="50"
+                  width="3"
+                  height="14"
+                  className="fill-accent"
+                >
                   <animateTransform
                     attributeType="xml"
                     attributeName="transform"
@@ -97,19 +117,19 @@ export default function Status({
             {status === ApplicationState.Ready ? (
               <svg
                 version="1.1"
-                className="absolute inset-x-0 top-14 mx-auto w-16"
+                className="h-14 w-auto"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 x="0px"
                 y="0px"
                 viewBox="0 0 37 37"
                 xmlSpace="preserve"
+                aria-hidden="true"
               >
                 <path
-                  className="tick-circle"
+                  className="tick-circle stroke-success"
                   style={{
                     fill: 'none',
-                    stroke: '#349D7A',
                     strokeWidth: '1',
                     strokeLinejoin: 'round',
                     strokeMiterlimit: '10',
@@ -117,10 +137,9 @@ export default function Status({
                   d="M30.5,6.5L30.5,6.5c6.6,6.6,6.6,17.4,0,24l0,0c-6.6,6.6-17.4,6.6-24,0l0,0c-6.6-6.6-6.6-17.4,0-24l0,0C13.1-0.2,23.9-0.2,30.5,6.5z"
                 />
                 <polyline
-                  className="tick-path"
+                  className="tick-path stroke-success"
                   style={{
                     fill: 'none',
-                    stroke: '#349D7A',
                     strokeWidth: '1',
                     strokeLinejoin: 'round',
                     strokeMiterlimit: '10',
@@ -131,46 +150,51 @@ export default function Status({
             ) : null}
             {status === ApplicationState.Error ? (
               <svg
-                className="absolute inset-x-0 top-12 mx-auto w-16 -rotate-90 stroke-[1.5]"
+                className="h-14 w-auto -rotate-90 stroke-[1.5]"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 52 52"
+                aria-hidden="true"
               >
                 <circle
-                  className="cross-circle stroke-red-500"
+                  className="cross-circle stroke-error"
                   cx="26"
                   cy="26"
                   r="25"
                   fill="none"
                 />
                 <path
-                  className="cross-path stroke-red-500"
+                  className="cross-path stroke-error"
                   fill="none"
                   d="M16,16 l20,20"
                 />
                 <path
-                  className="cross-path stroke-red-500"
+                  className="cross-path stroke-error"
                   fill="none"
                   d="M16,36 l20,-20"
                 />
               </svg>
             ) : null}
+          </div>
+          <div className={'text-lg font-semibold tracking-tight md:text-2xl'}>
             {status === ApplicationState.Starting ? (
               <span>Starting...</span>
             ) : null}
             {status === ApplicationState.Error ? <span>Error!</span> : null}
             {status === ApplicationState.Ready ? <span>Ready!</span> : null}
           </div>
-          <div
-            className={clsx('h-[3px] w-full overflow-hidden', {
-              'bg-yellow-500': inProgress,
-              'bg-green-500': status === ApplicationState.Ready,
-              'bg-red-500': status === ApplicationState.Error,
-            })}
-          >
-            {inProgress ? (
-              <div className="h-[3px] animate-bounce bg-turquoise-500"></div>
-            ) : null}
-          </div>
+        </div>
+        <div
+          className={clsx('h-[3px] w-full overflow-hidden', {
+            // The brand palette has no yellow, and Mermaid Blue is its active
+            // colour, so it carries the in-progress state.
+            'bg-accent': inProgress,
+            'bg-success': status === ApplicationState.Ready,
+            'bg-error': status === ApplicationState.Error,
+          })}
+        >
+          {inProgress ? (
+            <div className="h-[3px] animate-bounce bg-marine"></div>
+          ) : null}
         </div>
       </div>
     </div>

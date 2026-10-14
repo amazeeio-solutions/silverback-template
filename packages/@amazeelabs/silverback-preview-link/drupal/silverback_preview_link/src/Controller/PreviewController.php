@@ -52,11 +52,16 @@ class PreviewController extends ControllerBase {
           ], 403);
         }
 
-        // @todo: optionally, we could also check if the link has expired.
-        // Expired links should be, however, deleted by the cron job. As this
-        // part of the code will probably suffer modifications during the next
-        // bigger refactoring (see the todo in the method's description), we
-        // will just check for now if the link simply exists.
+        // Expired links are deleted by hook_cron(), but they remain loadable
+        // until it runs, so the expiry is checked here rather than relying on
+        // the cleanup job.
+        $previewLink = reset($previewLink);
+        $expiry = $previewLink->getExpiry();
+        if (!$expiry || $expiry->getTimestamp() <= \Drupal::time()->getRequestTime()) {
+          return new JsonResponse([
+            'access' => FALSE,
+          ], 403);
+        }
         return new JsonResponse([
           'access' => TRUE,
         ], 200);

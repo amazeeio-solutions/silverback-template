@@ -1,4 +1,4 @@
-import { Page, test as base } from '@playwright/test';
+import { type Page, test as base } from '@playwright/test';
 
 type Fixtures = {
   pageAdmin: Page;

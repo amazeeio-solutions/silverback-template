@@ -26,7 +26,7 @@ class PreviewLinkAccessCheck implements AccessInterface {
   /**
    * Checks access to the preview link.
    */
-  public function access(EntityInterface $entity = NULL, string $preview_token = NULL): AccessResultInterface {
+  public function access(?EntityInterface $entity = NULL, ?string $preview_token = NULL): AccessResultInterface {
     $neutral = AccessResult::neutral()->addCacheableDependency($entity);
     if (!$preview_token || !$entity) {
       return $neutral;

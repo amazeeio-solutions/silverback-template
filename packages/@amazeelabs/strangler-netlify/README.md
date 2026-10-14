@@ -1,81 +1,79 @@
-# Strangler (Netlify)
+# @amazeelabs/strangler-netlify
 
-Library that allows to create a Netlify function that implements the [strangler
-fig] pattern. It allows to layer a Netlify website on top of on or more legacy
-systems, gradually replacing them.
-
-## Concept
-
-Every path that is not part of the Netlify website, is handed to a list of
-legacy systems. If a system is able to handle that path, the response will be
-proxied back to the client. If not, the next system will be tried. If none of
-the systems can handle the path, a 404 will be returned.
+Creates a Netlify function that implements the [strangler fig] pattern: requests
+the Netlify website cannot serve are handed to one or more legacy systems, which
+are tried in order. The first response a system accepts is returned, otherwise
+the function responds with a 404.
 
 ## Usage
 
-Add the library to your project:
+Create the function:
 
-```bash
-pnpm add @amazeelabs/strangler-netlify
-```
-
-Create a Netlify function that uses the library:
-
-```typescript
-// file: netlify/functions/strangler.ts
+```ts
+// netlify/functions/strangler.ts
 import { createStrangler } from '@amazeelabs/strangler-netlify';
 import fs from 'fs';
-
-// Read the static 404 page from the file system.
-// Thats the page content the function will return if none
-// of the legacy systems can handle the request.
-const notFoundPage = fs.readFileSync('./public/404.html');
 
 export const handler = createStrangler(
   [
     {
-      // Specify a URL to the legacy system.
-      url: 'https://legacy.web.site',
-      // Optional function that can check if the current url even
-      // applies for the system. If not, the system will be skipped.
-      applies: (url) => url.pathname.startsWith('/redirect/'),
-      // Optional function that can modify the response from the legacy system.
-      // If the function returns undefined, the response will be ignored and the
-      // next system will be tried.
+      // Base URL of the legacy system.
+      url: 'https://legacy.example.com',
+      // Optional. Skip this system for URLs it does not handle.
+      applies: (url) => url.pathname.startsWith('/legacy/'),
+      // Optional. Alter the event before it is forwarded.
+      preprocess: (event) => event,
+      // Optional. Return undefined to discard the response and try the next
+      // system. Without it, every response is returned as is.
       process: (response) =>
         [301, 302].includes(response.status) ? response : undefined,
     },
   ],
-  notFoundPage,
+  // Optional 404 body. Defaults to "<p>Not found</p>".
+  fs.readFileSync('public/404.html').toString(),
 );
 ```
 
-Add a catchall-redirect to the `_redirects`, that will pass the request to the
-strangler function:
+Route all unhandled requests to it with a catch-all rewrite, which must be the
+last rule. In `_redirects`:
 
 ```
-# Pass all unhandled requests to the strangler function.
 /* /.netlify/functions/strangler 200
 ```
 
-> **Warning:**  
-> The redirect must be the last line in the file.
+Or in `netlify.toml`:
 
-## Optimizations
+```toml
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/strangler"
+  status = 200
+```
 
-The redirect will not be executed for any files that are part of the Netlify
-build and for paths that match redirects or rewrites in the `_redirects` file.
-To reduce the number of invocation of the function, it is recommended to add
-manual rewrites for any known paths that should be handled by the legacy
-systems.
+Files from the Netlify build and paths matching earlier rules never reach the
+function. Add explicit rewrites for known legacy paths to save invocations:
 
 ```
-# Rewrite uploaded Drupal files to Drupal directly.
-/sites/default/files/* https://legacy.web.site/sites/default/files/:splat 200
-
-# Pass all unhandled requests to the strangler function.
+/sites/default/files/* https://legacy.example.com/sites/default/files/:splat 200
 /* /.netlify/functions/strangler 200
 ```
+
+Requests are forwarded with the original method, headers and body, plus
+`SLB-Forwarded-Proto`, `SLB-Forwarded-Host` and `SLB-Forwarded-Port`. Redirects
+are not followed. If a legacy system cannot be reached, the function responds
+with a 404 without trying the remaining systems.
+
+If the 404 page is read from disk, include it in the function bundle:
+
+```toml
+[functions.strangler]
+  included_files = ["public/404.html"]
+```
+
+## Dependencies
+
+Used by `apps/website` (`netlify/functions/strangler.ts`), which passes
+unhandled paths to Drupal to resolve its redirects.
 
 [strangler fig]:
   https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig

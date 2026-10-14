@@ -1,7 +1,7 @@
 # ====================================================================================================
 # BUILDER IMAGE
 # ====================================================================================================
-FROM uselagoon/node-20-builder AS node
+FROM uselagoon/node-22-builder AS node
 FROM uselagoon/php-8.4-cli-drupal AS builder
 
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
@@ -10,6 +10,11 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Install pnpm
 RUN npm install -g pnpm@8.15.9 && pnpm config set store-dir /tmp/cache/pnpm
+
+# sqlite3 and unix-dgram ship no prebuilt binaries for Node 22 on musl, so
+# node-gyp compiles them from source during "pnpm fetch". py3-setuptools
+# restores "distutils", which Python 3.12 removed but node-gyp still imports.
+RUN apk add --no-cache python3 py3-setuptools make g++
 
 # Copy pnpm lockfile and install dependencies.
 COPY pnpm-lock.yaml .npmrc /app/
@@ -107,7 +112,7 @@ ENV WEBROOT=web
 # PREVIEW IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 AS preview
+FROM uselagoon/node-22 AS preview
 
 RUN npm install -g pnpm@8.15.9
 COPY --from=builder /tmp/.deploy/preview /app
@@ -117,9 +122,9 @@ CMD pnpm start
 # PUBLISHER IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 AS publisher
+FROM uselagoon/node-22 AS publisher
 
-RUN apk add --no-cache sqlite curl github-cli
+RUN apk add --no-cache sqlite curl
 
 RUN npm install -g pnpm@8.15.9
 

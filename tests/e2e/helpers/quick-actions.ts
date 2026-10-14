@@ -1,9 +1,11 @@
 import { type Page } from '@playwright/test';
 
-export enum SiteLanguage {
-  English = 'English',
-  Deutsch = 'Deutsch',
-}
+export const SiteLanguage = {
+  English: 'English',
+  Deutsch: 'Deutsch',
+} as const;
+
+export type SiteLanguage = (typeof SiteLanguage)[keyof typeof SiteLanguage];
 
 export class QuickActions {
   private page: Page;

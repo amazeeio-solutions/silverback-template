@@ -22,6 +22,7 @@ import {
   getAuthenticationMiddleware,
   isSessionRequired,
 } from './tools/authentication';
+import { renderBrandedPage } from './tools/brandedPage';
 import { getConfig } from './tools/config';
 import { core, CoreGithubWorkflow } from './tools/core';
 import { getBuild, listBuilds } from './tools/database';
@@ -242,15 +243,25 @@ const createApp = (): expressWs.Application => {
         const accessPublisher = await hasPublisherAccess(req);
         if (accessPublisher) {
           res.send(
-            'Publisher access is granted. <a href="/___status/">View status</a>',
+            renderBrandedPage(
+              'Access granted',
+              '<p>Publisher access is granted.</p><p><a href="/___status/">View status</a></p>',
+            ),
           );
         } else {
           res.send(
-            'Publisher access is not granted. Contact your site administrator. <a href="/oauth/logout">Log out</a>',
+            renderBrandedPage(
+              'Access not granted',
+              '<p>Publisher access is not granted. Contact your site administrator.</p><p><a href="/oauth/logout">Log out</a></p>',
+            ),
           );
         }
       } else {
-        res.cookie('origin', req.path).send('<a href="/oauth">Log in</a>');
+        res
+          .cookie('origin', req.path)
+          .send(
+            renderBrandedPage('Log in', '<p><a href="/oauth">Log in</a></p>'),
+          );
       }
     }),
   );

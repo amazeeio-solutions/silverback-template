@@ -1,5 +1,3 @@
-import { execSync, SpawnSyncReturns } from 'node:child_process';
-
 import { skip, Subscription } from 'rxjs';
 
 import { ApplicationState, WorkflowPublisherPayload } from '../shared/exports';
@@ -8,6 +6,12 @@ import { getConfigGithubWorkflow as config } from '../tools/config';
 import { saveBuildInfoSafely } from '../tools/database';
 import { TaskController, TaskJob } from '../tools/queue';
 import { core } from './core';
+import {
+  cancelWorkflowRun,
+  dispatchWorkflow,
+  listWorkflowRuns,
+  WorkflowRun,
+} from './github';
 
 export const buildTask: (args?: { clean: boolean }) => TaskJob =
   (args) => async (controller) => {
@@ -114,28 +118,8 @@ async function runWorkflow(args: {
     };
     args.controller.onCancel(onCancel);
 
-    try {
-      execSync(
-        `gh workflow run ${config().workflow} --repo ${config().repo} --ref ${config().ref} --json`,
-        {
-          input: JSON.stringify({
-            ...config().inputs,
-            publisher_payload: JSON.stringify({
-              callbackUrl:
-                config().publisherBaseUrl + '/github-workflow-status',
-              clearCache: args.clean,
-              environmentVariables: config().environmentVariables,
-            } satisfies WorkflowPublisherPayload),
-          }),
-        },
-      );
-    } catch (error) {
-      core.output$.next('Error starting the workflow', 'error');
-      logExecError(error);
-
-      return settle('failure');
-    }
-
+    // The dispatch is a request now, so the state is observed before it, to
+    // keep the callback of a fast workflow from being missed.
     subscription = core.state.workflowState$
       .pipe(
         // Ignore the initial state, or the state coming from the previous build.
@@ -157,6 +141,23 @@ async function runWorkflow(args: {
           return settle(state);
         }
       });
+
+    const startWorkflow = async (): Promise<void> => {
+      await dispatchWorkflow({
+        ...config().inputs,
+        publisher_payload: JSON.stringify({
+          callbackUrl: config().publisherBaseUrl + '/github-workflow-status',
+          clearCache: args.clean,
+          environmentVariables: config().environmentVariables,
+        } satisfies WorkflowPublisherPayload),
+      });
+    };
+
+    void startWorkflow().catch((error: unknown) => {
+      core.output$.next('Error starting the workflow', 'error');
+      logGithubError(error);
+      settle('failure');
+    });
   });
 }
 
@@ -166,24 +167,16 @@ export const cancelWorkflowTask: TaskJob = async () => {
 };
 
 async function cancelWorkflow(): Promise<void> {
-  type Run = { name: string; conclusion: string; databaseId: number };
-
-  function matchesEnvironment(run: Run): boolean {
+  function matchesEnvironment(run: WorkflowRun): boolean {
     return run.name.includes(`[env: ${config().environment}]`);
   }
-  function isCompleted(run: Run): boolean {
-    return !!run.conclusion;
-  }
-
-  const listCommand = `gh run list --workflow=${config().workflow} --repo ${config().repo} --json name,conclusion,databaseId --limit 100`;
 
   try {
     // Cancel the running workflows.
-    const result = execSync(listCommand).toString();
-    const runs = JSON.parse(result) as Array<Run>;
+    const runs = await listWorkflowRuns();
     for (const run of runs) {
-      if (!isCompleted(run) && matchesEnvironment(run)) {
-        execSync(`gh run cancel ${run.databaseId} --repo ${config().repo}`);
+      if (!run.isCompleted && matchesEnvironment(run)) {
+        await cancelWorkflowRun(run.id);
       }
     }
 
@@ -196,28 +189,39 @@ async function cancelWorkflow(): Promise<void> {
     // 10s even when there is nothing to cancel.
     for (let checkAttempt = 1; checkAttempt <= checkAttempts; checkAttempt++) {
       await new Promise((resolve) => setTimeout(resolve, delay));
-      const result = execSync(listCommand).toString();
-      const runs = JSON.parse(result) as Array<Run>;
-      if (runs.every((run) => isCompleted(run) || !matchesEnvironment(run))) {
+      const remaining = await listWorkflowRuns();
+      if (
+        remaining.every((run) => run.isCompleted || !matchesEnvironment(run))
+      ) {
         return;
       }
     }
   } catch (error) {
     core.output$.next('Error canceling the workflow', 'error');
-    logExecError(error);
+    logGithubError(error);
   }
 }
 
-function isSpawnError(error: unknown): error is SpawnSyncReturns<Buffer> {
-  return !!error && typeof error === 'object' && 'status' in error;
+type RequestError = Error & { status: number };
+
+function isRequestError(error: unknown): error is RequestError {
+  return error instanceof Error && 'status' in error;
 }
 
-function logExecError(error: unknown): void {
-  if (isSpawnError(error)) {
-    core.output$.next(`Error: ${error}`);
-    core.output$.next(`Exit code: ${error.status}`);
-    core.output$.next(`Stdout: ${error.stdout?.toString()}`);
-    core.output$.next(`Stderr: ${error.stderr?.toString()}`);
+function logGithubError(error: unknown): void {
+  if (isRequestError(error)) {
+    core.output$.next(`Error: ${error.message}`);
+    core.output$.next(`Status: ${error.status}`);
+    // Only the message is printed, because the error carries the request it was
+    // made with, and the dispatch body holds the environment variables of the
+    // build - secrets included.
+    console.error(`${error.message} (status ${error.status})`);
+    return;
+  }
+  if (error instanceof Error) {
+    core.output$.next(`Error: ${error.message}`);
+  } else {
+    core.output$.next(`Error: ${String(error)}`);
   }
   console.error(error);
 }

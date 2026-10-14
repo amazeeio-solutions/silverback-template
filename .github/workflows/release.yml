@@ -26,11 +26,21 @@ jobs:
       release')
     runs-on: ubuntu-latest
     steps:
+      # Lerna pushes the release commit and tags, which needs "contents: write".
+      # The token is scoped down because the app is shared with the publisher.
+      - name: Create app token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.PUBLISHER_APP_ID }}
+          private-key: ${{ secrets.PUBLISHER_APP_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.AMAZEELABS_KITT_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup
         uses: ./.github/actions/setup

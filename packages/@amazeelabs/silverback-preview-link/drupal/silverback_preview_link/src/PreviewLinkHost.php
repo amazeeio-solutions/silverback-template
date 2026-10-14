@@ -48,6 +48,7 @@ class PreviewLinkHost implements PreviewLinkHostInterface {
       ->condition('entities.target_type', $entity->getEntityTypeId())
       ->condition('entities.target_id', $entity->id())
       ->condition('token', $tokens, 'IN')
+      ->condition('expiry', $this->time->getRequestTime(), '>')
       ->count()
       ->execute();
     return $count > 0;

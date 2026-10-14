@@ -1,83 +1,36 @@
-# Silverback Cloudinary
+# Silverback Cloudinary (`silverback_cloudinary`)
 
-This module provides a graphql data producer that can be used to load
-(responsive) images using the [Cloudinary](https://cloudinary.com/) service.
+Provides the `responsive_image` GraphQL data producer and the `@responsiveImage`
+directive. They build signed [Cloudinary](https://cloudinary.com/) fetch URLs
+(`f_auto`, `q_auto`) plus `sizes` and `srcset` for an image.
 
-The data producer takes as parameters the original image url, and optionally the
-width, height, sizes and a arbitrary cloudinary transformation string and
-produces a json encoded string containing the html properties of the image (src,
-width, height, sizes, srcset).
+## Setup / Configuration
+
+- Enable the module.
+- Set the `CLOUDINARY_URL` env var
+  (`cloudinary://<api_key>:<api_secret>@<cloud_name>`). The template's
+  `settings.php` builds it from `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+  and `CLOUDINARY_CLOUDNAME`.
+- If the cloud name is `local`, original image URLs are returned unchanged.
+
+## Usage
+
+The input is an image array with `src`, `width` and `height`. The output is a
+JSON string with `src`, `originalSrc`, `width`, `height` and, if `sizes` is
+given, `sizes` and `srcset`. Without `width`, the original image is returned.
+With only `width`, the height follows the original aspect ratio. With both
+`width` and `height`, the image is cropped (`c_fill`, `g_auto`).
 
 ```graphql
-type Page {
-  heroImage(
+type MediaImage @entity(type: "media", bundle: "image") {
+  source(
     width: Int
     height: Int
     sizes: [[Int!]!]
     transform: String
-  ): String
-}
-```
-
-You can use the data producer like that:
-
-```php
-  addResolver('Page.heroImage',
-    $builder->compose(
-      // ...any other calls to data producers or callbacks that will return a string (image url), for example:
-      //$builder->callback(function ($value) {
-      //  return 'http://www.example.com/demo.jpg';
-      //}),
-      $builder->produce('responsive_image')
-        ->map('image', $builder->fromParent())
-        ->map('width', $builder->fromArgument('width'))
-        ->map('height', $builder->fromArgument('height'))
-        ->map('sizes', $builder->fromArgument('sizes'))
-        ->map('transform', $builder->fromArgument('transform'))
-      )
-    )
-  );
-```
-
-When no width is supplied, the returned data will just consist of the original
-image url, encoded as json
-
-Then you can query data like this:
-
-```graphql
-fragment Hero on Page {
-  heroImage(
-    # Display a 1600/800 header image by default.
-    width: 1600
-    height: 800
-    sizes: [
-      # For screens smaller than 800px, scale down to 780px width.
-      [800, 780]
-    ]
-    transform: "co_rgb:000000,e_colorize:60"
-  )
-}
-```
-
-and the response you get should contain all the data needed for you to build the
-necessary tags for displaying the image.
-
-Apart from the data producer, there is also a directive called _responsiveImage_
-which you can use directly in the graphql schema. So the above code could
-become:
-
-```graphql
-fragment Hero on Page {
-  heroImage(
-    # Display a 1600/800 header image by default.
-    width: 1600
-    height: 800
-    sizes: [
-      # For screens smaller than 800px, scale down to 780px width.
-      [800, 780]
-    ]
-    transform: "co_rgb:000000,e_colorize:60"
-  )
+  ): ImageSource!
+    @property(path: "field_media_image.entity")
+    @imageProps
     @responsiveImage(
       width: "$width"
       height: "$height"
@@ -87,31 +40,11 @@ fragment Hero on Page {
 }
 ```
 
-Other parts:
+`sizes` holds `[maxScreenWidth, imageWidth]` pairs, e.g. `[[800, 780]]`.
+`transform` is any Cloudinary transformation string, e.g.
+`"co_rgb:000000,e_colorize:60"`.
 
-- [Gatsby plugin](../../../npm/@amazeelabs/gatsby-silverback-cloudinary)
+## Dependencies
 
-## Installation
-
-Drupal:
-
-- `composer require amazeelabs/silverback_cloudinary`
-- Make sure you have the CLOUDINARY_URL env variable set as instructed on the
-  [Cloudinary dashboard](https://console.cloudinary.com/console) (testing
-  credentials:
-  CLOUDINARY_URL=cloudinary://219736568324247:PsDMMn1fMdm2lj9TlJMICX25KEA@ddj1ybv54)
-- `drush en silverback_cloudinary`
-
-Gatsby:
-
-- `yarn add @amazeelabs/gatsby-silverback-cloudinary`
-- Make sure you have the following env variables set: _CLOUDINARY_API_SECRET_,
-  _CLOUDINARY_API_KEY_, _CLOUDINARY_CLOUDNAME_
-- in gatsby-config.ts , add the plugin like this (**very important**: after the
-  _@amazeelabs/gatsby-source-silverback_ plugin)
-
-```javascript
-{
-  resolve: '@amazeelabs/gatsby-silverback-cloudinary';
-}
-```
+- Depends on: `graphql` (>= 4), `graphql_directives` (for the directive),
+  `cloudinary/cloudinary_php` (^3).

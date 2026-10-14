@@ -15,7 +15,7 @@ use function file_exists, gzencode, header, is_readable, max, min;
 class QRCodeWithLogo {
 
   private $config = [
-    'svgLogo' => __DIR__ . '/images/amazee-labs_logo-square-green.svg',
+    'svgLogo' => __DIR__ . '/images/io-logo-circle-only.svg',
     'svgLogoScale' => 1,
     'svgLogoCssClass' => 'dark',
     'version' => QRCode::VERSION_AUTO,
@@ -41,8 +41,8 @@ class QRCodeWithLogo {
     // https://developer.mozilla.org/en-US/docs/Web/SVG/Element/linearGradient
     'svgDefs' => '
 	<linearGradient id="gradient" x1="100%" y2="100%">
-		<stop stop-color="#951b81" offset="0"/>
-		<stop stop-color="#00a29a" offset="0.8"/>
+		<stop stop-color="#00B6ED" offset="0"/>
+		<stop stop-color="#003B61" offset="0.8"/>
 	</linearGradient>
 	<style><![CDATA[
 		.dark{fill: url(#gradient);}

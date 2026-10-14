@@ -163,11 +163,18 @@ export type PublisherConfigGithubWorkflow = PublisherConfigBase & {
   /**
    * The build and deploy happen in a Github CI workflow.
    *
-   * Publisher will use github-cli to trigger the workflow run.
+   * Publisher triggers the workflow run through the Github API and needs
+   * credentials in the environment. Either a Github App, which is what SSO
+   * enforced organizations require:
+   *  - GITHUB_APP_ID
+   *  - GITHUB_APP_PRIVATE_KEY - base64 encoded PEM key
+   *  - GITHUB_APP_INSTALLATION_ID
    *
-   * Ensure the following:
-   *  - github-cli is installed and accessible via the `gh` command
-   *  - GITHUB_TOKEN is set in the environment for authentication
+   * Or a personal access token in GH_TOKEN or GITHUB_TOKEN. The app takes
+   * precedence when both are present.
+   *
+   * The app needs the "actions: write" repository permission and has to be
+   * installed on the repository the workflow belongs to.
    */
   mode: 'github-workflow';
   /**

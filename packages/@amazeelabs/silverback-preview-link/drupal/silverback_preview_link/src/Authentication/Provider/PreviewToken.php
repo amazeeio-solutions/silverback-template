@@ -2,6 +2,7 @@
 
 namespace Drupal\silverback_preview_link\Authentication\Provider;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\Session\AccountInterface;
@@ -35,6 +36,13 @@ class PreviewToken implements AuthenticationProviderInterface {
   protected PreviewLinkExpiry $previewLinkExpiry;
 
   /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected TimeInterface $time;
+
+  /**
    * Constructs a new token authentication provider.
    */
   public function __construct() {
@@ -46,6 +54,7 @@ class PreviewToken implements AuthenticationProviderInterface {
     $this->previewLinkStorage = $storage;
     $this->killSwitch = \Drupal::service('page_cache_kill_switch');
     $this->previewLinkExpiry = \Drupal::service('silverback_preview_link.link_expiry');
+    $this->time = \Drupal::service('datetime.time');
   }
 
   /**
@@ -98,6 +107,13 @@ class PreviewToken implements AuthenticationProviderInterface {
     // The loadByProperties() method returns the result as an array, so just
     // take the first element.
     $previewLink = reset($previewLink);
+    // Never authenticate with an expired link. hook_cron() deletes expired
+    // links, but until it runs the entity is still loadable, so expiry has to
+    // be enforced here rather than left to the cleanup job.
+    $expiry = $previewLink->getExpiry();
+    if (!$expiry || $expiry->getTimestamp() <= $this->time->getRequestTime()) {
+      return NULL;
+    }
     $referencedEntities = $previewLink->get('entities')->referencedEntities();
     if (empty($referencedEntities)) {
       return NULL;
