@@ -37,6 +37,7 @@ module:
   focal_point: 0
   graphql: 0
   graphql_directives: 0
+  graphql_flood_protection: 0
   gutenberg: 0
   gutenberg_blocks: 0
   honeypot: 0

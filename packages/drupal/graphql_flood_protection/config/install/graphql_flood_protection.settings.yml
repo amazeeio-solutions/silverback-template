@@ -1,0 +1,6 @@
+# Default configuration for the GraphQL Flood Protection module.
+ip_limit: 6
+ip_window: 3600
+protection_mode: all_mutations
+excluded_mutations: []
+server_id: ''

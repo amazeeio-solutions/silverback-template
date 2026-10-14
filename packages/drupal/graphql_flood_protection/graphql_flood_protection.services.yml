@@ -1,0 +1,10 @@
+services:
+  graphql_flood_protection.event_subscriber:
+    class: Drupal\graphql_flood_protection\EventSubscriber\FloodProtectionEventSubscriber
+    arguments:
+      ['@flood', '@request_stack', '@config.factory', '@logger.factory']
+    tags:
+      - { name: event_subscriber }
+  graphql_flood_protection.mutation_discovery:
+    class: Drupal\graphql_flood_protection\Service\MutationDiscovery
+    arguments: ['@entity_type.manager']
