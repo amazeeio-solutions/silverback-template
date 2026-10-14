@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.7.16](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-gatsby@3.7.15...@amazeelabs/silverback-gatsby@3.7.16) (2026-10-01)
+
+**Note:** Version bump only for package @amazeelabs/silverback-gatsby
+
+
+
+
+
 ## [3.7.15](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-gatsby@3.7.14...@amazeelabs/silverback-gatsby@3.7.15) (2026-04-20)
 
 

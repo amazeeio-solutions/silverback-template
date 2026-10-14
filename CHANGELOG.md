@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.3...@amazeelabs/silverback-template@3.1.4) (2026-10-01)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [3.1.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.2...@amazeelabs/silverback-template@3.1.3) (2026-09-07)
+
+
+### Bug Fixes
+
+* php 8.4 deprecations in silverback preview link ([672f8c7](https://github.com/amazeeio-solutions/silverback-template/commit/672f8c74073a57d3c83e56276738007ca2628777))
+* resolve the latest revision from shareable preview links ([91f0793](https://github.com/amazeeio-solutions/silverback-template/commit/91f07931fcb4cce93e0da60a4f2e1b4f0455a526))
+
+
+
+
+
 ## [3.1.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.1...@amazeelabs/silverback-template@3.1.2) (2026-09-07)
 
 

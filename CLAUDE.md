@@ -8,16 +8,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `pnpm i && pnpm turbo:prep` - Initial setup after branch switch
 - `pnpm precommit` - Fix formatting, run linters, and execute unit tests  
 - `pnpm turbo:test` - Full test suite (unit + integration)
-- `pnpm turbo:test:integration` - Integration tests only
+- `pnpm turbo test:integration --concurrency=1` - Integration tests only
 
 ### Development URLs
 - Drupal backend: `http://localhost:8888` (admin/admin)
 - Gatsby frontend: `http://localhost:8000`
 
 ### Testing Commands
-- E2E tests: `cd tests/e2e && playwright test`
-- Interactive E2E: `cd tests/e2e && playwright test --ui`
-- Unit tests: `pnpm turbo:test:unit`
+- E2E tests: `cd tests/e2e && pnpm exec playwright test`
+- Interactive E2E: `cd tests/e2e && pnpm exec playwright test --ui`
+- Unit tests: `pnpm turbo test:unit`
 
 ## Project Architecture
 
@@ -41,10 +41,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Shared Packages
 - `/packages/ui/` - React components with Storybook
-- `/packages/schema/` - GraphQL schema and types
-- `/packages/drupal/` - Custom Drupal modules
+- `/packages/schema/` - GraphQL schema, operations and generated types
+- `/packages/seo/` - SEO analysis UI used in the preview route
+- `/packages/drupal/` - Custom Drupal modules (symlinked to `apps/cms/web/modules/custom`)
+- `/packages/drupal-themes/` - Custom Drupal themes (symlinked to `apps/cms/web/themes/custom`)
+- `/packages/webform-export/` - Exports Drupal webform markup for UI stories
+- `/packages/init/` - One-time script that turns the template into a project
 - `/packages/@amazeelabs/` - Amazee Labs specific packages, published to NPM.js. Only available in `silverback-template`, not in derived projects.
 - `/packages/eslint-config/` - Shared ESLint configuration
+
+Every app and package has a `README.md` (Drupal modules: `drupal/<module>/README.md`). Read it before changing that app or package.
 
 ## Claude Code Workflow Integration
 
@@ -127,16 +133,16 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - **Storybook note**: Never start storybook - it runs in background
 - **Business logic**: Implement in TypeScript utilities with vitest tests
 - **Storybook Typing**: Always use "satisfies" for typing storybook stories and meta objects. Makes it easier to re-use those values in other stories.
-- **Data Fetching**: React components fetch data using the `<Operation>` component or the `withOperation` higher-order component. For pure client side applications, `useOperation` can be used as well.
-- **Data Submission**: To submit or update data in React components, the `useMutation` hook is used along with a GraphQL mutation.
+- **Data Fetching**: React components fetch data using the `<Operation>` component (from `@custom/schema`) or the `withOperation` higher-order component (`packages/ui/src/utils/with-operation.tsx`). For pure client side applications, `useOperation` (`packages/ui/src/utils/operation.ts`) can be used as well.
+- **Data Submission**: To submit or update data in React components, the `useMutation` hook (`packages/ui/src/utils/operation.ts`) is used along with a GraphQL mutation.
 - **React Router Navigation**: To retrieve path, query parameters or hash, or programmatically navigate to a new location use the `useLocation` hook.
 
 ### Drupal Development
 - **Services**: Create PHPUnit-tested services for business logic
 - **Hooks**: Keep simple, delegate complex logic to services
 - **Testing**: Use Kernel tests for interconnected services
-- **Configuration**: Use web UI + `drush cex -y` (never write config files)
-- **Content**: Use web UI + `pnpm content:export` (never add content manually)
+- **Configuration**: Use web UI + `pnpm config:export` in `apps/cms` (`drush cex -y`; never write config files)
+- **Content**: Use web UI + `pnpm content:export` in `apps/cms` (never add content manually)
 
 ### GraphQL Schema
 - **Human-readable**: Keep types/fields technology-agnostic
@@ -149,22 +155,12 @@ The build follows stages: prep → test:static → test:unit → test:integratio
 - **Iframe styling**: `packages/ui/src/iframe.css` uses `@apply` for Drupal classes
 - **Assets**: Download from Figma → `packages/ui/static/public/` (available at "/" in browser)
 
-### Important Configuration Files
-- `/phpcs.xml.dist` - PHP CodeSniffer configuration
-- `/phpstan.neon` - PHPStan static analysis
-- `/packages/eslint-config/` - Shared ESLint configuration
-- `turbo.json` - Turborepo build pipeline configuration
+## Documentation
 
-## Environment & Production Setup
-
-### Required Environment Variables
-- `DRUPAL_HASH_SALT` - Security salt (required)
-- `NETLIFY_SITE_ID`, `NETLIFY_AUTH_TOKEN` - Netlify deployment
-- `CLOUDINARY_*` - Image processing
-- `DRUPAL_INTERNAL_URL`, `DRUPAL_EXTERNAL_URL` - Service URLs
-- `PUBLISHER_OAUTH2_CLIENT_SECRET` - OAuth2 authentication
-- `DRUPAL_SLACK_WEBHOOK_URL` - Slack incoming webhook for the Drupal `slack` module
-
-### Build Pipeline
-Turborepo stages: `prep → test:static → test:unit → test:integration`
+- **Update the README** of an app, package or module when its behaviour, configuration, env vars or dependencies change.
+- **Keep it concise**: what it does, setup/configuration (env var names only), and a Dependencies section ("Depends on" / "Used by" at the same level).
+- **Verify against code**: never document APIs, scripts or env vars that the code doesn't have.
+- **Link, don't duplicate**: shared topics (environment overrides, publisher authentication, preview, Storybook images) live in the root `README.md`.
+- **Refer to `@amazeelabs/*` packages by name**, never by relative path: derived projects remove `packages/@amazeelabs` and install them from NPM.
+- **Public repository**: never commit secret values, and never describe unfixed security issues in READMEs, commits or PRs.
 

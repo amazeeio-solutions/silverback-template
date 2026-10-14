@@ -1,30 +1,48 @@
-# Silverback Preview Link
+# Silverback Preview Link (`silverback_preview_link`)
 
-Decoupled shareable preview with access token. Integrates with Silverback
-autosave.
+Shareable, expiring preview links for a decoupled frontend. Editors generate a
+token link (with a QR code) to the external preview of a node. The token
+authenticates frontend requests as the preview user attached to the link.
 
-This module is inspired by
-[Preview Link](https://www.drupal.org/project/preview_link) but does not depend
-on it as the use case is different.
+Inspired by [Preview Link](https://www.drupal.org/project/preview_link), but
+independent of it and limited to the decoupled use case.
 
-This module
+## Setup / Configuration
 
-- is suitable for a decoupled setup
-- handles access based on GraphQL
-- uses silverback_autosave to share instant preview updates
-- integrates with the Gutenberg editor
+Settings at `/admin/config/content/silverback_preview_link` (permission
+`administer silverback preview link settings`):
 
-Due to the decoupled nature, it does not cover additional logic brought by the
-Preview Link module:
+- Enabled entity types/bundles (`enabled_entity_types`). If none is selected,
+  all are enabled. Only revisionable entity types with a canonical route are
+  listed. Links can only be generated for nodes.
+- `expiry_seconds`: link lifetime, 86400 (1 day) by default.
+- `multiple_entities`: whether a link can reference several entities.
+- Default preview user (state `silverback_preview_link.default_preview_user`):
+  added to every new link. Requests with the token are authenticated as this
+  user (it must be active).
 
-- Most of the route subscribers
-- Entity canonical access control handlers
-- Route provider and Controller for preview links
-- Event subscribers for node canonical redirect
-- ...
+Editors with `generate silverback preview links` get a _Share preview_ form at
+`<canonical path>/generate-preview-link`.
 
-## Configuration
+## Usage
 
-- Enable entity types and bundles
-  `/admin/config/content/silverback_preview_link`
-- Optionally change the default expiry time that is set to 1 day
+- The link is the `silverback_external_preview` URL of the node, with a
+  `preview_access_token` query parameter and no `rid`, so recipients always see
+  the latest revision.
+- `preview_token` authentication provider: a request with a valid, non-expired
+  `?preview_access_token=` is authenticated as the active user referenced by the
+  link. Page cache is disabled for these requests.
+- `POST /preview/link-access` (JSON body `{"preview_access_token": "..."}`):
+  returns `{"access": true}` (200) for a valid, non-expired token,
+  otherwise 403.
+- `POST /preview/access` (OAuth2): returns whether the token user has
+  `use external preview`.
+- Expired links are rejected at validation time and deleted on cron.
+
+`apps/preview` calls both endpoints.
+
+## Dependencies
+
+- Depends on: `silverback_external_preview` (preview URL),
+  `silverback_autosave`, `silverback_gatsby`, `dynamic_entity_reference`;
+  composer: `chillerlan/php-qrcode`.
