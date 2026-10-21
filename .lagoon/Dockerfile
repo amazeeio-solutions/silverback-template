@@ -90,6 +90,9 @@ RUN apk add --no-cache imagemagick qpdf icu-dev && \
 
 COPY --from=cli /app /app
 
+# Unused: Drupal relies on the uploadprogress extension for upload progress.
+RUN echo "session.upload_progress.enabled = 0" > "$PHP_INI_DIR/conf.d/session-upload-progress.ini"
+
 WORKDIR /app
 ENV WEBROOT=web
 # Keep EX nice when running static builds.
