@@ -60,7 +60,7 @@
     "react-hook-form": "^7.54.2",
     "swr": "^2.3.0",
     "unified": "^10.1.2",
-    "zod": "^3.24.1",
+    "zod": "^4.6.6",
     "zustand": "^5.0.3"
   },
   "peerDependencies": {
@@ -101,7 +101,7 @@
     "axe-playwright": "^2.0.3",
     "cssnano": "^7.0.6",
     "embla-carousel": "^8.5.2",
-    "happy-dom": "^16.7.3",
+    "happy-dom": "^21.0.4",
     "nyc": "^17.1.0",
     "playwright": "^1.50.0",
     "postcss": "^8.5.1",
@@ -113,10 +113,10 @@
     "react-dom": "^18",
     "serve": "^14.2.4",
     "start-server-and-test": "^2.0.10",
-    "storybook": "^8.5.2",
+    "storybook": "^8.6.19",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3",
-    "vite": "^6.0.11",
+    "vite": "^6.4.5",
     "vite-imagetools": "^7.0.5",
     "vitest": "^3.0.4"
   }
