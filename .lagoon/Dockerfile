@@ -91,6 +91,7 @@ ENV PHP_MEMORY_LIMIT=2048M
 # NGINX IMAGE
 # ====================================================================================================
 FROM uselagoon/nginx-drupal as nginx
+COPY .lagoon/nginx-conf/server_prepend_block_installer.conf /etc/nginx/conf.d/drupal/server_prepend_block_installer.conf
 
 COPY --from=cli /app /app
 RUN cd /app/web && cp ../node_modules/@custom/ui/build/gutenberg.css .
