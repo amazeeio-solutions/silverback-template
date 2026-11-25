@@ -1,0 +1,14 @@
+query ($id: String!) {
+  _loadPage(id: $id) {
+    title
+  }
+  _queryPages {
+    _id
+    _drupalId
+    _translations {
+      _defaultTranslation
+      _langcode
+      title
+    }
+  }
+}

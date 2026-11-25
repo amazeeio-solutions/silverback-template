@@ -1,0 +1,12 @@
+query FeedInfo($lastBuild: Int, $currentBuild: Int) {
+  _drupalBuildId
+  _drupalFeedInfo {
+    typeName
+    translatable
+    singleFieldName
+    listFieldName
+    changes(lastBuild: $lastBuild, currentBuild: $currentBuild)
+    pathFieldName
+    templateFieldName
+  }
+}

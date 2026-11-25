@@ -1,0 +1,8 @@
+display:
+  default:
+    display_options:
+      fields:
+        campaign_url_bulk_form:
+          action_title: Aktion
+        changed:
+          label: Aktualisiert

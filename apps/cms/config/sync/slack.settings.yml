@@ -7,3 +7,4 @@ slack_icon_type: none
 slack_icon_emoji: ''
 slack_icon_url: ''
 slack_link_names: false
+slack_queue_messages: false

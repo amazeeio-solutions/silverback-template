@@ -2,7 +2,6 @@ label: Webformular-Eingaben
 description: 'Standardansichten für die Anzeige von Webformular-Eingaben.'
 display:
   default:
-    display_title: Master
     display_options:
       exposed_form:
         options:
@@ -24,7 +23,6 @@ display:
             offset_label: Versatz
       fields:
         sid:
-          label: '#'
           separator: ', '
         in_draft:
           label: Entwurf
@@ -62,7 +60,6 @@ display:
           label: 'Massenverarbeitungsformular für Webformular-Eingaben'
           action_title: Aktion
         sid:
-          label: '#'
           separator: ', '
         in_draft:
           label: Entwurf
@@ -103,7 +100,6 @@ display:
           label: 'Massenverarbeitungsformular für Webformular-Eingaben'
           action_title: Aktion
         sid:
-          label: '#'
           separator: ', '
         in_draft:
           label: Entwurf
@@ -145,7 +141,6 @@ display:
       display_description: 'Webformular-Eingaben überprüfen'
       fields:
         sid:
-          label: '#'
           separator: ', '
         in_draft:
           label: Entwurf

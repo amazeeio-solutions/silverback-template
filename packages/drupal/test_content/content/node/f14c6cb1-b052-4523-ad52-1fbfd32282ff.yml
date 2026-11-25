@@ -54,9 +54,15 @@ default:
         <!-- wp:custom/hero {"headline":"Block: Conditional content","lead":"Block: Conditional content"} /-->
 
         <!-- wp:custom/content -->
-        <!-- wp:custom/conditional {"displayFrom":"2024-12-10T14:40:00.000Z","displayTo":"2025-12-10T14:40:00.000Z","purpose":"One Year!"} -->
+        <!-- wp:custom/conditional {"displayFrom":"2020-01-01T00:00:00.000Z","purpose":"Always visible"} -->
         <!-- wp:paragraph -->
-        <p>This content will only be shown for one year.</p>
+        <p>This content is always visible (no end date).</p>
+        <!-- /wp:paragraph -->
+        <!-- /wp:custom/conditional -->
+
+        <!-- wp:custom/conditional {"displayFrom":"2020-01-01T00:00:00.000Z","displayTo":"2020-12-31T23:59:59.000Z","purpose":"Expired"} -->
+        <!-- wp:paragraph -->
+        <p>This content has expired and should not be visible.</p>
         <!-- /wp:paragraph -->
         <!-- /wp:custom/conditional -->
         <!-- /wp:custom/content -->

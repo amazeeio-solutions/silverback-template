@@ -1,0 +1,13 @@
+{
+  "name": "amazeelabs/silverback_preview_link",
+  "type": "drupal-module",
+  "version": "dev-main",
+  "description": "Decoupled preview with access token.",
+  "homepage": "https://silverback.netlify.app",
+  "license": "GPL-2.0+",
+  "require": {
+    "php": ">=8.3",
+    "drupal/dynamic_entity_reference": "^3 || ^4",
+    "chillerlan/php-qrcode": "^5"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "prep": {
+      "inputs": ["src/**", "bin/**", "tsconfig.json", "rollup.config.ts"],
+      "outputs": ["dist"]
+    },
+    "test:static": {
+      "inputs": ["src/**", "tsconfig.json", "eslint.config.mjs"]
+    },
+    "test:unit": {
+      "inputs": ["src/**", "tsconfig.json", "vitest.workspace.ts"]
+    },
+    "build-storybook": {
+      "inputs": ["src/ui/**", "tsconfig.json"],
+      "outputs": ["storybook-static/**"]
+    },
+    "test:integration": {
+      "dependsOn": ["test:unit", "prep", "build-storybook"],
+      "inputs": ["src/**", "packaged/**", "package.json", "vitest.workspace.ts"]
+    }
+  }
+}

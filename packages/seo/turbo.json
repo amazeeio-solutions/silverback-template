@@ -1,0 +1,26 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "prep:types": {
+      "dependsOn": ["^prep"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"],
+      "outputs": ["build/**/*.d.ts", "build/**/*.d.ts.map"]
+    },
+    "prep:build": {
+      "dependsOn": ["^prep"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.css",
+        "tsconfig.json",
+        "vite.config.ts",
+        "tailwind.config.ts"
+      ],
+      "outputs": ["build/**/*.js", "build/**/*.css"]
+    },
+    "prep": {
+      "dependsOn": ["prep:types", "prep:build"]
+    }
+  }
+}

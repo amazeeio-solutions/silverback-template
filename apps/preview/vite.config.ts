@@ -6,4 +6,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   publicDir: resolve(__dirname, 'node_modules/@custom/ui/static/public'),
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
 });

@@ -1,5 +1,5 @@
 import { saveWebpage } from '@amazeelabs/save-webpage';
-import { expect, Page, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { execSync } from 'child_process';
 
 const baseDir = '../ui/static/stories/webforms';

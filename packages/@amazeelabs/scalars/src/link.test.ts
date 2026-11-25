@@ -81,6 +81,12 @@ describe('overrideUrlParameters', () => {
     ).toBe('/foo?a=x&b=y#bar');
   });
 
+  it('preserves query parameter order', () => {
+    expect(overrideUrlParameters('/search?z=1&a=2&m=3' as Url)).toBe(
+      '/search?z=1&a=2&m=3',
+    );
+  });
+
   it('allows to use a Location object', () => {
     expect(
       overrideUrlParameters(

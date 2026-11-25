@@ -1,93 +1,86 @@
-# Silverback Iframe Module
+# Silverback Iframe (Drupal module)
 
-The Silverback Iframe module provides a way to embed iframes in your Drupal
-website into the frontend. This module makes some adjustments to allow better
-integration with Silverback framework.
+Renders Drupal pages for display in the `SilverbackIframe` React component of
+`@amazeelabs/silverback-iframe`.
 
 ## Installation
 
-1. Download the module:
-   ```bash
-   composer require drupal/silverback_iframe
-   ```
-2. Enable the module:
-   ```bash
-    drush en silverback_iframe -y
-   ```
-3. Clear the cache:
-   ```bash
-   drush cr
-   ```
+```bash
+composer require amazeelabs/silverback_iframe amazeelabs/silverback_iframe_theme
+drush en silverback_iframe -y
+drush theme:install silverback_iframe_theme -y
+```
+
+The webform integration requires the `webform` module, and redirect
+confirmations use the `LinkProcessor` service of `silverback_gutenberg`.
 
 ## Usage
 
-If you add the `iframe=true` flag to the URL of your Drupal site, it will render
-the page ready for use inside an iframe.
+When the URL contains `iframe=true`, the module:
+
+- Switches to `silverback_iframe_theme`, or to an installed sub-theme of it.
+- Removes the `X-Frame-Options` response header and the toolbar.
+- Adds `iframe=true` to all outbound URLs.
+- Attaches the iframe-resizer content window script and `js/iframeCommand.js`.
+  The script sends commands to the parent frame and rewrites visible links to
+  the parent base URL, without `iframe=true`, targeting the parent frame.
+
+With the `SB_ENVIRONMENT` environment variable set, `iframe_resizer=true`
+attaches the scripts without switching the theme.
 
 ## Webforms
 
-You can use the Silverback Iframe module with webforms. To do this, you need to
-add the `iframe=true` query parameter to the webform URL. For example:
+In iframe mode, webform confirmation types are handled as follows:
 
-```
-https://example.com/form/my-webform?iframe=true
-```
+- URL: redirects the parent page.
+- URL with message: redirects the parent page and passes the message.
+- Message: displays the message above the form. If the message contains an
+  element with the `js-iframe-parent-message` class, the webform default
+  applies.
+- None: does nothing.
+- Inline and any other type: scrolls to the top and replaces the iframe with the
+  message.
 
-Webform has some features that get lost when using the iframe mode. For example
-the ability to know which page a webform is being submitted from, when using the
-`iframe=true` query parameter, the webform will not be able to determine the
-page it is being submitted from.
+Set `limit_webform_confirmation_options` in `silverback_iframe.settings` to
+`true` to only offer these types in the webform confirmation settings form.
 
-However, to get around this you can use the `ref` query to pass a base64 encoded
-URL of the page you are submitting the webform from. For example:
+### Source entity
+
+In an iframe, webform cannot detect the page the form is submitted from. The
+`silverback_iframe_query_string` source entity plugin resolves it from the `ref`
+query parameter, a base64 encoded URL of the parent page, which the React
+component sets automatically. It falls back to the HTTP referer. Only node pages
+are resolved.
 
 ```
 https://example.com/form/my-webform?iframe=true&ref=aHR0cHM6Ly9leGFtcGxlLmNvbS9wYWdlL3Bvc3QtbW9kZQ==
 ```
 
-This will tell the webform module that the webform is being submitted from the
-page `https://example.com/page/post-mode`.
-
-If for some reason you need to tell the silverback iframe module that the page
-it is loading is a webform, you can create set a custom request attribute of
-`silverback_iframe_webform_id` passing the webform ID. For example, if your
-webform ID is `my-webform`, you can set the request attribute like this:
-
-```php
-$request->attributes->set('silverback_iframe_webform_id', 'my-webform');
-```
-
-This will allow the Silverback Iframe module to recognize that the page is a
-webform and apply any necessary adjustments. This is most useful via a custom
-event subscriber that listens to the `kernel.request` event and sets the
-attribute based on the request. For example:
+If the webform is not a route parameter, e.g. on a custom form page, set the
+`silverback_iframe_webform_id` request attribute:
 
 ```php
 namespace Drupal\my_module\EventSubscriber;
-use Drupal\Core\EventSubscriber\HttpKernelSubscriberBase;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class MyWebformSubscriber extends HttpKernelSubscriberBase {
-  public static function getSubscribedEvents() {
-    $events[KernelEvents::REQUEST][] = ['onRequest', 100];
-    return $events;
+class MyWebformSubscriber implements EventSubscriberInterface {
+
+  public static function getSubscribedEvents(): array {
+    return [KernelEvents::REQUEST => 'onRequest'];
   }
 
-  public function onRequest(RequestEvent $event) {
+  public function onRequest(RequestEvent $event): void {
     $request = $event->getRequest();
     if ($request->attributes->get('_route') === 'custom.form.page') {
       $request->attributes->set('silverback_iframe_webform_id', 'my-webform');
     }
   }
+
 }
 ```
 
-Lastly use can use the `debug` query parameter to enable debug mode for the
-webform. When debug mode is enabled, when using the `ref` query will use
-watchdog to log what is going on with the lookup of the ref URL. This is useful
-for debugging issues with the webform submission. For example:
-
-```
-https://example.com/form/my-webform?iframe=true&ref=aHR0cHM6Ly9leGFtcGxlLmNvbS9wYWdlL3Bvc3QtbW9kZQ==&debug=true
-```
+Add `debug=true` to the URL to log each step of the source entity lookup to the
+`silverback_iframe` logger channel.

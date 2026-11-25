@@ -1,6 +1,6 @@
 FROM gitpod/workspace-full
 
-RUN bash -c 'VERSION="20.18.1" \
+RUN bash -c 'VERSION="22.23.2" \
     && source $HOME/.nvm/nvm.sh && nvm install $VERSION \
     && nvm use $VERSION && nvm alias default $VERSION'
 

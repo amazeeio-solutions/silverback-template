@@ -62,8 +62,14 @@ if (getenv('LAGOON_ENVIRONMENT') !== 'prod') {
 }
 
 // Slack settings.
+// Non-prod environments are seeded from prod database dumps, so blank the
+// webhook to keep them off the production channel.
 if (getenv('LAGOON_ENVIRONMENT') !== 'prod') {
   $config['slack.settings']['slack_webhook_url'] = '';
+}
+// An explicit environment variable wins, so any environment can opt in.
+if (getenv('DRUPAL_SLACK_WEBHOOK_URL')) {
+  $config['slack.settings']['slack_webhook_url'] = getenv('DRUPAL_SLACK_WEBHOOK_URL');
 }
 
 // Disable key permissions check for Simple OAuth.

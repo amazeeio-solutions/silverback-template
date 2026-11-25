@@ -92,6 +92,10 @@ interface Editable {
   editLink: EditLink
 }
 
+type User {
+  preferredLanguage: String @preferredLanguage
+}
+
 type EditLink {
   url: Url! @entityEditLink
   type: Backend! @value(string: "drupal")
@@ -492,6 +496,8 @@ type Query {
   contentHubTerms: [TermContentHub!]
     @gatsbyNodes(type: "TermContentHub")
     @loadByVocabulary(bundle: "content_hub")
+
+  currentUser: User @currentUser
 }
 
 type Mutation {

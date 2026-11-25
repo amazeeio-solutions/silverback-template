@@ -1,0 +1,10 @@
+display:
+  default:
+    display_options:
+      fields:
+        block_content_bulk_form:
+          action_title: Aktion
+      filters:
+        info:
+          expose:
+            label: Titel

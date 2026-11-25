@@ -23,6 +23,7 @@
   "scripts": {
     "prep:types": "tsc --emitDeclarationOnly",
     "prep:scripts": "swc ./src -d ./build --strip-leading-paths",
+    "prep:scripts:watch": "swc -w ./src -d ./build --strip-leading-paths",
     "prep:fonts": "mkdir -p build && node preloaded-fonts.js",
     "prep:styles": "NODE_ENV=production pnpm postcss src/tailwind.css -o build/styles.css",
     "prep:iframe": "NODE_ENV=production pnpm postcss src/iframe.css -o build/iframe.css",
@@ -42,7 +43,7 @@
     "report": "mkdir -p coverage/storybook && nyc report --reporter=lcov -t coverage/storybook --report-dir coverage/storybook"
   },
   "dependencies": {
-    "@amazeelabs/react-intl": "^1.1.3",
+    "@amazeelabs/react-intl": "workspace:*",
     "@amazeelabs/silverback-iframe": "workspace:*",
     "@custom/schema": "workspace:*",
     "@headlessui/react": "^2.2.0",
@@ -70,6 +71,7 @@
     "@amazeelabs/bridge-storybook": "workspace:*",
     "@amazeelabs/cloudinary-responsive-image": "^1.6.26",
     "@custom/eslint-config": "workspace:*",
+    "@custom/seo": "workspace:*",
     "@formatjs/cli": "^6.5.1",
     "@storybook/addon-a11y": "^8.5.2",
     "@storybook/addon-actions": "^8.5.2",

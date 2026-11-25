@@ -7,6 +7,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Url;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -38,6 +41,13 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
   protected $entityDisplayRepository;
 
   /**
+   * The language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Constructs a EntityCreateSplitRequestSubscriber object.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
@@ -51,10 +61,12 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
     RouteMatchInterface $route_match,
     EntityTypeManagerInterface $entity_type_manager,
     EntityDisplayRepositoryInterface $entity_display_repository,
+    LanguageManagerInterface $language_manager,
   ) {
     $this->routeMatch = $route_match;
     $this->entityTypeManager = $entity_type_manager;
     $this->entityDisplayRepository = $entity_display_repository;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -103,9 +115,13 @@ class EntityCreateSplitRequestSubscriber implements EventSubscriberInterface {
     $createSplitUrl = Url::fromRoute('entity_create_split.create', [
       'entity_type' => $entityTypeId,
       'bundle' => $bundle->id(),
+    ], [
+      'language' => $this->languageManager->getCurrentLanguage(LanguageInterface::TYPE_CONTENT),
     ]);
     $response = new TrustedRedirectResponse($createSplitUrl->setAbsolute()
       ->toString(), 302);
+    $response->addCacheableDependency((new CacheableMetadata())
+      ->setCacheContexts(['languages:language_url']));
     $event->setResponse($response);
   }
 

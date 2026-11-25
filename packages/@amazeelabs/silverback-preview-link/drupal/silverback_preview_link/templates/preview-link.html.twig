@@ -1,0 +1,39 @@
+<div class="preview-link">
+  <h2 class="preview-link__title hidden">{{ title }}</h2>
+  {% if preview_url is not empty and not preview_link_has_expired %}
+    <div class="preview-link__copy js-form-item form-item js-form-type-textfield form-type--textfield">
+      <input id="preview-link__copy--text"
+             disabled
+             name="preview-link__copy--text"
+             type="text"
+             value="{{ preview_url }}"
+             size="28"
+             class="form-text required form-element form-element--type-text form-element--api-textfield"
+      >
+      <button class="button button--primary">{{ 'Copy' }}</button>
+    </div>
+  {% endif %}
+  {% if preview_link_has_expired and display_gif %}
+    <iframe src="https://giphy.com/embed/CZGcUfnAy3ayJw2eZX" width="480" height="398" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  {% endif %}
+  {% if preview_url is not empty and not preview_link_has_expired %}
+    <div class="preview-link__qr">
+      <p>{{ 'Scan the QR Code to open the preview on another device.' }}</p>
+        <div class="preview-link__qr--wrapper" style="display: flex; align-items: center; justify-content: center;">
+          {% if preview_qr_code_url %}
+            <img src="{{ preview_qr_code_url }}" alt="{{ preview_url }}" width="300" height="300" />
+          {% elseif preview_qr_code_fallback is not empty %}
+            <img src="{{ preview_qr_code_fallback }}" alt="{{ preview_url }}" width="250" height="250" />
+          {% else %}
+            <p>{{ '❌ Error while generating the QR Code.' | t }}</p>
+          {% endif %}
+        </div>
+    </div>
+  {% endif %}
+  {% if expiry_description is not empty %}
+    <p>{{ expiry_description }}</p>
+  {% endif %}
+  {% if actions_description is not empty %}
+    <p>{{ actions_description }}</p>
+  {% endif %}
+</div>

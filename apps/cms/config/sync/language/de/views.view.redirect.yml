@@ -2,7 +2,6 @@ label: Umleiten
 description: 'Liste der Umleitungen'
 display:
   default:
-    display_title: Master
     display_options:
       exposed_form:
         options:

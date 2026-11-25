@@ -128,7 +128,7 @@ final class UsageCount extends FieldPluginBase {
    *   to correctly build a link. Will return FALSE if this item should not be
    *   shown on the UI (for example when dealing with an orphan paragraph).
    */
-  protected function getSourceEntityLink(EntityInterface $source_entity, $text = NULL) {
+  protected function getSourceEntityLink(EntityInterface $source_entity, ?string $text = NULL) {
     // Note that $paragraph_entity->label() will return a string of type:
     // "{parent label} > {parent field}", which is actually OK for us.
     $entity_label = $source_entity->access('view label') ? $source_entity->label() : $this->t('- Restricted access -');

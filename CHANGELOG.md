@@ -3,6 +3,430 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.3...@amazeelabs/silverback-template@3.1.4) (2026-10-01)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [3.1.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.2...@amazeelabs/silverback-template@3.1.3) (2026-09-07)
+
+
+### Bug Fixes
+
+* php 8.4 deprecations in silverback preview link ([672f8c7](https://github.com/amazeeio-solutions/silverback-template/commit/672f8c74073a57d3c83e56276738007ca2628777))
+* resolve the latest revision from shareable preview links ([91f0793](https://github.com/amazeeio-solutions/silverback-template/commit/91f07931fcb4cce93e0da60a4f2e1b4f0455a526))
+
+
+
+
+
+## [3.1.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.1...@amazeelabs/silverback-template@3.1.2) (2026-09-07)
+
+
+### Bug Fixes
+
+* enforce preview link expiry when validating tokens ([c2ff5f5](https://github.com/amazeeio-solutions/silverback-template/commit/c2ff5f53e97d6e92a0823d25ad1d8d8e63dc9210))
+
+
+
+
+
+## [3.1.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.1.0...@amazeelabs/silverback-template@3.1.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* do not log the github credentials in use ([0cf8219](https://github.com/amazeeio-solutions/silverback-template/commit/0cf8219b114dfc422b6208034e00cd9c7386e873))
+
+
+
+
+
+# [3.1.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.2...@amazeelabs/silverback-template@3.1.0) (2026-09-03)
+
+
+### Features
+
+* use a github app for publisher builds ([e9d03dc](https://github.com/amazeeio-solutions/silverback-template/commit/e9d03dceddcbab2a5549e45c904e718a825995d5))
+
+
+
+
+
+## [3.0.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.1...@amazeelabs/silverback-template@3.0.2) (2026-09-03)
+
+
+### Bug Fixes
+
+* adapt playwright specs to node 22 type stripping ([f36ffca](https://github.com/amazeeio-solutions/silverback-template/commit/f36ffca799ae4052af3a76e6fb43e3505ae65cc3))
+* build native node modules in lagoon image ([a4ed37c](https://github.com/amazeeio-solutions/silverback-template/commit/a4ed37c124c9076b755affe770947dba15393fc7))
+
+
+
+
+
+## [3.0.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@3.0.0...@amazeelabs/silverback-template@3.0.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* do not report a cancelled workflow build as a failure ([69342ff](https://github.com/amazeeio-solutions/silverback-template/commit/69342ffe01ccfed500ae1bae90255413f3218079))
+
+
+
+
+
+# [3.0.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.17...@amazeelabs/silverback-template@3.0.0) (2026-08-13)
+
+
+### Bug Fixes
+
+* do not report a cancelled build as a failure ([0761ff5](https://github.com/amazeeio-solutions/silverback-template/commit/0761ff5fa701c411c85556953bd55ddf0ec9b058))
+* do not report an error when recovering from a fatal error ([80fb84e](https://github.com/amazeeio-solutions/silverback-template/commit/80fb84e590a5363b57eeb693bf792ee039029bff))
+* prevent publisher process crashes and leaks ([3433106](https://github.com/amazeeio-solutions/silverback-template/commit/3433106c53f3d68b3667428e5fa36e69f6547723))
+* restrict status page redirect to same origin ([bfc91f6](https://github.com/amazeeio-solutions/silverback-template/commit/bfc91f6f0f63c35fbe2d7f254285ed02fd0bcf67))
+* set session cookie secure flag in the cookie options ([0f64637](https://github.com/amazeeio-solutions/silverback-template/commit/0f646378d2f0ff917a81d3076c5b73c705d49e82))
+
+
+* refactor!: merge publisher packages into one ([4afba35](https://github.com/amazeeio-solutions/silverback-template/commit/4afba3557ee98570389205053179b474a6a7715d))
+
+
+### BREAKING CHANGES
+
+* @amazeelabs/publisher-ui and @amazeelabs/publisher-shared
+are merged into @amazeelabs/publisher and are no longer published.
+
+
+
+
+
+## [2.6.17](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.16...@amazeelabs/silverback-template@2.6.17) (2026-08-06)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.16](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.15...@amazeelabs/silverback-template@2.6.16) (2026-08-05)
+
+
+### Bug Fixes
+
+* robustly strip HTML comments in cleanUpText ([2a0418a](https://github.com/amazeeio-solutions/silverback-template/commit/2a0418a8721fca5bf5665ebb656bdc92d774641e))
+
+
+
+
+
+## [2.6.15](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.14...@amazeelabs/silverback-template@2.6.15) (2026-08-05)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.14](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.13...@amazeelabs/silverback-template@2.6.14) (2026-08-05)
+
+
+### Bug Fixes
+
+* bump ws and sequelize to patched versions ([2c5a20a](https://github.com/amazeeio-solutions/silverback-template/commit/2c5a20a3b0c322cb2117b4629af3ce11579955f8))
+
+
+
+
+
+## [2.6.13](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.12...@amazeelabs/silverback-template@2.6.13) (2026-07-29)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.12](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.11...@amazeelabs/silverback-template@2.6.12) (2026-07-29)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.11](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.10...@amazeelabs/silverback-template@2.6.11) (2026-07-28)
+
+
+### Bug Fixes
+
+* remove unused react-server-dom-webpack from react-intl ([f7587dd](https://github.com/amazeeio-solutions/silverback-template/commit/f7587dd8d2d333cd59906bc9c49eb9deb2e0bac6))
+
+
+
+
+
+## [2.6.10](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.9...@amazeelabs/silverback-template@2.6.10) (2026-06-25)
+
+
+### Bug Fixes
+
+* **SLB-532:** graphql_directives patch for graphql 4.14.0 ([5cb72ab](https://github.com/amazeeio-solutions/silverback-template/commit/5cb72abe8f1975d4cf3f961e7da38d99f0efbd5c))
+
+
+
+
+
+## [2.6.9](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.8...@amazeelabs/silverback-template@2.6.9) (2026-05-20)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.8](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.7...@amazeelabs/silverback-template@2.6.8) (2026-05-11)
+
+
+### Bug Fixes
+
+* process links in conditionally shown iframe elements ([32c93d8](https://github.com/amazeeio-solutions/silverback-template/commit/32c93d875f105c27986a1386052b0e99cb546cc6))
+* remove debounce to avoid race condition ([b5b8ae4](https://github.com/amazeeio-solutions/silverback-template/commit/b5b8ae43428efb658ec89b7435003e4071750579))
+
+
+
+
+
+## [2.6.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.6...@amazeelabs/silverback-template@2.6.7) (2026-04-28)
+
+
+### Bug Fixes
+
+* strip encoding headers from proxied responses ([321dcae](https://github.com/amazeeio-solutions/silverback-template/commit/321dcaed132c4ce7b25adb7c26345085656a42da))
+
+
+
+
+
+## [2.6.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.5...@amazeelabs/silverback-template@2.6.6) (2026-04-20)
+
+
+### Bug Fixes
+
+* keep language context during path validation in FetchEntity ([b361c8f](https://github.com/amazeeio-solutions/silverback-template/commit/b361c8f3b1baf2aec2e2532180ea3d76a07124fb))
+
+
+
+
+
+## [2.6.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.4...@amazeelabs/silverback-template@2.6.5) (2026-04-13)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.3...@amazeelabs/silverback-template@2.6.4) (2026-04-08)
+
+
+### Bug Fixes
+
+* avoid errors in fetch_entity data producer ([ea019e6](https://github.com/amazeeio-solutions/silverback-template/commit/ea019e6a29fc92afa57ed366b87553fe8e456856))
+* omit cookies on preview token requests ([a3c8da3](https://github.com/amazeeio-solutions/silverback-template/commit/a3c8da3f1dfbc93660b992b0deb0d27da330302f))
+
+
+
+
+
+## [2.6.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.2...@amazeelabs/silverback-template@2.6.3) (2026-04-07)
+
+
+### Bug Fixes
+
+* set default preview user for shared preview links ([5ac3bc4](https://github.com/amazeeio-solutions/silverback-template/commit/5ac3bc42b1162f508be6ead1e48199b6da8e8dad))
+
+
+
+
+
+## [2.6.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.1...@amazeelabs/silverback-template@2.6.2) (2026-04-07)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.6.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.6.0...@amazeelabs/silverback-template@2.6.1) (2026-04-07)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+# [2.6.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.6...@amazeelabs/silverback-template@2.6.0) (2026-03-03)
+
+
+### Features
+
+* **SLB-496:** add search result preview and correct SEO title analysis ([fb1672c](https://github.com/amazeeio-solutions/silverback-template/commit/fb1672c1d3434276116c392bc153b3b7c84dd4a0))
+* **SLB-496:** add SEO analysis package that is include within Preview UI component ([fa8c85b](https://github.com/amazeeio-solutions/silverback-template/commit/fa8c85bf0555d687b719e2905eadfe8562bca461))
+
+
+
+
+
+## [2.5.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.5...@amazeelabs/silverback-template@2.5.6) (2026-02-23)
+
+
+### Bug Fixes
+
+* **scalars:** preserve query parameter order in overrideUrlParameters ([0a2e1f0](https://github.com/amazeeio-solutions/silverback-template/commit/0a2e1f00743e645b399edf5f0a40654981a44abb))
+
+
+
+
+
+## [2.5.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.4...@amazeelabs/silverback-template@2.5.5) (2026-02-17)
+
+
+### Bug Fixes
+
+* add .npmignore to executors and codegen-operation-ids ([f8c64e8](https://github.com/amazeeio-solutions/silverback-template/commit/f8c64e8d008c48a4696ffcc2fca5ae839dfc7a19))
+
+
+
+
+
+## [2.5.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.3...@amazeelabs/silverback-template@2.5.4) (2026-02-17)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.5.3](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.2...@amazeelabs/silverback-template@2.5.3) (2026-01-22)
+
+
+### Bug Fixes
+
+* **ci:** check correct path for content export changes ([054370c](https://github.com/amazeeio-solutions/silverback-template/commit/054370c07fab974ae79b6ba4aef0e3143a34d152))
+* migrate silverback_gatsby tests to graphql_directives v1 ([437ebeb](https://github.com/amazeeio-solutions/silverback-template/commit/437ebebc463b546ccb25c778dc12230c530ba4cc))
+
+
+
+
+
+## [2.5.2](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.1...@amazeelabs/silverback-template@2.5.2) (2026-01-19)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.5.1](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.5.0...@amazeelabs/silverback-template@2.5.1) (2026-01-08)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+# [2.5.0](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.7...@amazeelabs/silverback-template@2.5.0) (2025-12-09)
+
+
+### Features
+
+* **SLB-468:** cardinality validator improvement ([a9b3e39](https://github.com/amazeeio-solutions/silverback-template/commit/a9b3e394e4567e2c721c8a65b69e11a2c544040a))
+
+
+
+
+
+## [2.4.7](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.6...@amazeelabs/silverback-template@2.4.7) (2025-11-28)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.6](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.5...@amazeelabs/silverback-template@2.4.6) (2025-11-27)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.5](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.4...@amazeelabs/silverback-template@2.4.5) (2025-11-26)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.4](https://github.com/amazeeio-solutions/silverback-template/compare/@amazeelabs/silverback-template@2.4.3...@amazeelabs/silverback-template@2.4.4) (2025-11-20)
+
+
+### Reverts
+
+* Revert "chore: attempt to get rid of kitt account" ([180f9a6](https://github.com/amazeeio-solutions/silverback-template/commit/180f9a6bc8f3847bdf78d34bfd74a004cef7b5a4))
+
+
+
+
+
+## [2.4.3](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.2...@amazeelabs/silverback-template@2.4.3) (2025-10-02)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.2](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.1...@amazeelabs/silverback-template@2.4.2) (2025-09-26)
+
+**Note:** Version bump only for package @amazeelabs/silverback-template
+
+
+
+
+
+## [2.4.1](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.4.0...@amazeelabs/silverback-template@2.4.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* run standard link processing for cta blocks ([3bb6817](https://github.com/AmazeeLabs/silverback-template/commit/3bb681799c325df7034a8e29f03ccc3e072c243b))
+
+
+
+
+
+# [2.4.0](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.5...@amazeelabs/silverback-template@2.4.0) (2025-08-25)
+
+
+### Bug Fixes
+
+* update types location ([0f471d7](https://github.com/AmazeeLabs/silverback-template/commit/0f471d7d11dbe1df8337356749bea56f93cd3a58))
+
+
+### Features
+
+* add react router bridge ([b3f6d5d](https://github.com/AmazeeLabs/silverback-template/commit/b3f6d5d67f0b528927c7e76a97a03a8f001daa8d))
+
+
+
+
+
 ## [2.3.5](https://github.com/AmazeeLabs/silverback-template/compare/@amazeelabs/silverback-template@2.3.4...@amazeelabs/silverback-template@2.3.5) (2025-08-08)
 
 **Note:** Version bump only for package @amazeelabs/silverback-template

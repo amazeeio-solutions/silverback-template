@@ -5,5 +5,6 @@ services:
       - '@current_route_match'
       - '@entity_type.manager'
       - '@entity_display.repository'
+      - '@language_manager'
     tags:
       - { name: event_subscriber }

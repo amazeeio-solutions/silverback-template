@@ -1,0 +1,10 @@
+display:
+  default:
+    display_options:
+      fields:
+        name:
+          label: Aawändername
+      filters:
+        roles_target_id:
+          expose:
+            label: Rolle

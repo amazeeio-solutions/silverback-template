@@ -9,19 +9,30 @@ export const trim = (text: string, delimiter: string) => {
   return result;
 };
 
+// Strips HTML comments, including ones that span multiple lines or are nested
+// so that a naive single pass would leave a fresh `<!-- -->` behind.
+const removeHtmlComments = (text: string) => {
+  let result = text;
+  let previous = '';
+  while (result !== previous) {
+    previous = result;
+    result = result.replace(/<!--[\s\S]*?-->/g, '');
+  }
+  return result;
+};
+
 export const cleanUpText = (
   text: string,
   allowedTags?: Array<string> | 'all',
 ) => {
-  const cleanedText = text
-    // When copying text from Word, HsTML comments are escaped. So we get this:
-    // ...<br>&lt;!-- /* Font Definitions */ @font-face {...} --&gt;<br>...
-    // Unescape them back. This should be enough for the editor to remove then
-    // the comments.
-    .replace('&lt;!--', '<!--')
-    .replace('--&gt;', '-->')
-    // Now clean all comment tags.
-    .replace(/(<!--(.*?)-->)/gi, '');
+  const cleanedText = removeHtmlComments(
+    text
+      // When copying text from Word, HTML comments are escaped. So we get this:
+      // ...<br>&lt;!-- /* Font Definitions */ @font-face {...} --&gt;<br>...
+      // Unescape them back so the comment stripping can remove them.
+      .replace(/&lt;!--/g, '<!--')
+      .replace(/--&gt;/g, '-->'),
+  );
   // If we allow all tags, we still want to trim the br tags from the text.
   if (allowedTags === 'all') {
     return trim(cleanedText, '<br>');

@@ -15,6 +15,11 @@ run-name: 'FE Build [env: ${{ inputs.env }}]'
 concurrency:
   group: fe_build_${{ inputs.env }}
 
+permissions:
+  contents: read
+  # The Publisher action deletes stale Actions caches via the REST API.
+  actions: write
+
 jobs:
   build:
     name: Build
@@ -35,7 +40,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publisher
-        uses: AmazeeLabs/publisher-action@eb035eff2ef4b6bb19d4078e6c11966142f7653d
+        uses: amazeeio-solutions/publisher-action@eb035eff2ef4b6bb19d4078e6c11966142f7653d
         with:
           success_env_var_name: BUILD_IS_SUCCESSFUL
           cache_paths: |
@@ -75,7 +80,7 @@ jobs:
           cd /tmp/deploy
 
           # Deploy
-          pnpm netlify env:set AWS_LAMBDA_JS_RUNTIME nodejs20.x
+          pnpm netlify env:set AWS_LAMBDA_JS_RUNTIME nodejs22.x
           pnpm netlify env:set DRUPAL_EXTERNAL_URL $DRUPAL_EXTERNAL_URL
           pnpm netlify deploy --prodIfUnlocked
 

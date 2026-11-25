@@ -2,7 +2,7 @@
   "name": "@custom/publisher",
   "private": true,
   "dependencies": {
-    "@amazeelabs/publisher": "^2.5.10",
+    "@amazeelabs/publisher": "workspace:*",
     "typescript": "^5.7.3"
   },
   "scripts": {

@@ -1,0 +1,25 @@
+type _Feed {
+  typeName: String!
+  translatable: Boolean!
+  singleFieldName: String!
+  listFieldName: String!
+  changes(lastBuild: Int, currentBuild: Int): [String!]!
+  pathFieldName: String
+  templateFieldName: String
+}
+
+################################################################################
+# Directives for the automatic Gatsby pages creation.
+################################################################################
+
+directive @isPath on FIELD_DEFINITION
+"""
+DEPRECATED, use @isPath
+"""
+directive @path on FIELD_DEFINITION
+
+directive @isTemplate on FIELD_DEFINITION
+"""
+DEPRECATED, use @isTemplate
+"""
+directive @template on FIELD_DEFINITION

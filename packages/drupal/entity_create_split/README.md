@@ -1,23 +1,22 @@
-# Entity Create Split
+# Entity Create Split (`entity_create_split`)
 
-A Drupal module which exposes routes to split an entity create form into two
-parts:
+Splits entity creation into two steps. The first step shows only the fields of
+the `split` form mode and creates the entity on submit. The user is then
+redirected to the regular edit form for the remaining fields.
 
-- on the first step, only the required fields are presented. After submitting
-  the form, a entity is already created
-- the second step is actually just the entity edit form, containing all the
-  other optional form fields.
+## Configuration
 
-To enable this feature, you must create a form mode with the machine name
-"split" and enable it on the bundle for which you want to have this feature.
+Create a form mode with the machine name `split` and enable it on the bundle.
+The `node.add` and `media.add` routes of that bundle then redirect to
+`/entity/create/{entity_type}/{bundle}`. The template enables it for the `page`
+content type.
 
-## Special case for the Gutenberg editor
+Gutenberg is disabled on the first step through `hook_gutenberg_enabled()`. That
+hook comes from the "Gutenberg enabled hook" patch
+([#3445677](https://www.drupal.org/project/gutenberg/issues/3445677)) applied to
+`drupal/gutenberg` in `apps/cms/composer.json`. Without the patch, the split
+form still works but keeps the Gutenberg form alterations.
 
-The Gutenberg editor does a lot of alterations on the create form. For this
-reason, it is better that the form alter hook of the gutenberg module to not run
-at all. This is not easy possible, so right now the easiest approach is to just
-patch the module with the patch from
-https://www.drupal.org/project/gutenberg/issues/3445677/
+## Dependencies
 
-The functionality should also work without the patch, but the initial form will
-not look that nice.
+- Works with: `gutenberg` (patched).

@@ -1,4 +1,7 @@
 query PreviewDrupalPage($path: String!, $rid: ID) {
+  currentUser: currentUser {
+    preferredLanguage
+  }
   preview: previewDrupalPage(path: $path, rid: $rid) {
     ...Page
   }

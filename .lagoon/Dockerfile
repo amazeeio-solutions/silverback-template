@@ -1,8 +1,8 @@
 # ====================================================================================================
 # BUILDER IMAGE
 # ====================================================================================================
-FROM uselagoon/node-20-builder AS node
-FROM uselagoon/php-8.3-cli-drupal AS builder
+FROM uselagoon/node-22-builder AS node
+FROM uselagoon/php-8.4-cli-drupal AS builder
 
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
@@ -10,6 +10,11 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Install pnpm
 RUN npm install -g pnpm@8.15.9 && pnpm config set store-dir /tmp/cache/pnpm
+
+# sqlite3 and unix-dgram ship no prebuilt binaries for Node 22 on musl, so
+# node-gyp compiles them from source during "pnpm fetch". py3-setuptools
+# restores "distutils", which Python 3.12 removed but node-gyp still imports.
+RUN apk add --no-cache python3 py3-setuptools make g++
 
 # Copy pnpm lockfile and install dependencies.
 COPY pnpm-lock.yaml .npmrc /app/
@@ -34,7 +39,7 @@ ENV COMPOSER_HOME=/tmp/cache/composer
 WORKDIR /app
 
 # Decap config.
-ENV VITE_DECAP_REPO='AmazeeLabs/silverback-template'
+ENV VITE_DECAP_REPO='amazeeio-solutions/silverback-template'
 ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 
@@ -62,7 +67,7 @@ RUN --mount=type=cache,target=/tmp/cache pnpm deploy --filter "@custom/preview" 
 # ====================================================================================================
 # CLI IMAGE
 # ====================================================================================================
-FROM uselagoon/php-8.3-cli-drupal AS cli
+FROM uselagoon/php-8.4-cli-drupal AS cli
 
 RUN apk add --no-cache git qpdf imagemagick icu-dev && \
   docker-php-ext-install intl && \
@@ -78,7 +83,7 @@ ENV PHP_MEMORY_LIMIT=2048M
 # ====================================================================================================
 # PHP IMAGE
 # ====================================================================================================
-FROM uselagoon/php-8.3-fpm AS php
+FROM uselagoon/php-8.4-fpm AS php
 RUN apk add --no-cache imagemagick qpdf icu-dev && \
   docker-php-ext-install intl && \
   docker-php-ext-enable intl
@@ -97,6 +102,7 @@ ENV PHP_MEMORY_LIMIT=2048M
 # NGINX IMAGE
 # ====================================================================================================
 FROM uselagoon/nginx-drupal AS nginx
+COPY .lagoon/nginx-conf/server_prepend_block_installer.conf /etc/nginx/conf.d/drupal/server_prepend_block_installer.conf
 
 COPY --from=cli /app /app
 RUN cd /app/web && cp ../node_modules/@custom/ui/build/gutenberg.css .
@@ -110,7 +116,7 @@ ENV WEBROOT=web
 # PREVIEW IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 AS preview
+FROM uselagoon/node-22 AS preview
 
 RUN npm install -g pnpm@8.15.9
 COPY --from=builder /tmp/.deploy/preview /app
@@ -120,16 +126,16 @@ CMD pnpm start
 # PUBLISHER IMAGE
 # ====================================================================================================
 
-FROM uselagoon/node-20 AS publisher
+FROM uselagoon/node-22 AS publisher
 
-RUN apk add --no-cache sqlite curl github-cli
+RUN apk add --no-cache sqlite curl
 
 RUN npm install -g pnpm@8.15.9
 
 COPY --from=builder /tmp/.deploy/publisher /app
 
 # Decap config.
-ENV VITE_DECAP_REPO='AmazeeLabs/silverback-template'
+ENV VITE_DECAP_REPO='amazeeio-solutions/silverback-template'
 ARG LAGOON_GIT_BRANCH
 ENV VITE_DECAP_BRANCH="$LAGOON_GIT_BRANCH"
 
